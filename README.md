@@ -22,6 +22,7 @@ The project builds a rule-consistent scoring model from historical race data, es
   - Limitless
 - Transfer-aware team suggestions
 - Debug / validation utilities
+- Roster ID helper utility
 
 ---
 
@@ -29,13 +30,14 @@ The project builds a rule-consistent scoring model from historical race data, es
 
 ```
 f1fantasy/
-    ergast.py          # Historical data ingestion
-    fantasy_api.py     # Current roster + price feeds
-    model.py           # Scoring + expected value model
-    optimize.py        # MILP optimisation logic
-    transfers.py       # Transfer-aware logic
-    recommend.py       # CLI entry point
-    debug_checks.py    # Sanity checks and validation tools
+    ergast.py
+    fantasy_api.py
+    model.py
+    optimize.py
+    transfers.py
+    recommend.py
+    debug_checks.py
+    print_roster_ids.py
 ```
 
 ---
@@ -68,37 +70,61 @@ python -m f1fantasy.recommend
 ```
 
 This prints the top teams under:
+
 - Budget ≤ 100
 - 5 drivers + 2 constructors
-- Chip scenarios evaluated separately
+- All chip scenarios evaluated separately
 
-### Transfer-aware recommendations (optional)
+---
+
+## Transfer-aware recommendations (optional)
+
+To generate transfer suggestions, the optimiser needs your current Fantasy team (driver IDs + constructor IDs).
+
+### 1) Print live roster IDs
+
+Run:
+
+```bash
+python -m f1fantasy.print_roster_ids
+```
+
+This prints:
+
+- All drivers with their `playerId`
+- All constructors with their `teamId`
+
+Use these IDs in your team configuration file.
+
+### 2) Create `current_team.json`
 
 Create:
 
-`f1fantasy/data/current_team.json`
+```
+f1fantasy/data/current_team.json
+```
 
 Example:
 
 ```json
 {
-  "drivers": [131, 117, 1982, 18, 11031],
-  "constructors": [27, 28],
+  "drivers": [121, 11031, 114, 129, 131],
+  "constructors": [27, 29],
   "free_transfers": 2
 }
 ```
 
-Then run:
+- `drivers` → list of `playerId`
+- `constructors` → list of `teamId`
+- `free_transfers` → number of free transfers remaining
+
+### 3) Run optimiser again
 
 ```bash
 python -m f1fantasy.recommend
 ```
 
-### Debug / validation
-
-```bash
-python -m f1fantasy.debug_checks
-```
+Transfer penalties will be applied beyond `free_transfers`.
 
 ---
 
@@ -114,7 +140,7 @@ Per weekend scoring includes:
 - DNF / NC / DSQ penalties
 - Positions gained/lost proxy (`grid - finish_position`)
 - Capped overtake proxy
-- Race fastest lap bonus (when available in data)
+- Race fastest lap bonus (when available)
 
 Not currently modelled:
 
@@ -153,7 +179,7 @@ The optimisation objective maximises total expected points subject to roster and
 
 - Relies on public data feeds (may change without notice)
 - Overtake and pit stop metrics approximated or omitted
-- No probabilistic simulation (deterministic expected value model)
+- Deterministic expected value model (no probabilistic simulation)
 - No historical price evolution modelling
 
 ---
