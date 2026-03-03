@@ -1,95 +1,173 @@
 # F1 Fantasy Optimizer
 
-A Python project that builds an expected-points model for **Formula 1 Fantasy** and selects optimal teams under budget and chip constraints using mixed-integer linear programming (PuLP).
+A Python-based optimisation engine for Formula 1 Fantasy.  
+The project builds a rule-consistent scoring model from historical race data, estimates expected points using recency-weighted performance, and solves the optimal team selection problem under official game constraints using mixed-integer linear programming (PuLP).
 
-Built as a side project around F1 and data, this repository focuses on modelling fantasy scoring rules and solving the resulting team selection problem under real game constraints.
-
-> Not affiliated with Formula 1, the FIA, or the official F1 Fantasy game.
-
----
-
-## What this project does
-
-- Pulls historical race, qualifying, and sprint data from an Ergast-compatible API  
-- Pulls current F1 Fantasy roster and prices from public feeds  
-- Converts weekend results into fantasy points for drivers and constructors  
-- Builds expected scores using recency and circuit-aware weighting  
-- Optimizes a full fantasy team under:
-  - 5 drivers + 2 constructors  
-  - Budget ≤ 100  
-  - Boost chip (2x / 3x scenarios)  
-  - No Negative and Limitless scenarios  
-- Supports transfer-aware recommendations with free-transfer allowances  
+> This project is not affiliated with Formula 1, FIA, or the official F1 Fantasy game.
 
 ---
 
-## How scoring is calculated
+## Features
 
-### Drivers (per weekend)
-- Qualifying position points (10..1 for P1..P10)  
-- Race finishing points (25/18/15/12/10/8/6/4/2/1)  
-- Sprint finishing points (8..1)  
-- DNF/NC/DSQ penalties  
-- Positions gained/lost proxy via `grid - finish_position`  
-- Overtake proxy (capped): `max(0, grid - finish)`  
-- Race fastest lap (+10 when available in data)  
-
-Not currently modeled:
-- True overtakes (only proxy used)  
-- Sprint fastest lap  
-- Driver of the Day  
-- Pit stop points (constructors)  
-
-### Constructors (per weekend)
-- Sum of both drivers’ qualifying points  
-- Sum of both drivers’ race points (excluding DOTD)  
-- Sum of both drivers’ sprint points  
-- Qualifying stage bonuses (Q2/Q3 reached)  
-- DSQ tracked separately from DNF  
-- Slightly softened DNF impact (to avoid over-penalising teams)  
+- Historical race, qualifying, and sprint ingestion (Ergast-compatible API)
+- Full driver and constructor fantasy scoring engine
+- Recency-weighted expected value modelling
+- Circuit-aware horizon weighting (configurable upcoming race window)
+- DNF-aware scoring adjustments
+- MILP team optimisation (budget, roster constraints)
+- Chip scenario modelling:
+  - 2x Boost
+  - 3x Boost
+  - No Negative
+  - Limitless
+- Transfer-aware team suggestions
+- Debug / validation utilities
 
 ---
 
-## Expected score model
+## Project Structure
 
-Expected scores are computed for a configurable set of upcoming races (default: next 5):
+```
+f1fantasy/
+    ergast.py          # Historical data ingestion
+    fantasy_api.py     # Current roster + price feeds
+    model.py           # Scoring + expected value model
+    optimize.py        # MILP optimisation logic
+    transfers.py       # Transfer-aware logic
+    recommend.py       # CLI entry point
+    debug_checks.py    # Sanity checks and validation tools
+```
 
-- Horizon weighting: nearer races weighted more heavily  
+---
+
+## Installation
+
+Requires Python 3.10+.
+
+```bash
+git clone https://github.com/dnpjr/f1_fantasy_optimizer.git
+cd f1_fantasy_optimizer
+
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS / Linux
+source .venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+---
+
+## Usage
+
+### Run the optimiser
+
+```bash
+python -m f1fantasy.recommend
+```
+
+This prints the top teams under:
+- Budget ≤ 100
+- 5 drivers + 2 constructors
+- Chip scenarios evaluated separately
+
+### Transfer-aware recommendations (optional)
+
+Create:
+
+`f1fantasy/data/current_team.json`
+
+Example:
+
+```json
+{
+  "drivers": [131, 117, 1982, 18, 11031],
+  "constructors": [27, 28],
+  "free_transfers": 2
+}
+```
+
+Then run:
+
+```bash
+python -m f1fantasy.recommend
+```
+
+### Debug / validation
+
+```bash
+python -m f1fantasy.debug_checks
+```
+
+---
+
+## Scoring Model Overview
+
+### Drivers
+
+Per weekend scoring includes:
+
+- Qualifying position points (P1–P10)
+- Race finishing points (25–1 scale)
+- Sprint finishing points (8–1 scale)
+- DNF / NC / DSQ penalties
+- Positions gained/lost proxy (`grid - finish_position`)
+- Capped overtake proxy
+- Race fastest lap bonus (when available in data)
+
+Not currently modelled:
+
+- True overtake counts (proxy used)
+- Sprint fastest lap
+- Driver of the Day
+- Pit stop points (constructors)
+
+### Constructors
+
+- Sum of both drivers’ qualifying points
+- Sum of both drivers’ race points (excluding DOTD)
+- Sum of both drivers’ sprint points
+- Qualifying stage bonuses (Q2/Q3 reach)
+- DSQ tracked separately from DNF
+- Moderated DNF impact to avoid over-penalisation
+
+---
+
+## Expected Value Methodology
+
+Expected scores are computed across a configurable upcoming race horizon (default: next 5 races):
+
+- Horizon weighting: nearer races weighted more heavily
 - Recency weighting:
-  - Current season: equal weighting across completed races  
-  - Last season: strong weight  
-  - Older seasons: exponential decay  
-- Driver EV adjusted by current constructor strength to avoid unrealistic mismatches  
+  - Current season: equal weighting
+  - Previous season: high weight
+  - Older seasons: exponential decay
+- Driver EV scaled by current constructor strength to reduce unrealistic mismatches
+
+The optimisation objective maximises total expected points subject to roster and budget constraints.
 
 ---
 
-## Design Focus
+## Limitations
 
-The project focuses on:
-
-- Converting structured race data into rule-consistent fantasy scoring  
-- Building a recency-weighted expected value model  
-- Solving a constrained selection problem via mixed-integer optimisation  
-- Comparing chip and budget scenarios under the same objective  
+- Relies on public data feeds (may change without notice)
+- Overtake and pit stop metrics approximated or omitted
+- No probabilistic simulation (deterministic expected value model)
+- No historical price evolution modelling
 
 ---
 
-## Future improvements
+## Future Improvements
 
-- True overtake data integration  
-- Sprint fastest lap support  
-- Pit stop scoring for constructors  
-- Probabilistic modelling and distribution-based optimisation  
-- Historical backtesting across seasons  
+- True overtake integration
+- Sprint fastest lap support
+- Constructor pit stop scoring
+- Probabilistic modelling / variance-aware optimisation
+- Historical backtesting across seasons
 
 ---
 
 ## License
 
-MIT License (see LICENSE file).
-
----
-
-## Disclaimer
-
-This project uses public endpoints and may break if upstream providers change formats or block requests.
+MIT License — see `LICENSE` file.
