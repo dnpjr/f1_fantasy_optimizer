@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "f1-fantasy-optimizer"
+version = "0.1.0"
+description = "F1 Fantasy expected-points model + MILP optimizer"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Daniel Pajer" }]
+dependencies = [
+  "pandas>=2.0",
+  "numpy>=1.24",
+  "requests>=2.31",
+  "pulp>=2.7"
+]
+
+[project.urls]
+Homepage = "https://github.com/dnpjr"
+
+[project.scripts]
+f1fantasy-recommend = "f1fantasy.recommend:main"
+f1fantasy-debug = "f1fantasy.debug_checks:main"
+
+[tool.setuptools]
+packages = ["f1fantasy"]
