@@ -1,43 +1,80 @@
 # F1 Fantasy Optimizer
 
-A Python-based optimisation engine for Formula 1 Fantasy.  
-The project builds a rule-consistent scoring model from historical race data, estimates expected points using recency-weighted performance, and solves the optimal team selection problem under official game constraints using mixed-integer linear programming (PuLP).
+A Python project for modelling F1 Fantasy expected points and optimising team selection under official squad constraints.
+It combines live fantasy market data, historical race results, a transparent scoring model, and mixed-integer optimisation to rank teams, simulate chips, and evaluate transfer moves.
 
 > This project is not affiliated with Formula 1, FIA, or the official F1 Fantasy game.
 
 ---
 
-## Features
+## What it does
 
-- Historical race, qualifying, and sprint ingestion (Ergast-compatible API)
-- Full driver and constructor fantasy scoring engine
-- Recency-weighted expected value modelling
-- Circuit-aware horizon weighting (configurable upcoming race window)
-- DNF-aware scoring adjustments
-- MILP team optimisation (budget, roster constraints)
-- Chip scenario modelling:
+- downloads the latest available official F1 Fantasy market snapshot automatically
+- pulls historical race, qualifying, sprint, and schedule data from an Ergast-compatible source
+- computes driver and constructor fantasy scores from raw results
+- estimates expected value over an upcoming race horizon
+- optimises the best legal squad under a configurable budget cap
+- evaluates chip scenarios separately
+- suggests transfer moves from a saved current squad, including realistic transfer budget handling
+
+The model is designed to stay simple, inspectable, and easy to tweak rather than chase noisy marginal features.
+
+---
+
+## Current features
+
+- **Automatic fantasy market feed detection**
+  - the code probes the latest available `drivers/{n}_en.json` fantasy feed automatically
+  - no manual round-number update is needed after price changes
+- **Live driver and constructor prices**
+- **Historical results ingestion**
+  - race
+  - qualifying
+  - sprint
+  - schedule
+- **Rule-based fantasy scoring engine**
+  - drivers and constructors handled separately
+  - qualifying, race, sprint, DNFs, DSQs, and constructor aggregation included
+- **Expected-value model with transparent weighting**
+- **MILP optimisation via PuLP**
+- **Chip scenarios**
   - 2x Boost
   - 3x Boost
   - No Negative
   - Limitless
-- Transfer-aware team suggestions
-- Debug / validation utilities
-- Roster ID helper utility
+- **Transfer recommendations**
+  - uses current squad IDs from `data/current_team.json`
+  - prints current team and current EV first
+  - prints recommendations with both IDs and names
+  - outputs an updated suggested `current_team.json`
+  - updates bank correctly after suggested moves
+- **Transfer budget handling based on current team value + bank**
+- **Roster ID helper utility**
+- **Debug / validation utilities**
 
 ---
 
-## Project Structure
+## Project structure
 
-```
+```text
 f1fantasy/
+    __init__.py
+    debug_checks.py
     ergast.py
     fantasy_api.py
+    fantasy_prices.py
     model.py
     optimize.py
-    transfers.py
-    recommend.py
-    debug_checks.py
     print_roster_ids.py
+    recommend.py
+    transfers.py
+    update_cache.py
+
+data/
+    cache/
+
+tests/
+    test_smoke.py
 ```
 
 ---
@@ -52,7 +89,7 @@ cd f1_fantasy_optimizer
 
 python -m venv .venv
 # Windows
-.venv\Scripts\activate
+.venv\Scriptsctivate
 # macOS / Linux
 source .venv/bin/activate
 
@@ -61,47 +98,31 @@ pip install -r requirements.txt
 
 ---
 
-## Usage
+## Basic usage
 
-### Run the optimiser
+Run the main optimiser:
 
 ```bash
 python -m f1fantasy.recommend
 ```
 
-This prints the top teams under:
+This prints the top teams under the configured budget cap and evaluates chip scenarios separately.
 
-- Budget ≤ 100
-- 5 drivers + 2 constructors
-- All chip scenarios evaluated separately
+You can also use the installed console entry points:
+
+```bash
+f1fantasy-recommend
+f1fantasy-debug
+```
 
 ---
 
-## Transfer-aware recommendations (optional)
+## Transfer recommendations
 
-To generate transfer suggestions, the optimiser needs your current Fantasy team (driver IDs + constructor IDs).
+To generate transfer suggestions, create:
 
-### 1) Print live roster IDs
-
-Run:
-
-```bash
-python -m f1fantasy.print_roster_ids
-```
-
-This prints:
-
-- All drivers with their `playerId`
-- All constructors with their `teamId`
-
-Use these IDs in your team configuration file.
-
-### 2) Create `current_team.json`
-
-Create:
-
-```
-f1fantasy/data/current_team.json
+```text
+data/current_team.json
 ```
 
 Example:
@@ -110,90 +131,193 @@ Example:
 {
   "drivers": [121, 11031, 114, 129, 131],
   "constructors": [27, 29],
-  "free_transfers": 2
+  "free_transfers": 2,
+  "bank": 0.5
 }
 ```
 
-- `drivers` → list of `playerId`
-- `constructors` → list of `teamId`
-- `free_transfers` → number of free transfers remaining
+Fields:
 
-### 3) Run optimiser again
+- `drivers`: list of current driver `playerId`s
+- `constructors`: list of current constructor `teamId`s
+- `free_transfers`: free transfers still available
+- `bank`: money left in the bank
+
+To print the currently available IDs:
 
 ```bash
-python -m f1fantasy.recommend
+python -m f1fantasy.print_roster_ids
 ```
 
-Transfer penalties will be applied beyond `free_transfers`.
+Transfer recommendations use:
+
+```text
+transfer budget = current market value of held squad + bank
+```
+
+This means the transfer solver reflects price changes in your existing squad, rather than assuming a flat `100.0` budget.
 
 ---
 
-## Scoring Model Overview
+## Budget cap: where to change it
+
+For fresh-team optimisation, the configurable cap lives in:
+
+```text
+f1fantasy/recommend.py
+```
+
+Look for:
+
+```python
+TEAM_BUDGET_CAP = 100.0
+```
+
+You can change this to values such as:
+
+```python
+TEAM_BUDGET_CAP = 101.8
+```
+
+if you want to test the best full rebuild team at a different effective budget.
+
+This is separate from transfer mode, which calculates its own budget from:
+
+```text
+current team value + bank
+```
+
+---
+
+## Weighting / scaling model
+
+The expected-value logic is in:
+
+```text
+f1fantasy/model.py
+```
+
+The current setup separates:
+
+- **current-season form**
+- **historical track-aware signal**
+
+### Current-season share
+
+Controlled by:
+
+```python
+def _current_season_share(...)
+```
+
+Default behaviour:
+
+- 0 completed races -> `0.00` current / `1.00` historical
+- 1 completed race -> `0.50` current / `0.50` historical
+- scales linearly up to
+- 10+ completed races -> `0.75` current / `0.25` historical
+
+### Within-season recency weighting
+
+Controlled by:
+
+```python
+def _current_round_weight(...)
+```
+
+Default behaviour:
+
+- latest completed race = `1.00`
+- previous race = `0.95`
+- then `0.95^2`, `0.95^3`, ...
+
+### Historical season decay
+
+Controlled by:
+
+```python
+def _historical_season_weight_hist_only(...)
+```
+
+Default behaviour:
+
+- previous season = `0.75^0 = 1.0`
+- two seasons back = `0.75^1`
+- three seasons back = `0.75^2`
+- and so on
+
+### Important modelling choice
+
+The current-season block uses **only completed races from the current season**.
+Historical data is blended in only on the historical side of the forecast, so prior seasons do not leak into the current-season form signal.
+
+---
+
+## Scoring model overview
 
 ### Drivers
 
-Per weekend scoring includes:
+The scoring engine includes:
 
-- Qualifying position points (P1–P10)
-- Race finishing points (25–1 scale)
-- Sprint finishing points (8–1 scale)
-- DNF / NC / DSQ penalties
-- Positions gained/lost proxy (`grid - finish_position`)
-- Capped overtake proxy
-- Race fastest lap bonus (when available)
-
-Not currently modelled:
-
-- True overtake counts (proxy used)
-- Sprint fastest lap
-- Driver of the Day
-- Pit stop points (constructors)
+- qualifying position points
+- race finishing points
+- sprint finishing points
+- positions gained / lost proxy
+- overtake proxy
+- DNF / NC / DSQ handling
+- fastest lap where available
 
 ### Constructors
 
-- Sum of both drivers’ qualifying points
-- Sum of both drivers’ race points (excluding DOTD)
-- Sum of both drivers’ sprint points
-- Qualifying stage bonuses (Q2/Q3 reach)
-- DSQ tracked separately from DNF
-- Moderated DNF impact to avoid over-penalisation
+The scoring engine includes:
+
+- both drivers' qualifying totals
+- both drivers' race totals
+- both drivers' sprint totals
+- qualifying stage bonuses
+- constructor-level DNF / DSQ handling
+
+### Not currently modelled / simplified
+
+- true official overtake counts
+- sprint fastest lap
+- Driver of the Day
+- pit stop scoring
+- world-record pit stop bonus
+- stochastic simulation / distributions
+
+The project intentionally stays fairly simple and rule-consistent rather than trying to overfit noisy inputs.
 
 ---
 
-## Expected Value Methodology
+## Debugging and validation
 
-Expected scores are computed across a configurable upcoming race horizon (default: next 5 races):
+Useful helper scripts:
 
-- Horizon weighting: nearer races weighted more heavily
-- Recency weighting:
-  - Current season: equal weighting
-  - Previous season: high weight
-  - Older seasons: exponential decay
-- Driver EV scaled by current constructor strength to reduce unrealistic mismatches
+```bash
+python -m f1fantasy.debug_checks
+python -m f1fantasy.print_roster_ids
+```
 
-The optimisation objective maximises total expected points subject to roster and budget constraints.
+These are useful for checking:
+
+- raw data ingestion
+- constructor aggregation
+- DNF handling
+- current vs historical blend behaviour
+- current fantasy roster IDs and prices
 
 ---
 
 ## Limitations
 
-- Relies on public data feeds (may change without notice)
-- Overtake and pit stop metrics approximated or omitted
-- Deterministic expected value model (no probabilistic simulation)
-- No historical price evolution modelling
-
----
-
-## Future Improvements
-
-- True overtake integration
-- Sprint fastest lap support
-- Constructor pit stop scoring
-- Probabilistic modelling / variance-aware optimisation
-- Historical backtesting across seasons
+- depends on public / unofficial data feeds that may change schema or availability
+- some fantasy sub-components are approximated or omitted
+- expected value is deterministic rather than fully probabilistic
+- no historical backtest framework is included yet
 
 ---
 
 ## License
 
-MIT License — see `LICENSE` file.
+MIT License — see `LICENSE`.

@@ -45,9 +45,11 @@ def best_two_transfer_move(
 
     recs: List[TransferRecommendation] = []
 
-    # Consider swapping 0-2 drivers and 0-1 constructors (to keep search manageable)
-    for d_k in [0,1,2]:
-        for c_k in [0,1]:
+    # Consider swapping up to the full team:
+    # 0..5 drivers and 0..2 constructors.
+    # The max_transfers_considered parameter can still cap the search below 7 if desired.
+    for d_k in range(0, 6):
+        for c_k in range(0, 3):
             if d_k + c_k == 0:
                 continue
             if d_k + c_k > max_transfers_considered:

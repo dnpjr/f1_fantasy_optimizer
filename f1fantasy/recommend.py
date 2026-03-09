@@ -11,6 +11,12 @@ import unicodedata
 import re
 import difflib
 
+
+TEAM_BUDGET_CAP = 100.0
+CURRENT_TEAM = "current_team.json"
+current_season_delta = 4
+
+
 def _canon(s: str) -> str:
     s = "" if s is None else str(s)
     s = unicodedata.normalize("NFKD", s)
@@ -68,7 +74,7 @@ def main():
     today = datetime.utcnow().date().isoformat()
 
     # Fetch history window + current season for live updating as races happen
-    start_year = current_season - 9
+    start_year = current_season - current_season_delta
     end_year = current_season
 
     # Preload per-year supporting data
@@ -96,11 +102,16 @@ def main():
     players = fetch_players()
     teams = fetch_teams()
 
-    # Horizon: next 5 races (weighted), using Ergast schedule
+    # Horizon: use up to next 5 remaining races
     schedule = fetch_schedule(current_season)
     upcoming = _upcoming_circuits(schedule, today=today, n=5)
+    
+    if len(upcoming) == 0:
+        print("No remaining races found in the current season schedule.")
+        return
+    
     h_w = _horizon_weights(len(upcoming), w1=1.0, w_next=0.7)
-
+    
     print("\nUpcoming circuits (horizon):", upcoming)
     print("Horizon weights:", h_w, "\n")
 
@@ -283,43 +294,139 @@ def main():
             dd = sol.drivers.sort_values('price', ascending=False)[['name','price','exp_score','dnf_rate']]
             cc = sol.constructors.sort_values('price', ascending=False)[['name','price','exp_score','dnf_rate']]
             print(f"--- Team #{i} ---")
-            print(f"Cost: {sol.total_cost:.1f}/100 | Expected: {sol.expected_score:.2f} | Boosted: {sol.boosted_driver} | NoNegative: {sol.no_negative} | Limitless: {sol.limitless}")
+            print(f"Cost: {sol.total_cost:.1f}/{TEAM_BUDGET_CAP:.1f} | Expected: {sol.expected_score:.2f} | Boosted: {sol.boosted_driver} | NoNegative: {sol.no_negative} | Limitless: {sol.limitless}")
             print("Drivers:\n", dd.to_string(index=False))
             print("Constructors:\n", cc.to_string(index=False))
             print()
 
     # Standard (2x boost)
-    sols_std = optimize_top_k(drivers, constructors, budget=100.0, k=5, drs_multiplier=2.0, allow_no_negative=False)
+    sols_std = optimize_top_k(drivers, constructors, budget=TEAM_BUDGET_CAP, k=5, drs_multiplier=2.0, allow_no_negative=False)
     print_solutions("Top 5 teams (2x Boost)", sols_std)
 
     # 3x DRS variant (some seasons call this 'Extra DRS') – we show it as a scenario
-    sols_3x = optimize_top_k(drivers, constructors, budget=100.0, k=3, drs_multiplier=3.0, allow_no_negative=False)
+    sols_3x = optimize_top_k(drivers, constructors, budget=TEAM_BUDGET_CAP, k=3, drs_multiplier=3.0, allow_no_negative=False)
     print_solutions("Top teams if 3x Boost is active", sols_3x)
 
     # No Negative chip scenario
-    sols_nn = optimize_top_k(drivers, constructors.assign(nn_exp_score=constructors["exp_score"]), budget=100.0, k=3, drs_multiplier=2.0, allow_no_negative=True)
+    sols_nn = optimize_top_k(drivers, constructors.assign(nn_exp_score=constructors["exp_score"]), budget=TEAM_BUDGET_CAP, k=3, drs_multiplier=2.0, allow_no_negative=True)
     print_solutions("Top teams with No Negative chip", sols_nn)
 
     # Limitless chip scenario (no budget)
     sols_lim = optimize_top_k(drivers, constructors, budget=None, k=3, drs_multiplier=2.0, allow_no_negative=False)
     print_solutions("Top teams with Limitless (no budget)", sols_lim)
 
+   
+    
     # === Transfer-aware suggestion ===
-    cfg = _load_current_team(PKG_ROOT / "data" / "current_team.json")
+    cfg = _load_current_team(PKG_ROOT / "data" / CURRENT_TEAM)
     if cfg:
         cur_drv = [str(x) for x in cfg.get("drivers", [])]
         cur_con = [str(x) for x in cfg.get("constructors", [])]
         free = int(cfg.get("free_transfers", 2))
-        recs = best_two_transfer_move(cur_drv, cur_con, drivers, constructors, budget=100.0, free_transfers=free)
-        print("\nBest transfer recommendations from your current team (net changes; -10 per extra transfer):\n")
-        for r in recs[:5]:
-            print(f"Transfers: {r.num_transfers} (penalty {r.penalty_points}) | New cost {r.new_cost:.1f} | New expected {r.new_expected:.2f} | Δ after penalty {r.delta_expected_after_penalty:.2f}")
-            print("Outgoing IDs:", r.outgoing)
-            print("Incoming IDs:", r.incoming)
-            print()
+        bank = float(cfg.get("bank", 0.0))
+    
+        # Lookups for pretty printing
+        driver_lookup = dict(zip(drivers["id"].astype(str), drivers["name"]))
+        constructor_lookup = dict(zip(constructors["id"].astype(str), constructors["name"]))
+    
+        def id_to_name(x: str) -> str:
+            x = str(x)
+            if x in driver_lookup:
+                return driver_lookup[x]
+            if x in constructor_lookup:
+                return constructor_lookup[x]
+            return "UNKNOWN"
+    
+        # Current team frames
+        cur_drv_df = drivers[drivers["id"].astype(str).isin(cur_drv)].copy()
+        cur_con_df = constructors[constructors["id"].astype(str).isin(cur_con)].copy()
+    
+        if len(cur_drv_df) != len(cur_drv) or len(cur_con_df) != len(cur_con):
+            print("\nWarning: some current_team.json IDs were not found in the current fantasy feed.\n")
+    
+        cur_drv_df = cur_drv_df.sort_values("price", ascending=False)
+        cur_con_df = cur_con_df.sort_values("price", ascending=False)
+    
+        current_team_value = float(cur_drv_df["price"].sum() + cur_con_df["price"].sum())
+        transfer_budget = current_team_value + bank
+        cur_expected = float(cur_drv_df["exp_score"].sum() + cur_con_df["exp_score"].sum())
+    
+        print("\nCurrent team from current_team.json:\n")
+        print(
+            f"Free transfers: {free} | "
+            f"Current team market value: {current_team_value:.1f} | "
+            f"Bank: {bank:.1f} | "
+            f"Effective transfer budget: {transfer_budget:.1f} | "
+            f"Expected (no transfer penalty/chips): {cur_expected:.2f}"
+        )
+    
+        print("\nDrivers:")
+        print(cur_drv_df[["id", "name", "price", "exp_score", "dnf_rate"]].to_string(index=False))
+    
+        print("\nConstructors:")
+        print(cur_con_df[["id", "name", "price", "exp_score", "dnf_rate"]].to_string(index=False))
+        print()
+    
+        recs = best_two_transfer_move(
+            cur_drv,
+            cur_con,
+            drivers,
+            constructors,
+            budget=transfer_budget,   # <-- key change
+            free_transfers=free
+        )
+    
+        # Keep only beneficial moves
+        recs = [r for r in recs if r.delta_expected_after_penalty > 0]
+    
+        if not recs:
+            print("No beneficial transfers found.")
+            print("Your current team is already optimal under the model.\n")
+        else:
+            print("\nBest transfer recommendations from your current team (net changes; -10 per extra transfer):\n")
+            for i, r in enumerate(recs[:5], start=1):
+                print(f"--- Recommendation #{i} ---")
+                print(
+                    f"Transfers: {r.num_transfers} (penalty {r.penalty_points}) | "
+                    f"New cost {r.new_cost:.1f} | "
+                    f"New expected {r.new_expected:.2f} | "
+                    f"Δ after penalty {r.delta_expected_after_penalty:.2f}"
+                )
+    
+                print("\nOutgoing:")
+                for oid in r.outgoing:
+                    print(f"  {oid:>6}  {id_to_name(oid)}")
+    
+                print("\nIncoming:")
+                for iid in r.incoming:
+                    print(f"  {iid:>6}  {id_to_name(iid)}")
+    
+                # Build suggested team JSON by applying the move to the current team
+                new_drv_ids = [x for x in cur_drv if x not in set(r.outgoing)]
+                new_con_ids = [x for x in cur_con if x not in set(r.outgoing)]
+    
+                for iid in r.incoming:
+                    if iid in driver_lookup:
+                        new_drv_ids.append(iid)
+                    elif iid in constructor_lookup:
+                        new_con_ids.append(iid)
+    
+                import json
+                new_bank = transfer_budget - r.new_cost
+
+                suggested_json = {
+                    "drivers": [int(x) if str(x).isdigit() else x for x in new_drv_ids],
+                    "constructors": [int(x) if str(x).isdigit() else x for x in new_con_ids],
+                    "free_transfers": free,
+                    "bank": round(new_bank, 1)
+                }
+                    
+                print("\nSuggested current_team.json:")
+                print(json.dumps(suggested_json, indent=2))
+                print()
     else:
         print("\nTo get transfer suggestions, create data/current_team.json like:\n"
-              "{\n  \"drivers\": [131, 117, 1982, 18, 11031],\n  \"constructors\": [27, 28],\n  \"free_transfers\": 2\n}\n")
+              "{\n  \"drivers\": [131, 117, 1982, 18, 11031],\n  \"constructors\": [27, 28],\n  \"free_transfers\": 2,\n  \"bank\": 0.0\n}\n")
 
 if __name__ == "__main__":
     main()
