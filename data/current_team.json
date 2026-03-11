@@ -1,0 +1,15 @@
+{
+  "drivers": [
+    131,
+    125,
+    129,
+    11031,
+    121
+  ],
+  "constructors": [
+    29,
+    26
+  ],
+  "free_transfers": 2,
+  "bank": 3.5
+}
