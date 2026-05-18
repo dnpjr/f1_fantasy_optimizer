@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import UTC, datetime
 
 import json
 import pandas as pd
@@ -12,7 +12,7 @@ import re
 import difflib
 
 
-TEAM_BUDGET_CAP = 100.0
+TEAM_BUDGET_CAP = 108.7
 CURRENT_TEAM = "current_team.json"
 current_season_delta = 4
 
@@ -70,8 +70,9 @@ def _load_current_team(path: Path) -> dict | None:
 
 def main():
 
-    current_season = datetime.utcnow().year
-    today = datetime.utcnow().date().isoformat()
+    now = datetime.now(UTC)
+    current_season = now.year
+    today = now.date().isoformat()
 
     # Fetch history window + current season for live updating as races happen
     start_year = current_season - current_season_delta

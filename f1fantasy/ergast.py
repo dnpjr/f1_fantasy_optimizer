@@ -3,8 +3,8 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-# Jolpica provides Ergast-compatible endpoints (Ergast has been deprecated)
-ERGAST = "http://api.jolpi.ca/ergast/f1"
+# Jolpica provides Ergast-compatible endpoints (Ergast has been deprecated).
+ERGAST = "https://api.jolpi.ca/ergast/f1"
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 CACHE_DIR = DATA_DIR / "cache"
@@ -164,12 +164,19 @@ def fetch_schedule(year: int, force_refresh: bool = False) -> pd.DataFrame:
     races = data["MRData"]["RaceTable"]["Races"]
     rows = []
     for race in races:
+        qualifying = race.get("Qualifying", {}) or {}
+        sprint = race.get("Sprint", {}) or {}
         rows.append({
             "season": int(race["season"]),
             "round": int(race["round"]),
             "raceName": race.get("raceName", ""),
             "date": race.get("date", ""),
+            "time": race.get("time", ""),
             "circuitName": race["Circuit"]["circuitName"],
+            "qualifying_date": qualifying.get("date", ""),
+            "qualifying_time": qualifying.get("time", ""),
+            "sprint_date": sprint.get("date", ""),
+            "sprint_time": sprint.get("time", ""),
         })
     df = pd.DataFrame(rows)
     df.to_csv(cache_file, index=False)

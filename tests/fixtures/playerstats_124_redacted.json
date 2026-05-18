@@ -1,0 +1,552 @@
+{
+  "Value": {
+    "PlayerId": 124,
+    "PlayerSkill": 1,
+    "GamedayWiseStats": [
+      {
+        "GamedayId": 1,
+        "PlayerValue": 27.4,
+        "OldPlayerValue": 27.4,
+        "IsPlayed": 1,
+        "IsActive": 1,
+        "StatsWise": [
+          {
+            "Frequency": "-",
+            "Event": "Total",
+            "Value": 39
+          },
+          {
+            "Frequency": "1st",
+            "Event": "Race Position",
+            "Value": 25
+          },
+          {
+            "Frequency": "1st",
+            "Event": "Qualifying Position",
+            "Value": 10
+          },
+          {
+            "Frequency": "4",
+            "Event": "race overtake bonus",
+            "Value": 4
+          }
+        ]
+      },
+      {
+        "GamedayId": 2,
+        "PlayerValue": 27.7,
+        "OldPlayerValue": 27.4,
+        "IsPlayed": 1,
+        "IsActive": 1,
+        "StatsWise": [
+          {
+            "Frequency": "-",
+            "Event": "Total",
+            "Value": 45
+          },
+          {
+            "Frequency": "4",
+            "Event": "Sprint overtake bonus",
+            "Value": 4
+          },
+          {
+            "Frequency": "2nd",
+            "Event": "Race Position",
+            "Value": 18
+          },
+          {
+            "Frequency": "2nd",
+            "Event": "Qualifying Position",
+            "Value": 9
+          },
+          {
+            "Frequency": "1st",
+            "Event": "Sprint Position",
+            "Value": 8
+          },
+          {
+            "Frequency": "6",
+            "Event": "race overtake bonus",
+            "Value": 6
+          }
+        ]
+      },
+      {
+        "GamedayId": 3,
+        "PlayerValue": 28.0,
+        "OldPlayerValue": 27.7,
+        "IsPlayed": 1,
+        "IsActive": 1,
+        "StatsWise": [
+          {
+            "Frequency": "-",
+            "Event": "Total",
+            "Value": 27
+          },
+          {
+            "Frequency": "4th",
+            "Event": "Race Position",
+            "Value": 12
+          },
+          {
+            "Frequency": "2nd",
+            "Event": "Qualifying Position",
+            "Value": 9
+          },
+          {
+            "Frequency": "2",
+            "Event": "Race Position lost",
+            "Value": -2
+          },
+          {
+            "Frequency": "8",
+            "Event": "race overtake bonus",
+            "Value": 8
+          }
+        ]
+      }
+    ],
+    "TourWiseStats": [
+      {
+        "TourId": 4,
+        "PlayerValue": 28.6,
+        "OldPlayerValue": 28.3,
+        "IsPlayed": 1,
+        "IsActive": 1,
+        "StatsWise": [
+          {
+            "Frequency": "-",
+            "Event": "Total",
+            "Value": 153
+          },
+          {
+            "Frequency": "2",
+            "Event": "Sprint position gained",
+            "Value": 2
+          },
+          {
+            "Frequency": "7",
+            "Event": "Sprint overtake bonus",
+            "Value": 7
+          },
+          {
+            "Frequency": "-",
+            "Event": "Race Position",
+            "Value": 67
+          },
+          {
+            "Frequency": "-",
+            "Event": "Qualifying Position",
+            "Value": 34
+          },
+          {
+            "Frequency": "-",
+            "Event": "Sprint Position",
+            "Value": 13
+          },
+          {
+            "Frequency": "1",
+            "Event": "Race position gained",
+            "Value": 1
+          },
+          {
+            "Frequency": "2",
+            "Event": "Race Position lost",
+            "Value": -2
+          },
+          {
+            "Frequency": "31",
+            "Event": "race overtake bonus",
+            "Value": 31
+          }
+        ]
+      }
+    ],
+    "FixtureWiseStats": [
+      {
+        "GamedayId": 1,
+        "TourId": 4,
+        "RaceDayWise": [
+          {
+            "PlayerValue": 27.4,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7307,
+            "TeamId": 28,
+            "DateTime": "03/06/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Melbourne",
+            "MeetingNumber": 1,
+            "MeetingName": "Australian Grand Prix",
+            "CountryId": 6,
+            "CountryName": "Australia",
+            "CircuitOfficialName": "Albert Park Grand Prix Circuit",
+            "SessionName": "Qualifying",
+            "SessionType": "Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-07T16:00:00+11:00",
+            "Season": "2026",
+            "SelectedPercentage": "25",
+            "CapSelectedPercentage": "20"
+          },
+          {
+            "PlayerValue": 27.4,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7308,
+            "TeamId": 28,
+            "DateTime": "03/06/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Melbourne",
+            "MeetingNumber": 1,
+            "MeetingName": "Australian Grand Prix",
+            "CountryId": 6,
+            "CountryName": "Australia",
+            "CircuitOfficialName": "Albert Park Grand Prix Circuit",
+            "SessionName": "Race",
+            "SessionType": "Race",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-08T15:00:00+11:00",
+            "Season": "2026",
+            "SelectedPercentage": "25",
+            "CapSelectedPercentage": "20"
+          }
+        ]
+      },
+      {
+        "GamedayId": 2,
+        "TourId": 4,
+        "RaceDayWise": [
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7311,
+            "TeamId": 28,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Sprint Qualifying",
+            "SessionType": "Sprint Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-14T11:00:00+08:00",
+            "Season": "2026",
+            "SelectedPercentage": "31",
+            "CapSelectedPercentage": "24"
+          },
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7312,
+            "TeamId": 28,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Qualifying",
+            "SessionType": "Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-14T15:00:00+08:00",
+            "Season": "2026",
+            "SelectedPercentage": "31",
+            "CapSelectedPercentage": "24"
+          },
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7313,
+            "TeamId": 28,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Race",
+            "SessionType": "Race",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-15T15:00:00+08:00",
+            "Season": "2026",
+            "SelectedPercentage": "31",
+            "CapSelectedPercentage": "24"
+          }
+        ]
+      }
+    ],
+    "MatchWiseStats": [
+      {
+        "GamedayId": 1,
+        "TourId": 4,
+        "RaceDayWise": [
+          {
+            "PlayerValue": 27.4,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7307,
+            "DateTime": "03/06/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Melbourne",
+            "MeetingNumber": 1,
+            "MeetingName": "Australian Grand Prix",
+            "CountryId": 6,
+            "CountryName": "Australia",
+            "CircuitOfficialName": "Albert Park Grand Prix Circuit",
+            "SessionName": "Qualifying",
+            "SessionType": "Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-07T16:00:00+11:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 10
+              },
+              {
+                "Frequency": "1st",
+                "Event": "Qualifying Position",
+                "Value": 10
+              }
+            ]
+          },
+          {
+            "PlayerValue": 27.4,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7308,
+            "DateTime": "03/06/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Melbourne",
+            "MeetingNumber": 1,
+            "MeetingName": "Australian Grand Prix",
+            "CountryId": 6,
+            "CountryName": "Australia",
+            "CircuitOfficialName": "Albert Park Grand Prix Circuit",
+            "SessionName": "Race",
+            "SessionType": "Race",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-08T15:00:00+11:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 29
+              },
+              {
+                "Frequency": "1st",
+                "Event": "Race Position",
+                "Value": 25
+              },
+              {
+                "Frequency": "4",
+                "Event": "race overtake bonus",
+                "Value": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "GamedayId": 2,
+        "TourId": 4,
+        "RaceDayWise": [
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7311,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Sprint Qualifying",
+            "SessionType": "Sprint Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-14T11:00:00+08:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 12
+              },
+              {
+                "Frequency": "4",
+                "Event": "Sprint overtake bonus",
+                "Value": 4
+              },
+              {
+                "Frequency": "1st",
+                "Event": "Sprint Position",
+                "Value": 8
+              }
+            ]
+          },
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7312,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Qualifying",
+            "SessionType": "Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-14T15:00:00+08:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 9
+              },
+              {
+                "Frequency": "2nd",
+                "Event": "Qualifying Position",
+                "Value": 9
+              }
+            ]
+          },
+          {
+            "PlayerValue": 27.7,
+            "OldPlayerValue": 27.4,
+            "RaceDayId": 7313,
+            "DateTime": "03/13/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Shanghai",
+            "MeetingNumber": 2,
+            "MeetingName": "Chinese Grand Prix",
+            "CountryId": 54,
+            "CountryName": "China",
+            "CircuitOfficialName": "Shanghai International Circuit",
+            "SessionName": "Race",
+            "SessionType": "Race",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-15T15:00:00+08:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 24
+              },
+              {
+                "Frequency": "2nd",
+                "Event": "Race Position",
+                "Value": 18
+              },
+              {
+                "Frequency": "6",
+                "Event": "race overtake bonus",
+                "Value": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "GamedayId": 3,
+        "TourId": 4,
+        "RaceDayWise": [
+          {
+            "PlayerValue": 28.0,
+            "OldPlayerValue": 27.7,
+            "RaceDayId": 7318,
+            "DateTime": "03/27/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Suzuka",
+            "MeetingNumber": 3,
+            "MeetingName": "Japanese Grand Prix",
+            "CountryId": 5,
+            "CountryName": "Japan",
+            "CircuitOfficialName": "Suzuka Circuit",
+            "SessionName": "Qualifying",
+            "SessionType": "Qualifying",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-28T15:00:00+09:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 9
+              },
+              {
+                "Frequency": "2nd",
+                "Event": "Qualifying Position",
+                "Value": 9
+              }
+            ]
+          },
+          {
+            "PlayerValue": 28.0,
+            "OldPlayerValue": 27.7,
+            "RaceDayId": 7316,
+            "DateTime": "03/27/2026 00:00:00",
+            "MatchStatus": "4",
+            "MeetingLocation": "Suzuka",
+            "MeetingNumber": 3,
+            "MeetingName": "Japanese Grand Prix",
+            "CountryId": 5,
+            "CountryName": "Japan",
+            "CircuitOfficialName": "Suzuka Circuit",
+            "SessionName": "Race",
+            "SessionType": "Race",
+            "SessionNumber": "0",
+            "SessionStartDate": "2026-03-29T14:00:00+09:00",
+            "Season": "2026",
+            "IsPlayed": 1,
+            "StatsWise": [
+              {
+                "Frequency": "-",
+                "Event": "Total",
+                "Value": 18
+              },
+              {
+                "Frequency": "4th",
+                "Event": "Race Position",
+                "Value": 12
+              },
+              {
+                "Frequency": "2",
+                "Event": "Race Position lost",
+                "Value": -2
+              },
+              {
+                "Frequency": "8",
+                "Event": "race overtake bonus",
+                "Value": 8
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "FeedTime": {
+    "UTCTime": "5/18/2026 9:25:35 PM",
+    "ISTTime": "5/19/2026 2:55:35 AM",
+    "CESTTime": "5/18/2026 11:25:35 PM"
+  }
+}

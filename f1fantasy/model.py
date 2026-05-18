@@ -138,10 +138,22 @@ def _blend_series(current: pd.Series, historical: pd.Series, current_share: floa
     only_hist = current.isna() & historical.notna()
 
     out[:] = np.nan
-    out.loc[both] = current_share * current.loc[both] + (1.0 - current_share) * historical.loc[both]
-    out.loc[only_current] = current.loc[only_current]
-    out.loc[only_hist] = historical.loc[only_hist]
+    if both.any():
+        out.loc[both] = current_share * current.loc[both] + (1.0 - current_share) * historical.loc[both]
+    if only_current.any():
+        out.loc[only_current] = current.loc[only_current]
+    if only_hist.any():
+        out.loc[only_hist] = historical.loc[only_hist]
     return out
+
+
+def _adjust_current_share(base_share: float, current_weight: float = 1.0, past_weight: float = 1.0) -> float:
+    current_part = float(base_share) * float(current_weight)
+    past_part = (1.0 - float(base_share)) * float(past_weight)
+    denom = current_part + past_part
+    if denom <= 0:
+        return float(base_share)
+    return float(current_part / denom)
 
 
 def _ensure_columns(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
@@ -312,6 +324,10 @@ def expected_scores_horizon(
     weekend_points: pd.DataFrame,
     upcoming_circuits: List[str],
     horizon_weights: List[float],
+    current_season_weight: float = 1.0,
+    past_season_weight: float = 1.0,
+    recency_decay: float = 0.95,
+    historical_season_decay: float = 0.75,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Expected scores for next N races.
@@ -332,17 +348,21 @@ def expected_scores_horizon(
     current_season = int(wp["season"].max())
     current_mask = wp["season"].astype(int) == current_season
     latest_round = int(wp.loc[current_mask, "round"].max()) if current_mask.any() else 0
-    current_share = _current_season_share(latest_round)
+    current_share = _adjust_current_share(
+        _current_season_share(latest_round),
+        current_weight=current_season_weight,
+        past_weight=past_season_weight,
+    )
 
     wp["w_current_component"] = np.where(
         current_mask,
-        wp["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=0.95)),
+        wp["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=recency_decay)),
         0.0,
     )
     wp["w_hist_component"] = np.where(
         current_mask,
         0.0,
-        wp["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=0.75)),
+        wp["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=historical_season_decay)),
     )
 
     # Driver overall summaries
@@ -392,13 +412,13 @@ def expected_scores_horizon(
     ctor_current_mask = ctor_round["season"].astype(int) == current_season
     ctor_round["w_current_component"] = np.where(
         ctor_current_mask,
-        ctor_round["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=0.95)),
+        ctor_round["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=recency_decay)),
         0.0,
     )
     ctor_round["w_hist_component"] = np.where(
         ctor_current_mask,
         0.0,
-        ctor_round["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=0.75)),
+        ctor_round["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=historical_season_decay)),
     )
 
     base_ctor = ctor_round[["constructorId", "constructor"]].drop_duplicates().copy()
@@ -475,6 +495,10 @@ def apply_no_negative_expectation(
     weekend_points: pd.DataFrame,
     upcoming_circuits: List[str],
     horizon_weights: List[float],
+    current_season_weight: float = 1.0,
+    past_season_weight: float = 1.0,
+    recency_decay: float = 0.95,
+    historical_season_decay: float = 0.75,
 ) -> pd.Series:
     """Approx EV under No Negative for drivers using the same current-vs-historical split."""
     wp = weekend_points.copy()
@@ -483,17 +507,21 @@ def apply_no_negative_expectation(
     current_season = int(wp["season"].max())
     current_mask = wp["season"].astype(int) == current_season
     latest_round = int(wp.loc[current_mask, "round"].max()) if current_mask.any() else 0
-    current_share = _current_season_share(latest_round)
+    current_share = _adjust_current_share(
+        _current_season_share(latest_round),
+        current_weight=current_season_weight,
+        past_weight=past_season_weight,
+    )
 
     wp["w_current_component"] = np.where(
         current_mask,
-        wp["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=0.95)),
+        wp["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=recency_decay)),
         0.0,
     )
     wp["w_hist_component"] = np.where(
         current_mask,
         0.0,
-        wp["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=0.75)),
+        wp["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=historical_season_decay)),
     )
 
     base = wp[["driverId"]].drop_duplicates().copy()

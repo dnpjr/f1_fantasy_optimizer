@@ -89,12 +89,41 @@ cd f1_fantasy_optimizer
 
 python -m venv .venv
 # Windows
-.venv\Scriptsctivate
+.venv\Scripts\activate
 # macOS / Linux
 source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
+
+---
+
+## Streamlit app (local)
+
+Run the web app locally from the repo root:
+
+```bash
+python -m streamlit run streamlit_app.py
+```
+
+If you use a virtual environment, activate it first and install `requirements.txt`.
+
+---
+
+## Deploy on Streamlit Community Cloud
+
+1. Push this repo to GitHub.
+2. In Streamlit Community Cloud, click **New app**.
+3. Select:
+   - **Repository**: this repo
+   - **Branch**: your deployment branch (for example `main`)
+   - **Main file path**: `streamlit_app.py`
+4. Deploy.
+
+Notes:
+- The app relies on public F1 Fantasy endpoints for live prices and player stats.
+- If those endpoints are temporarily unavailable, the app will show warnings/errors and may not refresh data until the feed is back.
+- Price-change, projection, and transfer outputs are unofficial modelling estimates, not official F1 Fantasy guarantees.
 
 ---
 
@@ -114,6 +143,40 @@ You can also use the installed console entry points:
 f1fantasy-recommend
 f1fantasy-debug
 ```
+
+---
+
+## Setup notes / troubleshooting
+
+If you see:
+
+```text
+ModuleNotFoundError: No module named 'pandas'
+```
+
+you are probably running outside the project's virtual environment, or the dependencies have not been installed into that environment yet. From the repo root:
+
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m f1fantasy.recommend
+```
+
+In an IDE, point the Python interpreter at:
+
+```text
+.venv/bin/python
+```
+
+Historical F1 data comes from Jolpica's Ergast-compatible API. The base URL should use HTTPS:
+
+```python
+ERGAST = "https://api.jolpi.ca/ergast/f1"
+```
+
+Using `http://api.jolpi.ca/...` may hang or timeout.
+
+The first successful run may create CSV files in `data/cache/`. These are local API caches and are ignored by git, along with `.venv/` and Python bytecode files.
 
 ---
 
