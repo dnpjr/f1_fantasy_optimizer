@@ -339,6 +339,7 @@ def load_cached_model_data(
     past_season_weight: float,
     recency_decay: float,
     upcoming_race_horizon: int,
+    include_playerstats: bool,
 ):
     data = load_model_data(
         historical_seasons_back=historical_seasons_back,
@@ -346,6 +347,7 @@ def load_cached_model_data(
         past_season_weight=past_season_weight,
         recency_decay=recency_decay,
         horizon_races=upcoming_race_horizon,
+        include_playerstats=include_playerstats,
     )
     return data.drivers, data.constructors, data.trends, data.diagnostics
 
@@ -988,6 +990,11 @@ with st.sidebar:
     if st.button("Refresh live data"):
         st.cache_data.clear()
         st.rerun()
+    include_playerstats_prefetch = st.checkbox(
+        "Load detailed playerstats on startup",
+        value=False,
+        help="Off = faster first load on Streamlit Cloud. Turn on when you need full recent race-by-race enrichment.",
+    )
 
     st.caption("Use the tabs below to edit settings and run the optimiser.")
 
@@ -1094,13 +1101,18 @@ with model_settings_tab:
     st.caption("How many upcoming races to include in the expected-points horizon.")
 
 try:
-    with st.spinner("Loading live prices and model data..."):
+    with st.spinner(
+        "Loading live market data..."
+        if not include_playerstats_prefetch
+        else "Loading live market data and detailed playerstats..."
+    ):
         drivers, constructors, _trends, diagnostics = load_cached_model_data(
             historical_seasons_back=int(historical_seasons_back),
             current_season_weight=float(current_season_weight),
             past_season_weight=float(past_season_weight),
             recency_decay=float(recency_decay),
             upcoming_race_horizon=int(upcoming_race_horizon),
+            include_playerstats=bool(include_playerstats_prefetch),
         )
 except Exception as exc:
     st.error("Could not load model data from the live feeds.")
@@ -1117,6 +1129,18 @@ if "chip_mode_label" not in st.session_state:
 chip_mode = chip_mode_from_label(st.session_state.chip_mode_label)
 
 _render_race_header(diagnostics)
+if not diagnostics.get("playerstats_prefetch_enabled", False):
+    st.info("Fast startup mode is active: detailed playerstats prefetch is disabled. Enable it in the sidebar when needed.")
+if diagnostics.get("playerstats_timeout_failures", 0):
+    st.warning(
+        f"Playerstats timeouts detected: {int(diagnostics.get('playerstats_timeout_failures', 0))}. "
+        "The app will continue with partial data where needed."
+    )
+if diagnostics.get("playerstats_skipped_after_failure_limit", 0):
+    st.warning(
+        f"Playerstats requests skipped after repeated failures: "
+        f"{int(diagnostics.get('playerstats_skipped_after_failure_limit', 0))}."
+    )
 
 edited_drivers = drivers.copy()
 edited_constructors = constructors.copy()
@@ -1783,6 +1807,10 @@ with diagnostics_tab:
     settings_cols[4].metric("Race horizon", diagnostics["upcoming_race_horizon"])
 
     st.write("Upcoming circuits:", ", ".join(diagnostics["upcoming_circuits"]))
+    st.write("Model load started (UTC):", diagnostics.get("model_load_started_utc", "Unavailable"))
+    st.write("Model load finished (UTC):", diagnostics.get("model_load_finished_utc", "Unavailable"))
+    st.write("Model load duration (s):", f"{float(diagnostics.get('model_load_duration_seconds', 0.0)):.2f}")
+    st.write("Playerstats prefetch enabled:", diagnostics.get("playerstats_prefetch_enabled", False))
     st.write("Team lock deadline (UTC):", diagnostics.get("team_lock_deadline_utc") or "Unavailable")
     st.write("Team lock source:", diagnostics.get("team_lock_deadline_source", "Unavailable"))
     st.write("Team lock raw field:", diagnostics.get("team_lock_deadline_raw_field") or "Unavailable")
@@ -1861,5 +1889,11 @@ with diagnostics_tab:
             f"failed {diagnostics.get('playerstats_assets_failed', 0)}"
         ),
     )
+    st.write("Playerstats timeout failures:", diagnostics.get("playerstats_timeout_failures", 0))
+    st.write("Playerstats skipped after failure limit:", diagnostics.get("playerstats_skipped_after_failure_limit", 0))
+    if diagnostics.get("model_load_events"):
+        with st.expander("Model load event log", expanded=False):
+            for event in diagnostics.get("model_load_events", []):
+                st.code(str(event))
     st.write("Fallback recent-point values used:", diagnostics.get("recent_points_fallback_used", False))
     st.write("Cache:", "Live/model data is cached for 1 hour. Use Refresh live data to clear it.")

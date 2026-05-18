@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from functools import lru_cache
 import time
 from typing import Any
 
@@ -11,6 +10,9 @@ import requests
 
 BASE_URL = "https://fantasy.formula1.com/feeds/popup"
 PLAYERSTATS_ENDPOINT_PATTERN = BASE_URL + "/playerstats_{player_id}.json"
+PLAYERSTATS_TIMEOUT_SECONDS = 12
+PLAYERSTATS_CACHE_TTL_SECONDS = 60 * 60
+PLAYERSTATS_CONSECUTIVE_FAILURE_LIMIT = 6
 UA = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -59,16 +61,25 @@ def _parse_session_start(value: Any) -> datetime | None:
     return dt.astimezone(UTC) if dt.tzinfo else dt.replace(tzinfo=UTC)
 
 
-@lru_cache(maxsize=256)
 def fetch_player_stats(player_id: int) -> dict:
     """Fetch the public F1 Fantasy popup stats payload for a driver/constructor."""
+    if not hasattr(fetch_player_stats, "_cache"):
+        fetch_player_stats._cache = {}  # type: ignore[attr-defined]
+    cache: dict[int, tuple[float, dict]] = fetch_player_stats._cache  # type: ignore[attr-defined]
+    now = time.time()
+    cached = cache.get(int(player_id))
+    if cached is not None and (now - cached[0]) < PLAYERSTATS_CACHE_TTL_SECONDS:
+        return cached[1]
+
     response = requests.get(
         _playerstats_url(player_id),
-        timeout=20,
+        timeout=PLAYERSTATS_TIMEOUT_SECONDS,
         headers={"User-Agent": UA, "Accept": "application/json,text/plain,*/*"},
     )
     response.raise_for_status()
-    return response.json()
+    payload = response.json()
+    cache[int(player_id)] = (now, payload)
+    return payload
 
 
 def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.DataFrame:
@@ -159,16 +170,34 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
     rows: list[dict[str, Any]] = []
     race_rows: list[pd.DataFrame] = []
     failures: list[str] = []
+    timeout_failures = 0
+    skipped_after_failure_limit = 0
+    consecutive_failures = 0
     id_col = "id" if "id" in roster_df.columns else "PlayerId"
 
     for row in roster_df.itertuples(index=False):
         player_id = getattr(row, id_col)
         name = getattr(row, "name", "")
+        if consecutive_failures >= PLAYERSTATS_CONSECUTIVE_FAILURE_LIMIT:
+            skipped_after_failure_limit += 1
+            rows.append(
+                {
+                    id_col: player_id,
+                    "recent_points_2ago": pd.NA,
+                    "recent_points_1ago": pd.NA,
+                    "recent_points_available": 0,
+                    "recent_points_source": "playerstats_skipped_after_failures",
+                }
+            )
+            continue
         try:
             payload = fetch_player_stats(int(player_id))
             parsed = parse_player_race_points(payload, int(player_id))
         except Exception as exc:
             failures.append(f"{name or player_id}: {exc}")
+            consecutive_failures += 1
+            if isinstance(exc, requests.exceptions.Timeout):
+                timeout_failures += 1
             rows.append(
                 {
                     id_col: player_id,
@@ -179,6 +208,7 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
                 }
             )
             continue
+        consecutive_failures = 0
 
         if asset_type:
             parsed["asset_type"] = asset_type
@@ -209,6 +239,8 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
         "playerstats_endpoint_pattern": PLAYERSTATS_ENDPOINT_PATTERN,
         "playerstats_assets_loaded": complete_assets,
         "playerstats_assets_failed": len(failures),
+        "playerstats_timeout_failures": int(timeout_failures),
+        "playerstats_skipped_after_failure_limit": int(skipped_after_failure_limit),
         "playerstats_failures": failures[:10],
     }
     return recent, all_races, diagnostics

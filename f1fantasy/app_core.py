@@ -336,8 +336,16 @@ def load_model_data(
     current_season_weight: float = 1.0,
     past_season_weight: float = 1.0,
     recency_decay: float = 0.95,
+    include_playerstats: bool = True,
 ) -> ModelData:
     """Load live fantasy prices and model assumptions for the Streamlit app."""
+    load_started = datetime.now(UTC)
+    load_events: list[str] = []
+
+    def _log(event: str) -> None:
+        load_events.append(f"{datetime.now(UTC).isoformat()} - {event}")
+
+    _log("load_model_data_start")
     now = datetime.now(UTC)
     current_season = int(current_season or now.year)
     today = today or now.date().isoformat()
@@ -346,11 +354,23 @@ def load_model_data(
     all_results = []
     all_quali = []
     all_sprint = []
+    current_schedule_fallback = pd.DataFrame()
     for year in range(start_year, current_season + 1):
-        data = fetch_all_supporting(year)
+        _log(f"fetch_supporting_start season={year}")
+        try:
+            data = fetch_all_supporting(year)
+        except Exception as exc:
+            _log(f"fetch_supporting_failed season={year} error={exc}")
+            continue
+        _log(f"fetch_supporting_done season={year}")
         all_results.append(data["results"])
         all_quali.append(data["qualifying"])
         all_sprint.append(data["sprint"])
+        if year == current_season:
+            current_schedule_fallback = data.get("schedule", pd.DataFrame())
+
+    if not all_results:
+        raise RuntimeError("Could not load race-result support data from the public endpoints.")
 
     results = pd.concat(all_results, ignore_index=True)
     qualifying = pd.concat(all_quali, ignore_index=True) if any(len(x) for x in all_quali) else pd.DataFrame()
@@ -362,11 +382,27 @@ def load_model_data(
     if not sprint.empty:
         sprint = sprint[(sprint["season"] >= start_year) & (sprint["season"] <= current_season)].copy()
 
+    _log("market_feed_round_detect_start")
     feed_round = _latest_feed_round()
+    _log(f"market_feed_round_detect_done round={feed_round}")
+    _log("market_players_fetch_start")
     players = fetch_players(feed_round=feed_round)
+    _log(f"market_players_fetch_done count={len(players)}")
+    _log("market_constructors_fetch_start")
     teams = fetch_teams(feed_round=feed_round)
+    _log(f"market_constructors_fetch_done count={len(teams)}")
 
-    schedule = fetch_schedule(current_season)
+    _log("schedule_fetch_start")
+    try:
+        schedule = fetch_schedule(current_season)
+        _log(f"schedule_fetch_done rows={len(schedule)}")
+    except Exception as exc:
+        if not current_schedule_fallback.empty:
+            schedule = current_schedule_fallback.copy()
+            _log(f"schedule_fetch_failed_using_fallback error={exc} rows={len(schedule)}")
+        else:
+            _log(f"schedule_fetch_failed_no_fallback error={exc}")
+            raise
     upcoming = upcoming_circuits(schedule, today=today, n=horizon_races)
     upcoming_rows = schedule[schedule["date"].astype(str) >= today].sort_values("round")
     if not upcoming:
@@ -393,9 +429,12 @@ def load_model_data(
 
     if not players.empty and "playerId" in players.columns:
         try:
+            _log("team_lock_playerstats_probe_start")
             lock_payload = fetch_team_lock_deadline_from_playerstats(int(players.iloc[0]["playerId"]))
+            _log("team_lock_playerstats_probe_done")
         except Exception:
             lock_payload = {}
+            _log("team_lock_playerstats_probe_failed")
         official_deadline = lock_payload.get("team_lock_deadline_utc")
         if official_deadline:
             team_lock_deadline_utc = official_deadline
@@ -462,8 +501,41 @@ def load_model_data(
     drivers = _build_driver_table(players, drv_exp)
     constructors = _build_constructor_table(teams, con_exp)
     drivers = _apply_team_strength_adjustment(drivers, constructors)
-    drivers, driver_race_points, driver_stats_diag = _add_playerstats_recent_points(drivers, "driver")
-    constructors, constructor_race_points, constructor_stats_diag = _add_playerstats_recent_points(constructors, "constructor")
+    if include_playerstats:
+        _log("playerstats_fetch_start drivers")
+        drivers, driver_race_points, driver_stats_diag = _add_playerstats_recent_points(drivers, "driver")
+        _log(
+            "playerstats_fetch_done drivers "
+            f"loaded={driver_stats_diag.get('playerstats_assets_loaded', 0)} "
+            f"failed={driver_stats_diag.get('playerstats_assets_failed', 0)}"
+        )
+        _log("playerstats_fetch_start constructors")
+        constructors, constructor_race_points, constructor_stats_diag = _add_playerstats_recent_points(constructors, "constructor")
+        _log(
+            "playerstats_fetch_done constructors "
+            f"loaded={constructor_stats_diag.get('playerstats_assets_loaded', 0)} "
+            f"failed={constructor_stats_diag.get('playerstats_assets_failed', 0)}"
+        )
+    else:
+        drivers = _fill_recent_point_columns(drivers)
+        constructors = _fill_recent_point_columns(constructors)
+        driver_race_points = pd.DataFrame()
+        constructor_race_points = pd.DataFrame()
+        driver_stats_diag = {
+            "playerstats_assets_loaded": 0,
+            "playerstats_assets_failed": 0,
+            "playerstats_timeout_failures": 0,
+            "playerstats_skipped_after_failure_limit": 0,
+            "playerstats_failures": [],
+        }
+        constructor_stats_diag = {
+            "playerstats_assets_loaded": 0,
+            "playerstats_assets_failed": 0,
+            "playerstats_timeout_failures": 0,
+            "playerstats_skipped_after_failure_limit": 0,
+            "playerstats_failures": [],
+        }
+        _log("playerstats_prefetch_skipped")
     drivers, constructors, calibration_diag = apply_observed_playerstats_projection(
         drivers,
         constructors,
@@ -485,6 +557,8 @@ def load_model_data(
     drivers["team_colour"] = drivers["team"].apply(team_colour) if "team" in drivers.columns else DEFAULT_TEAM_COLOUR
     constructors["team_colour"] = constructors["name"].apply(team_colour)
     trends = build_trends_data(drivers, constructors, driver_race_points, constructor_race_points)
+    load_finished = datetime.now(UTC)
+    load_seconds = max(0.0, (load_finished - load_started).total_seconds())
 
     diagnostics = {
         "current_season": current_season,
@@ -514,9 +588,22 @@ def load_model_data(
         "race_dnf_bad_score": float(DEFAULT_RACE_DNF_BAD_SCORE),
         "sprint_dnf_bad_score": float(DEFAULT_SPRINT_DNF_BAD_SCORE),
         "dnf_price_gain_score_source": "Fixed generic race-weekend bad-outcome score; repo scoring uses -20 race DNF and -10 sprint DNF.",
+        "playerstats_prefetch_enabled": bool(include_playerstats),
+        "model_load_started_utc": load_started.isoformat(),
+        "model_load_finished_utc": load_finished.isoformat(),
+        "model_load_duration_seconds": float(load_seconds),
+        "model_load_events": load_events[-40:],
         **calibration_diag,
         **recent_diag,
     }
+    if not include_playerstats:
+        diagnostics["recent_points_source"] = "Playerstats prefetch skipped for faster startup; per-race fields may be incomplete until enrichment."
+    diagnostics["playerstats_timeout_failures"] = int(driver_stats_diag.get("playerstats_timeout_failures", 0)) + int(
+        constructor_stats_diag.get("playerstats_timeout_failures", 0)
+    )
+    diagnostics["playerstats_skipped_after_failure_limit"] = int(
+        driver_stats_diag.get("playerstats_skipped_after_failure_limit", 0)
+    ) + int(constructor_stats_diag.get("playerstats_skipped_after_failure_limit", 0))
     return ModelData(drivers=drivers, constructors=constructors, trends=trends, diagnostics=diagnostics)
 
 

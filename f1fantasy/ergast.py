@@ -5,6 +5,7 @@ import requests
 
 # Jolpica provides Ergast-compatible endpoints (Ergast has been deprecated).
 ERGAST = "https://api.jolpi.ca/ergast/f1"
+ERGAST_TIMEOUT_SECONDS = 15
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 CACHE_DIR = DATA_DIR / "cache"
@@ -22,7 +23,7 @@ def _is_dnf(status: str) -> int:
     return 1
 
 def _get_json(url: str, params: dict | None = None) -> dict:
-    r = requests.get(url, params=params, timeout=30)
+    r = requests.get(url, params=params, timeout=ERGAST_TIMEOUT_SECONDS)
     r.raise_for_status()
     return r.json()
 

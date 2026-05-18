@@ -4,35 +4,57 @@ import requests
 import pandas as pd
 
 BASE = "https://fantasy.formula1.com/feeds/drivers"
+REQUEST_TIMEOUT_SECONDS = 12
+MARKET_CACHE_TTL_SECONDS = 60 * 15
+
+_LATEST_FEED_CACHE: dict[str, float | int] = {"round": 0, "ts": 0.0}
+_MARKET_CACHE: dict[int, tuple[float, list[dict]]] = {}
 
 def _feed_url(feed_round: int) -> str:
     return f"{BASE}/{feed_round}_en.json"
+
+
+def _valid_feed_round(feed_round: int) -> bool:
+    try:
+        response = requests.get(
+            _feed_url(feed_round),
+            params={"buster": str(int(time.time()))},
+            timeout=REQUEST_TIMEOUT_SECONDS,
+        )
+        if response.status_code != 200:
+            return False
+        payload = response.json()
+        return "Data" in payload and "Value" in payload["Data"]
+    except Exception:
+        return False
 
 def _latest_feed_round(max_search: int = 40) -> int:
     """
     Find the latest available fantasy feed number by probing upward until a feed
     stops existing, then return the highest valid one.
     """
-    last_ok = None
+    now = time.time()
+    cached_round = int(_LATEST_FEED_CACHE.get("round", 0) or 0)
+    cached_ts = float(_LATEST_FEED_CACHE.get("ts", 0.0) or 0.0)
+    if cached_round > 0 and (now - cached_ts) < MARKET_CACHE_TTL_SECONDS:
+        return cached_round
 
-    for n in range(1, max_search + 1):
-        url = _feed_url(n)
-        try:
-            r = requests.get(url, params={"buster": str(int(time.time()))}, timeout=15)
-            if r.status_code == 200:
-                # Check it is a valid fantasy payload
-                j = r.json()
-                if "Data" in j and "Value" in j["Data"]:
-                    last_ok = n
-                else:
-                    break
-            else:
-                break
-        except Exception:
-            break
+    low, high = 1, max_search
+    last_ok = 0
+    # Feed validity is monotonic over round number, so binary search is safe and
+    # significantly faster than linear probing on cold startup.
+    while low <= high:
+        mid = (low + high) // 2
+        if _valid_feed_round(mid):
+            last_ok = mid
+            low = mid + 1
+        else:
+            high = mid - 1
 
-    if last_ok is None:
+    if last_ok <= 0:
         raise RuntimeError("Could not find any valid F1 Fantasy feed.")
+    _LATEST_FEED_CACHE["round"] = int(last_ok)
+    _LATEST_FEED_CACHE["ts"] = now
     return last_ok
 
 def _get_market(feed_round: int | None = None) -> list[dict]:
@@ -42,12 +64,19 @@ def _get_market(feed_round: int | None = None) -> list[dict]:
     if feed_round is None:
         feed_round = _latest_feed_round()
 
+    now = time.time()
+    cached = _MARKET_CACHE.get(int(feed_round))
+    if cached is not None and (now - cached[0]) < MARKET_CACHE_TTL_SECONDS:
+        return cached[1]
+
     url = _feed_url(feed_round)
     params = {"buster": str(int(time.time()))}
-    r = requests.get(url, params=params, timeout=30)
+    r = requests.get(url, params=params, timeout=REQUEST_TIMEOUT_SECONDS)
     r.raise_for_status()
     j = r.json()
-    return j["Data"]["Value"]
+    value = j["Data"]["Value"]
+    _MARKET_CACHE[int(feed_round)] = (now, value)
+    return value
 
 def fetch_players(year: int | None = None, feed_round: int | None = None) -> pd.DataFrame:
     rows = _get_market(feed_round=feed_round)
