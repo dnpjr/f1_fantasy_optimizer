@@ -102,3 +102,29 @@ def test_price_change_model_uses_true_playerstats_recent_points(monkeypatch):
     assert priced.loc[0, "recent_points_2ago"] == 45.0
     assert priced.loc[0, "recent_points_1ago"] == 27.0
     assert priced.loc[0, "avg_ppm"] == (45.0 + 27.0 + 50.0) / 3.0 / 28.0
+
+
+def test_playerstats_progress_reports_loaded_failed_skipped(monkeypatch):
+    calls: list[dict] = []
+
+    def _mock_fetch(player_id: int):
+        if int(player_id) == 1:
+            return _payload()
+        raise RuntimeError("endpoint failure")
+
+    monkeypatch.setattr(player_stats, "fetch_player_stats", _mock_fetch)
+    roster = pd.DataFrame([{"id": 1, "name": "One"}, {"id": 2, "name": "Two"}])
+
+    recent, _race_points, diagnostics = fetch_recent_points_for_roster(
+        roster,
+        asset_type="driver",
+        progress_callback=lambda payload: calls.append(payload),
+    )
+
+    assert len(calls) >= 2
+    assert calls[-1]["processed"] == 2
+    assert calls[-1]["loaded"] >= 1
+    assert calls[-1]["failed"] >= 1
+    assert calls[-1]["skipped"] >= 0
+    assert diagnostics["playerstats_assets_failed"] == 1
+    assert recent.loc[recent["id"] == 2, "recent_points_source"].iloc[0] == "playerstats_failed"

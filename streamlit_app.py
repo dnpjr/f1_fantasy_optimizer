@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import html
 import json
+import logging
 from pathlib import Path
+import time
 
 import pandas as pd
 import streamlit as st
@@ -330,6 +332,7 @@ def _inject_dashboard_css() -> None:
 
 
 _inject_dashboard_css()
+LOGGER = logging.getLogger(__name__)
 
 
 @st.cache_data(show_spinner=False, ttl=60 * 60)
@@ -339,7 +342,6 @@ def load_cached_model_data(
     past_season_weight: float,
     recency_decay: float,
     upcoming_race_horizon: int,
-    include_playerstats: bool,
 ):
     data = load_model_data(
         historical_seasons_back=historical_seasons_back,
@@ -347,7 +349,7 @@ def load_cached_model_data(
         past_season_weight=past_season_weight,
         recency_decay=recency_decay,
         horizon_races=upcoming_race_horizon,
-        include_playerstats=include_playerstats,
+        include_playerstats=True,
     )
     return data.drivers, data.constructors, data.trends, data.diagnostics
 
@@ -458,7 +460,7 @@ def _render_race_header(diagnostics: dict) -> None:
 
 def _asset_editor(df: pd.DataFrame, kind: str) -> pd.DataFrame:
     sort_options = {
-        "Expected / race": "exp_score",
+        "Expected Points": "exp_score",
         "Price": "price",
         "Points per million": "points_per_million",
         "Volatility / race": "volatility",
@@ -511,7 +513,7 @@ def _asset_editor(df: pd.DataFrame, kind: str) -> pd.DataFrame:
             "name": "Name",
             "team": "Team",
             "price": st.column_config.NumberColumn("Price", min_value=0.0, step=0.1, format="%.1f"),
-            "exp_score": st.column_config.NumberColumn("Expected / race", step=0.1, format="%.2f"),
+            "exp_score": st.column_config.NumberColumn("Expected Points", step=0.1, format="%.2f"),
             "points_per_million": st.column_config.NumberColumn("Points / million", format="%.2f"),
             "dnf_rate": st.column_config.NumberColumn("DNF rate", min_value=0.0, max_value=1.0, step=0.01, format="%.3f"),
             "volatility": st.column_config.NumberColumn("Volatility / race", min_value=0.0, step=0.1, format="%.2f"),
@@ -814,11 +816,9 @@ def _price_change_table_styler(df: pd.DataFrame):
             "Predicted next / Expected points": "{:.2f}",
             "Projected price": lambda v: format_money(v),
             "Projected price gain": "{:+.2f}",
-            "PPM/ease": "{:.3f}",
+            "Rise difficulty": "{:.3f}",
             "Projected avgPPM": "{:.3f}",
-            "P(price rise)": "{:.1%}",
             "P(price fall)": "{:.1%}",
-            "P(Price rise)": "{:.1%}",
             "P(Terrible)": "{:.1%}",
             "P(Poor)": "{:.1%}",
             "P(Good)": "{:.1%}",
@@ -990,11 +990,6 @@ with st.sidebar:
     if st.button("Refresh live data"):
         st.cache_data.clear()
         st.rerun()
-    include_playerstats_prefetch = st.checkbox(
-        "Load detailed playerstats on startup",
-        value=False,
-        help="Off = faster first load on Streamlit Cloud. Turn on when you need full recent race-by-race enrichment.",
-    )
 
     st.caption("Use the tabs below to edit settings and run the optimiser.")
 
@@ -1022,11 +1017,13 @@ def _sync_budget_from_optimizer():
 
 def _mark_budget_manual_from_current_team():
     st.session_state.budget_user_overridden = True
+    st.session_state.budget_init_mode = "manual_override"
     _sync_budget_from_current_team()
 
 
 def _mark_budget_manual_from_optimizer():
     st.session_state.budget_user_overridden = True
+    st.session_state.budget_init_mode = "manual_override"
     _sync_budget_from_optimizer()
 
 
@@ -1100,25 +1097,61 @@ with model_settings_tab:
     )
     st.caption("How many upcoming races to include in the expected-points horizon.")
 
+load_ui = st.empty()
+load_started = time.time()
+with load_ui.container():
+    load_status = st.status("Loading live market and model data...", expanded=True)
+    load_progress = st.progress(0, text="Loading market feed")
+    load_line = st.empty()
+
+drivers = constructors = _trends = diagnostics = None
 try:
-    with st.spinner(
-        "Loading live market data..."
-        if not include_playerstats_prefetch
-        else "Loading live market data and detailed playerstats..."
-    ):
-        drivers, constructors, _trends, diagnostics = load_cached_model_data(
-            historical_seasons_back=int(historical_seasons_back),
-            current_season_weight=float(current_season_weight),
-            past_season_weight=float(past_season_weight),
-            recency_decay=float(recency_decay),
-            upcoming_race_horizon=int(upcoming_race_horizon),
-            include_playerstats=bool(include_playerstats_prefetch),
-        )
+    load_line.caption("Loading market feed and current prices...")
+    load_progress.progress(20, text="Loading market feed and current prices")
+    load_line.caption("Loading supporting race/schedule data and playerstats...")
+    load_progress.progress(45, text="Loading supporting data and playerstats")
+    drivers, constructors, _trends, diagnostics = load_cached_model_data(
+        historical_seasons_back=int(historical_seasons_back),
+        current_season_weight=float(current_season_weight),
+        past_season_weight=float(past_season_weight),
+        recency_decay=float(recency_decay),
+        upcoming_race_horizon=int(upcoming_race_horizon),
+    )
+    elapsed = time.time() - load_started
+    load_line.caption("Computing expected points and price-change probabilities...")
+    load_progress.progress(85, text="Computing model outputs")
+    load_progress.progress(100, text=f"Ready in {elapsed:.1f}s")
+    load_status.update(label=f"Data loaded in {elapsed:.1f}s", state="complete", expanded=False)
+    st.session_state["last_good_model_payload"] = {
+        "drivers": drivers,
+        "constructors": constructors,
+        "trends": _trends,
+        "diagnostics": diagnostics,
+    }
+    st.session_state["last_load_error"] = None
 except Exception as exc:
-    st.error("Could not load model data from the live feeds.")
-    st.warning("Please try Refresh live data, then rerun. If the public F1 Fantasy endpoints are down, try again later.")
-    with st.expander("Technical details", expanded=False):
-        st.code(str(exc))
+    LOGGER.exception("Live model/data load failed")
+    st.session_state["last_load_error"] = str(exc)
+    cached_payload = st.session_state.get("last_good_model_payload")
+    if isinstance(cached_payload, dict):
+        drivers = cached_payload.get("drivers")
+        constructors = cached_payload.get("constructors")
+        _trends = cached_payload.get("trends")
+        diagnostics = dict(cached_payload.get("diagnostics") or {})
+        diagnostics["last_load_error"] = str(exc)
+        diagnostics["last_load_fallback_used"] = True
+        load_progress.progress(100, text="Using last loaded data")
+        load_status.update(label="Live refresh failed. Using last loaded data.", state="running", expanded=False)
+        st.warning("Live refresh failed. Using last loaded data.")
+    else:
+        load_status.update(label="Data loading failed", state="error", expanded=False)
+        st.error("Could not load live data. Try Refresh live data, or try again later.")
+        st.stop()
+finally:
+    load_ui.empty()
+
+if drivers is None or constructors is None or diagnostics is None:
+    st.error("Could not load live data. Try Refresh live data, or try again later.")
     st.stop()
 
 driver_labels = _option_labels(drivers)
@@ -1128,9 +1161,45 @@ if "chip_mode_label" not in st.session_state:
     st.session_state.chip_mode_label = "None"
 chip_mode = chip_mode_from_label(st.session_state.chip_mode_label)
 
+preloaded_driver_ids = [str(x) for x in current_team_config.get("drivers", []) if str(x) in driver_labels]
+preloaded_constructor_ids = [str(x) for x in current_team_config.get("constructors", []) if str(x) in constructor_labels]
+preloaded_bank = float(current_team_config.get("bank", 0.0))
+if "current_team_driver_ids" not in st.session_state:
+    st.session_state.current_team_driver_ids = preloaded_driver_ids
+if "current_team_constructor_ids" not in st.session_state:
+    st.session_state.current_team_constructor_ids = preloaded_constructor_ids
+if "current_team_free_transfers" not in st.session_state:
+    st.session_state.current_team_free_transfers = int(current_team_config.get("free_transfers", 2))
+if "current_team_bank" not in st.session_state:
+    st.session_state.current_team_bank = preloaded_bank
+
+if not st.session_state.budget_user_overridden:
+    preload_driver_frame = drivers[drivers["id"].astype(str).isin(st.session_state.current_team_driver_ids)]
+    preload_constructor_frame = constructors[constructors["id"].astype(str).isin(st.session_state.current_team_constructor_ids)]
+    preload_budget = current_team_budget_from_selection(
+        preload_driver_frame,
+        preload_constructor_frame,
+        bank=float(st.session_state.current_team_bank),
+    )
+    if preload_budget <= 0 and (len(st.session_state.current_team_driver_ids) + len(st.session_state.current_team_constructor_ids)) > 0:
+        preload_budget = max(float(st.session_state.get("app_budget", 100.0) or 100.0), 100.0)
+    if preload_budget > 0:
+        st.session_state.current_team_budget = float(preload_budget)
+        st.session_state.optimizer_budget = float(preload_budget)
+        st.session_state.app_budget = float(preload_budget)
+        st.session_state.budget_init_team_cost = float(
+            pd.to_numeric(preload_driver_frame.get("price", pd.Series(dtype=float)), errors="coerce").fillna(0.0).sum()
+            + pd.to_numeric(preload_constructor_frame.get("price", pd.Series(dtype=float)), errors="coerce").fillna(0.0).sum()
+        )
+        st.session_state.budget_init_bank = float(st.session_state.current_team_bank)
+        st.session_state.budget_init_mode = "auto_from_current_team"
+        st.session_state.budget_auto_signature = (
+            tuple(sorted(st.session_state.current_team_driver_ids)),
+            tuple(sorted(st.session_state.current_team_constructor_ids)),
+            round(float(st.session_state.current_team_bank), 4),
+        )
+
 _render_race_header(diagnostics)
-if not diagnostics.get("playerstats_prefetch_enabled", False):
-    st.info("Fast startup mode is active: detailed playerstats prefetch is disabled. Enable it in the sidebar when needed.")
 if diagnostics.get("playerstats_timeout_failures", 0):
     st.warning(
         f"Playerstats timeouts detected: {int(diagnostics.get('playerstats_timeout_failures', 0))}. "
@@ -1240,6 +1309,12 @@ with current_team_tab:
         st.session_state.current_team_budget = uploaded_budget
         st.session_state.optimizer_budget = uploaded_budget
         st.session_state.app_budget = uploaded_budget
+        st.session_state.budget_init_team_cost = float(
+            pd.to_numeric(uploaded_driver_frame.get("price", pd.Series(dtype=float)), errors="coerce").fillna(0.0).sum()
+            + pd.to_numeric(uploaded_constructor_frame.get("price", pd.Series(dtype=float)), errors="coerce").fillna(0.0).sum()
+        )
+        st.session_state.budget_init_bank = float(uploaded_team_summary["bank"])
+        st.session_state.budget_init_mode = "auto_from_uploaded_current_team"
         st.session_state.budget_user_overridden = False
         st.session_state.budget_auto_signature = (
             tuple(sorted(st.session_state.current_team_driver_ids)),
@@ -1275,6 +1350,9 @@ with current_team_tab:
         st.session_state.current_team_budget = resolved_budget
         st.session_state.optimizer_budget = resolved_budget
         st.session_state.app_budget = resolved_budget
+        st.session_state.budget_init_team_cost = float(auto_budget_target - float(st.session_state.current_team_bank))
+        st.session_state.budget_init_bank = float(st.session_state.current_team_bank)
+        st.session_state.budget_init_mode = "auto_from_selected_team"
         st.session_state.budget_auto_signature = selection_signature
 
     current_payload = current_team_json(
@@ -1430,6 +1508,11 @@ with transfers_tab:
     elif not current_validation["valid"]:
         st.warning("Build a valid current team first before asking for transfer recommendations.")
     else:
+        if "transfer_results" not in st.session_state:
+            st.session_state.transfer_results = None
+        if "transfer_run_signature" not in st.session_state:
+            st.session_state.transfer_run_signature = None
+
         active_locks = len(locked_driver_ids) + len(locked_constructor_ids)
         active_exclusions = len(excluded_driver_ids) + len(excluded_constructor_ids)
         if active_locks or active_exclusions:
@@ -1437,7 +1520,7 @@ with transfers_tab:
 
         transfer_col1, transfer_col2, transfer_col3 = st.columns(3)
         with transfer_col1:
-            max_transfers = st.number_input("Max transfers to consider", min_value=1, max_value=2, value=2, step=1)
+            max_transfers = st.number_input("Max transfers to consider", min_value=1, max_value=4, value=2, step=1)
         with transfer_col2:
             transfer_options = st.selectbox("Number of transfer options", options=[3, 5, 10, 20], index=1)
         with transfer_col3:
@@ -1477,28 +1560,58 @@ with transfers_tab:
         base_cols[4].metric("Projected team value", format_money(baseline["projected_team_value"]))
         st.markdown("<div style='height:0.45rem;'></div>", unsafe_allow_html=True)
 
-        transfer_drivers = apply_no_negative_scores(current_team_drivers) if chip_mode == CHIP_NO_NEGATIVE else current_team_drivers
-        transfer_constructors = apply_no_negative_scores(current_team_constructors) if chip_mode == CHIP_NO_NEGATIVE else current_team_constructors
-        recs = build_transfer_recommendations(
-            selected_current_driver_ids,
-            selected_current_constructor_ids,
-            transfer_drivers,
-            transfer_constructors,
-            budget=float(current_budget),
-            free_transfers=int(free_transfers),
-            max_transfers=int(max_transfers),
-            allow_extra_transfers=True,
-            transfer_penalty=float(transfer_penalty),
-            objective_mode=transfer_objective,
-            price_gain_weight=float(transfer_price_gain_weight),
-            locked_driver_ids=locked_driver_ids,
-            excluded_driver_ids=excluded_driver_ids,
-            locked_constructor_ids=locked_constructor_ids,
-            excluded_constructor_ids=excluded_constructor_ids,
-            chip_mode=chip_mode,
-            top_n=int(transfer_options),
+        transfer_signature = (
+            tuple(sorted(str(x) for x in selected_current_driver_ids)),
+            tuple(sorted(str(x) for x in selected_current_constructor_ids)),
+            float(current_budget),
+            float(free_transfers),
+            int(max_transfers),
+            int(transfer_options),
+            float(transfer_penalty),
+            str(transfer_objective),
+            float(transfer_price_gain_weight),
+            str(chip_mode),
+            tuple(sorted(str(x) for x in locked_driver_ids)),
+            tuple(sorted(str(x) for x in excluded_driver_ids)),
+            tuple(sorted(str(x) for x in locked_constructor_ids)),
+            tuple(sorted(str(x) for x in excluded_constructor_ids)),
         )
-        if recs.empty:
+        run_transfer_clicked = st.button("Run transfer recommendations", type="primary", use_container_width=True)
+        signature_changed = st.session_state.transfer_run_signature != transfer_signature
+
+        if signature_changed and st.session_state.transfer_results is not None and not run_transfer_clicked:
+            st.info("Settings changed. Run transfer recommendations again.")
+            st.session_state.transfer_results = None
+
+        if run_transfer_clicked:
+            transfer_drivers = apply_no_negative_scores(current_team_drivers) if chip_mode == CHIP_NO_NEGATIVE else current_team_drivers
+            transfer_constructors = apply_no_negative_scores(current_team_constructors) if chip_mode == CHIP_NO_NEGATIVE else current_team_constructors
+            recs = build_transfer_recommendations(
+                selected_current_driver_ids,
+                selected_current_constructor_ids,
+                transfer_drivers,
+                transfer_constructors,
+                budget=float(current_budget),
+                free_transfers=int(free_transfers),
+                max_transfers=int(max_transfers),
+                allow_extra_transfers=True,
+                transfer_penalty=float(transfer_penalty),
+                objective_mode=transfer_objective,
+                price_gain_weight=float(transfer_price_gain_weight),
+                locked_driver_ids=locked_driver_ids,
+                excluded_driver_ids=excluded_driver_ids,
+                locked_constructor_ids=locked_constructor_ids,
+                excluded_constructor_ids=excluded_constructor_ids,
+                chip_mode=chip_mode,
+                top_n=int(transfer_options),
+            )
+            st.session_state.transfer_results = recs
+            st.session_state.transfer_run_signature = transfer_signature
+
+        recs = st.session_state.transfer_results
+        if recs is None:
+            st.info("Set transfer options, then run transfer recommendations.")
+        elif recs.empty:
             if active_locks or active_exclusions:
                 st.warning("No valid transfer recommendations found with the current locks/exclusions and transfer constraints.")
             else:
@@ -1564,22 +1677,6 @@ with price_changes_tab:
         expensive_price_min=constructor_expensive_min,
         bounds=price_change_bounds,
     )
-    driver_projection_table = _price_change_projection_table(
-        price_change_drivers,
-        cheap_driver_rules,
-        "drivers",
-        expensive_rules=expensive_driver_rules,
-        expensive_price_min=driver_expensive_min,
-        bounds=price_change_bounds,
-    )
-    constructor_projection_table = _price_change_projection_table(
-        price_change_constructors,
-        cheap_constructor_rules,
-        "constructors",
-        expensive_rules=expensive_constructor_rules,
-        expensive_price_min=constructor_expensive_min,
-        bounds=price_change_bounds,
-    )
     driver_probability_matrix = _price_change_probability_matrix(
         price_change_drivers,
         cheap_driver_rules,
@@ -1598,6 +1695,9 @@ with price_changes_tab:
     )
 
     with target_container:
+        st.caption(
+            "Rise difficulty: Lower is better. This is the number of next-race points needed for a strong price-rise outcome, divided by current price. Negative means the asset can still rise even with a low score."
+        )
         price_driver_tab, price_constructor_tab = st.tabs(["Drivers", "Constructors"])
         with price_driver_tab:
             st.dataframe(_price_change_table_styler(driver_price_change_table), hide_index=True, width="stretch")
@@ -1607,16 +1707,8 @@ with price_changes_tab:
     with projection_container:
         st.subheader("Model Projection")
         st.caption(
-            "This uses the one-race expected-points model to estimate projected rolling avgPPM and likely price movement."
+            "This combines the one-race expected-points model with volatility and DNF risk to estimate each asset’s probability of landing in each price-change tier."
         )
-        projection_driver_tab, projection_constructor_tab = st.tabs(["Drivers", "Constructors"])
-        with projection_driver_tab:
-            st.dataframe(_price_change_table_styler(driver_projection_table), hide_index=True, width="stretch")
-        with projection_constructor_tab:
-            st.dataframe(_price_change_table_styler(constructor_projection_table), hide_index=True, width="stretch")
-
-        st.subheader("Probability Matrix")
-        st.caption("These probabilities include the normal one-race score model plus the DNF risk component.")
         prob_driver_tab, prob_constructor_tab = st.tabs(["Drivers", "Constructors"])
         with prob_driver_tab:
             st.dataframe(_price_change_table_styler(driver_probability_matrix), hide_index=True, width="stretch")
@@ -1746,11 +1838,12 @@ with optimise_tab:
                 triple_multiplier=triple_multiplier,
             )
         except Exception as exc:
+            LOGGER.exception("Optimiser run failed")
             st.error("The optimiser could not run with the selected inputs.")
             st.warning("Try relaxing locks/exclusions, changing chip/objective settings, or refreshing live data.")
-            with st.expander("Technical details", expanded=False):
-                st.code(str(exc))
+            st.session_state["last_optimiser_error"] = str(exc)
         else:
+            st.session_state["last_optimiser_error"] = None
             if not solutions:
                 st.warning("No valid team found. Try relaxing locks/exclusions or increasing the budget.")
             else:
@@ -1810,7 +1903,14 @@ with diagnostics_tab:
     st.write("Model load started (UTC):", diagnostics.get("model_load_started_utc", "Unavailable"))
     st.write("Model load finished (UTC):", diagnostics.get("model_load_finished_utc", "Unavailable"))
     st.write("Model load duration (s):", f"{float(diagnostics.get('model_load_duration_seconds', 0.0)):.2f}")
+    st.write("Last load fallback used:", bool(diagnostics.get("last_load_fallback_used", False)))
+    st.write("Last load error:", diagnostics.get("last_load_error") or st.session_state.get("last_load_error") or "None")
+    st.write("Last optimiser error:", st.session_state.get("last_optimiser_error") or "None")
     st.write("Playerstats prefetch enabled:", diagnostics.get("playerstats_prefetch_enabled", False))
+    st.write("Budget init mode:", st.session_state.get("budget_init_mode", "unknown"))
+    st.write("Budget init team cost:", format_money(st.session_state.get("budget_init_team_cost")))
+    st.write("Budget init bank:", format_money(st.session_state.get("budget_init_bank")))
+    st.write("Budget manually overridden:", bool(st.session_state.get("budget_user_overridden", False)))
     st.write("Team lock deadline (UTC):", diagnostics.get("team_lock_deadline_utc") or "Unavailable")
     st.write("Team lock source:", diagnostics.get("team_lock_deadline_source", "Unavailable"))
     st.write("Team lock raw field:", diagnostics.get("team_lock_deadline_raw_field") or "Unavailable")

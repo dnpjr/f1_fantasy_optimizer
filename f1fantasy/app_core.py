@@ -9,6 +9,7 @@ import json
 import math
 import re
 import unicodedata
+from typing import Any, Callable
 
 import pandas as pd
 
@@ -336,7 +337,8 @@ def load_model_data(
     current_season_weight: float = 1.0,
     past_season_weight: float = 1.0,
     recency_decay: float = 0.95,
-    include_playerstats: bool = False,
+    include_playerstats: bool = True,
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> ModelData:
     """Load live fantasy prices and model assumptions for the Streamlit app."""
     load_started = datetime.now(UTC)
@@ -345,7 +347,33 @@ def load_model_data(
     def _log(event: str) -> None:
         load_events.append(f"{datetime.now(UTC).isoformat()} - {event}")
 
+    def _emit(
+        stage_index: int,
+        stage_name: str,
+        message: str,
+        progress: float | None = None,
+        status: str = "running",
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        if progress_callback is None:
+            return
+        payload: dict[str, Any] = {
+            "stage_index": int(stage_index),
+            "stage_total": 8,
+            "stage_name": stage_name,
+            "message": message,
+            "progress": float(progress) if progress is not None else None,
+            "status": status,
+        }
+        if details:
+            payload.update(details)
+        try:
+            progress_callback(payload)
+        except Exception:
+            pass
+
     _log("load_model_data_start")
+    _emit(1, "Loading market feed", "Loading market feed...", progress=0.05)
     now = datetime.now(UTC)
     current_season = int(current_season or now.year)
     today = today or now.date().isoformat()
@@ -356,6 +384,7 @@ def load_model_data(
     all_sprint = []
     current_schedule_fallback = pd.DataFrame()
     for year in range(start_year, current_season + 1):
+        _emit(3, "Loading supporting race/schedule data", f"Loading supporting race/schedule data ({year})...", progress=0.20)
         _log(f"fetch_supporting_start season={year}")
         try:
             data = fetch_all_supporting(year)
@@ -383,16 +412,20 @@ def load_model_data(
         sprint = sprint[(sprint["season"] >= start_year) & (sprint["season"] <= current_season)].copy()
 
     _log("market_feed_round_detect_start")
+    _emit(1, "Loading market feed", "Detecting latest market feed...", progress=0.08)
     feed_round = _latest_feed_round()
     _log(f"market_feed_round_detect_done round={feed_round}")
     _log("market_players_fetch_start")
+    _emit(2, "Loading current prices", "Loading current driver prices...", progress=0.12)
     players = fetch_players(feed_round=feed_round)
     _log(f"market_players_fetch_done count={len(players)}")
     _log("market_constructors_fetch_start")
+    _emit(2, "Loading current prices", "Loading current constructor prices...", progress=0.16)
     teams = fetch_teams(feed_round=feed_round)
     _log(f"market_constructors_fetch_done count={len(teams)}")
 
     _log("schedule_fetch_start")
+    _emit(3, "Loading supporting race/schedule data", "Loading current-season schedule...", progress=0.26)
     try:
         schedule = fetch_schedule(current_season)
         _log(f"schedule_fetch_done rows={len(schedule)}")
@@ -400,6 +433,13 @@ def load_model_data(
         if not current_schedule_fallback.empty:
             schedule = current_schedule_fallback.copy()
             _log(f"schedule_fetch_failed_using_fallback error={exc} rows={len(schedule)}")
+            _emit(
+                3,
+                "Loading supporting race/schedule data",
+                "Schedule endpoint failed; using fallback schedule data.",
+                progress=0.30,
+                status="warning",
+            )
         else:
             _log(f"schedule_fetch_failed_no_fallback error={exc}")
             raise
@@ -446,6 +486,7 @@ def load_model_data(
             team_lock_deadline_source = "unavailable"
 
     horizon_weights = _horizon_weights(len(upcoming), w1=1.0, w_next=0.7)
+    _emit(5, "Building model inputs", "Building model inputs...", progress=0.40)
     weekend_points = compute_weekend_points(
         results=results,
         qualifying=qualifying,
@@ -498,23 +539,84 @@ def load_model_data(
     drv_exp = drv_exp.merge(nn_driver.rename("nn_exp_score"), on="driverId", how="left")
     drv_exp["nn_exp_score"] = drv_exp["nn_exp_score"].fillna(drv_exp["exp_score"])
 
+    _emit(6, "Computing expected points", "Computing expected points...", progress=0.55)
     drivers = _build_driver_table(players, drv_exp)
     constructors = _build_constructor_table(teams, con_exp)
     drivers = _apply_team_strength_adjustment(drivers, constructors)
     if include_playerstats:
         _log("playerstats_fetch_start drivers")
-        drivers, driver_race_points, driver_stats_diag = _add_playerstats_recent_points(drivers, "driver")
+        _emit(4, "Loading playerstats", "Loading playerstats for drivers (using cache where available)...", progress=0.62)
+        def _driver_progress(payload: dict[str, Any]) -> None:
+            processed = int(payload.get("processed", 0) or 0)
+            total = max(int(payload.get("total", 0) or 0), 1)
+            frac = min(1.0, processed / total)
+            _emit(
+                4,
+                "Loading playerstats",
+                (
+                    f"Loading playerstats {processed}/{total} "
+                    f"(failed/timeouts: {int(payload.get('failed', 0) or 0)}) "
+                    "using cached stats where available."
+                ),
+                progress=0.62 + 0.08 * frac,
+            )
+
+        drivers, driver_race_points, driver_stats_diag = _add_playerstats_recent_points(
+            drivers,
+            "driver",
+            progress_callback=_driver_progress,
+        )
         _log(
             "playerstats_fetch_done drivers "
             f"loaded={driver_stats_diag.get('playerstats_assets_loaded', 0)} "
             f"failed={driver_stats_diag.get('playerstats_assets_failed', 0)}"
         )
+        _emit(
+            4,
+            "Loading playerstats",
+            (
+                "Driver playerstats loaded "
+                f"{driver_stats_diag.get('playerstats_assets_loaded', 0)}/{len(drivers)}; "
+                f"failed/timeouts: {driver_stats_diag.get('playerstats_assets_failed', 0)}"
+            ),
+            progress=0.70,
+        )
         _log("playerstats_fetch_start constructors")
-        constructors, constructor_race_points, constructor_stats_diag = _add_playerstats_recent_points(constructors, "constructor")
+        _emit(4, "Loading playerstats", "Loading playerstats for constructors (using cache where available)...", progress=0.72)
+        def _constructor_progress(payload: dict[str, Any]) -> None:
+            processed = int(payload.get("processed", 0) or 0)
+            total = max(int(payload.get("total", 0) or 0), 1)
+            frac = min(1.0, processed / total)
+            _emit(
+                4,
+                "Loading playerstats",
+                (
+                    f"Loading playerstats {processed}/{total} "
+                    f"(failed/timeouts: {int(payload.get('failed', 0) or 0)}) "
+                    "using cached stats where available."
+                ),
+                progress=0.72 + 0.06 * frac,
+            )
+
+        constructors, constructor_race_points, constructor_stats_diag = _add_playerstats_recent_points(
+            constructors,
+            "constructor",
+            progress_callback=_constructor_progress,
+        )
         _log(
             "playerstats_fetch_done constructors "
             f"loaded={constructor_stats_diag.get('playerstats_assets_loaded', 0)} "
             f"failed={constructor_stats_diag.get('playerstats_assets_failed', 0)}"
+        )
+        _emit(
+            4,
+            "Loading playerstats",
+            (
+                "Constructor playerstats loaded "
+                f"{constructor_stats_diag.get('playerstats_assets_loaded', 0)}/{len(constructors)}; "
+                f"failed/timeouts: {constructor_stats_diag.get('playerstats_assets_failed', 0)}"
+            ),
+            progress=0.78,
         )
     else:
         drivers = _fill_recent_point_columns(drivers)
@@ -536,6 +638,8 @@ def load_model_data(
             "playerstats_failures": [],
         }
         _log("playerstats_prefetch_skipped")
+        _emit(4, "Loading playerstats", "Skipping detailed playerstats prefetch.", progress=0.78, status="warning")
+    _emit(7, "Computing price-change probabilities", "Computing price-change probabilities...", progress=0.90)
     drivers, constructors, calibration_diag = apply_observed_playerstats_projection(
         drivers,
         constructors,
@@ -604,6 +708,7 @@ def load_model_data(
     diagnostics["playerstats_skipped_after_failure_limit"] = int(
         driver_stats_diag.get("playerstats_skipped_after_failure_limit", 0)
     ) + int(constructor_stats_diag.get("playerstats_skipped_after_failure_limit", 0))
+    _emit(8, "Ready", f"Ready. Data loaded in {load_seconds:.1f}s.", progress=1.0, status="complete")
     return ModelData(drivers=drivers, constructors=constructors, trends=trends, diagnostics=diagnostics)
 
 
@@ -791,8 +896,16 @@ def _add_recent_constructor_points(constructors: pd.DataFrame, weekend_points: p
     return _fill_recent_point_columns(out)
 
 
-def _add_playerstats_recent_points(df: pd.DataFrame, asset_type: str) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    recent, race_points, diagnostics = fetch_recent_points_for_roster(df, asset_type=asset_type)
+def _add_playerstats_recent_points(
+    df: pd.DataFrame,
+    asset_type: str,
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+    recent, race_points, diagnostics = fetch_recent_points_for_roster(
+        df,
+        asset_type=asset_type,
+        progress_callback=progress_callback,
+    )
     recent_cols = [
         "recent_points_2ago",
         "recent_points_1ago",
@@ -2253,12 +2366,12 @@ def price_change_target_summary_table(
             "points_needed_poor": "Poor",
             "points_needed_good": "Good",
             "points_needed_great": "Great",
-            "price_change_efficiency": "PPM/ease",
+            "price_change_efficiency": "Rise difficulty",
         },
         inplace=True,
     )
-    if "PPM/ease" in out.columns:
-        out = out.sort_values("PPM/ease", ascending=True, na_position="last")
+    if "Rise difficulty" in out.columns:
+        out = out.sort_values("Rise difficulty", ascending=True, na_position="last")
     return out
 
 
@@ -2342,7 +2455,7 @@ def price_change_probability_matrix_table(
         "p_poor",
         "p_good",
         "p_great",
-        "p_price_rise",
+        "price_change_predicted_next",
         "expected_price_gain",
     ]
     out = table[[col for col in cols if col in table.columns]].copy()
@@ -2352,11 +2465,11 @@ def price_change_probability_matrix_table(
             "name": "Name",
             "team": "Team",
             "price": "Price",
+            "price_change_predicted_next": "Expected Points",
             "p_terrible": "P(Terrible)",
             "p_poor": "P(Poor)",
             "p_good": "P(Good)",
             "p_great": "P(Great)",
-            "p_price_rise": "P(Price rise)",
             "expected_price_gain": "Expected price gain",
         },
         inplace=True,

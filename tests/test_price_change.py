@@ -356,7 +356,7 @@ def test_target_summary_table_sorts_ppm_ease_ascending_by_default():
     out = price_change_target_summary_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_exp_score")
 
     assert out["Abbrev"].tolist() == ["fast", "slow"]
-    assert out["PPM/ease"].tolist() == sorted(out["PPM/ease"].tolist())
+    assert out["Rise difficulty"].tolist() == sorted(out["Rise difficulty"].tolist())
     assert "Race -2" not in out.columns
     assert "Race -1" not in out.columns
 
@@ -454,7 +454,8 @@ def test_probability_matrix_contains_tier_probabilities_and_sorts_expected_gain(
     out = price_change_probability_matrix_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="exp_score")
 
     assert out["Abbrev"].tolist() == ["high", "low"]
-    assert {"P(Terrible)", "P(Poor)", "P(Good)", "P(Great)", "P(Price rise)"} <= set(out.columns)
+    assert {"Expected Points", "P(Terrible)", "P(Poor)", "P(Good)", "P(Great)"} <= set(out.columns)
+    assert "P(Price rise)" not in out.columns
     assert out["Expected price gain"].iloc[0] == out["Expected price gain"].max()
 
 
@@ -477,8 +478,8 @@ def test_price_change_probabilities_do_not_change_for_chip_modes():
     none = price_change_probability_matrix_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_expected_points")
     triple = price_change_probability_matrix_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_expected_points")
 
-    assert none[["P(Terrible)", "P(Poor)", "P(Good)", "P(Great)", "P(Price rise)", "Expected price gain"]].iloc[0].to_dict() == pytest.approx(
-        triple[["P(Terrible)", "P(Poor)", "P(Good)", "P(Great)", "P(Price rise)", "Expected price gain"]].iloc[0].to_dict()
+    assert none[["P(Terrible)", "P(Poor)", "P(Good)", "P(Great)", "Expected price gain"]].iloc[0].to_dict() == pytest.approx(
+        triple[["P(Terrible)", "P(Poor)", "P(Good)", "P(Great)", "Expected price gain"]].iloc[0].to_dict()
     )
 
 

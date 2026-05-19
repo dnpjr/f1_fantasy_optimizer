@@ -1,8 +1,10 @@
 import pandas as pd
 from pathlib import Path
+import inspect
 
 import pytest
 
+from f1fantasy import app_core
 from f1fantasy.app_core import (
     OBJECTIVE_POINTS_ONLY,
     DEFAULT_TOP_K,
@@ -217,6 +219,7 @@ def test_streamlit_card_wrapper_renders_html_unsafely_and_json_tools_are_combine
     assert "unsafe_allow_html=True" in source
     assert "Advanced: JSON import / export" in source
     assert "Advanced: JSON export" not in source
+    assert "Technical details" not in source
 
 
 def test_main_tabs_remove_assumptions_and_trends():
@@ -230,6 +233,7 @@ def test_main_tabs_remove_assumptions_and_trends():
     assert '"Locks and exclusions"' in source
     assert '"Model settings"' in source
     assert '"Diagnostics"' in source
+    assert "Load detailed playerstats on startup" not in source
 
 
 def test_subtitle_and_tab_explanations_use_user_facing_copy():
@@ -262,9 +266,15 @@ def test_high_level_metric_label_uses_expected_points():
     assert "Risk appetite" not in source
     assert "Recommendation objective" in source
     assert "Detailed table" not in source
+    assert "Run transfer recommendations" in source
+    assert 'max_value=4' in source
+    assert "transfer_results" in source
+    assert "Set transfer options, then run transfer recommendations." in source
     assert '.metric("Remaining budget"' in source
     assert '.metric("Expected price gain"' in source
     assert '.metric("Projected team value"' in source
+    assert "Could not load live data. Try Refresh live data, or try again later." in source
+    assert "Live refresh failed. Using last loaded data." in source
 
 
 def test_locks_and_exclusions_copy_and_summary_present():
@@ -298,6 +308,63 @@ def test_current_team_price_gain_sums_probabilistic_asset_gains():
 
 def test_projected_team_value_includes_budget_and_expected_gain():
     assert projected_team_value_from_budget(108.7, 2.4) == pytest.approx(111.1)
+
+
+def test_load_model_data_defaults_to_include_playerstats_true():
+    signature = inspect.signature(app_core.load_model_data)
+    assert signature.parameters["include_playerstats"].default is True
+
+
+def test_cached_loader_has_plain_data_signature_without_ui_callback():
+    source = Path("streamlit_app.py").read_text(encoding="utf-8")
+    fn_block = source.split("def load_cached_model_data(", 1)[1].split("def _option_labels", 1)[0]
+    signature_block = fn_block.split("):", 1)[0]
+    assert "_progress_callback" not in signature_block
+    assert "progress_callback=" not in fn_block
+    assert "st." not in fn_block
+    assert "last_good_model_payload" in source
+
+
+def test_price_change_model_projection_table_columns():
+    frame = pd.DataFrame(
+        [
+            {
+                "id": "1",
+                "name": "Driver One",
+                "team": "Ferrari",
+                "price": 20.0,
+                "exp_score": 30.0,
+                "next_race_expected_points": 30.0,
+                "recent_points_2ago": 10.0,
+                "recent_points_1ago": 15.0,
+                "dnf_rate": 0.1,
+                "volatility": 8.0,
+            }
+        ]
+    )
+    table = price_change_probability_matrix_table(
+        frame,
+        {
+            "terrible_max": 0.60,
+            "poor_min": 0.60,
+            "poor_max": 0.90,
+            "good_min": 0.90,
+            "good_max": 1.20,
+            "great_min": 1.20,
+            "terrible_price_change": -0.6,
+            "poor_price_change": -0.2,
+            "good_price_change": 0.2,
+            "great_price_change": 0.6,
+        },
+        predicted_points_col="next_race_expected_points",
+    )
+    assert "Expected Points" in table.columns
+    assert "P(Terrible)" in table.columns
+    assert "P(Poor)" in table.columns
+    assert "P(Good)" in table.columns
+    assert "P(Great)" in table.columns
+    assert "Expected price gain" in table.columns
+    assert "P(Price rise)" not in table.columns
 
 
 def test_fantasy_card_labels_use_expected_points_and_three_tiles_only():

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 import time
-from typing import Any
+from typing import Any, Callable
 
 import pandas as pd
 import requests
@@ -165,7 +165,11 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
     return out.sort_values(["round", "gameday_id"], na_position="last").reset_index(drop=True)
 
 
-def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | None = None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+def fetch_recent_points_for_roster(
+    roster_df: pd.DataFrame,
+    asset_type: str | None = None,
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     """Fetch playerstats for roster rows and return recent Race -2/Race -1 values."""
     rows: list[dict[str, Any]] = []
     race_rows: list[pd.DataFrame] = []
@@ -173,9 +177,30 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
     timeout_failures = 0
     skipped_after_failure_limit = 0
     consecutive_failures = 0
+    loaded_assets = 0
+    total_assets = int(len(roster_df))
     id_col = "id" if "id" in roster_df.columns else "PlayerId"
 
-    for row in roster_df.itertuples(index=False):
+    def _report(processed: int) -> None:
+        if progress_callback is None:
+            return
+        try:
+            progress_callback(
+                {
+                    "stage": "playerstats",
+                    "asset_type": asset_type or "unknown",
+                    "processed": int(processed),
+                    "total": int(total_assets),
+                    "loaded": int(loaded_assets),
+                    "failed": int(len(failures)),
+                    "skipped": int(skipped_after_failure_limit),
+                    "timeouts": int(timeout_failures),
+                }
+            )
+        except Exception:
+            pass
+
+    for idx, row in enumerate(roster_df.itertuples(index=False), start=1):
         player_id = getattr(row, id_col)
         name = getattr(row, "name", "")
         if consecutive_failures >= PLAYERSTATS_CONSECUTIVE_FAILURE_LIMIT:
@@ -189,6 +214,7 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
                     "recent_points_source": "playerstats_skipped_after_failures",
                 }
             )
+            _report(idx)
             continue
         try:
             payload = fetch_player_stats(int(player_id))
@@ -207,8 +233,10 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
                     "recent_points_source": "playerstats_failed",
                 }
             )
+            _report(idx)
             continue
         consecutive_failures = 0
+        loaded_assets += 1
 
         if asset_type:
             parsed["asset_type"] = asset_type
@@ -231,6 +259,7 @@ def fetch_recent_points_for_roster(roster_df: pd.DataFrame, asset_type: str | No
             }
         )
         time.sleep(0.03)
+        _report(idx)
 
     recent = pd.DataFrame(rows)
     all_races = pd.concat(race_rows, ignore_index=True) if race_rows else pd.DataFrame()
