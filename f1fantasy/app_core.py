@@ -336,7 +336,7 @@ def load_model_data(
     current_season_weight: float = 1.0,
     past_season_weight: float = 1.0,
     recency_decay: float = 0.95,
-    include_playerstats: bool = True,
+    include_playerstats: bool = False,
 ) -> ModelData:
     """Load live fantasy prices and model assumptions for the Streamlit app."""
     load_started = datetime.now(UTC)
