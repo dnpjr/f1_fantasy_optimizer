@@ -544,6 +544,7 @@ def load_model_data(
     constructors = _build_constructor_table(teams, con_exp)
     drivers = _apply_team_strength_adjustment(drivers, constructors)
     if include_playerstats:
+        playerstats_started = datetime.now(UTC)
         _log("playerstats_fetch_start drivers")
         _emit(4, "Loading playerstats", "Loading playerstats for drivers (using cache where available)...", progress=0.62)
         def _driver_progress(payload: dict[str, Any]) -> None:
@@ -618,6 +619,7 @@ def load_model_data(
             ),
             progress=0.78,
         )
+        playerstats_load_duration_seconds = max(0.0, (datetime.now(UTC) - playerstats_started).total_seconds())
     else:
         drivers = _fill_recent_point_columns(drivers)
         constructors = _fill_recent_point_columns(constructors)
@@ -639,6 +641,7 @@ def load_model_data(
         }
         _log("playerstats_prefetch_skipped")
         _emit(4, "Loading playerstats", "Skipping detailed playerstats prefetch.", progress=0.78, status="warning")
+        playerstats_load_duration_seconds = 0.0
     _emit(7, "Computing price-change probabilities", "Computing price-change probabilities...", progress=0.90)
     drivers, constructors, calibration_diag = apply_observed_playerstats_projection(
         drivers,
@@ -696,6 +699,7 @@ def load_model_data(
         "model_load_started_utc": load_started.isoformat(),
         "model_load_finished_utc": load_finished.isoformat(),
         "model_load_duration_seconds": float(load_seconds),
+        "playerstats_load_duration_seconds": float(playerstats_load_duration_seconds),
         "model_load_events": load_events[-40:],
         **calibration_diag,
         **recent_diag,
@@ -1559,6 +1563,38 @@ def transfer_baseline(
     }
 
 
+def transfer_asset_max_price_gain(price: float | int | None, expensive_cutoff: float = DEFAULT_PRICE_CHANGE_EXPENSIVE_CUTOFF) -> float:
+    numeric = pd.to_numeric(price, errors="coerce")
+    if pd.isna(numeric):
+        return 0.6
+    return 0.6 if float(numeric) <= float(expensive_cutoff) else 0.3
+
+
+def transfer_candidate_filter_score(
+    row: pd.Series | dict,
+    objective_mode: str = OBJECTIVE_COMBINED,
+    price_gain_weight: float = 10.0,
+) -> float:
+    """Cheap search score for transfer candidate pre-filtering and beam pruning."""
+    data = row if isinstance(row, pd.Series) else pd.Series(row)
+    points = float(pd.to_numeric(data.get("exp_score", 0.0), errors="coerce") or 0.0)
+    price = float(pd.to_numeric(data.get("price", 0.0), errors="coerce") or 0.0)
+    gain = float(pd.to_numeric(data.get("expected_price_gain", data.get("expected_price_change", 0.0)), errors="coerce") or 0.0)
+    volatility = float(pd.to_numeric(data.get("volatility", 0.0), errors="coerce") or 0.0)
+    normalised_points = points / price if price > 0 else 0.0
+    normalised_price_gain = gain / transfer_asset_max_price_gain(price)
+    # Slider range is 0..100. Bring it onto a comparable scale to points-per-price.
+    scaled_price_weight = float(price_gain_weight) / 10.0
+    if objective_mode == OBJECTIVE_POINTS_ONLY:
+        return normalised_points
+    if objective_mode == OBJECTIVE_PRICE_GROWTH_ONLY:
+        return normalised_price_gain
+    if objective_mode == OBJECTIVE_RISK_ADJUSTED_COMBINED:
+        risk_component = points / volatility if volatility > 0 else normalised_points
+        return risk_component + scaled_price_weight * normalised_price_gain
+    return normalised_points + scaled_price_weight * normalised_price_gain
+
+
 def build_transfer_recommendations(
     current_driver_ids: list[str],
     current_constructor_ids: list[str],
@@ -1577,17 +1613,60 @@ def build_transfer_recommendations(
     excluded_constructor_ids: list[str] | None = None,
     limitless: bool = False,
     chip_mode: str = CHIP_NONE,
+    search_mode: str = "balanced",
     top_n: int = 25,
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> pd.DataFrame:
-    """Generate bounded 1-2 transfer recommendations from the selected current team."""
+    """Generate transfer recommendations with optional fast/balanced pruning."""
+    def _emit(stage: str, message: str, progress: float | None = None, details: dict[str, Any] | None = None) -> None:
+        if progress_callback is None:
+            return
+        payload: dict[str, Any] = {"stage": stage, "message": message, "progress": progress}
+        if details:
+            payload.update(details)
+        try:
+            progress_callback(payload)
+        except Exception:
+            pass
+
+    def _score_from_deltas(net_points_gain: float, price_gain_delta: float, volatility_sum: float) -> float:
+        if objective_mode == OBJECTIVE_PRICE_GROWTH_ONLY:
+            return float(price_gain_delta)
+        if objective_mode == OBJECTIVE_COMBINED:
+            return float(net_points_gain + float(price_gain_weight) * price_gain_delta)
+        if objective_mode == OBJECTIVE_RISK_ADJUSTED_COMBINED:
+            return float(net_points_gain + float(price_gain_weight) * (price_gain_delta / volatility_sum if volatility_sum > 0 else 0.0))
+        return float(net_points_gain)
+
+    def _sum_from_map(ids: tuple[str, ...], value_map: dict[str, float]) -> float:
+        return float(sum(float(value_map.get(str(asset_id), 0.0)) for asset_id in ids))
+
+    def _numeric_map(frame: pd.DataFrame, column: str) -> dict[str, float]:
+        if column in frame.columns:
+            values = pd.to_numeric(frame[column], errors="coerce").fillna(0.0).astype(float)
+        else:
+            values = pd.Series(0.0, index=frame.index, dtype=float)
+        return dict(zip(frame["_id"].astype(str), values))
+
+    _emit("read_current_team", "Reading current team...", 0.02)
     current_driver_ids = [str(x) for x in current_driver_ids]
     current_constructor_ids = [str(x) for x in current_constructor_ids]
     locked_driver_set = {str(x) for x in locked_driver_ids or []}
     excluded_driver_set = {str(x) for x in excluded_driver_ids or []}
     locked_constructor_set = {str(x) for x in locked_constructor_ids or []}
     excluded_constructor_set = {str(x) for x in excluded_constructor_ids or []}
+    _emit(
+        "apply_locks_exclusions",
+        "Applying locks and exclusions...",
+        0.06,
+        {
+            "locked_total": len(locked_driver_set) + len(locked_constructor_set),
+            "excluded_total": len(excluded_driver_set) + len(excluded_constructor_set),
+        },
+    )
 
     if len(current_driver_ids) != 5 or len(current_constructor_ids) != 2:
+        _emit("ready", "Current team shape is invalid for transfer recommendations.", 1.0)
         return pd.DataFrame()
 
     drivers = drivers.copy()
@@ -1602,144 +1681,546 @@ def build_transfer_recommendations(
 
     current_driver_set = set(current_driver_ids)
     current_constructor_set = set(current_constructor_ids)
-    candidate_driver_ids = [
-        str(x)
-        for x in drivers["_id"].tolist()
-        if str(x) not in current_driver_set and str(x) not in excluded_driver_set
-    ]
-    candidate_constructor_ids = [
-        str(x)
-        for x in constructors["_id"].tolist()
-        if str(x) not in current_constructor_set and str(x) not in excluded_constructor_set
-    ]
-
-    rows: list[dict] = []
+    search_mode_key = str(search_mode or "balanced").strip().lower()
+    if search_mode_key not in {"fast", "balanced", "exhaustive"}:
+        search_mode_key = "balanced"
     max_transfers = max(1, min(int(max_transfers), 4))
-    for d_k in range(0, min(5, max_transfers) + 1):
-        for c_k in range(0, min(2, max_transfers - d_k) + 1):
-            transfers = d_k + c_k
-            if transfers == 0 or transfers > max_transfers:
-                continue
+
+    mode_config = {
+        "fast": {
+            "driver_incoming_limit": 8,
+            "constructor_drop_bottom": 3,
+            "candidate_pool_mode": "fast_prefiltered",
+        },
+        "balanced": {
+            "driver_incoming_limit": 15,
+            "constructor_drop_bottom": 2,
+            "candidate_pool_mode": "balanced_prefiltered",
+        },
+        "exhaustive": {
+            "driver_incoming_limit": None,
+            "constructor_drop_bottom": 0,
+            "candidate_pool_mode": "full",
+        },
+    }[search_mode_key]
+
+    drivers["candidate_filter_score"] = drivers.apply(
+        lambda row: transfer_candidate_filter_score(
+            row,
+            objective_mode=objective_mode,
+            price_gain_weight=price_gain_weight,
+        ),
+        axis=1,
+    )
+    constructors["candidate_filter_score"] = constructors.apply(
+        lambda row: transfer_candidate_filter_score(
+            row,
+            objective_mode=objective_mode,
+            price_gain_weight=price_gain_weight,
+        ),
+        axis=1,
+    )
+
+    driver_filter_score_map = _numeric_map(drivers, "candidate_filter_score")
+    constructor_filter_score_map = _numeric_map(constructors, "candidate_filter_score")
+    combined_assets = pd.concat([drivers, constructors], ignore_index=True)
+
+    incoming_driver_df = drivers[
+        ~drivers["_id"].isin(current_driver_set) & ~drivers["_id"].isin(excluded_driver_set)
+    ].copy()
+    incoming_constructor_df = constructors[
+        ~constructors["_id"].isin(current_constructor_set) & ~constructors["_id"].isin(excluded_constructor_set)
+    ].copy()
+    incoming_driver_ids_all = incoming_driver_df["_id"].astype(str).tolist()
+    incoming_constructor_ids_all = incoming_constructor_df["_id"].astype(str).tolist()
+    required_locked_incoming_drivers = sorted((locked_driver_set - current_driver_set) - excluded_driver_set)
+    required_locked_incoming_constructors = sorted((locked_constructor_set - current_constructor_set) - excluded_constructor_set)
+
+    prefilter_pruned = 0
+    _emit("filter_candidates", "Filtering candidate assets...", 0.10)
+    if search_mode_key != "exhaustive":
+        driver_limit = mode_config["driver_incoming_limit"]
+        if driver_limit is not None:
+            ranked_driver_ids = incoming_driver_df.sort_values("candidate_filter_score", ascending=False, na_position="last")["_id"].astype(str).tolist()
+            kept_driver_ids = ranked_driver_ids[: int(driver_limit)]
+            kept_driver_ids = sorted(set(kept_driver_ids) | set(required_locked_incoming_drivers))
+            prefilter_pruned += max(0, len(incoming_driver_df) - len(kept_driver_ids))
+            incoming_driver_df = incoming_driver_df[incoming_driver_df["_id"].isin(kept_driver_ids)].copy()
+        drop_bottom = int(mode_config["constructor_drop_bottom"] or 0)
+        if drop_bottom > 0 and len(incoming_constructor_df) > drop_bottom:
+            ranked_constructor_ids = incoming_constructor_df.sort_values("candidate_filter_score", ascending=True, na_position="last")["_id"].astype(str).tolist()
+            dropped = set(ranked_constructor_ids[:drop_bottom]) - set(required_locked_incoming_constructors)
+            kept_constructor_ids = [cid for cid in incoming_constructor_df["_id"].astype(str).tolist() if cid not in dropped]
+            prefilter_pruned += max(0, len(incoming_constructor_df) - len(kept_constructor_ids))
+            incoming_constructor_df = incoming_constructor_df[incoming_constructor_df["_id"].isin(kept_constructor_ids)].copy()
+
+    candidate_driver_ids = incoming_driver_df["_id"].astype(str).tolist()
+    candidate_constructor_ids = incoming_constructor_df["_id"].astype(str).tolist()
+    removable_drivers = [x for x in current_driver_ids if x not in locked_driver_set]
+    removable_constructors = [x for x in current_constructor_ids if x not in locked_constructor_set]
+    outgoing_driver_candidates = removable_drivers
+    outgoing_constructor_candidates = removable_constructors
+
+    generation_started = datetime.now(UTC)
+    generated_partial_plans = 0
+    duplicate_teams_skipped = 0
+    pruned_by_budget = 0
+    pruned_by_beam = 0
+
+    generated_by_depth: dict[int, int] = {depth: 0 for depth in range(1, max_transfers + 1)}
+    beam_kept_by_depth: dict[int, int] = {depth: 0 for depth in range(1, max_transfers + 1)}
+    fully_scored_by_depth: dict[int, int] = {depth: 0 for depth in range(1, max_transfers + 1)}
+    final_recommendations_by_transfer_count: dict[int, int] = {}
+    finalist_specs: list[
+        tuple[
+            float,
+            tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...], tuple[str, ...]],
+            int,
+        ]
+    ] = []
+    seen_team_keys: set[tuple[tuple[str, ...], tuple[str, ...]]] = set()
+    team_cache: dict[tuple[tuple[str, ...], tuple[str, ...]], dict[str, Any]] = {}
+
+    def _count_generation_iterations(driver_pool: list[str], constructor_pool: list[str]) -> int:
+        total = 0
+        for transfers in range(1, max_transfers + 1):
             if not allow_extra_transfers and transfers > int(free_transfers):
                 continue
-            removable_drivers = [x for x in current_driver_ids if x not in locked_driver_set]
-            removable_constructors = [x for x in current_constructor_ids if x not in locked_constructor_set]
-            for d_out in combinations(removable_drivers, d_k):
+            for d_k in range(0, min(5, transfers) + 1):
+                c_k = transfers - d_k
+                if c_k < 0 or c_k > 2:
+                    continue
+                if d_k > len(outgoing_driver_candidates) or d_k > len(driver_pool):
+                    continue
+                if c_k > len(outgoing_constructor_candidates) or c_k > len(constructor_pool):
+                    continue
+                total += (
+                    math.comb(len(outgoing_driver_candidates), d_k)
+                    * math.comb(len(driver_pool), d_k)
+                    * math.comb(len(outgoing_constructor_candidates), c_k)
+                    * math.comb(len(constructor_pool), c_k)
+                )
+        return int(total)
+
+    total_generation_iterations_before_filtering = _count_generation_iterations(incoming_driver_ids_all, incoming_constructor_ids_all)
+    total_generation_iterations_after_filtering = max(1, _count_generation_iterations(candidate_driver_ids, candidate_constructor_ids))
+    generation_iterations_processed = 0
+    _emit("generate_candidates", "Generating valid transfer plans...", 0.18)
+
+    for transfers in range(1, max_transfers + 1):
+        if not allow_extra_transfers and transfers > int(free_transfers):
+            continue
+        _emit("generate_candidates", f"Generating {transfers}-transfer candidates...", 0.18)
+        for d_k in range(0, min(5, transfers) + 1):
+            c_k = transfers - d_k
+            if c_k < 0 or c_k > 2:
+                continue
+            if d_k > len(outgoing_driver_candidates) or d_k > len(candidate_driver_ids):
+                continue
+            if c_k > len(outgoing_constructor_candidates) or c_k > len(candidate_constructor_ids):
+                continue
+            for d_out in combinations(outgoing_driver_candidates, d_k):
                 remaining_drivers = [x for x in current_driver_ids if x not in set(d_out)]
                 for d_in in combinations(candidate_driver_ids, d_k):
                     new_driver_ids = remaining_drivers + list(d_in)
                     if locked_driver_set and not locked_driver_set <= set(new_driver_ids):
+                        generation_iterations_processed += math.comb(len(outgoing_constructor_candidates), c_k) * math.comb(len(candidate_constructor_ids), c_k)
                         continue
-                    for c_out in combinations(removable_constructors, c_k):
+                    for c_out in combinations(outgoing_constructor_candidates, c_k):
                         remaining_constructors = [x for x in current_constructor_ids if x not in set(c_out)]
                         for c_in in combinations(candidate_constructor_ids, c_k):
+                            generation_iterations_processed += 1
+                            if generation_iterations_processed <= 10 or generation_iterations_processed % 500 == 0:
+                                progress = 0.18 + 0.07 * (
+                                    generation_iterations_processed / total_generation_iterations_after_filtering
+                                )
+                                _emit(
+                                    "generate_candidates",
+                                    (
+                                        f"Generating {transfers}-transfer candidates... "
+                                        f"{generation_iterations_processed:,} / {total_generation_iterations_after_filtering:,} checked"
+                                    ),
+                                    min(0.25, float(progress)),
+                                )
                             new_constructor_ids = remaining_constructors + list(c_in)
                             if locked_constructor_set and not locked_constructor_set <= set(new_constructor_ids):
                                 continue
-                            new_d = drivers[drivers["_id"].isin(new_driver_ids)].copy()
-                            new_c = constructors[constructors["_id"].isin(new_constructor_ids)].copy()
-                            if len(new_d) != 5 or len(new_c) != 2:
+                            team_key = (tuple(sorted(new_driver_ids)), tuple(sorted(new_constructor_ids)))
+                            if team_key in seen_team_keys:
+                                duplicate_teams_skipped += 1
                                 continue
-                            cost = float(pd.to_numeric(new_d["price"], errors="coerce").fillna(0).sum() + pd.to_numeric(new_c["price"], errors="coerce").fillna(0).sum())
-                            if not limitless and cost > float(budget):
-                                continue
-                            boosted_driver, triple_driver = select_chip_boost_drivers(new_d, chip_mode)
-                            points = team_expected_points_with_chips(new_d, new_c, chip_mode, boosted_driver, triple_driver)
-                            gain = selected_assets_price_gain(new_d, new_c)
-                            extra = max(0, transfers - int(free_transfers))
-                            penalty = float(transfer_penalty) * extra
-                            points_gain = points - base_points
-                            net_points_gain = points_gain - penalty
-                            price_gain_delta = gain - base_gain
-                            if objective_mode == OBJECTIVE_PRICE_GROWTH_ONLY:
-                                objective_improvement = price_gain_delta
-                            elif objective_mode == OBJECTIVE_COMBINED:
-                                objective_improvement = net_points_gain + float(price_gain_weight) * price_gain_delta
-                            elif objective_mode == OBJECTIVE_RISK_ADJUSTED_COMBINED:
-                                volatility = pd.to_numeric(pd.concat([new_d.get("volatility", pd.Series(dtype=float)), new_c.get("volatility", pd.Series(dtype=float))]), errors="coerce").fillna(0).sum()
-                                objective_improvement = net_points_gain + float(price_gain_weight) * (price_gain_delta / volatility if volatility > 0 else 0.0)
-                            else:
-                                objective_improvement = net_points_gain
-                            if net_points_gain > 0 and price_gain_delta < 0:
-                                explanation = f"This improves expected points but sacrifices {price_gain_delta:+.2f}M expected price gain."
-                            elif net_points_gain < 0 and price_gain_delta > 0:
-                                explanation = f"This improves expected price gain but costs {abs(net_points_gain):.2f} expected points."
-                            elif net_points_gain > 0 and price_gain_delta > 0:
-                                explanation = "This improves expected points and expected price gain."
-                            else:
-                                explanation = "This is a trade-off move with mixed upside."
-                            move_rows: list[dict] = []
-                            for out_id, in_id in zip(d_out, d_in):
-                                move_rows.append(
-                                    {
-                                        "asset_type": "driver",
-                                        "out": driver_summary.get(str(out_id), {"id": str(out_id), "name": str(out_id)}),
-                                        "in": driver_summary.get(str(in_id), {"id": str(in_id), "name": str(in_id)}),
-                                    }
-                                )
-                            for out_id, in_id in zip(c_out, c_in):
-                                move_rows.append(
-                                    {
-                                        "asset_type": "constructor",
-                                        "out": constructor_summary.get(str(out_id), {"id": str(out_id), "name": str(out_id)}),
-                                        "in": constructor_summary.get(str(in_id), {"id": str(in_id), "name": str(in_id)}),
-                                    }
-                                )
-                            incoming_vol = pd.to_numeric(
-                                pd.concat(
-                                    [new_d.get("volatility", pd.Series(dtype=float)), new_c.get("volatility", pd.Series(dtype=float))]
-                                ),
-                                errors="coerce",
-                            )
-                            outgoing_assets = pd.concat(
-                                [
-                                    drivers[drivers["_id"].isin([str(x) for x in d_out])],
-                                    constructors[constructors["_id"].isin([str(x) for x in c_out])],
-                                ],
-                                ignore_index=True,
-                            )
-                            outgoing_negative_count = int(
+                            seen_team_keys.add(team_key)
+                            approx_filter_in = _sum_from_map(tuple(d_in), driver_filter_score_map) + _sum_from_map(tuple(c_in), constructor_filter_score_map)
+                            approx_filter_out = _sum_from_map(tuple(d_out), driver_filter_score_map) + _sum_from_map(tuple(c_out), constructor_filter_score_map)
+                            candidate_filter_score_value = float(approx_filter_in - approx_filter_out)
+
+                            finalist_specs.append(
                                 (
-                                    pd.to_numeric(
-                                        outgoing_assets.get("expected_price_gain", pd.Series(dtype=float)),
-                                        errors="coerce",
-                                    ).fillna(0.0)
-                                    < 0
-                                ).sum()
+                                    float(candidate_filter_score_value),
+                                    (tuple(d_out), tuple(d_in), tuple(c_out), tuple(c_in)),
+                                    transfers,
+                                )
                             )
-                            projected_value = projected_team_value_from_budget(float(budget), gain)
-                            base_projected_value = projected_team_value_from_budget(float(budget), base_gain)
-                            rows.append(
-                                {
-                                    "Transfers": transfers,
-                                    "OUT": ", ".join(_asset_names_by_id(pd.concat([drivers, constructors], ignore_index=True), list(d_out) + list(c_out))),
-                                    "IN": ", ".join(_asset_names_by_id(pd.concat([drivers, constructors], ignore_index=True), list(d_in) + list(c_in))),
-                                    "Team cost": round(cost, 2),
-                                    "Remaining budget": round(float(budget) - cost, 2),
-                                    "Expected points": round(points, 2),
-                                    "Expected points gain": round(points_gain, 2),
-                                    "Transfer penalty": round(penalty, 2),
-                                    "Net expected points gain": round(net_points_gain, 2),
-                                    "Expected price gain": round(gain, 2),
-                                    "Expected price gain delta": round(price_gain_delta, 2),
-                                    "Projected team value": round(projected_value, 2),
-                                    "Projected team value delta": round(projected_value - base_projected_value, 2),
-                                    "Objective improvement": round(float(objective_improvement), 4),
-                                    "Extra transfers": int(extra),
-                                    "2x driver": boosted_driver or "",
-                                    "3x driver": triple_driver or "",
-                                    "Move rows": move_rows,
-                                    "Incoming volatility mean": float(incoming_vol.mean()) if len(incoming_vol.dropna()) else 0.0,
-                                    "Outgoing negative gain count": outgoing_negative_count,
-                                    "Explanation": explanation,
-                                }
-                            )
-    if not rows:
+                            generated_partial_plans += 1
+                            generated_by_depth[transfers] += 1
+
+    beam_kept_by_depth = dict(generated_by_depth)
+    candidate_count_total = len(finalist_specs)
+    generation_elapsed = max(0.0, (datetime.now(UTC) - generation_started).total_seconds())
+
+    common_diag = {
+        "search_mode": search_mode_key,
+        "candidate_pool_mode": str(mode_config["candidate_pool_mode"]),
+        "max_transfers": int(max_transfers),
+        "candidate_filter_score_used_for_prefilter": bool(search_mode_key != "exhaustive"),
+        "exhaustive_scoring_used_after_prefilter": True,
+        "final_score_used_for_sorting": True,
+        "incoming_driver_candidates": int(len(candidate_driver_ids)),
+        "incoming_constructor_candidates": int(len(candidate_constructor_ids)),
+        "incoming_driver_candidates_kept": int(len(candidate_driver_ids)),
+        "incoming_constructor_candidates_kept": int(len(candidate_constructor_ids)),
+        "outgoing_driver_candidates": int(len(outgoing_driver_candidates)),
+        "outgoing_constructor_candidates": int(len(outgoing_constructor_candidates)),
+        "outgoing_driver_candidates_kept": int(len(outgoing_driver_candidates)),
+        "outgoing_constructor_candidates_kept": int(len(outgoing_constructor_candidates)),
+        "exhaustive_candidate_count_before_filtering": int(total_generation_iterations_before_filtering),
+        "candidate_count_after_filtering": int(total_generation_iterations_after_filtering),
+        "valid_transfer_plans_generated": int(candidate_count_total),
+        "generated_partial_plans": int(generated_partial_plans),
+        "generated_candidates_by_depth": dict(generated_by_depth),
+        "beam_kept_by_depth": dict(beam_kept_by_depth),
+        "number_candidates_generated": int(sum(generated_by_depth.values())),
+        "total_candidates_generated": int(sum(generated_by_depth.values())),
+        "number_pruned_by_filtering": int(prefilter_pruned),
+        "duplicate_teams_skipped": int(duplicate_teams_skipped),
+        "pruned_by_budget": int(pruned_by_budget),
+        "pruned_by_beam": int(pruned_by_beam),
+        "transfer_generation_duration_seconds": float(generation_elapsed),
+        "transfer_scoring_duration_seconds": 0.0,
+        "transfer_total_duration_seconds": float(generation_elapsed),
+    }
+
+    _emit(
+        "generate_candidates",
+        f"Generating candidate transfers... {candidate_count_total:,} finalists selected",
+        0.25,
+        {
+            **common_diag,
+            "transfer_candidate_count_total": int(candidate_count_total),
+            "transfer_candidates_evaluated": 0,
+            "transfer_candidates_scored": 0,
+            "transfer_candidates_filtered": 0,
+            "candidate_teams_scored": 0,
+            "transfer_candidate_count": int(candidate_count_total),
+            "evaluated_full_candidates": 0,
+            "total_candidates_fully_scored": 0,
+            "fully_scored_by_depth": dict(fully_scored_by_depth),
+            "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+        },
+    )
+
+    if candidate_count_total == 0:
+        _emit(
+            "ready",
+            "No valid transfer recommendations found.",
+            1.0,
+            {
+                **common_diag,
+                "transfer_candidate_count_total": 0,
+                "transfer_candidates_evaluated": 0,
+                "transfer_candidates_scored": 0,
+                "transfer_candidates_filtered": 0,
+                "candidate_teams_scored": 0,
+                "transfer_results_count": 0,
+                "transfer_candidate_count": 0,
+                "evaluated_full_candidates": 0,
+                "total_candidates_fully_scored": 0,
+                "fully_scored_by_depth": dict(fully_scored_by_depth),
+                "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+                "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            },
+        )
         return pd.DataFrame()
+
+    rows: list[dict] = []
+    candidate_evaluated = 0
+    candidate_filtered = 0
+    candidate_scored = 0
+    scoring_started = datetime.now(UTC)
+
+    for candidate_evaluated, (candidate_filter_score_value, (d_out, d_in, c_out, c_in), depth) in enumerate(
+        finalist_specs,
+        start=1,
+    ):
+        remaining_drivers = [x for x in current_driver_ids if x not in set(d_out)]
+        new_driver_ids = remaining_drivers + list(d_in)
+        remaining_constructors = [x for x in current_constructor_ids if x not in set(c_out)]
+        new_constructor_ids = remaining_constructors + list(c_in)
+
+        new_d = drivers[drivers["_id"].isin(new_driver_ids)].copy()
+        new_c = constructors[constructors["_id"].isin(new_constructor_ids)].copy()
+        score_progress = 0.25 + 0.70 * (float(candidate_evaluated) / float(max(candidate_count_total, 1)))
+        if candidate_evaluated <= 10 or candidate_evaluated % 100 == 0 or candidate_evaluated == candidate_count_total:
+            _emit(
+                "score_candidates",
+                f"Scoring candidate teams... {candidate_evaluated:,} / {candidate_count_total:,} evaluated",
+                min(0.95, score_progress),
+                {
+                    **common_diag,
+                    "transfer_candidate_count_total": int(candidate_count_total),
+                    "transfer_candidates_evaluated": int(candidate_evaluated),
+                    "transfer_candidates_scored": int(candidate_scored),
+                    "transfer_candidates_filtered": int(candidate_filtered),
+                    "candidate_teams_scored": int(candidate_scored),
+                    "transfer_candidate_count": int(candidate_count_total),
+                    "evaluated_full_candidates": int(candidate_scored),
+                    "total_candidates_fully_scored": int(candidate_scored),
+                    "fully_scored_by_depth": dict(fully_scored_by_depth),
+                    "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+                    "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+                    "transfer_scoring_duration_seconds": float(max(0.0, (datetime.now(UTC) - scoring_started).total_seconds())),
+                    "transfer_total_duration_seconds": float(max(0.0, (datetime.now(UTC) - generation_started).total_seconds())),
+                },
+            )
+
+        transfers = len(d_out) + len(c_out)
+        if len(new_d) != 5 or len(new_c) != 2:
+            candidate_filtered += 1
+            continue
+        cost = float(
+            pd.to_numeric(new_d["price"], errors="coerce").fillna(0).sum()
+            + pd.to_numeric(new_c["price"], errors="coerce").fillna(0).sum()
+        )
+        if not limitless and cost > float(budget):
+            candidate_filtered += 1
+            pruned_by_budget += 1
+            continue
+
+        cache_key = (tuple(sorted(new_driver_ids)), tuple(sorted(new_constructor_ids)))
+        if cache_key in team_cache:
+            cached = team_cache[cache_key]
+            boosted_driver = cached["boosted_driver"]
+            triple_driver = cached["triple_driver"]
+            points = cached["points"]
+            gain = cached["gain"]
+            volatility_sum = cached["volatility_sum"]
+        else:
+            boosted_driver, triple_driver = select_chip_boost_drivers(new_d, chip_mode)
+            points = team_expected_points_with_chips(new_d, new_c, chip_mode, boosted_driver, triple_driver)
+            gain = selected_assets_price_gain(new_d, new_c)
+            volatility_sum = float(
+                pd.to_numeric(
+                    pd.concat([new_d.get("volatility", pd.Series(dtype=float)), new_c.get("volatility", pd.Series(dtype=float))]),
+                    errors="coerce",
+                ).fillna(0.0).sum()
+            )
+            team_cache[cache_key] = {
+                "boosted_driver": boosted_driver,
+                "triple_driver": triple_driver,
+                "points": points,
+                "gain": gain,
+                "volatility_sum": volatility_sum,
+            }
+
+        candidate_scored += 1
+        fully_scored_by_depth[depth] = fully_scored_by_depth.get(depth, 0) + 1
+
+        extra = max(0, transfers - int(free_transfers))
+        penalty = float(transfer_penalty) * extra
+        points_gain = float(points - base_points)
+        net_points_gain = float(points_gain - penalty)
+        price_gain_delta = float(gain - base_gain)
+        objective_improvement = _score_from_deltas(net_points_gain, price_gain_delta, volatility_sum)
+
+        if objective_mode == OBJECTIVE_POINTS_ONLY:
+            final_recommendation_score = net_points_gain
+        elif objective_mode == OBJECTIVE_PRICE_GROWTH_ONLY:
+            final_recommendation_score = price_gain_delta
+        else:
+            final_recommendation_score = objective_improvement
+
+        if net_points_gain > 0 and price_gain_delta < 0:
+            explanation = f"This improves expected points but sacrifices {price_gain_delta:+.2f}M expected price gain."
+        elif net_points_gain < 0 and price_gain_delta > 0:
+            explanation = f"This improves expected price gain but costs {abs(net_points_gain):.2f} expected points."
+        elif net_points_gain > 0 and price_gain_delta > 0:
+            explanation = "This improves expected points and expected price gain."
+        else:
+            explanation = "This is a trade-off move with mixed upside."
+
+        move_rows: list[dict] = []
+        for out_id, in_id in zip(d_out, d_in):
+            move_rows.append(
+                {
+                    "asset_type": "driver",
+                    "out": driver_summary.get(str(out_id), {"id": str(out_id), "name": str(out_id)}),
+                    "in": driver_summary.get(str(in_id), {"id": str(in_id), "name": str(in_id)}),
+                }
+            )
+        for out_id, in_id in zip(c_out, c_in):
+            move_rows.append(
+                {
+                    "asset_type": "constructor",
+                    "out": constructor_summary.get(str(out_id), {"id": str(out_id), "name": str(out_id)}),
+                    "in": constructor_summary.get(str(in_id), {"id": str(in_id), "name": str(in_id)}),
+                }
+            )
+
+        incoming_vol = pd.to_numeric(
+            pd.concat([new_d.get("volatility", pd.Series(dtype=float)), new_c.get("volatility", pd.Series(dtype=float))]),
+            errors="coerce",
+        )
+        outgoing_assets = pd.concat(
+            [
+                drivers[drivers["_id"].isin([str(x) for x in d_out])],
+                constructors[constructors["_id"].isin([str(x) for x in c_out])],
+            ],
+            ignore_index=True,
+        )
+        outgoing_negative_count = int(
+            (
+                pd.to_numeric(
+                    outgoing_assets.get("expected_price_gain", pd.Series(dtype=float)),
+                    errors="coerce",
+                ).fillna(0.0)
+                < 0
+            ).sum()
+        )
+        projected_value = projected_team_value_from_budget(float(budget), gain)
+        base_projected_value = projected_team_value_from_budget(float(budget), base_gain)
+
+        rows.append(
+            {
+                "Transfers": transfers,
+                "OUT": ", ".join(_asset_names_by_id(combined_assets, list(d_out) + list(c_out))),
+                "IN": ", ".join(_asset_names_by_id(combined_assets, list(d_in) + list(c_in))),
+                "Team cost": round(cost, 2),
+                "Remaining budget": round(float(budget) - cost, 2),
+                "Expected points": round(points, 2),
+                "Expected points gain": round(points_gain, 2),
+                "Transfer penalty": round(penalty, 2),
+                "Net expected points gain": round(net_points_gain, 2),
+                "Expected price gain": round(gain, 2),
+                "Expected price gain delta": round(price_gain_delta, 2),
+                "Projected team value": round(projected_value, 2),
+                "Projected team value delta": round(projected_value - base_projected_value, 2),
+                "Objective improvement": round(float(objective_improvement), 4),
+                "Candidate filter score": round(float(candidate_filter_score_value), 4),
+                "Final recommendation score": round(float(final_recommendation_score), 4),
+                "Extra transfers": int(extra),
+                "2x driver": boosted_driver or "",
+                "3x driver": triple_driver or "",
+                "Move rows": move_rows,
+                "Incoming volatility mean": float(incoming_vol.mean()) if len(incoming_vol.dropna()) else 0.0,
+                "Outgoing negative gain count": outgoing_negative_count,
+                "Explanation": explanation,
+            }
+        )
+
+    scoring_elapsed = float(max(0.0, (datetime.now(UTC) - scoring_started).total_seconds())) if scoring_started else 0.0
+    total_elapsed = float(max(0.0, (datetime.now(UTC) - generation_started).total_seconds()))
+
+    if not rows:
+        _emit(
+            "ready",
+            "No valid transfer recommendations found.",
+            1.0,
+            {
+                **common_diag,
+                "transfer_candidate_count_total": int(candidate_count_total),
+                "transfer_candidates_evaluated": int(candidate_evaluated),
+                "transfer_candidates_scored": int(candidate_scored),
+                "transfer_candidates_filtered": int(candidate_filtered),
+                "candidate_teams_scored": int(candidate_scored),
+                "transfer_results_count": 0,
+                "transfer_candidate_count": int(candidate_count_total),
+                "evaluated_full_candidates": int(candidate_scored),
+                "total_candidates_fully_scored": int(candidate_scored),
+                "fully_scored_by_depth": dict(fully_scored_by_depth),
+                "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+                "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+                "pruned_by_budget": int(pruned_by_budget),
+                "transfer_scoring_duration_seconds": float(scoring_elapsed),
+                "transfer_total_duration_seconds": float(total_elapsed),
+            },
+        )
+        return pd.DataFrame()
+
     out = pd.DataFrame(rows)
-    out = out.sort_values("Objective improvement", ascending=False, na_position="last").reset_index(drop=True)
+    _emit(
+        "rank_recommendations",
+        "Ranking recommendations...",
+        0.97,
+        {
+            **common_diag,
+            "transfer_candidate_count_total": int(candidate_count_total),
+            "transfer_candidates_evaluated": int(candidate_evaluated),
+            "transfer_candidates_scored": int(candidate_scored),
+            "transfer_candidates_filtered": int(candidate_filtered),
+            "candidate_teams_scored": int(candidate_scored),
+            "transfer_candidate_count": int(candidate_count_total),
+            "evaluated_full_candidates": int(candidate_scored),
+            "total_candidates_fully_scored": int(candidate_scored),
+            "fully_scored_by_depth": dict(fully_scored_by_depth),
+            "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            "pruned_by_budget": int(pruned_by_budget),
+            "transfer_scoring_duration_seconds": float(scoring_elapsed),
+            "transfer_total_duration_seconds": float(total_elapsed),
+        },
+    )
+
+    if objective_mode == OBJECTIVE_POINTS_ONLY:
+        out = out.sort_values(
+            ["Final recommendation score", "Expected price gain delta"],
+            ascending=[False, False],
+            na_position="last",
+        )
+    elif objective_mode == OBJECTIVE_PRICE_GROWTH_ONLY:
+        out = out.sort_values(
+            ["Final recommendation score", "Net expected points gain"],
+            ascending=[False, False],
+            na_position="last",
+        )
+    else:
+        out = out.sort_values(
+            ["Final recommendation score", "Net expected points gain", "Expected price gain delta"],
+            ascending=[False, False, False],
+            na_position="last",
+        )
+
+    out = out.reset_index(drop=True)
     out.insert(0, "Rank", range(1, len(out) + 1))
-    return out.head(int(top_n))
+    result = out.head(int(top_n)).copy()
+    final_recommendations_by_transfer_count = {
+        int(k): int(v) for k, v in result["Transfers"].value_counts().sort_index().to_dict().items()
+    }
+
+    _emit(
+        "ready",
+        f"Ready. {len(result)} recommendations generated.",
+        1.0,
+        {
+            **common_diag,
+            "transfer_candidate_count_total": int(candidate_count_total),
+            "transfer_candidates_evaluated": int(candidate_evaluated),
+            "transfer_candidates_scored": int(candidate_scored),
+            "transfer_candidates_filtered": int(candidate_filtered),
+            "candidate_teams_scored": int(candidate_scored),
+            "transfer_results_count": int(len(result)),
+            "transfer_candidate_count": int(candidate_count_total),
+            "evaluated_full_candidates": int(candidate_scored),
+            "total_candidates_fully_scored": int(candidate_scored),
+            "fully_scored_by_depth": dict(fully_scored_by_depth),
+            "final_recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            "recommendations_by_transfer_count": dict(final_recommendations_by_transfer_count),
+            "pruned_by_budget": int(pruned_by_budget),
+            "transfer_scoring_duration_seconds": float(scoring_elapsed),
+            "transfer_total_duration_seconds": float(total_elapsed),
+        },
+    )
+    return result
 
 
 def format_transfer_recommendations_display(recs: pd.DataFrame) -> pd.DataFrame:
@@ -2541,7 +3022,7 @@ def run_optimizer(
     boost_col: str = "exp_score",
     triple_multiplier: float | None = None,
 ) -> list[TeamSolution]:
-    return optimize_top_k(
+    solutions = optimize_top_k(
         clean_assumption_table(drivers),
         clean_assumption_table(constructors),
         budget=None if budget is None else float(budget),
@@ -2556,6 +3037,26 @@ def run_optimizer(
         boost_col=boost_col,
         triple_multiplier=triple_multiplier,
     )
+    # Always place display chips by highest expected points in the selected team.
+    # This keeps 2x/3x assignment deterministic even when objective/weights make
+    # chip placement irrelevant for optimisation (e.g. price-growth-only mode).
+    chip_mode = CHIP_TRIPLE if triple_multiplier is not None else CHIP_NONE
+    normalized: list[TeamSolution] = []
+    for sol in solutions:
+        boosted_driver, triple_driver = select_chip_boost_drivers(sol.drivers, chip_mode=chip_mode)
+        normalized.append(
+            TeamSolution(
+                drivers=sol.drivers,
+                constructors=sol.constructors,
+                boosted_driver=boosted_driver,
+                no_negative=sol.no_negative,
+                limitless=sol.limitless,
+                total_cost=sol.total_cost,
+                expected_score=sol.expected_score,
+                triple_driver=triple_driver,
+            )
+        )
+    return normalized
 
 
 def validate_current_team(

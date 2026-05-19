@@ -7,8 +7,11 @@ import pytest
 from f1fantasy import app_core
 from f1fantasy.app_core import (
     OBJECTIVE_POINTS_ONLY,
+    OBJECTIVE_PRICE_GROWTH_ONLY,
+    OBJECTIVE_COMBINED,
     DEFAULT_TOP_K,
     apply_no_negative_scores,
+    annotate_card_expected_points,
     adjust_money_value,
     auto_budget_from_team_cost,
     build_asset_option_labels,
@@ -34,6 +37,8 @@ from f1fantasy.app_core import (
     resolve_budget_value,
     run_optimizer,
     selected_assets_price_gain,
+    transfer_asset_max_price_gain,
+    transfer_candidate_filter_score,
     select_chip_boost_drivers,
     team_colour,
     team_expected_points_with_chips,
@@ -270,6 +275,8 @@ def test_high_level_metric_label_uses_expected_points():
     assert 'max_value=4' in source
     assert "transfer_results" in source
     assert "Set transfer options, then run transfer recommendations." in source
+    assert "Running transfer recommendations..." in source
+    assert "Transfer run failed. Keeping last successful recommendations." in source
     assert '.metric("Remaining budget"' in source
     assert '.metric("Expected price gain"' in source
     assert '.metric("Projected team value"' in source
@@ -313,6 +320,7 @@ def test_projected_team_value_includes_budget_and_expected_gain():
 def test_load_model_data_defaults_to_include_playerstats_true():
     signature = inspect.signature(app_core.load_model_data)
     assert signature.parameters["include_playerstats"].default is True
+    assert "playerstats_load_duration_seconds" in inspect.getsource(app_core.load_model_data)
 
 
 def test_cached_loader_has_plain_data_signature_without_ui_callback():
@@ -323,6 +331,411 @@ def test_cached_loader_has_plain_data_signature_without_ui_callback():
     assert "progress_callback=" not in fn_block
     assert "st." not in fn_block
     assert "last_good_model_payload" in source
+
+
+def test_transfer_recommendations_emit_progress_stages_and_counts():
+    events = []
+    drivers = pd.DataFrame(
+        [
+            {"id": "1", "name": "D1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "2", "name": "D2", "price": 10.0, "exp_score": 9.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "3", "name": "D3", "price": 10.0, "exp_score": 8.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "4", "name": "D4", "price": 10.0, "exp_score": 7.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "5", "name": "D5", "price": 10.0, "exp_score": 6.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "6", "name": "D6", "price": 10.0, "exp_score": 15.0, "expected_price_gain": 0.2, "volatility": 6.0},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "1", "name": "C1", "price": 20.0, "exp_score": 20.0, "expected_price_gain": 0.2, "volatility": 8.0},
+            {"id": "2", "name": "C2", "price": 20.0, "exp_score": 18.0, "expected_price_gain": 0.2, "volatility": 8.0},
+            {"id": "3", "name": "C3", "price": 20.0, "exp_score": 25.0, "expected_price_gain": 0.3, "volatility": 9.0},
+        ]
+    )
+
+    recs = build_transfer_recommendations(
+        current_driver_ids=["1", "2", "3", "4", "5"],
+        current_constructor_ids=["1", "2"],
+        drivers=drivers,
+        constructors=constructors,
+        budget=100.0,
+        max_transfers=2,
+        top_n=5,
+        progress_callback=lambda payload: events.append(payload),
+    )
+
+    assert not recs.empty
+    stages = [str(event.get("stage")) for event in events]
+    assert "read_current_team" in stages
+    assert "apply_locks_exclusions" in stages
+    assert "filter_candidates" in stages
+    assert "generate_candidates" in stages
+    assert "score_candidates" in stages
+    assert "rank_recommendations" in stages
+    assert stages[-1] == "ready"
+    assert int(events[-1].get("transfer_candidate_count_total", 0) or 0) >= 1
+    assert int(events[-1].get("transfer_candidates_evaluated", 0) or 0) >= 1
+    assert int(events[-1].get("transfer_candidates_scored", 0) or 0) >= 1
+    assert float(events[-1].get("progress", 0.0) or 0.0) == pytest.approx(1.0)
+    assert all(0.0 <= float(event.get("progress", 0.0) or 0.0) <= 1.0 for event in events)
+
+    score_events = [event for event in events if event.get("stage") == "score_candidates"]
+    assert score_events, "Expected score_candidates progress events"
+    first_score = score_events[0]
+    assert float(first_score.get("progress", 0.0) or 0.0) < 0.50
+    assert "/" in str(first_score.get("message", ""))
+    assert "evaluated" in str(first_score.get("message", "")).lower()
+    assert int(score_events[-1].get("transfer_candidates_evaluated", 0) or 0) == int(
+        score_events[-1].get("transfer_candidate_count_total", 0) or 0
+    )
+
+
+def test_transfer_progress_ui_has_single_status_line_and_new_diagnostics_keys():
+    source = Path("streamlit_app.py").read_text(encoding="utf-8")
+    assert "transfer_line = st.empty()" not in source
+    assert "transfer_line.caption(" not in source
+    assert "transfer_candidate_count_total" in source
+    assert "transfer_candidates_evaluated" in source
+    assert "transfer_generation_duration_seconds" in source
+    assert "transfer_scoring_duration_seconds" in source
+    assert "transfer_total_duration_seconds" in source
+    assert "candidate_filter_score_used_for_prefilter" in source
+    assert "exhaustive_scoring_used_after_prefilter" in source
+    assert "final_score_used_for_sorting" in source
+    assert "candidate_pool_mode" in source
+
+
+def test_transfer_candidate_filter_score_uses_normalised_components():
+    cheap_asset = {"exp_score": 20.0, "price": 10.0, "expected_price_gain": 0.3, "volatility": 5.0}
+    expensive_asset = {"exp_score": 20.0, "price": 25.0, "expected_price_gain": 0.3, "volatility": 5.0}
+
+    assert transfer_asset_max_price_gain(10.0) == pytest.approx(0.6)
+    assert transfer_asset_max_price_gain(25.0) == pytest.approx(0.3)
+    assert transfer_candidate_filter_score(cheap_asset, OBJECTIVE_POINTS_ONLY, price_gain_weight=10.0) == pytest.approx(2.0)
+    assert transfer_candidate_filter_score(cheap_asset, OBJECTIVE_PRICE_GROWTH_ONLY, price_gain_weight=10.0) == pytest.approx(0.5)
+    # scaled weight = 10/10 = 1.0 -> 2.0 + 0.5
+    assert transfer_candidate_filter_score(cheap_asset, OBJECTIVE_COMBINED, price_gain_weight=10.0) == pytest.approx(2.5)
+    # expensive uses smaller max gain denominator so price-gain normalised component is larger.
+    assert transfer_candidate_filter_score(expensive_asset, OBJECTIVE_PRICE_GROWTH_ONLY, price_gain_weight=10.0) == pytest.approx(1.0)
+
+
+def test_transfer_filtering_balanced_caps_incoming_pool_and_excludes_bottom_constructors():
+    drivers = pd.DataFrame(
+        [
+            {"id": f"d{i}", "name": f"D{i}", "price": 10.0, "exp_score": float(60 - i), "expected_price_gain": 0.1}
+            for i in range(1, 26)
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": f"c{i}", "name": f"C{i}", "price": 12.0, "exp_score": float(30 - i), "expected_price_gain": 0.1}
+            for i in range(1, 11)
+        ]
+    )
+    events = []
+    recs = build_transfer_recommendations(
+        current_driver_ids=[f"d{i}" for i in range(1, 6)],
+        current_constructor_ids=["c1", "c2"],
+        drivers=drivers,
+        constructors=constructors,
+        budget=100.0,
+        max_transfers=2,
+        search_mode="balanced",
+        progress_callback=lambda payload: events.append(payload),
+    )
+    assert not recs.empty
+    final_event = events[-1]
+    assert int(final_event.get("incoming_driver_candidates", 0) or 0) <= 15
+    # 10 total ctors, 2 current -> 8 incoming, drop bottom 2 => 6
+    assert int(final_event.get("incoming_constructor_candidates", 0) or 0) == 6
+
+
+def test_transfer_balanced_evaluates_fewer_candidates_than_exhaustive():
+    drivers = pd.DataFrame(
+        [
+            {"id": f"d{i}", "name": f"D{i}", "price": 8.0 + (i % 5), "exp_score": float(70 - i), "expected_price_gain": 0.05 * ((i % 4) + 1), "volatility": 5.0 + (i % 7)}
+            for i in range(1, 19)
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": f"c{i}", "name": f"C{i}", "price": 10.0 + i, "exp_score": float(35 - i), "expected_price_gain": 0.05 * ((i % 3) + 1), "volatility": 8.0 + (i % 4)}
+            for i in range(1, 8)
+        ]
+    )
+
+    balanced_events = []
+    exhaustive_events = []
+    recs_balanced = build_transfer_recommendations(
+        current_driver_ids=[f"d{i}" for i in range(1, 6)],
+        current_constructor_ids=["c1", "c2"],
+        drivers=drivers,
+        constructors=constructors,
+        budget=130.0,
+        max_transfers=3,
+        search_mode="balanced",
+        progress_callback=lambda payload: balanced_events.append(payload),
+    )
+    recs_exhaustive = build_transfer_recommendations(
+        current_driver_ids=[f"d{i}" for i in range(1, 6)],
+        current_constructor_ids=["c1", "c2"],
+        drivers=drivers,
+        constructors=constructors,
+        budget=130.0,
+        max_transfers=3,
+        search_mode="exhaustive",
+        progress_callback=lambda payload: exhaustive_events.append(payload),
+    )
+    assert not recs_balanced.empty
+    assert not recs_exhaustive.empty
+    balanced_final = balanced_events[-1]
+    exhaustive_final = exhaustive_events[-1]
+    assert int(balanced_final.get("transfer_candidate_count_total", 0) or 0) < int(
+        exhaustive_final.get("transfer_candidate_count_total", 0) or 0
+    )
+    assert int(balanced_final.get("evaluated_full_candidates", 0) or 0) <= int(
+        exhaustive_final.get("evaluated_full_candidates", 0) or 0
+    )
+    assert bool(balanced_final.get("exhaustive_scoring_used_after_prefilter", False)) is True
+    assert bool(balanced_final.get("final_score_used_for_sorting", False)) is True
+    assert balanced_final.get("candidate_pool_mode") == "balanced_prefiltered"
+
+
+def test_transfer_balanced_matches_exhaustive_when_pool_is_not_reduced():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 9.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 8.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 7.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 6.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 16.0, "expected_price_gain": 0.2, "volatility": 6.0},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 7.0},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 9.0, "expected_price_gain": 0.1, "volatility": 7.0},
+            {"id": "c3", "name": "C3", "price": 10.0, "exp_score": 18.0, "expected_price_gain": 0.2, "volatility": 8.0},
+        ]
+    )
+    balanced = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=70.0,
+        max_transfers=2,
+        objective_mode=OBJECTIVE_POINTS_ONLY,
+        search_mode="balanced",
+    )
+    exhaustive = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=70.0,
+        max_transfers=2,
+        objective_mode=OBJECTIVE_POINTS_ONLY,
+        search_mode="exhaustive",
+    )
+    assert not balanced.empty
+    assert not exhaustive.empty
+    assert str(balanced.iloc[0]["IN"]) == str(exhaustive.iloc[0]["IN"])
+    assert float(balanced.iloc[0]["Final recommendation score"]) == pytest.approx(
+        float(exhaustive.iloc[0]["Final recommendation score"])
+    )
+
+
+def test_transfer_balanced_max_three_keeps_and_scores_multiple_depths():
+    drivers = pd.DataFrame(
+        [
+            {
+                "id": f"d{i}",
+                "name": f"D{i}",
+                "price": 7.5 + (i % 6),
+                "exp_score": float(80 - i),
+                "expected_price_gain": 0.04 * ((i % 5) + 1),
+                "volatility": 4.0 + (i % 6),
+            }
+            for i in range(1, 22)
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {
+                "id": f"c{i}",
+                "name": f"C{i}",
+                "price": 10.0 + i,
+                "exp_score": float(38 - i),
+                "expected_price_gain": 0.05 * ((i % 4) + 1),
+                "volatility": 7.0 + (i % 4),
+            }
+            for i in range(1, 9)
+        ]
+    )
+    events = []
+    recs = build_transfer_recommendations(
+        current_driver_ids=[f"d{i}" for i in range(1, 6)],
+        current_constructor_ids=["c1", "c2"],
+        drivers=drivers,
+        constructors=constructors,
+        budget=140.0,
+        free_transfers=3,
+        max_transfers=3,
+        search_mode="balanced",
+        progress_callback=lambda payload: events.append(payload),
+    )
+    assert not recs.empty
+    final_event = events[-1]
+    generated_by_depth = final_event.get("generated_candidates_by_depth", {})
+    scored_by_depth = final_event.get("fully_scored_by_depth", {})
+    assert int(generated_by_depth.get(1, 0)) > 0
+    assert int(generated_by_depth.get(2, 0)) > 0
+    assert int(generated_by_depth.get(3, 0)) > 0
+    assert int(scored_by_depth.get(1, 0)) > 0
+    assert int(scored_by_depth.get(2, 0)) > 0
+    assert int(scored_by_depth.get(3, 0)) > 0
+
+
+def test_transfer_points_only_does_not_rank_negative_points_move_above_positive_move():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.10, "volatility": 5.0},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.10, "volatility": 5.0},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.10, "volatility": 5.0},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.10, "volatility": 5.0},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.10, "volatility": 5.0},
+            {"id": "d6", "name": "HighPtsLowGain", "price": 20.0, "exp_score": 13.0, "expected_price_gain": -0.10, "volatility": 5.0},
+            {"id": "d7", "name": "LowPtsHighGain", "price": 5.0, "exp_score": 8.0, "expected_price_gain": 0.60, "volatility": 5.0},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 12.0, "expected_price_gain": 0.10, "volatility": 7.0},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 12.0, "expected_price_gain": 0.10, "volatility": 7.0},
+        ]
+    )
+    recs = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=100.0,
+        free_transfers=1,
+        max_transfers=1,
+        objective_mode=OBJECTIVE_POINTS_ONLY,
+        search_mode="balanced",
+        top_n=5,
+    )
+    assert not recs.empty
+    assert (pd.to_numeric(recs["Final recommendation score"], errors="coerce").fillna(-999).diff().dropna() <= 0).all()
+    top = recs.iloc[0]
+    assert float(top["Net expected points gain"]) >= 0
+    assert "HighPtsLowGain" in str(top["IN"])
+
+
+def test_transfer_price_growth_only_sorts_by_expected_price_gain_delta():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 9.0, "expected_price_gain": 0.3},
+            {"id": "d7", "name": "D7", "price": 10.0, "exp_score": 14.0, "expected_price_gain": -0.1},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1},
+        ]
+    )
+    recs = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=80.0,
+        max_transfers=1,
+        objective_mode=OBJECTIVE_PRICE_GROWTH_ONLY,
+        search_mode="balanced",
+    )
+    assert not recs.empty
+    deltas = pd.to_numeric(recs["Expected price gain delta"], errors="coerce").fillna(-999)
+    assert (deltas.diff().dropna() <= 0).all()
+
+
+def test_transfer_final_scores_are_objective_specific_and_separate_from_filter_score():
+    drivers = pd.DataFrame(
+        [
+            {"id": f"d{i}", "name": f"D{i}", "price": 8.0 + i, "exp_score": 18.0 - i, "expected_price_gain": 0.05 * i, "volatility": 4.0 + i}
+            for i in range(1, 8)
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 15.0, "exp_score": 20.0, "expected_price_gain": 0.05, "volatility": 8.0},
+            {"id": "c2", "name": "C2", "price": 16.0, "exp_score": 19.0, "expected_price_gain": 0.06, "volatility": 8.5},
+            {"id": "c3", "name": "C3", "price": 12.0, "exp_score": 21.0, "expected_price_gain": 0.20, "volatility": 7.5},
+        ]
+    )
+    recs = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=100.0,
+        free_transfers=1,
+        max_transfers=2,
+        objective_mode=OBJECTIVE_PRICE_GROWTH_ONLY,
+        search_mode="balanced",
+    )
+    assert not recs.empty
+    assert "Candidate filter score" in recs.columns
+    assert "Final recommendation score" in recs.columns
+    assert (pd.to_numeric(recs["Final recommendation score"], errors="coerce").fillna(-999).diff().dropna() <= 0).all()
+    final_scores = pd.to_numeric(recs["Final recommendation score"], errors="coerce").fillna(0.0)
+    filter_scores = pd.to_numeric(recs["Candidate filter score"], errors="coerce").fillna(0.0)
+    assert ((final_scores - filter_scores).abs() > 1e-9).any()
+
+
+def test_transfer_combined_sorts_by_real_combined_objective_improvement():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 5.0},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 13.0, "expected_price_gain": 0.2, "volatility": 5.0},
+            {"id": "d7", "name": "D7", "price": 10.0, "exp_score": 16.0, "expected_price_gain": -0.3, "volatility": 5.0},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 8.0},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 10.0, "expected_price_gain": 0.1, "volatility": 8.0},
+        ]
+    )
+    recs = build_transfer_recommendations(
+        ["d1", "d2", "d3", "d4", "d5"],
+        ["c1", "c2"],
+        drivers,
+        constructors,
+        budget=80.0,
+        max_transfers=1,
+        objective_mode=OBJECTIVE_COMBINED,
+        price_gain_weight=10.0,
+        search_mode="balanced",
+    )
+    assert not recs.empty
+    scores = pd.to_numeric(recs["Final recommendation score"], errors="coerce").fillna(-999)
+    objectives = pd.to_numeric(recs["Objective improvement"], errors="coerce").fillna(-999)
+    assert (scores.diff().dropna() <= 0).all()
+    assert (objectives.diff().dropna() <= 0).all()
 
 
 def test_price_change_model_projection_table_columns():
@@ -467,6 +880,114 @@ def test_chip_expected_points_apply_to_points_only():
     assert team_expected_points_with_chips(drivers, constructors, "limitless", boosted, triple) == pytest.approx(45.0)
     assert team_expected_points_with_chips(drivers, constructors, "triple", triple_boosted, triple_driver) == pytest.approx(63.0)
     assert selected_assets_price_gain(drivers, constructors) == pytest.approx(1.6)
+
+
+def test_price_growth_objective_assigns_2x_to_highest_expected_points_driver():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 30.0, "combined_objective_score": 0.05, "expected_price_gain": 0.05},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 28.0, "combined_objective_score": 0.04, "expected_price_gain": 0.04},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 26.0, "combined_objective_score": 0.03, "expected_price_gain": 0.03},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 12.0, "combined_objective_score": 0.20, "expected_price_gain": 0.20},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 10.0, "combined_objective_score": 0.18, "expected_price_gain": 0.18},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 8.0, "combined_objective_score": 0.16, "expected_price_gain": 0.16},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 20.0, "combined_objective_score": 0.05, "expected_price_gain": 0.05},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 18.0, "combined_objective_score": 0.06, "expected_price_gain": 0.06},
+            {"id": "c3", "name": "C3", "price": 10.0, "exp_score": 16.0, "combined_objective_score": 0.04, "expected_price_gain": 0.04},
+        ]
+    )
+    sol = run_optimizer(
+        drivers,
+        constructors,
+        budget=70.0,
+        top_k=1,
+        drs_multiplier=1.0,
+        objective_col="combined_objective_score",
+        boost_col="exp_score",
+        triple_multiplier=None,
+    )[0]
+
+    top_driver = sol.drivers.sort_values(["exp_score", "price"], ascending=False).iloc[0]["name"]
+    assert sol.boosted_driver == top_driver
+
+    price_gain_before = selected_assets_price_gain(sol.drivers, sol.constructors)
+    alt_boosted = sol.drivers.sort_values("exp_score").iloc[0]["name"]
+    _ = team_expected_points_with_chips(sol.drivers, sol.constructors, "none", boosted_driver=alt_boosted)
+    price_gain_after = selected_assets_price_gain(sol.drivers, sol.constructors)
+    assert price_gain_after == pytest.approx(price_gain_before)
+
+
+def test_three_x_mode_assigns_distinct_top_two_by_expected_points():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 30.0, "combined_objective_score": 0.2},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 25.0, "combined_objective_score": 0.2},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 20.0, "combined_objective_score": 0.2},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 18.0, "combined_objective_score": 0.2},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 16.0, "combined_objective_score": 0.2},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 10.0, "combined_objective_score": 0.2},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 20.0, "combined_objective_score": 0.2},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 19.0, "combined_objective_score": 0.2},
+            {"id": "c3", "name": "C3", "price": 10.0, "exp_score": 18.0, "combined_objective_score": 0.2},
+        ]
+    )
+    sol = run_optimizer(
+        drivers,
+        constructors,
+        budget=70.0,
+        top_k=1,
+        drs_multiplier=1.0,
+        objective_col="combined_objective_score",
+        boost_col="exp_score",
+        triple_multiplier=3.0,
+    )[0]
+
+    ordered = sol.drivers.sort_values(["exp_score", "price"], ascending=False)["name"].tolist()
+    assert sol.triple_driver == ordered[0]
+    assert sol.boosted_driver == ordered[1]
+    assert sol.triple_driver != sol.boosted_driver
+
+
+def test_fantasy_card_display_matches_optimizer_boost_driver_assignment():
+    drivers = pd.DataFrame(
+        [
+            {"id": "d1", "name": "D1", "price": 10.0, "exp_score": 30.0, "combined_objective_score": 0.2},
+            {"id": "d2", "name": "D2", "price": 10.0, "exp_score": 25.0, "combined_objective_score": 0.2},
+            {"id": "d3", "name": "D3", "price": 10.0, "exp_score": 20.0, "combined_objective_score": 0.2},
+            {"id": "d4", "name": "D4", "price": 10.0, "exp_score": 18.0, "combined_objective_score": 0.2},
+            {"id": "d5", "name": "D5", "price": 10.0, "exp_score": 16.0, "combined_objective_score": 0.2},
+            {"id": "d6", "name": "D6", "price": 10.0, "exp_score": 10.0, "combined_objective_score": 0.2},
+        ]
+    )
+    constructors = pd.DataFrame(
+        [
+            {"id": "c1", "name": "C1", "price": 10.0, "exp_score": 20.0, "combined_objective_score": 0.2},
+            {"id": "c2", "name": "C2", "price": 10.0, "exp_score": 19.0, "combined_objective_score": 0.2},
+            {"id": "c3", "name": "C3", "price": 10.0, "exp_score": 18.0, "combined_objective_score": 0.2},
+        ]
+    )
+    sol = run_optimizer(
+        drivers,
+        constructors,
+        budget=70.0,
+        top_k=1,
+        drs_multiplier=1.0,
+        objective_col="combined_objective_score",
+        boost_col="exp_score",
+        triple_multiplier=None,
+    )[0]
+
+    display = annotate_card_expected_points(sol.drivers, boosted_driver=sol.boosted_driver, triple_driver=sol.triple_driver)
+    boosted_row = display[display["name"].astype(str) == str(sol.boosted_driver)].iloc[0]
+    assert boosted_row["display_exp_score"] == pytest.approx(float(boosted_row["exp_score"]) * 2.0)
 
 
 def test_card_helper_can_show_boosted_display_points_without_changing_price_gain():

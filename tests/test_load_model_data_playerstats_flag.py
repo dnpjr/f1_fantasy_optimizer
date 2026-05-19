@@ -263,4 +263,8 @@ def test_load_model_data_progress_events_include_stage_names_and_elapsed(monkeyp
     assert "Computing expected points" in stage_names
     assert "Computing price-change probabilities" in stage_names
     assert "Ready" in stage_names
+    playerstats_events = [event for event in events if event.get("stage_name") == "Loading playerstats"]
+    assert len(playerstats_events) >= 2
+    assert events[0].get("stage_name") == "Loading market feed"
+    assert events[-1].get("stage_name") == "Ready"
     assert data.diagnostics["model_load_duration_seconds"] >= 0.0

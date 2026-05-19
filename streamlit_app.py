@@ -1105,21 +1105,38 @@ with load_ui.container():
     load_line = st.empty()
 
 drivers = constructors = _trends = diagnostics = None
+
+def _on_startup_progress(event: dict) -> None:
+    nonlocal_text = str(event.get("message", "Loading..."))
+    stage_name = str(event.get("stage_name", "Loading"))
+    progress_raw = event.get("progress")
+    if progress_raw is None:
+        stage_index = int(event.get("stage_index", 0) or 0)
+        stage_total = max(int(event.get("stage_total", 8) or 8), 1)
+        progress_raw = stage_index / stage_total
+    progress = max(0.0, min(1.0, float(progress_raw)))
+    load_progress.progress(int(progress * 100), text=f"{stage_name}")
+    text = f"{stage_name}: {nonlocal_text}"
+    # Keep one status line updated in place.
+    load_line.caption(text)
+
 try:
-    load_line.caption("Loading market feed and current prices...")
-    load_progress.progress(20, text="Loading market feed and current prices")
-    load_line.caption("Loading supporting race/schedule data and playerstats...")
-    load_progress.progress(45, text="Loading supporting data and playerstats")
-    drivers, constructors, _trends, diagnostics = load_cached_model_data(
+    model_data = load_model_data(
         historical_seasons_back=int(historical_seasons_back),
         current_season_weight=float(current_season_weight),
         past_season_weight=float(past_season_weight),
         recency_decay=float(recency_decay),
-        upcoming_race_horizon=int(upcoming_race_horizon),
+        horizon_races=int(upcoming_race_horizon),
+        include_playerstats=True,
+        progress_callback=_on_startup_progress,
+    )
+    drivers, constructors, _trends, diagnostics = (
+        model_data.drivers,
+        model_data.constructors,
+        model_data.trends,
+        model_data.diagnostics,
     )
     elapsed = time.time() - load_started
-    load_line.caption("Computing expected points and price-change probabilities...")
-    load_progress.progress(85, text="Computing model outputs")
     load_progress.progress(100, text=f"Ready in {elapsed:.1f}s")
     load_status.update(label=f"Data loaded in {elapsed:.1f}s", state="complete", expanded=False)
     st.session_state["last_good_model_payload"] = {
@@ -1512,19 +1529,28 @@ with transfers_tab:
             st.session_state.transfer_results = None
         if "transfer_run_signature" not in st.session_state:
             st.session_state.transfer_run_signature = None
+        if "transfer_run_diagnostics" not in st.session_state:
+            st.session_state.transfer_run_diagnostics = {}
 
         active_locks = len(locked_driver_ids) + len(locked_constructor_ids)
         active_exclusions = len(excluded_driver_ids) + len(excluded_constructor_ids)
         if active_locks or active_exclusions:
             st.caption(f"Using {active_locks} locked assets and {active_exclusions} excluded assets from Locks and exclusions.")
 
-        transfer_col1, transfer_col2, transfer_col3 = st.columns(3)
+        transfer_col1, transfer_col2, transfer_col3, transfer_col4 = st.columns(4)
         with transfer_col1:
             max_transfers = st.number_input("Max transfers to consider", min_value=1, max_value=4, value=2, step=1)
         with transfer_col2:
             transfer_options = st.selectbox("Number of transfer options", options=[3, 5, 10, 20], index=1)
         with transfer_col3:
             transfer_penalty = st.number_input("Penalty per extra transfer", min_value=0.0, value=10.0, step=1.0)
+        with transfer_col4:
+            transfer_search_mode = st.selectbox(
+                "Search mode",
+                options=["Fast", "Balanced", "Exhaustive"],
+                index=1,
+                help="Balanced prunes unlikely moves before scoring. Exhaustive checks everything but can be slow.",
+            )
         transfer_objective_col, transfer_weight_col = st.columns(2)
         with transfer_objective_col:
             transfer_objective = st.selectbox(
@@ -1575,6 +1601,7 @@ with transfers_tab:
             tuple(sorted(str(x) for x in excluded_driver_ids)),
             tuple(sorted(str(x) for x in locked_constructor_ids)),
             tuple(sorted(str(x) for x in excluded_constructor_ids)),
+            str(transfer_search_mode),
         )
         run_transfer_clicked = st.button("Run transfer recommendations", type="primary", use_container_width=True)
         signature_changed = st.session_state.transfer_run_signature != transfer_signature
@@ -1584,29 +1611,174 @@ with transfers_tab:
             st.session_state.transfer_results = None
 
         if run_transfer_clicked:
+            transfer_progress_ui = st.empty()
+            transfer_started = time.time()
+            transfer_stage_order: list[str] = []
+            transfer_meta: dict[str, object] = {}
+            with transfer_progress_ui.container():
+                transfer_status_line = st.empty()
+                transfer_status_line.markdown("Running transfer recommendations...")
+                transfer_progress = st.progress(0)
+
+            def _on_transfer_progress(event: dict) -> None:
+                stage = str(event.get("stage", "running"))
+                message = str(event.get("message", "Running transfer recommendations..."))
+                stage_progress_map = {
+                    "read_current_team": 0.08,
+                    "apply_locks_exclusions": 0.12,
+                    "filter_candidates": 0.18,
+                    "generate_candidates": 0.25,
+                    "score_candidates": 0.75,
+                    "rank_recommendations": 0.92,
+                    "ready": 1.0,
+                }
+                progress = event.get("progress")
+                if progress is None:
+                    progress = stage_progress_map.get(stage, 0.5)
+                progress = max(0.0, min(1.0, float(progress)))
+                transfer_status_line.markdown(message)
+                transfer_progress.progress(int(progress * 100))
+                if not transfer_stage_order or transfer_stage_order[-1] != stage:
+                    transfer_stage_order.append(stage)
+                for key in [
+                    "transfer_candidate_count",
+                    "transfer_candidate_count_total",
+                    "transfer_candidates_evaluated",
+                    "transfer_candidates_scored",
+                    "transfer_candidates_filtered",
+                    "transfer_results_count",
+                    "search_mode",
+                    "candidate_pool_mode",
+                    "incoming_driver_candidates",
+                    "incoming_constructor_candidates",
+                    "incoming_driver_candidates_kept",
+                    "incoming_constructor_candidates_kept",
+                    "outgoing_driver_candidates",
+                    "outgoing_constructor_candidates",
+                    "outgoing_driver_candidates_kept",
+                    "outgoing_constructor_candidates_kept",
+                    "exhaustive_candidate_count_before_filtering",
+                    "candidate_count_after_filtering",
+                    "valid_transfer_plans_generated",
+                    "candidate_teams_scored",
+                    "generated_partial_plans",
+                    "evaluated_full_candidates",
+                    "number_candidates_generated",
+                    "number_pruned_by_filtering",
+                    "duplicate_teams_skipped",
+                    "pruned_by_budget",
+                    "pruned_by_beam",
+                    "candidate_filter_score_used_for_prefilter",
+                    "exhaustive_scoring_used_after_prefilter",
+                    "final_score_used_for_sorting",
+                    "transfer_generation_duration_seconds",
+                    "transfer_scoring_duration_seconds",
+                    "transfer_total_duration_seconds",
+                    "generated_candidates_by_depth",
+                    "beam_kept_by_depth",
+                    "fully_scored_by_depth",
+                    "final_recommendations_by_transfer_count",
+                ]:
+                    if key in event:
+                        transfer_meta[key] = event[key]
+
             transfer_drivers = apply_no_negative_scores(current_team_drivers) if chip_mode == CHIP_NO_NEGATIVE else current_team_drivers
             transfer_constructors = apply_no_negative_scores(current_team_constructors) if chip_mode == CHIP_NO_NEGATIVE else current_team_constructors
-            recs = build_transfer_recommendations(
-                selected_current_driver_ids,
-                selected_current_constructor_ids,
-                transfer_drivers,
-                transfer_constructors,
-                budget=float(current_budget),
-                free_transfers=int(free_transfers),
-                max_transfers=int(max_transfers),
-                allow_extra_transfers=True,
-                transfer_penalty=float(transfer_penalty),
-                objective_mode=transfer_objective,
-                price_gain_weight=float(transfer_price_gain_weight),
-                locked_driver_ids=locked_driver_ids,
-                excluded_driver_ids=excluded_driver_ids,
-                locked_constructor_ids=locked_constructor_ids,
-                excluded_constructor_ids=excluded_constructor_ids,
-                chip_mode=chip_mode,
-                top_n=int(transfer_options),
-            )
-            st.session_state.transfer_results = recs
-            st.session_state.transfer_run_signature = transfer_signature
+            try:
+                recs = build_transfer_recommendations(
+                    selected_current_driver_ids,
+                    selected_current_constructor_ids,
+                    transfer_drivers,
+                    transfer_constructors,
+                    budget=float(current_budget),
+                    free_transfers=int(free_transfers),
+                    max_transfers=int(max_transfers),
+                    allow_extra_transfers=True,
+                    transfer_penalty=float(transfer_penalty),
+                    objective_mode=transfer_objective,
+                    price_gain_weight=float(transfer_price_gain_weight),
+                    locked_driver_ids=locked_driver_ids,
+                    excluded_driver_ids=excluded_driver_ids,
+                    locked_constructor_ids=locked_constructor_ids,
+                    excluded_constructor_ids=excluded_constructor_ids,
+                    chip_mode=chip_mode,
+                    search_mode=str(transfer_search_mode).lower(),
+                    top_n=int(transfer_options),
+                    progress_callback=_on_transfer_progress,
+                )
+            except Exception as exc:
+                LOGGER.exception("Transfer recommendation run failed")
+                transfer_status_line.markdown("Transfer recommendation run failed.")
+                st.warning("Transfer run failed. Keeping last successful recommendations.")
+                st.session_state["transfer_last_error"] = str(exc)
+            else:
+                st.session_state.transfer_results = recs
+                st.session_state.transfer_run_signature = transfer_signature
+                st.session_state["transfer_last_error"] = None
+                transfer_status_line.markdown("Transfer recommendations ready.")
+            finally:
+                elapsed = max(0.0, time.time() - transfer_started)
+                st.session_state.transfer_run_diagnostics = {
+                    "transfer_run_duration_seconds": float(elapsed),
+                    "transfer_total_duration_seconds": float(transfer_meta.get("transfer_total_duration_seconds", elapsed) or elapsed),
+                    "transfer_generation_duration_seconds": float(transfer_meta.get("transfer_generation_duration_seconds", 0.0) or 0.0),
+                    "transfer_scoring_duration_seconds": float(transfer_meta.get("transfer_scoring_duration_seconds", 0.0) or 0.0),
+                    "transfer_stage_order": transfer_stage_order,
+                    "transfer_candidate_count_total": int(
+                        transfer_meta.get(
+                            "transfer_candidate_count_total",
+                            transfer_meta.get("transfer_candidate_count", 0),
+                        )
+                        or 0
+                    ),
+                    "transfer_candidate_count": int(
+                        transfer_meta.get(
+                            "transfer_candidate_count_total",
+                            transfer_meta.get("transfer_candidate_count", 0),
+                        )
+                        or 0
+                    ),
+                    "transfer_candidates_evaluated": int(transfer_meta.get("transfer_candidates_evaluated", 0) or 0),
+                    "transfer_candidates_scored": int(transfer_meta.get("transfer_candidates_scored", 0) or 0),
+                    "transfer_candidates_filtered": int(transfer_meta.get("transfer_candidates_filtered", 0) or 0),
+                    "search_mode": str(transfer_meta.get("search_mode", "")),
+                    "candidate_pool_mode": str(transfer_meta.get("candidate_pool_mode", "")),
+                    "incoming_driver_candidates": int(transfer_meta.get("incoming_driver_candidates", 0) or 0),
+                    "incoming_constructor_candidates": int(transfer_meta.get("incoming_constructor_candidates", 0) or 0),
+                    "incoming_driver_candidates_kept": int(transfer_meta.get("incoming_driver_candidates_kept", 0) or 0),
+                    "incoming_constructor_candidates_kept": int(transfer_meta.get("incoming_constructor_candidates_kept", 0) or 0),
+                    "outgoing_driver_candidates": int(transfer_meta.get("outgoing_driver_candidates", 0) or 0),
+                    "outgoing_constructor_candidates": int(transfer_meta.get("outgoing_constructor_candidates", 0) or 0),
+                    "outgoing_driver_candidates_kept": int(transfer_meta.get("outgoing_driver_candidates_kept", 0) or 0),
+                    "outgoing_constructor_candidates_kept": int(transfer_meta.get("outgoing_constructor_candidates_kept", 0) or 0),
+                    "exhaustive_candidate_count_before_filtering": int(
+                        transfer_meta.get("exhaustive_candidate_count_before_filtering", 0) or 0
+                    ),
+                    "candidate_count_after_filtering": int(transfer_meta.get("candidate_count_after_filtering", 0) or 0),
+                    "valid_transfer_plans_generated": int(transfer_meta.get("valid_transfer_plans_generated", 0) or 0),
+                    "candidate_teams_scored": int(transfer_meta.get("candidate_teams_scored", 0) or 0),
+                    "generated_partial_plans": int(transfer_meta.get("generated_partial_plans", 0) or 0),
+                    "evaluated_full_candidates": int(transfer_meta.get("evaluated_full_candidates", 0) or 0),
+                    "number_candidates_generated": int(transfer_meta.get("number_candidates_generated", 0) or 0),
+                    "number_pruned_by_filtering": int(transfer_meta.get("number_pruned_by_filtering", 0) or 0),
+                    "duplicate_teams_skipped": int(transfer_meta.get("duplicate_teams_skipped", 0) or 0),
+                    "pruned_by_budget": int(transfer_meta.get("pruned_by_budget", 0) or 0),
+                    "pruned_by_beam": int(transfer_meta.get("pruned_by_beam", 0) or 0),
+                    "candidate_filter_score_used_for_prefilter": bool(
+                        transfer_meta.get("candidate_filter_score_used_for_prefilter", False)
+                    ),
+                    "exhaustive_scoring_used_after_prefilter": bool(
+                        transfer_meta.get("exhaustive_scoring_used_after_prefilter", False)
+                    ),
+                    "final_score_used_for_sorting": bool(transfer_meta.get("final_score_used_for_sorting", False)),
+                    "generated_candidates_by_depth": transfer_meta.get("generated_candidates_by_depth", {}),
+                    "beam_kept_by_depth": transfer_meta.get("beam_kept_by_depth", {}),
+                    "fully_scored_by_depth": transfer_meta.get("fully_scored_by_depth", {}),
+                    "final_recommendations_by_transfer_count": transfer_meta.get("final_recommendations_by_transfer_count", {}),
+                    "recommendations_by_transfer_count": transfer_meta.get("recommendations_by_transfer_count", {}),
+                    "transfer_results_count": int(transfer_meta.get("transfer_results_count", 0) or 0),
+                }
+                transfer_progress_ui.empty()
 
         recs = st.session_state.transfer_results
         if recs is None:
@@ -1996,4 +2168,62 @@ with diagnostics_tab:
             for event in diagnostics.get("model_load_events", []):
                 st.code(str(event))
     st.write("Fallback recent-point values used:", diagnostics.get("recent_points_fallback_used", False))
+    transfer_diag = st.session_state.get("transfer_run_diagnostics", {}) or {}
+    st.write("Transfer run duration (s):", f"{float(transfer_diag.get('transfer_run_duration_seconds', 0.0)):.2f}")
+    st.write("Transfer generation duration (s):", f"{float(transfer_diag.get('transfer_generation_duration_seconds', 0.0)):.2f}")
+    st.write("Transfer scoring duration (s):", f"{float(transfer_diag.get('transfer_scoring_duration_seconds', 0.0)):.2f}")
+    st.write("Transfer total duration (s):", f"{float(transfer_diag.get('transfer_total_duration_seconds', 0.0)):.2f}")
+    st.write("Transfer candidate count total:", int(transfer_diag.get("transfer_candidate_count_total", transfer_diag.get("transfer_candidate_count", 0)) or 0))
+    st.write("Transfer candidates evaluated:", int(transfer_diag.get("transfer_candidates_evaluated", 0) or 0))
+    st.write("Transfer candidates scored:", int(transfer_diag.get("transfer_candidates_scored", 0) or 0))
+    st.write("Transfer candidates filtered:", int(transfer_diag.get("transfer_candidates_filtered", 0) or 0))
+    st.write("Transfer search mode:", transfer_diag.get("search_mode", "unknown"))
+    st.write("Transfer candidate pool mode:", transfer_diag.get("candidate_pool_mode", "unknown"))
+    st.write("Candidate filter score used for prefilter:", bool(transfer_diag.get("candidate_filter_score_used_for_prefilter", False)))
+    st.write(
+        "Exhaustive scoring used after prefilter:",
+        bool(transfer_diag.get("exhaustive_scoring_used_after_prefilter", False)),
+    )
+    st.write("Final objective score used for sorting:", bool(transfer_diag.get("final_score_used_for_sorting", False)))
+    st.write(
+        "Transfer candidate pools:",
+        (
+            f"incoming drivers {int(transfer_diag.get('incoming_driver_candidates', 0) or 0)}, "
+            f"incoming constructors {int(transfer_diag.get('incoming_constructor_candidates', 0) or 0)}, "
+            f"outgoing drivers {int(transfer_diag.get('outgoing_driver_candidates', 0) or 0)}, "
+            f"outgoing constructors {int(transfer_diag.get('outgoing_constructor_candidates', 0) or 0)}"
+        ),
+    )
+    st.write(
+        "Transfer candidate pools kept:",
+        (
+            f"incoming drivers {int(transfer_diag.get('incoming_driver_candidates_kept', 0) or 0)}, "
+            f"incoming constructors {int(transfer_diag.get('incoming_constructor_candidates_kept', 0) or 0)}, "
+            f"outgoing drivers {int(transfer_diag.get('outgoing_driver_candidates_kept', 0) or 0)}, "
+            f"outgoing constructors {int(transfer_diag.get('outgoing_constructor_candidates_kept', 0) or 0)}"
+        ),
+    )
+    st.write(
+        "Transfer candidate counts:",
+        (
+            f"before filtering {int(transfer_diag.get('exhaustive_candidate_count_before_filtering', 0) or 0)}, "
+            f"after filtering {int(transfer_diag.get('candidate_count_after_filtering', 0) or 0)}, "
+            f"valid plans generated {int(transfer_diag.get('valid_transfer_plans_generated', 0) or 0)}, "
+            f"teams scored {int(transfer_diag.get('candidate_teams_scored', 0) or 0)}"
+        ),
+    )
+    st.write("Transfer generated partial plans:", int(transfer_diag.get("generated_partial_plans", 0) or 0))
+    st.write("Transfer fully scored candidates:", int(transfer_diag.get("evaluated_full_candidates", 0) or 0))
+    st.write("Transfer pruned by candidate filtering:", int(transfer_diag.get("number_pruned_by_filtering", 0) or 0))
+    st.write("Transfer duplicate teams skipped:", int(transfer_diag.get("duplicate_teams_skipped", 0) or 0))
+    st.write("Transfer pruned by budget:", int(transfer_diag.get("pruned_by_budget", 0) or 0))
+    st.write("Transfer pruned by beam:", int(transfer_diag.get("pruned_by_beam", 0) or 0))
+    st.write("Transfer generated candidates by depth:", transfer_diag.get("generated_candidates_by_depth", {}))
+    st.write("Transfer beam kept by depth:", transfer_diag.get("beam_kept_by_depth", {}))
+    st.write("Transfer fully scored by depth:", transfer_diag.get("fully_scored_by_depth", {}))
+    st.write("Final recommendations by transfer count:", transfer_diag.get("final_recommendations_by_transfer_count", {}))
+    st.write("Recommendations by transfer count:", transfer_diag.get("recommendations_by_transfer_count", {}))
+    st.write("Transfer results count:", int(transfer_diag.get("transfer_results_count", 0) or 0))
+    st.write("Transfer stage order:", transfer_diag.get("transfer_stage_order", []))
+    st.write("Transfer last error:", st.session_state.get("transfer_last_error") or "None")
     st.write("Cache:", "Live/model data is cached for 1 hour. Use Refresh live data to clear it.")
