@@ -1,4 +1,5 @@
 import pandas as pd
+import inspect
 
 from f1fantasy import app_core
 
@@ -268,3 +269,10 @@ def test_load_model_data_progress_events_include_stage_names_and_elapsed(monkeyp
     assert events[0].get("stage_name") == "Loading market feed"
     assert events[-1].get("stage_name") == "Ready"
     assert data.diagnostics["model_load_duration_seconds"] >= 0.0
+
+
+def test_load_model_data_signature_supports_progress_callback():
+    signature = inspect.signature(app_core.load_model_data)
+    assert "progress_callback" in signature.parameters
+    parameter = signature.parameters["progress_callback"]
+    assert parameter.default is None

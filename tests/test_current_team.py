@@ -325,12 +325,15 @@ def test_load_model_data_defaults_to_include_playerstats_true():
 
 def test_cached_loader_has_plain_data_signature_without_ui_callback():
     source = Path("streamlit_app.py").read_text(encoding="utf-8")
+    assert "def _call_load_model_data_compat(" in source
+    assert "inspect.signature(load_model_data)" in source
     fn_block = source.split("def load_cached_model_data(", 1)[1].split("def _option_labels", 1)[0]
     signature_block = fn_block.split("):", 1)[0]
     assert "_progress_callback" not in signature_block
     assert "progress_callback=" not in fn_block
     assert "st." not in fn_block
     assert "last_good_model_payload" in source
+    assert "model_data = _call_load_model_data_compat(" in source
 
 
 def test_transfer_recommendations_emit_progress_stages_and_counts():

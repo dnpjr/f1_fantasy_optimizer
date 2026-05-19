@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import inspect
 import json
 import logging
 from pathlib import Path
@@ -335,6 +336,20 @@ _inject_dashboard_css()
 LOGGER = logging.getLogger(__name__)
 
 
+def _call_load_model_data_compat(**kwargs):
+    """Call load_model_data with only supported kwargs for deployed-version compatibility."""
+    try:
+        signature = inspect.signature(load_model_data)
+        params = signature.parameters
+    except Exception:
+        params = {}
+    supported = {key: value for key, value in kwargs.items() if key in params}
+    dropped = sorted(set(kwargs.keys()) - set(supported.keys()))
+    if dropped:
+        LOGGER.warning("load_model_data compatibility mode dropped unsupported kwargs: %s", ", ".join(dropped))
+    return load_model_data(**supported)
+
+
 @st.cache_data(show_spinner=False, ttl=60 * 60)
 def load_cached_model_data(
     historical_seasons_back: int,
@@ -343,7 +358,7 @@ def load_cached_model_data(
     recency_decay: float,
     upcoming_race_horizon: int,
 ):
-    data = load_model_data(
+    data = _call_load_model_data_compat(
         historical_seasons_back=historical_seasons_back,
         current_season_weight=current_season_weight,
         past_season_weight=past_season_weight,
@@ -1121,7 +1136,7 @@ def _on_startup_progress(event: dict) -> None:
     load_line.caption(text)
 
 try:
-    model_data = load_model_data(
+    model_data = _call_load_model_data_compat(
         historical_seasons_back=int(historical_seasons_back),
         current_season_weight=float(current_season_weight),
         past_season_weight=float(past_season_weight),
