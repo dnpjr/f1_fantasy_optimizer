@@ -1,5 +1,8 @@
 """Raw Dutch snapshot -> canonical history -> fitted production bonus regressions."""
 import json
+import math
+import platform
+from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
@@ -18,6 +21,61 @@ SOURCE = ROOT / 'data/generated/sprint_ev_calibration/sources/official_2026_roun
 MARKET = SOURCE.parent / 'market_2026_round_13.json'
 SCHEDULE = ROOT / 'data/cache/schedule_2026.csv'
 PRIOR = ROOT / 'reports/2026_sprint_partial_pooling'
+
+
+
+# CI's x86_64 fit differs from macOS arm64 by at most two binary64 ULPs.
+# Allow four ULPs only on explicitly fitted scalars, never whole model trees.
+FITTED_FIELDS = {
+    'driver': ('form_mean', 'form_sd', 'group_intercept', 'group_slope',
+               'within_variance', 'tau_squared'),
+    'constructor': ('intercept', 'slope'),
+}
+
+
+def _assert_refitted_model(actual, expected, entity):
+    assert actual.keys() == expected.keys()
+    for field in FITTED_FIELDS[entity]:
+        reference = expected[field]
+        assert type(actual[field]) is type(reference) is float
+        assert math.isfinite(actual[field]) and math.isfinite(reference)
+        assert actual[field] == pytest.approx(reference, rel=0, abs=4 * math.ulp(reference)), field
+    # Includes ordered personal histories, IDs, counts, names, means and fixed weights.
+    assert {k: v for k, v in actual.items() if k not in FITTED_FIELDS[entity]} == {
+        k: v for k, v in expected.items() if k not in FITTED_FIELDS[entity]
+    }
+
+
+@pytest.mark.parametrize('entity,field', [
+    (entity, field) for entity, fields in FITTED_FIELDS.items() for field in fields
+])
+def test_refit_comparison_rejects_parameter_drift(entity, field):
+    active = json.loads((SOURCE.parent.parent / 'sprint_ev_2026_v1.json').read_text())[entity]
+    changed = deepcopy(active)
+    changed[field] += 4 * math.ulp(active[field])
+    _assert_refitted_model(changed, active, entity)
+    changed[field] += math.ulp(active[field])
+    with pytest.raises(AssertionError):
+        _assert_refitted_model(changed, active, entity)
+
+
+@pytest.mark.parametrize('mutation', ['count', 'identity', 'order', 'history_mean', 'extra_key'])
+def test_refit_comparison_keeps_history_exact(mutation):
+    active = json.loads((SOURCE.parent.parent / 'sprint_ev_2026_v1.json').read_text())['driver']
+    changed = deepcopy(active)
+    if mutation == 'count':
+        changed['personal_history'][0]['observation_count'] += 1
+    elif mutation == 'identity':
+        changed['personal_history'][0]['canonical_entity_id'] = 'unexpected'
+    elif mutation == 'order':
+        changed['personal_history'].reverse()
+    elif mutation == 'history_mean':
+        value = changed['personal_history'][0]['personal_mean_bonus']
+        changed['personal_history'][0]['personal_mean_bonus'] = math.nextafter(value, math.inf)
+    else:
+        changed['unexpected'] = 0
+    with pytest.raises(AssertionError):
+        _assert_refitted_model(changed, active, 'driver')
 
 
 def test_raw_snapshot_replays_exact_new_rows_and_canonical_keys():
@@ -46,7 +104,7 @@ def test_truncated_snapshot_is_rejected(tmp_path):
         _snapshot_official(path, _schedules())
 
 
-def test_refit_reproduces_active_parameters_and_all_observations(tmp_path):
+def test_refit_reproduces_active_parameters_and_all_observations(tmp_path, capsys):
     result = run_build(DEFAULT_CANONICAL_DATASET_PATH, SCHEDULE, MARKET, PRIOR, tmp_path, maximum_round=None)
     observations = result['prepared']['observations']
     assert set(observations['round']) == {2, 4, 5, 9, 12}
@@ -55,9 +113,25 @@ def test_refit_reproduces_active_parameters_and_all_observations(tmp_path):
     assert valid.groupby('entity_type').size().to_dict() == {'driver': 104, 'constructor': 53}
     new = runtime_candidate_payload(result, 'sprint_ev_2026_v1')
     active = json.loads((SOURCE.parent.parent / 'sprint_ev_2026_v1.json').read_text())
-    assert new['driver'] == active['driver']
-    assert new['constructor'] == active['constructor']
-    assert new['sprint_rounds'] == active['sprint_rounds']
+    # Emit both models even on success so CI numerical differences remain inspectable.
+    with capsys.disabled():
+        print('\nSprint refit environment:', platform.system(), platform.machine(),
+              platform.python_version(), 'numpy', np.__version__, 'pandas', pd.__version__,
+              'BLAS', getattr(np.__config__, 'CONFIG', {}).get('Build Dependencies', {}).get('blas', {}).get('name'))
+        for entity, fields in FITTED_FIELDS.items():
+            for field in fields:
+                ref, actual = active[entity][field], new[entity][field]
+                print('Sprint refit:', json.dumps({
+                    'field': f'{entity}.{field}', 'reference': ref, 'actual': actual,
+                    'absolute_delta': abs(actual - ref),
+                    'relative_delta': abs((actual - ref) / ref) if ref else None,
+                    'ulps': abs(actual - ref) / math.ulp(ref),
+                }, sort_keys=True))
+    for entity in FITTED_FIELDS:
+        _assert_refitted_model(new[entity], active[entity], entity)
+    for field in ('model_version', 'sprint_rounds', 'completed_rounds',
+                  'calibration_season', 'source_data_version', 'source_research_model'):
+        assert new[field] == active[field], field
     # Personal history follows human identity across changed Fantasy IDs.
     history = {r['canonical_entity_id']: r for r in new['driver']['personal_history']}
     assert history['hadjar']['observation_count'] == 4
