@@ -1,0 +1,8 @@
+entity,entity_type,normal_races,sprint_races,total_points,global_multiplier,implied_normal_baseline,implied_sprint_ev,reconstructed_total,reconstruction_error
+Max Verstappen,driver,59,22,2815,1.3425024009,31.7953162091,42.6852883482,2815,-4.54747350886e-13
+Fernando Alonso,driver,59,22,639,1.3425024009,7.21748030467,9.68948463748,639,0
+Isack Hadjar,driver,25,10,249,1.3425024009,6.48015209936,8.6996197516,249,0
+Logan Sargeant,driver,28,9,-9,1.3425024009,-0.224536771613,-0.301441154981,-9,0
+Red Bull,constructor,59,22,4997,1.25045411013,57.7621148214,72.228873888,4997,0
+Haas,constructor,59,22,1269,1.25045411013,14.6688260373,18.3426938091,1269,0
+Cadillac,constructor,7,4,-58,1.25045411013,-4.83260182219,-6.04294681116,-58,0

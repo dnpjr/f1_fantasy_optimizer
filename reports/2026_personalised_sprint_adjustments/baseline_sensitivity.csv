@@ -1,0 +1,166 @@
+entity_type,entity_id,entity_name,baseline_method,baseline_value,raw_personalised_adjustment,raw_candidate_sprint_ev
+constructor,alpine,Alpine,current_normal_baseline,26.45454545,7.097584234,33.55212969
+constructor,alpine,Alpine,normal_weekend_only_mean,23.57142857,6.153346653,29.72477522
+constructor,alpine,Alpine,median_normalised_baseline,25,6.621212121,31.62121212
+constructor,alpine,Alpine,recency_weighted_normal_baseline,25.20935228,6.689776212,31.89912849
+constructor,alpine,Alpine,recency_weighted_normal_weekend_only_mean,22.20950422,5.707308491,27.91681271
+constructor,aston_martin,Aston Martin,current_normal_baseline,-8.090909091,6.950981177,-1.139927913
+constructor,aston_martin,Aston Martin,normal_weekend_only_mean,-11.14285714,6.494398993,-4.64845815
+constructor,aston_martin,Aston Martin,median_normalised_baseline,-11,6.515770925,-4.484229075
+constructor,aston_martin,Aston Martin,recency_weighted_normal_baseline,0.3796446645,8.218205871,8.597850536
+constructor,aston_martin,Aston Martin,recency_weighted_normal_weekend_only_mean,-3.898349557,7.578202859,3.679853302
+constructor,audi,Audi,current_normal_baseline,12.6,-2.980652963,9.619347037
+constructor,audi,Audi,normal_weekend_only_mean,18.16666667,-1.634421604,16.53224506
+constructor,audi,Audi,median_normalised_baseline,13,-2.883917775,10.11608222
+constructor,audi,Audi,recency_weighted_normal_baseline,16.30925294,-2.083614767,14.22563817
+constructor,audi,Audi,recency_weighted_normal_weekend_only_mean,19.23471246,-1.376127578,17.85858489
+constructor,cadillac,Cadillac,current_normal_baseline,-6.727272727,9.555612873,2.828340145
+constructor,cadillac,Cadillac,normal_weekend_only_mean,-17,12.7302488,-4.2697512
+constructor,cadillac,Cadillac,median_normalised_baseline,-9,10.25796595,1.257965954
+constructor,cadillac,Cadillac,recency_weighted_normal_baseline,-13.9195565,11.77828285,-2.14127365
+constructor,cadillac,Cadillac,recency_weighted_normal_weekend_only_mean,-21.43588539,14.10109422,-7.334791172
+constructor,ferrari,Ferrari,current_normal_baseline,63.18181818,16.14931493,79.33113311
+constructor,ferrari,Ferrari,normal_weekend_only_mean,61.28571429,15.23463775,76.52035204
+constructor,ferrari,Ferrari,median_normalised_baseline,69,18.9559956,87.9559956
+constructor,ferrari,Ferrari,recency_weighted_normal_baseline,64.75198211,16.90675925,81.65874136
+constructor,ferrari,Ferrari,recency_weighted_normal_weekend_only_mean,62.73139405,15.93203112,78.66342517
+constructor,haas,Haas F1 Team,current_normal_baseline,15.72727273,9.689685532,25.41695826
+constructor,haas,Haas F1 Team,normal_weekend_only_mean,10.85714286,9.08379155,19.94093441
+constructor,haas,Haas F1 Team,median_normalised_baseline,14,9.474795133,23.47479513
+constructor,haas,Haas F1 Team,recency_weighted_normal_baseline,13.52800277,9.416073848,22.94407662
+constructor,haas,Haas F1 Team,recency_weighted_normal_weekend_only_mean,10.84099707,9.081782849,19.92277992
+constructor,mclaren,McLaren,current_normal_baseline,42.45454545,18.60015232,61.05469778
+constructor,mclaren,McLaren,normal_weekend_only_mean,47.14285714,19.08595365,66.22881079
+constructor,mclaren,McLaren,median_normalised_baseline,49,19.27839019,68.27839019
+constructor,mclaren,McLaren,recency_weighted_normal_baseline,47.8419563,19.15839408,67.00035038
+constructor,mclaren,McLaren,recency_weighted_normal_weekend_only_mean,49.29162145,19.30860791,68.60022936
+constructor,mercedes,Mercedes,current_normal_baseline,72.45454545,21.92948965,94.3840351
+constructor,mercedes,Mercedes,normal_weekend_only_mean,70.71428571,22.31776944,93.03205516
+constructor,mercedes,Mercedes,median_normalised_baseline,71,22.25402202,93.25402202
+constructor,mercedes,Mercedes,recency_weighted_normal_baseline,65.35919726,23.51257538,88.87177263
+constructor,mercedes,Mercedes,recency_weighted_normal_weekend_only_mean,66.54623346,23.24772861,89.79396206
+constructor,rb,Racing Bulls,current_normal_baseline,28.81818182,7.404269383,36.2224512
+constructor,rb,Racing Bulls,normal_weekend_only_mean,30.71428571,7.778137602,38.49242332
+constructor,rb,Racing Bulls,median_normalised_baseline,35,8.623182207,43.62318221
+constructor,rb,Racing Bulls,recency_weighted_normal_baseline,31.91897989,8.015675676,39.93465557
+constructor,rb,Racing Bulls,recency_weighted_normal_weekend_only_mean,32.00134433,8.031916054,40.03326038
+constructor,red_bull,Red Bull Racing,current_normal_baseline,43.36363636,-1.40785474,41.95578162
+constructor,red_bull,Red Bull Racing,normal_weekend_only_mean,50,-5.783771734,44.21622827
+constructor,red_bull,Red Bull Racing,median_normalised_baseline,42,-0.5086937138,41.49130629
+constructor,red_bull,Red Bull Racing,recency_weighted_normal_baseline,51.26213611,-6.616005038,44.64613107
+constructor,red_bull,Red Bull Racing,recency_weighted_normal_weekend_only_mean,56.30953499,-9.944182904,46.36535209
+constructor,williams,Williams,current_normal_baseline,9.2,13.51177945,22.71177945
+constructor,williams,Williams,normal_weekend_only_mean,8.857142857,13.58825636,22.44539921
+constructor,williams,Williams,median_normalised_baseline,9,13.55639098,22.55639098
+constructor,williams,Williams,recency_weighted_normal_baseline,8.576410434,13.65087587,22.2272863
+constructor,williams,Williams,recency_weighted_normal_weekend_only_mean,8.541325861,13.65870175,22.20002761
+driver,albon,Alexander Albon,current_normal_baseline,-2.272727273,6.800610926,4.527883654
+driver,albon,Alexander Albon,normal_weekend_only_mean,2,6.258102884,8.258102884
+driver,albon,Alexander Albon,median_normalised_baseline,3,6.131132917,9.131132917
+driver,albon,Alexander Albon,recency_weighted_normal_baseline,-1.955561725,6.760340427,4.804778702
+driver,albon,Alexander Albon,recency_weighted_normal_weekend_only_mean,2.060996744,6.25035813,8.311354874
+driver,alonso,Fernando Alonso,current_normal_baseline,-0.4545454545,3.923286016,3.468740562
+driver,alonso,Fernando Alonso,normal_weekend_only_mean,1.428571429,4.736592311,6.16516374
+driver,alonso,Fernando Alonso,median_normalised_baseline,5,6.279069767,11.27906977
+driver,alonso,Fernando Alonso,recency_weighted_normal_baseline,3.019300678,5.423618233,8.442918911
+driver,alonso,Fernando Alonso,recency_weighted_normal_weekend_only_mean,3.431852416,5.601796724,9.03364914
+driver,antonelli,Kimi Antonelli,current_normal_baseline,35.36363636,10.39088903,45.75452539
+driver,antonelli,Kimi Antonelli,normal_weekend_only_mean,33.42857143,10.61425419,44.04282562
+driver,antonelli,Kimi Antonelli,median_normalised_baseline,38,10.08657274,48.08657274
+driver,antonelli,Kimi Antonelli,recency_weighted_normal_baseline,30.27336539,10.97846062,41.25182602
+driver,antonelli,Kimi Antonelli,recency_weighted_normal_weekend_only_mean,31.90055231,10.79063392,42.69118623
+driver,arvid_lindblad,Arvid Lindblad,current_normal_baseline,6.545454545,-2.301120699,4.244333847
+driver,arvid_lindblad,Arvid Lindblad,normal_weekend_only_mean,8.428571429,-2.47318967,5.955381759
+driver,arvid_lindblad,Arvid Lindblad,median_normalised_baseline,6,-2.251280032,3.748719968
+driver,arvid_lindblad,Arvid Lindblad,recency_weighted_normal_baseline,6.524602946,-2.299215393,4.225387553
+driver,arvid_lindblad,Arvid Lindblad,recency_weighted_normal_weekend_only_mean,7.236034402,-2.364222127,4.871812274
+driver,bearman,Oliver Bearman,current_normal_baseline,4.818181818,3.594975931,8.413157749
+driver,bearman,Oliver Bearman,normal_weekend_only_mean,0.8571428571,3.363533606,4.220676463
+driver,bearman,Oliver Bearman,median_normalised_baseline,7,3.722458917,10.72245892
+driver,bearman,Oliver Bearman,recency_weighted_normal_baseline,3.818083937,3.53654051,7.354624447
+driver,bearman,Oliver Bearman,recency_weighted_normal_weekend_only_mean,1.644207253,3.409521544,5.053728797
+driver,bortoleto,Gabriel Bortoleto,current_normal_baseline,5.818181818,-0.5230235057,5.295158312
+driver,bortoleto,Gabriel Bortoleto,normal_weekend_only_mean,7.285714286,-0.9647512233,6.320963062
+driver,bortoleto,Gabriel Bortoleto,median_normalised_baseline,7,-0.8787511367,6.121248863
+driver,bortoleto,Gabriel Bortoleto,recency_weighted_normal_baseline,7.734819253,-1.099931955,6.634887298
+driver,bortoleto,Gabriel Bortoleto,recency_weighted_normal_weekend_only_mean,7.49676876,-1.028278684,6.468490076
+driver,bottas,Valtteri Bottas,current_normal_baseline,-5.545454545,13.1307815,7.585326954
+driver,bottas,Valtteri Bottas,normal_weekend_only_mean,-12,20.49122807,8.49122807
+driver,bottas,Valtteri Bottas,median_normalised_baseline,1,5.666666667,6.666666667
+driver,bottas,Valtteri Bottas,recency_weighted_normal_baseline,-7.354646962,15.19389566,7.839248696
+driver,bottas,Valtteri Bottas,recency_weighted_normal_weekend_only_mean,-11.90126496,20.37863548,8.477370521
+driver,colapinto,Franco Colapinto,current_normal_baseline,10.1,6.176061776,16.27606178
+driver,colapinto,Franco Colapinto,normal_weekend_only_mean,6.666666667,6.626769627,13.29343629
+driver,colapinto,Franco Colapinto,median_normalised_baseline,9,6.32046332,15.32046332
+driver,colapinto,Franco Colapinto,recency_weighted_normal_baseline,9.783099648,6.217662595,16.00076224
+driver,colapinto,Franco Colapinto,recency_weighted_normal_weekend_only_mean,6.508717148,6.647504313,13.15622146
+driver,gasly,Pierre Gasly,current_normal_baseline,10.2,4.227196149,14.42719615
+driver,gasly,Pierre Gasly,normal_weekend_only_mean,12,4.181708785,16.18170878
+driver,gasly,Pierre Gasly,median_normalised_baseline,12,4.181708785,16.18170878
+driver,gasly,Pierre Gasly,recency_weighted_normal_baseline,10.10904654,4.229494612,14.33854115
+driver,gasly,Pierre Gasly,recency_weighted_normal_weekend_only_mean,10.30896811,4.224442442,14.53341055
+driver,hadjar,Isack Hadjar,current_normal_baseline,12.63636364,-0.6915949402,11.9447687
+driver,hadjar,Isack Hadjar,normal_weekend_only_mean,15.14285714,-0.943934906,14.19892224
+driver,hadjar,Isack Hadjar,median_normalised_baseline,16,-1.03022733,14.96977267
+driver,hadjar,Isack Hadjar,recency_weighted_normal_baseline,18.25929909,-1.257681122,17.00161796
+driver,hadjar,Isack Hadjar,recency_weighted_normal_weekend_only_mean,18.62307057,-1.294303632,17.32876694
+driver,hamilton,Lewis Hamilton,current_normal_baseline,28.72727273,6.997402597,35.72467532
+driver,hamilton,Lewis Hamilton,normal_weekend_only_mean,28.71428571,6.995918367,35.71020408
+driver,hamilton,Lewis Hamilton,median_normalised_baseline,27,6.8,33.8
+driver,hamilton,Lewis Hamilton,recency_weighted_normal_baseline,28.30524828,6.949171232,35.25441951
+driver,hamilton,Lewis Hamilton,recency_weighted_normal_weekend_only_mean,28.44309292,6.964924905,35.40801783
+driver,hulkenberg,Nico Hulkenberg,current_normal_baseline,-1.909090909,-2.36400535,-4.273096259
+driver,hulkenberg,Nico Hulkenberg,normal_weekend_only_mean,-0.5714285714,-2.143436979,-2.71486555
+driver,hulkenberg,Nico Hulkenberg,median_normalised_baseline,3,-1.554540842,1.445459158
+driver,hulkenberg,Nico Hulkenberg,recency_weighted_normal_baseline,0.1337170976,-2.027164862,-1.893447765
+driver,hulkenberg,Nico Hulkenberg,recency_weighted_normal_weekend_only_mean,1.76714015,-1.757828235,0.009311914945
+driver,lawson,Liam Lawson,current_normal_baseline,8.454545455,8.79197553,17.24652098
+driver,lawson,Liam Lawson,normal_weekend_only_mean,8.571428571,8.815961547,17.38739012
+driver,lawson,Liam Lawson,median_normalised_baseline,10,9.109123977,19.10912398
+driver,lawson,Liam Lawson,recency_weighted_normal_baseline,9.187979335,8.942486211,18.13046555
+driver,lawson,Liam Lawson,recency_weighted_normal_weekend_only_mean,8.705803275,8.843537077,17.54934035
+driver,leclerc,Charles Leclerc,current_normal_baseline,24.2,10.44339207,34.64339207
+driver,leclerc,Charles Leclerc,normal_weekend_only_mean,21,10.23898678,31.23898678
+driver,leclerc,Charles Leclerc,median_normalised_baseline,29.5,10.78193833,40.28193833
+driver,leclerc,Charles Leclerc,recency_weighted_normal_baseline,26.4863202,10.58943455,37.07575475
+driver,leclerc,Charles Leclerc,recency_weighted_normal_weekend_only_mean,22.63431347,10.34338126,32.97769473
+driver,max_verstappen,Max Verstappen,current_normal_baseline,22.27272727,6.054948506,28.32767578
+driver,max_verstappen,Max Verstappen,normal_weekend_only_mean,26,5.800633367,31.80063337
+driver,max_verstappen,Max Verstappen,median_normalised_baseline,24,5.937095149,29.93709515
+driver,max_verstappen,Max Verstappen,recency_weighted_normal_baseline,23.35335922,5.981216026,29.33457524
+driver,max_verstappen,Max Verstappen,recency_weighted_normal_weekend_only_mean,28.20386777,5.650261505,33.85412928
+driver,norris,Lando Norris,current_normal_baseline,16.90909091,11.0090616,27.91815251
+driver,norris,Lando Norris,normal_weekend_only_mean,19.85714286,11.44281109,31.29995395
+driver,norris,Lando Norris,median_normalised_baseline,23,11.90522244,34.90522244
+driver,norris,Lando Norris,recency_weighted_normal_baseline,23.17518415,11.93099744,35.10618159
+driver,norris,Lando Norris,recency_weighted_normal_weekend_only_mean,23.84511103,12.02956437,35.8746754
+driver,ocon,Esteban Ocon,current_normal_baseline,8.454545455,6.542168675,14.99671413
+driver,ocon,Esteban Ocon,normal_weekend_only_mean,7.857142857,6.423407917,14.28055077
+driver,ocon,Esteban Ocon,median_normalised_baseline,8,6.451807229,14.45180723
+driver,ocon,Esteban Ocon,recency_weighted_normal_baseline,7.605691747,6.373420648,13.9791124
+driver,ocon,Esteban Ocon,recency_weighted_normal_weekend_only_mean,6.984726519,6.249975754,13.23470227
+driver,perez,Sergio Perez,current_normal_baseline,-0.9090909091,4.005209906,3.096118997
+driver,perez,Sergio Perez,normal_weekend_only_mean,-4.285714286,4.151044139,-0.1346701471
+driver,perez,Sergio Perez,median_normalised_baseline,4,3.793189369,7.793189369
+driver,perez,Sergio Perez,recency_weighted_normal_baseline,-6.230682692,4.235046096,-1.995636596
+driver,perez,Sergio Perez,recency_weighted_normal_weekend_only_mean,-8.793767513,4.345744112,-4.448023401
+driver,piastri,Oscar Piastri,current_normal_baseline,11.81818182,7.647570734,19.46575255
+driver,piastri,Oscar Piastri,normal_weekend_only_mean,13.57142857,7.731896868,21.30332544
+driver,piastri,Oscar Piastri,median_normalised_baseline,16,7.848704179,23.84870418
+driver,piastri,Oscar Piastri,recency_weighted_normal_baseline,10.53646474,7.585923823,18.12238856
+driver,piastri,Oscar Piastri,recency_weighted_normal_weekend_only_mean,11.54566657,7.634463534,19.18013011
+driver,russell,George Russell,current_normal_baseline,23.1,11.29649556,34.39649556
+driver,russell,George Russell,normal_weekend_only_mean,23.5,11.3274926,34.8274926
+driver,russell,George Russell,median_normalised_baseline,29,11.75370188,40.75370188
+driver,russell,George Russell,recency_weighted_normal_baseline,19.26278388,10.99913972,30.2619236
+driver,russell,George Russell,recency_weighted_normal_weekend_only_mean,20.26810651,11.07704478,31.34515129
+driver,sainz,Carlos Sainz,current_normal_baseline,5.222222222,,
+driver,sainz,Carlos Sainz,normal_weekend_only_mean,2.285714286,,
+driver,sainz,Carlos Sainz,median_normalised_baseline,9,,
+driver,sainz,Carlos Sainz,recency_weighted_normal_baseline,3.315468358,,
+driver,sainz,Carlos Sainz,recency_weighted_normal_weekend_only_mean,1.820411072,,
+driver,stroll,Lance Stroll,current_normal_baseline,-9.181818182,5.043877551,-4.137940631
+driver,stroll,Lance Stroll,normal_weekend_only_mean,-14.42857143,4.926093294,-9.502478134
+driver,stroll,Lance Stroll,median_normalised_baseline,-17,4.868367347,-12.13163265
+driver,stroll,Lance Stroll,recency_weighted_normal_baseline,-5.55656781,5.125260723,-0.4313070872
+driver,stroll,Lance Stroll,recency_weighted_normal_weekend_only_mean,-10.40431804,5.016433677,-5.387884362

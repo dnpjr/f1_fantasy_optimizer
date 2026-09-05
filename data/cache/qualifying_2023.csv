@@ -1,0 +1,101 @@
+season,round,circuitName,driverId,driver,constructorId,position,q1,q2,q3
+2023,1,Bahrain International Circuit,max_verstappen,Max Verstappen,red_bull,1,1:31.295,1:30.503,1:29.708
+2023,1,Bahrain International Circuit,perez,Sergio Pérez,red_bull,2,1:31.479,1:30.746,1:29.846
+2023,1,Bahrain International Circuit,leclerc,Charles Leclerc,ferrari,3,1:31.094,1:30.282,1:30.000
+2023,1,Bahrain International Circuit,sainz,Carlos Sainz,ferrari,4,1:30.993,1:30.515,1:30.154
+2023,1,Bahrain International Circuit,alonso,Fernando Alonso,aston_martin,5,1:31.158,1:30.645,1:30.336
+2023,1,Bahrain International Circuit,russell,George Russell,mercedes,6,1:31.057,1:30.507,1:30.340
+2023,1,Bahrain International Circuit,hamilton,Lewis Hamilton,mercedes,7,1:31.543,1:30.513,1:30.384
+2023,1,Bahrain International Circuit,stroll,Lance Stroll,aston_martin,8,1:31.184,1:31.127,1:30.836
+2023,1,Bahrain International Circuit,ocon,Esteban Ocon,alpine,9,1:31.508,1:30.914,1:30.984
+2023,1,Bahrain International Circuit,hulkenberg,Nico Hülkenberg,haas,10,1:31.204,1:30.809,
+2023,1,Bahrain International Circuit,norris,Lando Norris,mclaren,11,1:31.652,1:31.381,
+2023,1,Bahrain International Circuit,bottas,Valtteri Bottas,alfa,12,1:31.504,1:31.443,
+2023,1,Bahrain International Circuit,zhou,Guanyu Zhou,alfa,13,1:31.615,1:31.473,
+2023,1,Bahrain International Circuit,tsunoda,Yuki Tsunoda,alphatauri,14,1:31.400,1:32.510,
+2023,1,Bahrain International Circuit,albon,Alexander Albon,williams,15,1:31.461,,
+2023,1,Bahrain International Circuit,sargeant,Logan Sargeant,williams,16,1:31.652,,
+2023,1,Bahrain International Circuit,kevin_magnussen,Kevin Magnussen,haas,17,1:31.892,,
+2023,1,Bahrain International Circuit,piastri,Oscar Piastri,mclaren,18,1:32.101,,
+2023,1,Bahrain International Circuit,de_vries,Nyck de Vries,alphatauri,19,1:32.121,,
+2023,1,Bahrain International Circuit,gasly,Pierre Gasly,alpine,20,1:32.181,,
+2023,2,Jeddah Corniche Circuit,perez,Sergio Pérez,red_bull,1,1:29.244,1:28.635,1:28.265
+2023,2,Jeddah Corniche Circuit,leclerc,Charles Leclerc,ferrari,2,1:29.376,1:28.903,1:28.420
+2023,2,Jeddah Corniche Circuit,alonso,Fernando Alonso,aston_martin,3,1:29.298,1:28.757,1:28.730
+2023,2,Jeddah Corniche Circuit,russell,George Russell,mercedes,4,1:29.592,1:29.132,1:28.857
+2023,2,Jeddah Corniche Circuit,sainz,Carlos Sainz,ferrari,5,1:29.411,1:28.957,1:28.931
+2023,2,Jeddah Corniche Circuit,stroll,Lance Stroll,aston_martin,6,1:29.335,1:28.962,1:28.945
+2023,2,Jeddah Corniche Circuit,ocon,Esteban Ocon,alpine,7,1:29.707,1:29.255,1:29.078
+2023,2,Jeddah Corniche Circuit,hamilton,Lewis Hamilton,mercedes,8,1:29.689,1:29.374,1:29.223
+2023,2,Jeddah Corniche Circuit,piastri,Oscar Piastri,mclaren,9,1:29.706,1:29.378,1:29.243
+2023,2,Jeddah Corniche Circuit,gasly,Pierre Gasly,alpine,10,1:29.890,1:29.411,1:29.357
+2023,2,Jeddah Corniche Circuit,hulkenberg,Nico Hülkenberg,haas,11,1:29.547,1:29.451,
+2023,2,Jeddah Corniche Circuit,zhou,Guanyu Zhou,alfa,12,1:29.654,1:29.461,
+2023,2,Jeddah Corniche Circuit,kevin_magnussen,Kevin Magnussen,haas,13,1:29.744,1:29.634,
+2023,2,Jeddah Corniche Circuit,bottas,Valtteri Bottas,alfa,14,1:29.929,1:29.668,
+2023,2,Jeddah Corniche Circuit,max_verstappen,Max Verstappen,red_bull,15,1:28.761,1:49.953,
+2023,2,Jeddah Corniche Circuit,tsunoda,Yuki Tsunoda,alphatauri,16,1:29.939,,
+2023,2,Jeddah Corniche Circuit,albon,Alexander Albon,williams,17,1:29.994,,
+2023,2,Jeddah Corniche Circuit,de_vries,Nyck de Vries,alphatauri,18,1:30.244,,
+2023,2,Jeddah Corniche Circuit,norris,Lando Norris,mclaren,19,1:30.447,,
+2023,2,Jeddah Corniche Circuit,sargeant,Logan Sargeant,williams,20,2:08.510,,
+2023,3,Albert Park Grand Prix Circuit,max_verstappen,Max Verstappen,red_bull,1,1:17.384,1:17.056,1:16.732
+2023,3,Albert Park Grand Prix Circuit,russell,George Russell,mercedes,2,1:17.654,1:17.513,1:16.968
+2023,3,Albert Park Grand Prix Circuit,hamilton,Lewis Hamilton,mercedes,3,1:17.689,1:17.551,1:17.104
+2023,3,Albert Park Grand Prix Circuit,alonso,Fernando Alonso,aston_martin,4,1:17.832,1:17.283,1:17.139
+2023,3,Albert Park Grand Prix Circuit,sainz,Carlos Sainz,ferrari,5,1:17.928,1:17.349,1:17.270
+2023,3,Albert Park Grand Prix Circuit,stroll,Lance Stroll,aston_martin,6,1:17.873,1:17.616,1:17.308
+2023,3,Albert Park Grand Prix Circuit,leclerc,Charles Leclerc,ferrari,7,1:18.218,1:17.390,1:17.369
+2023,3,Albert Park Grand Prix Circuit,albon,Alexander Albon,williams,8,1:17.962,1:17.761,1:17.609
+2023,3,Albert Park Grand Prix Circuit,gasly,Pierre Gasly,alpine,9,1:18.312,1:17.574,1:17.675
+2023,3,Albert Park Grand Prix Circuit,hulkenberg,Nico Hülkenberg,haas,10,1:18.029,1:17.412,1:17.735
+2023,3,Albert Park Grand Prix Circuit,ocon,Esteban Ocon,alpine,11,1:17.770,1:17.768,
+2023,3,Albert Park Grand Prix Circuit,tsunoda,Yuki Tsunoda,alphatauri,12,1:18.471,1:18.099,
+2023,3,Albert Park Grand Prix Circuit,norris,Lando Norris,mclaren,13,1:18.243,1:18.119,
+2023,3,Albert Park Grand Prix Circuit,kevin_magnussen,Kevin Magnussen,haas,14,1:18.159,1:18.129,
+2023,3,Albert Park Grand Prix Circuit,de_vries,Nyck de Vries,alphatauri,15,1:18.450,1:18.335,
+2023,3,Albert Park Grand Prix Circuit,piastri,Oscar Piastri,mclaren,16,1:18.517,,
+2023,3,Albert Park Grand Prix Circuit,zhou,Guanyu Zhou,alfa,17,1:18.540,,
+2023,3,Albert Park Grand Prix Circuit,sargeant,Logan Sargeant,williams,18,1:18.557,,
+2023,3,Albert Park Grand Prix Circuit,bottas,Valtteri Bottas,alfa,19,1:18.714,,
+2023,3,Albert Park Grand Prix Circuit,perez,Sergio Pérez,red_bull,20,,,
+2023,4,Baku City Circuit,leclerc,Charles Leclerc,ferrari,1,1:41.269,1:41.037,1:40.203
+2023,4,Baku City Circuit,max_verstappen,Max Verstappen,red_bull,2,1:41.398,1:40.822,1:40.391
+2023,4,Baku City Circuit,perez,Sergio Pérez,red_bull,3,1:41.756,1:41.131,1:40.495
+2023,4,Baku City Circuit,sainz,Carlos Sainz,ferrari,4,1:42.197,1:41.369,1:41.016
+2023,4,Baku City Circuit,hamilton,Lewis Hamilton,mercedes,5,1:42.113,1:41.650,1:41.177
+2023,4,Baku City Circuit,alonso,Fernando Alonso,aston_martin,6,1:41.720,1:41.370,1:41.253
+2023,4,Baku City Circuit,norris,Lando Norris,mclaren,7,1:42.154,1:41.485,1:41.281
+2023,4,Baku City Circuit,tsunoda,Yuki Tsunoda,alphatauri,8,1:42.234,1:41.569,1:41.581
+2023,4,Baku City Circuit,stroll,Lance Stroll,aston_martin,9,1:42.524,1:41.576,1:41.611
+2023,4,Baku City Circuit,piastri,Oscar Piastri,mclaren,10,1:42.455,1:41.636,1:41.611
+2023,4,Baku City Circuit,russell,George Russell,mercedes,11,1:42.073,1:41.654,
+2023,4,Baku City Circuit,ocon,Esteban Ocon,alpine,12,1:42.622,1:41.798,
+2023,4,Baku City Circuit,albon,Alexander Albon,williams,13,1:42.171,1:41.818,
+2023,4,Baku City Circuit,bottas,Valtteri Bottas,alfa,14,1:42.582,1:42.259,
+2023,4,Baku City Circuit,sargeant,Logan Sargeant,williams,15,1:42.242,1:42.395,
+2023,4,Baku City Circuit,zhou,Guanyu Zhou,alfa,16,1:42.642,,
+2023,4,Baku City Circuit,hulkenberg,Nico Hülkenberg,haas,17,1:42.755,,
+2023,4,Baku City Circuit,kevin_magnussen,Kevin Magnussen,haas,18,1:43.417,,
+2023,4,Baku City Circuit,gasly,Pierre Gasly,alpine,19,1:44.853,,
+2023,4,Baku City Circuit,de_vries,Nyck de Vries,alphatauri,20,1:55.282,,
+2023,5,Miami International Autodrome,perez,Sergio Pérez,red_bull,1,1:27.713,1:27.328,1:26.841
+2023,5,Miami International Autodrome,alonso,Fernando Alonso,aston_martin,2,1:28.179,1:27.097,1:27.202
+2023,5,Miami International Autodrome,sainz,Carlos Sainz,ferrari,3,1:27.686,1:27.148,1:27.349
+2023,5,Miami International Autodrome,kevin_magnussen,Kevin Magnussen,haas,4,1:27.809,1:27.673,1:27.767
+2023,5,Miami International Autodrome,gasly,Pierre Gasly,alpine,5,1:28.061,1:27.612,1:27.786
+2023,5,Miami International Autodrome,russell,George Russell,mercedes,6,1:28.086,1:27.743,1:27.804
+2023,5,Miami International Autodrome,leclerc,Charles Leclerc,ferrari,7,1:27.713,1:26.964,1:27.861
+2023,5,Miami International Autodrome,ocon,Esteban Ocon,alpine,8,1:27.872,1:27.444,1:27.935
+2023,5,Miami International Autodrome,max_verstappen,Max Verstappen,red_bull,9,1:27.363,1:26.814,
+2023,5,Miami International Autodrome,bottas,Valtteri Bottas,alfa,10,1:27.864,1:27.564,
+2023,5,Miami International Autodrome,albon,Alexander Albon,williams,11,1:28.234,1:27.795,
+2023,5,Miami International Autodrome,hulkenberg,Nico Hülkenberg,haas,12,1:27.945,1:27.903,
+2023,5,Miami International Autodrome,hamilton,Lewis Hamilton,mercedes,13,1:27.846,1:27.975,
+2023,5,Miami International Autodrome,zhou,Guanyu Zhou,alfa,14,1:28.180,1:28.091,
+2023,5,Miami International Autodrome,de_vries,Nyck de Vries,alphatauri,15,1:28.325,1:28.395,
+2023,5,Miami International Autodrome,norris,Lando Norris,mclaren,16,1:28.394,,
+2023,5,Miami International Autodrome,tsunoda,Yuki Tsunoda,alphatauri,17,1:28.429,,
+2023,5,Miami International Autodrome,stroll,Lance Stroll,aston_martin,18,1:28.476,,
+2023,5,Miami International Autodrome,piastri,Oscar Piastri,mclaren,19,1:28.484,,
+2023,5,Miami International Autodrome,sargeant,Logan Sargeant,williams,20,1:28.577,,

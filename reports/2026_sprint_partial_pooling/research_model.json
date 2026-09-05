@@ -1,0 +1,250 @@
+{
+  "completed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "constructor_model": {
+    "asset_effects": {
+      "alpine": -0.2920539699304914,
+      "aston_martin": 0.9670320310408407,
+      "audi": -2.312510969444825,
+      "cadillac": 0.07112343094370778,
+      "ferrari": 0.5595401294381409,
+      "haas": 0.545671830360908,
+      "mclaren": 0.8513573296324071,
+      "mercedes": 0.8218143291467409,
+      "rb": -0.765008269979059,
+      "red_bull": -1.5945512704647264,
+      "williams": 1.147585399256356
+    },
+    "asset_penalty": 16.0,
+    "event_effects": {
+      "2": 4.4749598463745075,
+      "4": -3.441706820292159,
+      "5": -2.525040153625492,
+      "9": 1.4917871275431436
+    },
+    "event_penalty": 1.0,
+    "future_event_effect": 0.0,
+    "lambda": 16.04994601068467,
+    "lambda_constrained_nonnegative": true,
+    "mu": 1.0909823435816302,
+    "recommended_by_leave_one_sprint_out": "strength_only",
+    "recommended_validation": {
+      "bias": 0.0021386605878839743,
+      "mae": 7.003443576552499,
+      "rmse": 10.403131368254128,
+      "spearman": 0.3741494112827596
+    },
+    "shrinkage_method": "centred penalised least squares ridge random intercept",
+    "strength_definition": "blend_form_0.75_price_0.25",
+    "uncertainty": {
+      "alpine": {
+        "lower": 5.278089388597706,
+        "upper": 14.558342370846244
+      },
+      "aston_martin": {
+        "lower": -2.0672643543726172,
+        "upper": 9.831008106045893
+      },
+      "audi": {
+        "lower": -0.7188571192499751,
+        "upper": 9.218944874808589
+      },
+      "cadillac": {
+        "lower": -1.9983654069606933,
+        "upper": 9.429377959411038
+      },
+      "ferrari": {
+        "lower": 10.1545401013954,
+        "upper": 20.86913886309948
+      },
+      "haas": {
+        "lower": 3.821669325743107,
+        "upper": 13.312956031369636
+      },
+      "mclaren": {
+        "lower": 9.330910202316389,
+        "upper": 19.358231160624356
+      },
+      "mercedes": {
+        "lower": 11.937017250683162,
+        "upper": 23.98846811614292
+      },
+      "rb": {
+        "lower": 5.15925671356457,
+        "upper": 14.460809446267913
+      },
+      "red_bull": {
+        "lower": 7.454438253125628,
+        "upper": 17.80197191059219
+      },
+      "williams": {
+        "lower": 2.5509781956118927,
+        "upper": 12.869302297349083
+      }
+    }
+  },
+  "current_market_feed_round": 12,
+  "driver_model": {
+    "asset_effects": {
+      "albon": 2.511261436579658,
+      "alonso": -0.30109885061683994,
+      "antonelli": -0.24209650838777794,
+      "arvid_lindblad": -3.2724359563233434,
+      "bearman": -0.09444368348667224,
+      "bortoleto": -2.0724918414447453,
+      "bottas": -0.9014900464666542,
+      "colapinto": 0.11127468220751255,
+      "gasly": -0.2103733736784801,
+      "hadjar": -3.025092918431598,
+      "hamilton": -1.0582314601205705,
+      "hulkenberg": -2.7762106208596418,
+      "lawson": 1.9058357421203413,
+      "leclerc": 1.2832956549987007,
+      "max_verstappen": -0.6431024405730144,
+      "norris": 1.784610406656642,
+      "ocon": 0.9058357421203408,
+      "perez": 0.3707412211822863,
+      "piastri": 0.9342192108068265,
+      "russell": 1.646648628752579,
+      "sainz": 1.1701144470381155,
+      "stroll": 1.9732305279263354
+    },
+    "asset_penalty": 4.0,
+    "event_effects": {
+      "2": 1.421567185780403,
+      "4": -0.9865710794637685,
+      "5": -0.8391196747799389,
+      "9": 0.40412356846330433
+    },
+    "event_penalty": 16.0,
+    "future_event_effect": 0.0,
+    "lambda": 2.3203946312424977,
+    "lambda_constrained_nonnegative": true,
+    "mu": 5.204077319073782,
+    "recommended_by_leave_one_sprint_out": "shrunk_personal_mean",
+    "recommended_validation": {
+      "bias": -0.008136371968151772,
+      "mae": 4.08508139314907,
+      "rmse": 5.624265434666122,
+      "spearman": 0.4225246633934245
+    },
+    "shrinkage_method": "centred penalised least squares ridge random intercept",
+    "strength_definition": "z_form",
+    "uncertainty": {
+      "albon": {
+        "lower": 1.8959148634291645,
+        "upper": 8.581562263411529
+      },
+      "alonso": {
+        "lower": -0.5194315396649736,
+        "upper": 6.121629240898647
+      },
+      "antonelli": {
+        "lower": 6.632761747837089,
+        "upper": 13.851431268938457
+      },
+      "arvid_lindblad": {
+        "lower": -1.9955376971446608,
+        "upper": 4.540409609791339
+      },
+      "bearman": {
+        "lower": 0.818500549374058,
+        "upper": 7.370386817599284
+      },
+      "bortoleto": {
+        "lower": -0.9484333906265592,
+        "upper": 5.593417073516043
+      },
+      "bottas": {
+        "lower": -2.240081999594472,
+        "upper": 4.543062092527783
+      },
+      "colapinto": {
+        "lower": 2.12667715948201,
+        "upper": 8.650773476102964
+      },
+      "gasly": {
+        "lower": 1.5843822032960801,
+        "upper": 8.590991583700138
+      },
+      "hadjar": {
+        "lower": -0.4913761519797686,
+        "upper": 6.041561988842959
+      },
+      "hamilton": {
+        "lower": 4.601561470327337,
+        "upper": 11.514901449913808
+      },
+      "hulkenberg": {
+        "lower": -3.3118767341850677,
+        "upper": 3.3642979759043565
+      },
+      "lawson": {
+        "lower": 3.581130830545176,
+        "upper": 10.107197685214148
+      },
+      "leclerc": {
+        "lower": 6.0906984718596995,
+        "upper": 12.842710218142905
+      },
+      "max_verstappen": {
+        "lower": 3.795228298744316,
+        "upper": 10.49097658240172
+      },
+      "norris": {
+        "lower": 5.175284745880025,
+        "upper": 11.755494440806693
+      },
+      "ocon": {
+        "lower": 2.581130830545176,
+        "upper": 9.107197685214146
+      },
+      "perez": {
+        "lower": 0.05348167291986927,
+        "upper": 6.7050358847155636
+      },
+      "piastri": {
+        "lower": 3.3015241967182187,
+        "upper": 9.830037381668133
+      },
+      "russell": {
+        "lower": 6.243868011147301,
+        "upper": 12.962834731347543
+      },
+      "sainz": {
+        "lower": 1.6211507309432247,
+        "upper": 9.263395374587688
+      },
+      "stroll": {
+        "lower": -0.18146237362828188,
+        "upper": 6.735001317775618
+      }
+    }
+  },
+  "future_event_effect": 0.0,
+  "generated_at": "2026-07-05T00:00:00Z",
+  "generated_at_policy": "deterministic latest completed round-11 event date",
+  "historical_shape_support": "supports_positive_strength_relationship",
+  "model_name": "2026_sprint_partial_pooling",
+  "random_seed": 20260810,
+  "research_only": true,
+  "script_version": "2026-sprint-partial-pooling-v1",
+  "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "sprint_rounds": [
+    2,
+    4,
+    5,
+    9
+  ]
+}

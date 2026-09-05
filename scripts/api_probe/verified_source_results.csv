@@ -1,0 +1,8 @@
+source,requested_year,url,http_status,content_type,response_length,valid_json,authentication_required,observed_years,race_date_years,requested_year_verified,race_count,scheduled_race_count,recorded_race_count,populated_race_count,driver_entity_count,constructor_entity_count,has_race_by_race,has_score_breakdown,has_prices,error
+official_web_config,,https://fantasy.formula1.com/feeds/v2/apps/web_config.json,200,application/json; charset=utf-8,110721,True,False,[],[],,,,,,,,,,,
+official_current_statistics,,https://fantasy.formula1.com/feeds/v2/statistics/driverconstructors_4.json,200,application/json; charset=utf-8,109348,True,False,[2026],[],,,,,,,,,,,
+official_current_market,,https://fantasy.formula1.com/feeds/drivers/12_en.json,200,application/json; charset=utf-8,72590,True,False,[],[],,,,,,,,,,,
+F1 Fantasy Tools,2023,https://f1fantasytools.com/api/statistics/2023,200,application/json,1891307,True,False,[2023],[],True,22,22,22,22,22,10,True,True,True,
+F1 Fantasy Tools,2024,https://f1fantasytools.com/api/statistics/2024,200,application/json,2068248,True,False,[2024],[],True,24,24,24,24,25,10,True,True,True,
+F1 Fantasy Tools,2025,https://f1fantasytools.com/api/statistics/2025,200,application/json,2123587,True,False,[2025],[],True,24,24,24,24,23,10,True,True,True,
+F1 Fantasy Tools,2026,https://f1fantasytools.com/api/statistics/2026,200,application/json,1385925,True,False,[2026],[],True,23,23,23,11,22,11,True,True,True,

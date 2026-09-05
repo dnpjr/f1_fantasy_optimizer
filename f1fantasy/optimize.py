@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Sequence, Tuple
 
 import pandas as pd
 from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpBinary, LpStatus, PULP_CBC_CMD, value
@@ -184,9 +184,15 @@ def optimize_top_k(
     objective_col: str = "exp_score",
     boost_col: str = "exp_score",
     triple_multiplier: float | None = None,
+    excluded_team_combinations: Optional[
+        Sequence[Tuple[Sequence[str], Sequence[str]]]
+    ] = None,
 ) -> List[TeamSolution]:
     solutions: List[TeamSolution] = []
-    excludes: List[Tuple[List[str], List[str]]] = []
+    excludes: List[Tuple[List[str], List[str]]] = [
+        (list(map(str, driver_ids)), list(map(str, constructor_ids)))
+        for driver_ids, constructor_ids in (excluded_team_combinations or ())
+    ]
 
     d = drivers.copy()
     c = constructors.copy()

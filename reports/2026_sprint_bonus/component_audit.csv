@@ -1,0 +1,8 @@
+source_field,interpreted_session,included_in_extra_sprint_points,reason,observation_count,missing_count,minimum,maximum,mean
+sprint_points,Sprint race,True,Official Sprint-session total.,125,6,-30,36,7.16
+sprint_qualifying_points,Sprint Qualifying,True,Official separately labelled Sprint Qualifying total when emitted.,3,128,-10,-10,-10
+qualifying_points,Grand Prix qualifying,False,Ordinary-weekend component.,84,47,-5,29,7.630952381
+race_points,Grand Prix race,False,Ordinary-weekend component.,131,0,-40,67,11.57251908
+other_points,Residual/unclassified,False,Not proven Sprint-specific.,83,48,0,0,0
+fantasy_points_total,Complete weekend,False,Mixes Sprint and ordinary sessions.,131,0,-29,119,23.06870229
+price,Historical market value,False,Not a scoring component.,131,0,3,31.7,14.5519084

@@ -1,0 +1,101 @@
+season,round,raceName,date,circuitName,driverId,driver,constructorId,constructor,grid,position,status,fastestLapRank,is_dnf
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,1,1,Finished,1,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,perez,Sergio Pérez,red_bull,Red Bull,5,2,Finished,4,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,sainz,Carlos Sainz,ferrari,Ferrari,4,3,Finished,6,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,2,4,Finished,2,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,russell,George Russell,mercedes,Mercedes,3,5,Finished,12,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,norris,Lando Norris,mclaren,McLaren,7,6,Finished,5,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,hamilton,Lewis Hamilton,mercedes,Mercedes,9,7,Finished,7,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,piastri,Oscar Piastri,mclaren,McLaren,8,8,Finished,11,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,6,9,Finished,3,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,12,10,Finished,16,0
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,zhou,Guanyu Zhou,sauber,Sauber,17,11,Lapped,14,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,kevin_magnussen,Kevin Magnussen,haas,Haas F1 Team,15,12,Lapped,15,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,ricciardo,Daniel Ricciardo,rb,RB F1 Team,14,13,Lapped,13,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,tsunoda,Yuki Tsunoda,rb,RB F1 Team,11,14,Lapped,18,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,albon,Alexander Albon,williams,Williams,13,15,Lapped,17,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,hulkenberg,Nico Hülkenberg,haas,Haas F1 Team,10,16,Lapped,10,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,ocon,Esteban Ocon,alpine,Alpine F1 Team,19,17,Lapped,20,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,20,18,Lapped,9,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,bottas,Valtteri Bottas,sauber,Sauber,16,19,Lapped,19,1
+2024,1,Bahrain Grand Prix,2024-03-02,Bahrain International Circuit,sargeant,Logan Sargeant,williams,Williams,18,20,Lapped,8,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,1,1,Finished,3,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,perez,Sergio Pérez,red_bull,Red Bull,3,2,Finished,8,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,2,3,Finished,1,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,piastri,Oscar Piastri,mclaren,McLaren,5,4,Finished,10,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,4,5,Finished,13,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,russell,George Russell,mercedes,Mercedes,7,6,Finished,7,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,bearman,Oliver Bearman,ferrari,Ferrari,11,7,Finished,5,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,norris,Lando Norris,mclaren,McLaren,6,8,Finished,4,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,hamilton,Lewis Hamilton,mercedes,Mercedes,8,9,Finished,2,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,hulkenberg,Nico Hülkenberg,haas,Haas F1 Team,15,10,Finished,12,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,albon,Alexander Albon,williams,Williams,12,11,Finished,9,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,kevin_magnussen,Kevin Magnussen,haas,Haas F1 Team,13,12,Finished,11,0
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,ocon,Esteban Ocon,alpine,Alpine F1 Team,17,13,Lapped,17,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,sargeant,Logan Sargeant,williams,Williams,19,14,Lapped,15,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,tsunoda,Yuki Tsunoda,rb,RB F1 Team,9,15,Lapped,18,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,ricciardo,Daniel Ricciardo,rb,RB F1 Team,14,16,Lapped,16,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,bottas,Valtteri Bottas,sauber,Sauber,16,17,Lapped,14,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,zhou,Guanyu Zhou,sauber,Sauber,20,18,Lapped,6,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,10,19,Retired,19,1
+2024,2,Saudi Arabian Grand Prix,2024-03-09,Jeddah Corniche Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,18,20,Retired,0,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,sainz,Carlos Sainz,ferrari,Ferrari,2,1,Finished,3,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,4,2,Finished,1,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,norris,Lando Norris,mclaren,McLaren,3,3,Finished,2,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,piastri,Oscar Piastri,mclaren,McLaren,5,4,Finished,4,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,perez,Sergio Pérez,red_bull,Red Bull,6,5,Finished,6,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,9,6,Finished,8,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,tsunoda,Yuki Tsunoda,rb,RB F1 Team,8,7,Finished,11,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,10,8,Finished,7,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,hulkenberg,Nico Hülkenberg,haas,Haas F1 Team,16,9,Finished,12,0
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,kevin_magnussen,Kevin Magnussen,haas,Haas F1 Team,14,10,Lapped,9,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,albon,Alexander Albon,williams,Williams,12,11,Lapped,17,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,ricciardo,Daniel Ricciardo,rb,RB F1 Team,18,12,Lapped,13,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,17,13,Lapped,10,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,bottas,Valtteri Bottas,sauber,Sauber,13,14,Lapped,16,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,zhou,Guanyu Zhou,sauber,Sauber,19,15,Lapped,14,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,ocon,Esteban Ocon,alpine,Alpine F1 Team,15,16,Lapped,15,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,russell,George Russell,mercedes,Mercedes,7,17,Retired,5,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,hamilton,Lewis Hamilton,mercedes,Mercedes,11,18,Retired,18,1
+2024,3,Australian Grand Prix,2024-03-24,Albert Park Grand Prix Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,1,19,Retired,19,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,1,1,Finished,1,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,perez,Sergio Pérez,red_bull,Red Bull,2,2,Finished,3,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,sainz,Carlos Sainz,ferrari,Ferrari,4,3,Finished,2,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,8,4,Finished,9,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,norris,Lando Norris,mclaren,McLaren,3,5,Finished,10,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,5,6,Finished,6,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,russell,George Russell,mercedes,Mercedes,9,7,Finished,5,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,piastri,Oscar Piastri,mclaren,McLaren,6,8,Finished,7,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,hamilton,Lewis Hamilton,mercedes,Mercedes,7,9,Finished,4,0
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,tsunoda,Yuki Tsunoda,rb,RB F1 Team,10,10,Lapped,14,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,hulkenberg,Nico Hülkenberg,haas,Haas F1 Team,12,11,Lapped,11,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,16,12,Lapped,12,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,kevin_magnussen,Kevin Magnussen,haas,Haas F1 Team,18,13,Lapped,17,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,bottas,Valtteri Bottas,sauber,Sauber,13,14,Lapped,15,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,ocon,Esteban Ocon,alpine,Alpine F1 Team,15,15,Lapped,13,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,17,16,Lapped,16,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,sargeant,Logan Sargeant,williams,Williams,19,17,Lapped,8,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,zhou,Guanyu Zhou,sauber,Sauber,20,18,Retired,18,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,ricciardo,Daniel Ricciardo,rb,RB F1 Team,11,19,Retired,0,1
+2024,4,Japanese Grand Prix,2024-04-07,Suzuka Circuit,albon,Alexander Albon,williams,Williams,14,20,Retired,0,1
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,1,1,Finished,2,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,norris,Lando Norris,mclaren,McLaren,4,2,Finished,4,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,perez,Sergio Pérez,red_bull,Red Bull,2,3,Finished,7,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,6,4,Finished,6,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,sainz,Carlos Sainz,ferrari,Ferrari,7,5,Finished,10,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,russell,George Russell,mercedes,Mercedes,8,6,Finished,11,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,3,7,Finished,1,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,piastri,Oscar Piastri,mclaren,McLaren,5,8,Finished,9,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,hamilton,Lewis Hamilton,mercedes,Mercedes,18,9,Finished,14,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,hulkenberg,Nico Hülkenberg,haas,Haas F1 Team,9,10,Finished,13,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,ocon,Esteban Ocon,alpine,Alpine F1 Team,13,11,Finished,15,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,albon,Alexander Albon,williams,Williams,14,12,Finished,12,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,15,13,Finished,5,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,zhou,Guanyu Zhou,sauber,Sauber,16,14,Finished,3,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,11,15,Finished,8,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,kevin_magnussen,Kevin Magnussen,haas,Haas F1 Team,17,16,Finished,18,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,sargeant,Logan Sargeant,williams,Williams,20,17,Finished,17,0
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,ricciardo,Daniel Ricciardo,rb,RB F1 Team,12,18,Retired,16,1
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,tsunoda,Yuki Tsunoda,rb,RB F1 Team,19,19,Retired,20,1
+2024,5,Chinese Grand Prix,2024-04-21,Shanghai International Circuit,bottas,Valtteri Bottas,sauber,Sauber,10,20,Retired,19,1
+2024,6,Miami Grand Prix,2024-05-05,Miami International Autodrome,norris,Lando Norris,mclaren,McLaren,5,1,Finished,5,0

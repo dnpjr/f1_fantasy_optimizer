@@ -1,0 +1,5 @@
+entity_type,model,strength_definition,mu,lambda,lambda_constrained_nonnegative,lambda_forced_zero,asset_penalty,event_penalty,residual_variance,observations
+driver,full_partial_pooling,z_form,5.204077319,2.320394631,True,False,4,16,21.17482378,85
+driver,full_partial_pooling_unconstrained_diagnostic,z_form,5.204077319,2.320394631,False,False,4,16,21.17482378,85
+constructor,full_partial_pooling,blend_form_0.75_price_0.25,1.090982344,16.04994601,True,False,16,1,81.65106343,43
+constructor,full_partial_pooling_unconstrained_diagnostic,blend_form_0.75_price_0.25,1.090982344,16.04994601,False,False,16,1,81.65106343,43

@@ -1,0 +1,36 @@
+{
+  "baseline_definition": "mean normalised ordinary-session score across valid completed rounds 1-11",
+  "coefficient_status": "research_only",
+  "completed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "current_market_feed_round": 12,
+  "formula": "extra_sprint_points = alpha_asset + beta_asset * base_weekend_points",
+  "generated_at": "2026-07-05T00:00:00Z",
+  "generated_at_policy": "deterministic latest completed round-11 event date",
+  "missing_data_policy": "both Sprint fields absent means missing; never converted to zero",
+  "model_name": "personalised_2026_sprint_adjustment",
+  "negative_adjustment_policy": "retained without clipping",
+  "predictor_definition": "fantasy_points_total - extra_sprint_points on completed Sprint weekends",
+  "random_seed": 20260806,
+  "recency_decay": 0.8,
+  "script_version": "2026-personalised-sprint-adjustments-v1",
+  "source_dataset_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "sprint_rounds": [
+    2,
+    4,
+    5,
+    9
+  ],
+  "target_definition": "sprint_points + sprint_qualifying_points, min_count=1"
+}

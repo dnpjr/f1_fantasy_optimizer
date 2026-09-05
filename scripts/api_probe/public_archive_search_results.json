@@ -1,0 +1,1913 @@
+{
+  "configuration": {
+    "methods": [
+      "GET"
+    ],
+    "timeout_seconds": 15,
+    "minimum_request_interval_seconds": 1.0,
+    "credentials_used": false,
+    "datasets_downloaded": false,
+    "run_at_utc": "2026-08-05T20:30:04.738335+00:00"
+  },
+  "github": [
+    {
+      "url": "https://api.github.com/search/repositories?q=%22F1+fantasy%22+data&sort=stars&order=desc&per_page=20",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 112073,
+      "valid_json": true,
+      "text_preview": "",
+      "query": "\"F1 fantasy\" data",
+      "total_count": 28,
+      "items": [
+        {
+          "full_name": "EduardoFAFernandes/F1FantasyData",
+          "html_url": "https://github.com/EduardoFAFernandes/F1FantasyData",
+          "description": "Price and sentiment data from the f1 fantasy game.",
+          "default_branch": "main",
+          "license": "GPL-3.0",
+          "updated_at": "2026-06-11T18:15:18Z"
+        },
+        {
+          "full_name": "longenbach/F1_Fantasy",
+          "html_url": "https://github.com/longenbach/F1_Fantasy",
+          "description": "F1 Fantasy 2020 team (5 drivers and 1 constructor) selection using mixed integer programming on historical race data. ",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2022-03-14T20:55:31Z"
+        },
+        {
+          "full_name": "vbonduro/f1-fantasy-api-go",
+          "html_url": "https://github.com/vbonduro/f1-fantasy-api-go",
+          "description": "golang API Implementation for accessing f1 fantasy data.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-03-07T21:11:00Z"
+        },
+        {
+          "full_name": "mozquitogamer/BoxBoxF1FantasyV2",
+          "html_url": "https://github.com/mozquitogamer/BoxBoxF1FantasyV2",
+          "description": "F1 Fantasy prediction system — XGBoost + FastF1 telemetry + Jolpica historical data",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2026-08-05T12:20:11Z"
+        },
+        {
+          "full_name": "JoshCBruce/formula-fantasy",
+          "html_url": "https://github.com/JoshCBruce/formula-fantasy",
+          "description": "A simple and powerful Python library for fetching F1 Fantasy data. Get driver and constructor points, detailed breakdowns, and statistics with just one line of code.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2025-08-11T00:56:00Z"
+        },
+        {
+          "full_name": "erikgurzau/f1-fantasy-tracker",
+          "html_url": "https://github.com/erikgurzau/f1-fantasy-tracker",
+          "description": "F1 Fantasy Tracker is your ultimate dashboard to master the season. Automatically aggregate live scores, budget pricing, and expected performance data to make data-driven team decisions instantly. Dominate your league by turning complex race metrics into a simple, winning strategy.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-07-29T11:55:53Z"
+        },
+        {
+          "full_name": "kdwest62-ctrl/f1-fantasy-data-analysis",
+          "html_url": "https://github.com/kdwest62-ctrl/f1-fantasy-data-analysis",
+          "description": "Simple analysis on F1 Fantasy data",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-07-28T07:15:56Z"
+        },
+        {
+          "full_name": "Aasuka2cup/Raaaace-Weeeeek",
+          "html_url": "https://github.com/Aasuka2cup/Raaaace-Weeeeek",
+          "description": "F1 Fantasy Data Fetcher & Strategist",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-04-01T03:38:43Z"
+        },
+        {
+          "full_name": "Apophany/f1-fantasy",
+          "html_url": "https://github.com/Apophany/f1-fantasy",
+          "description": "Modelling and data for F1 fantasy league",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2021-07-31T16:54:34Z"
+        },
+        {
+          "full_name": "jrwrigh/f1fantasy",
+          "html_url": "https://github.com/jrwrigh/f1fantasy",
+          "description": "[ABANDONED] Utility for collecting and analyzing data for F1 Fantasy",
+          "default_branch": "master",
+          "license": "MIT",
+          "updated_at": "2023-01-28T16:31:31Z"
+        },
+        {
+          "full_name": "F1-fantazy-bot/f1-fantasy-api-data",
+          "html_url": "https://github.com/F1-fantazy-bot/f1-fantasy-api-data",
+          "description": "Fetches F1 Fantasy league data via Playwright and saves to Azure Blob Storage",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-05-16T06:26:35Z"
+        },
+        {
+          "full_name": "TanayVaidya31/F1-Fantasy-Scraper",
+          "html_url": "https://github.com/TanayVaidya31/F1-Fantasy-Scraper",
+          "description": "A data scraping pipeline and visual analytics project for F1 Fantasy.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-07-11T22:08:40Z"
+        },
+        {
+          "full_name": "georgeputney/f1-fantasy-team-optimiser",
+          "html_url": "https://github.com/georgeputney/f1-fantasy-team-optimiser",
+          "description": "Optimising F1 fantasy team selections using historical race data and predictive modelling",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-08-03T23:00:38Z"
+        },
+        {
+          "full_name": "kiweeone/f1-fantasy-predictor",
+          "html_url": "https://github.com/kiweeone/f1-fantasy-predictor",
+          "description": "A small test for F1 Fantasy prediction that pull live data from F1 Open",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-03-08T10:47:51Z"
+        },
+        {
+          "full_name": "zxytan/f1_fantasy",
+          "html_url": "https://github.com/zxytan/f1_fantasy",
+          "description": "Machine learning practice project, choosing optimal F1 Fantasy team based on practice lap times data.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2024-03-17T17:02:49Z"
+        },
+        {
+          "full_name": "JoshCBruce/fantasy-formula",
+          "html_url": "https://github.com/JoshCBruce/fantasy-formula",
+          "description": "A Python library designed to calculate F1 Fantasy points based on race data from FastF1.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2025-08-07T21:26:32Z"
+        },
+        {
+          "full_name": "kubofisla/f1-fantasy-mcp",
+          "html_url": "https://github.com/kubofisla/f1-fantasy-mcp",
+          "description": "A Model Context Protocol (MCP) server that provides LLMs with real-time F1 Fantasy market data, exact scoring ledgers, and algorithmic lineup optimization directly from the official F1 Fantasy game API.",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2026-04-25T22:30:10Z"
+        },
+        {
+          "full_name": "JoshCBruce/claude-f1-fantasy-GPT-RS",
+          "html_url": "https://github.com/JoshCBruce/claude-f1-fantasy-GPT-RS",
+          "description": "JSON tracking for data created by the Claude agent instance running the GPT RS F1 Fantasy team.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-03-20T01:02:19Z"
+        },
+        {
+          "full_name": "knightmm/f1-fantasy-analytics",
+          "html_url": "https://github.com/knightmm/f1-fantasy-analytics",
+          "description": "Pulls data from F1 Fantasy in order to perform additional aggregations and make them available via limited API",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-05-29T13:30:46Z"
+        },
+        {
+          "full_name": "dnpjr/f1_fantasy_optimizer",
+          "html_url": "https://github.com/dnpjr/f1_fantasy_optimizer",
+          "description": "F1 Fantasy team optimizer using historical race data, expected value modelling, and mixed-integer optimisation under budget and chip constraints.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-05-19T12:46:41Z"
+        }
+      ]
+    },
+    {
+      "url": "https://api.github.com/search/repositories?q=%22Formula+1+fantasy%22+data&sort=stars&order=desc&per_page=20",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 29009,
+      "valid_json": true,
+      "text_preview": "",
+      "query": "\"Formula 1 fantasy\" data",
+      "total_count": 5,
+      "items": [
+        {
+          "full_name": "JoshCBruce/fantasy-data",
+          "html_url": "https://github.com/JoshCBruce/fantasy-data",
+          "description": "An up to date library of the Formula 1 Fantasy points breakdown for 2025 using web-scraping of the fantasy.formula1.com site as a data source.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-02-14T06:18:21Z"
+        },
+        {
+          "full_name": "sajal147x/Formula_1_fantasy_analysis",
+          "html_url": "https://github.com/sajal147x/Formula_1_fantasy_analysis",
+          "description": "Repo to use data science techniques to form Formula 1 fantasy teams to compete in leagues",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-03-11T15:08:11Z"
+        },
+        {
+          "full_name": "jm1261/Fantasy-F1-League",
+          "html_url": "https://github.com/jm1261/Fantasy-F1-League",
+          "description": "Data processing code for the official Formula 1 fantasy league. Code create figures, tracks statistics, and updates spreadsheet files.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-04-23T10:32:08Z"
+        },
+        {
+          "full_name": "brentvblake/f1_2022_fantasy_data_visualized",
+          "html_url": "https://github.com/brentvblake/f1_2022_fantasy_data_visualized",
+          "description": "I scraped the points over time from a kicktipp.com Formula 1 fantasy group with some friends. I then used the data to display how the rankings and point breakdown changed throughout the season.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2022-12-05T22:25:17Z"
+        },
+        {
+          "full_name": "ahmadbilal99/F1-Fantasy-League",
+          "html_url": "https://github.com/ahmadbilal99/F1-Fantasy-League",
+          "description": "🏎️ F1 Fantasy League - DSA Project 📋 Project Overview A comprehensive Formula 1 Fantasy League management system built in C++ showcasing advanced Data Structures and Algorithms. Players create fantasy teams, simulate races, optimize strategies, and compete on leaderboards. Course: Data Structures & Algorithms Language ",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2025-12-06T21:22:32Z"
+        }
+      ]
+    },
+    {
+      "url": "https://api.github.com/search/repositories?q=f1-fantasy-data&sort=stars&order=desc&per_page=20",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 115110,
+      "valid_json": true,
+      "text_preview": "",
+      "query": "f1-fantasy-data",
+      "total_count": 39,
+      "items": [
+        {
+          "full_name": "EduardoFAFernandes/F1FantasyData",
+          "html_url": "https://github.com/EduardoFAFernandes/F1FantasyData",
+          "description": "Price and sentiment data from the f1 fantasy game.",
+          "default_branch": "main",
+          "license": "GPL-3.0",
+          "updated_at": "2026-06-11T18:15:18Z"
+        },
+        {
+          "full_name": "longenbach/F1_Fantasy",
+          "html_url": "https://github.com/longenbach/F1_Fantasy",
+          "description": "F1 Fantasy 2020 team (5 drivers and 1 constructor) selection using mixed integer programming on historical race data. ",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2022-03-14T20:55:31Z"
+        },
+        {
+          "full_name": "vbonduro/f1-fantasy-api-go",
+          "html_url": "https://github.com/vbonduro/f1-fantasy-api-go",
+          "description": "golang API Implementation for accessing f1 fantasy data.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-03-07T21:11:00Z"
+        },
+        {
+          "full_name": "mozquitogamer/BoxBoxF1FantasyV2",
+          "html_url": "https://github.com/mozquitogamer/BoxBoxF1FantasyV2",
+          "description": "F1 Fantasy prediction system — XGBoost + FastF1 telemetry + Jolpica historical data",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2026-08-05T12:20:11Z"
+        },
+        {
+          "full_name": "Daniel-Judd-04/fantasy-f1-predictor",
+          "html_url": "https://github.com/Daniel-Judd-04/fantasy-f1-predictor",
+          "description": "Attempts to predicts the best fantasy F1 team using 50 years of historical data.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2025-03-10T10:19:38Z"
+        },
+        {
+          "full_name": "Indrani-19/Formula-1-Race-Analysis-Dashboard-using-Tableau",
+          "html_url": "https://github.com/Indrani-19/Formula-1-Race-Analysis-Dashboard-using-Tableau",
+          "description": "An interactive Tableau dashboard analyzing F1 race data (2013-2022). Explore driver performance, team standings, and race outcomes with 10 visualizations. Perfect for F1 fans, fantasy players, and analysts!",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2025-03-13T23:00:56Z"
+        },
+        {
+          "full_name": "JoshCBruce/formula-fantasy",
+          "html_url": "https://github.com/JoshCBruce/formula-fantasy",
+          "description": "A simple and powerful Python library for fetching F1 Fantasy data. Get driver and constructor points, detailed breakdowns, and statistics with just one line of code.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2025-08-11T00:56:00Z"
+        },
+        {
+          "full_name": "erikgurzau/f1-fantasy-tracker",
+          "html_url": "https://github.com/erikgurzau/f1-fantasy-tracker",
+          "description": "F1 Fantasy Tracker is your ultimate dashboard to master the season. Automatically aggregate live scores, budget pricing, and expected performance data to make data-driven team decisions instantly. Dominate your league by turning complex race metrics into a simple, winning strategy.",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-07-29T11:55:53Z"
+        },
+        {
+          "full_name": "Darren-rh-Chiang/NBA_ML",
+          "html_url": "https://github.com/Darren-rh-Chiang/NBA_ML",
+          "description": "Built ML models using NBA API data to predict player stat lines for fantasy and betting. Engineered features from rolling stats and matchups; used ensemble methods to improve accuracy. Found model performance varied by player/stat, with F1 scores up to 87%.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2025-04-23T20:41:02Z"
+        },
+        {
+          "full_name": "Aasuka2cup/Raaaace-Weeeeek",
+          "html_url": "https://github.com/Aasuka2cup/Raaaace-Weeeeek",
+          "description": "F1 Fantasy Data Fetcher & Strategist",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-04-01T03:38:43Z"
+        },
+        {
+          "full_name": "kdwest62-ctrl/f1-fantasy-data-analysis",
+          "html_url": "https://github.com/kdwest62-ctrl/f1-fantasy-data-analysis",
+          "description": "Simple analysis on F1 Fantasy data",
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-07-28T07:15:56Z"
+        },
+        {
+          "full_name": "Apophany/f1-fantasy",
+          "html_url": "https://github.com/Apophany/f1-fantasy",
+          "description": "Modelling and data for F1 fantasy league",
+          "default_branch": "master",
+          "license": null,
+          "updated_at": "2021-07-31T16:54:34Z"
+        },
+        {
+          "full_name": "F1-fantazy-bot/f1-fantasy-api-data",
+          "html_url": "https://github.com/F1-fantazy-bot/f1-fantasy-api-data",
+          "description": "Fetches F1 Fantasy league data via Playwright and saves to Azure Blob Storage",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-05-16T06:26:35Z"
+        },
+        {
+          "full_name": "Javi3710/fantasy-f1-reference-data",
+          "html_url": "https://github.com/Javi3710/fantasy-f1-reference-data",
+          "description": null,
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2025-04-24T13:35:03Z"
+        },
+        {
+          "full_name": "FisersDavis/RHTER-F1-Fantasy-Data-extractor",
+          "html_url": "https://github.com/FisersDavis/RHTER-F1-Fantasy-Data-extractor",
+          "description": null,
+          "default_branch": "main",
+          "license": "MIT",
+          "updated_at": "2026-04-06T07:32:00Z"
+        },
+        {
+          "full_name": "brentvblake/f1_2022_fantasy_data_visualized",
+          "html_url": "https://github.com/brentvblake/f1_2022_fantasy_data_visualized",
+          "description": "I scraped the points over time from a kicktipp.com Formula 1 fantasy group with some friends. I then used the data to display how the rankings and point breakdown changed throughout the season.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2022-12-05T22:25:17Z"
+        },
+        {
+          "full_name": "kiweeone/f1-fantasy-predictor",
+          "html_url": "https://github.com/kiweeone/f1-fantasy-predictor",
+          "description": "A small test for F1 Fantasy prediction that pull live data from F1 Open",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-03-08T10:47:51Z"
+        },
+        {
+          "full_name": "jrwrigh/f1fantasy",
+          "html_url": "https://github.com/jrwrigh/f1fantasy",
+          "description": "[ABANDONED] Utility for collecting and analyzing data for F1 Fantasy",
+          "default_branch": "master",
+          "license": "MIT",
+          "updated_at": "2023-01-28T16:31:31Z"
+        },
+        {
+          "full_name": "TanayVaidya31/F1-Fantasy-Scraper",
+          "html_url": "https://github.com/TanayVaidya31/F1-Fantasy-Scraper",
+          "description": "A data scraping pipeline and visual analytics project for F1 Fantasy.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2026-07-11T22:08:40Z"
+        },
+        {
+          "full_name": "jawolf94/FantasyF1TeamBuilder",
+          "html_url": "https://github.com/jawolf94/FantasyF1TeamBuilder",
+          "description": "Builds a fantasy F1 line-up based on historical race data.",
+          "default_branch": "main",
+          "license": null,
+          "updated_at": "2024-04-23T01:01:43Z"
+        }
+      ]
+    }
+  ],
+  "kaggle": [
+    {
+      "url": "https://www.kaggle.com/api/v1/datasets/list?search=f1+fantasy&sortBy=relevance&page=1",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_length": 5358,
+      "valid_json": true,
+      "text_preview": "",
+      "query": "f1 fantasy",
+      "items": [
+        {
+          "ref": "prathamsharma123/formula-1-fantasy-2021",
+          "title": "Formula1 Fantasy 2021",
+          "subtitle": "Driver and Constructor value for the 2021 F1 fantasy league",
+          "url": "https://www.kaggle.com/datasets/prathamsharma123/formula-1-fantasy-2021",
+          "license_name": "CC0: Public Domain",
+          "last_updated": "2021-12-13T09:21:53.083Z"
+        },
+        {
+          "ref": "eddykariukiart/f1-datasets",
+          "title": "f1_datasets",
+          "subtitle": "",
+          "url": "https://www.kaggle.com/datasets/eddykariukiart/f1-datasets",
+          "license_name": "CC0: Public Domain",
+          "last_updated": "2024-07-07T20:00:22.77Z"
+        }
+      ]
+    },
+    {
+      "url": "https://www.kaggle.com/api/v1/datasets/list?search=formula+1+fantasy&sortBy=relevance&page=1",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_length": 11213,
+      "valid_json": true,
+      "text_preview": "",
+      "query": "formula 1 fantasy",
+      "items": [
+        {
+          "ref": "prathamsharma123/formula-1-fantasy-2021",
+          "title": "Formula1 Fantasy 2021",
+          "subtitle": "Driver and Constructor value for the 2021 F1 fantasy league",
+          "url": "https://www.kaggle.com/datasets/prathamsharma123/formula-1-fantasy-2021",
+          "license_name": "CC0: Public Domain",
+          "last_updated": "2021-12-13T09:21:53.083Z"
+        },
+        {
+          "ref": "adrianopires/nbb-20242025-brazilian-basketball-league-cs",
+          "title": "NBB 2024/2025 - Brazilian Basketball League CS",
+          "subtitle": "Comprehensive game statistics from Brazil's top professional basketball champion",
+          "url": "https://www.kaggle.com/datasets/adrianopires/nbb-20242025-brazilian-basketball-league-cs",
+          "license_name": "CC BY-SA 4.0",
+          "last_updated": "2025-10-06T18:03:36.92Z"
+        },
+        {
+          "ref": "ericsbrown/winter-olympics-prediction-fantasy-draft-picks",
+          "title": "Winter Olympics Prediction - Fantasy Draft Picks",
+          "subtitle": "Creating a predictive model for the 2022 Winter Olympics",
+          "url": "https://www.kaggle.com/datasets/ericsbrown/winter-olympics-prediction-fantasy-draft-picks",
+          "license_name": "Unknown",
+          "last_updated": "2022-01-19T21:06:18.16Z"
+        }
+      ]
+    }
+  ],
+  "internet_archive_cdx": [
+    {
+      "url": "https://web.archive.org/cdx/search/cdx?url=fantasy.formula1.com%2Ffeeds%2Fpopup%2Fplayerstats_%2A.json&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&collapse=digest&from=2021&to=2025&limit=200&filter=statuscode%3A200",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_length": 3,
+      "valid_json": true,
+      "text_preview": "",
+      "label": "official_playerstats_json",
+      "query_url_pattern": "fantasy.formula1.com/feeds/popup/playerstats_*.json",
+      "capture_count": 0,
+      "captures": []
+    },
+    {
+      "url": "https://web.archive.org/cdx/search/cdx?url=fantasy-api.formula1.com%2F%2Agame_periods_scores%2A&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&collapse=digest&from=2021&to=2025&limit=200&filter=statuscode%3A200",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_length": 3,
+      "valid_json": true,
+      "text_preview": "",
+      "label": "legacy_game_period_scores",
+      "query_url_pattern": "fantasy-api.formula1.com/*game_periods_scores*",
+      "capture_count": 0,
+      "captures": []
+    },
+    {
+      "url": "https://web.archive.org/cdx/search/cdx?url=fantasy.formula1.com%2Fstatic-assets%2Fbuild%2Fstatic%2Fjs%2F%2A&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cmimetype%2Cdigest&collapse=digest&from=2021&to=2025&limit=200&filter=statuscode%3A200&filter=mimetype%3Aapplication%2Fjavascript",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_length": 33847,
+      "valid_json": true,
+      "text_preview": "",
+      "label": "official_frontend_javascript",
+      "query_url_pattern": "fantasy.formula1.com/static-assets/build/static/js/*",
+      "capture_count": 200,
+      "captures": [
+        {
+          "timestamp": "20230422162730",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.2c3ac090.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "4U7IEPQP3JWHJZZ24Y4MXAZVSORDCQRA"
+        },
+        {
+          "timestamp": "20230428020416",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.2c3ac090.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NE72LRAZLO7A5EYZ47GOZNV5RGZKCMHD"
+        },
+        {
+          "timestamp": "20230319173720",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.39eaf4c7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "LEE7B4MIRC56IKNEXYJSHXWYXRA6KL2T"
+        },
+        {
+          "timestamp": "20230527014024",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.50977d47.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "4O63XAVVPEAMTFVG3W3MQDUKXORLPYSC"
+        },
+        {
+          "timestamp": "20230529230417",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.50977d47.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "XB2BM6IP3S24EWKGZMCAUUIOWX5KLSZU"
+        },
+        {
+          "timestamp": "20230618200306",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.5321d073.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UVKO3ANN5NBR277QDBPMC6DZAZVIQTZS"
+        },
+        {
+          "timestamp": "20230908041736",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CZ63MTRVLD243X22RVSZFYIWUO4C6U7F"
+        },
+        {
+          "timestamp": "20230914134429",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "2C77755YG7H4VF272UEIW5OAAW2V6JK2"
+        },
+        {
+          "timestamp": "20230921122639",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "U4XHLH5BYYYG4S5NZWNH5K4ZNP3O3VNB"
+        },
+        {
+          "timestamp": "20231001123323",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "MKQSLJZUOKQCR3X4VT75QYWDYPR6UZKF"
+        },
+        {
+          "timestamp": "20231009151004",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "EZUPXZ5FEYFHGA4UE6IQ24UKIDPJTNDP"
+        },
+        {
+          "timestamp": "20231013151217",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "V72B6A4M4J6AEMDSUPYIGFBLBNRYYW6M"
+        },
+        {
+          "timestamp": "20231031133609",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.593f6cf7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SHOAHQE6T2HIBCGJ6IQKCMQPU5LMYZEM"
+        },
+        {
+          "timestamp": "20230504224549",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.5982561d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SYDD2WWU3ETDE6KFKGIZW6ZX6UIJB6P3"
+        },
+        {
+          "timestamp": "20230506073227",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.5982561d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CG73UBUCG7LPTHTYMOB2FRGZEPXMSMWC"
+        },
+        {
+          "timestamp": "20230719234100",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.7a0a0f40.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HVYNQZUYZSERLSWSJHYJISB66SDX6OSW"
+        },
+        {
+          "timestamp": "20230629045209",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.9cc123dc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WUXGLVKKFOGLE7IF4SOU42XPSGRY53E2"
+        },
+        {
+          "timestamp": "20230710045713",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.9cc123dc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "KEBNY3JCIOMRPYBOCRCRZFTVMZE75MQ5"
+        },
+        {
+          "timestamp": "20231115141306",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a175c9fc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "IN7S74L4S4S3OFVAE4XR4RPZC2EIMYK7"
+        },
+        {
+          "timestamp": "20231118024309",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a175c9fc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "LY7NHLRGOIVL7S3SQ6XWZD5EJRWELE5U"
+        },
+        {
+          "timestamp": "20231128011439",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a175c9fc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6HDFFZJAZ2D62BIA4AZOLIPCMVU5KWDF"
+        },
+        {
+          "timestamp": "20231129090109",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a175c9fc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "LY7NHLRGOIVL7S3SQ6XWZD5EJRWELE5U"
+        },
+        {
+          "timestamp": "20240131081845",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a175c9fc.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "P7ZNHOI73NKT5LQ2JOLCKYXXSDEMXY7A"
+        },
+        {
+          "timestamp": "20230317134019",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.a864579e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FNG3OUOCFTRP5LQHJZHUQF5Z6WMFKTWO"
+        },
+        {
+          "timestamp": "20230803134439",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.b816f25d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QFI6RRAOHR5Y7QJVK7DK2BZQQZOQDYSZ"
+        },
+        {
+          "timestamp": "20230826024426",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.b816f25d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ODOGWQH5ERWTYRIH3RK3FSSDBB4FZDM3"
+        },
+        {
+          "timestamp": "20230324101531",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.ba94e33f.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6PD4MS2TFX5JI7E5FHCW4RUZDGOIPSBQ"
+        },
+        {
+          "timestamp": "20230413003255",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.ba94e33f.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FGDN4FZVVBH6ITJ5Z7IC44BRJRZ4QGGO"
+        },
+        {
+          "timestamp": "20230228201654",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.d83b277e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "BICMYH5ON2LOCI3WUECIFUITKKCJZN46"
+        },
+        {
+          "timestamp": "20230304141638",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.e6e636fe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "B4DNBJUFR63GEPKZHQZ3BISJ2E2XLJE6"
+        },
+        {
+          "timestamp": "20230305112411",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/544.e6e636fe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "JPQGMKZRUTMS6IUFX4LMZWUAURCSG2O5"
+        },
+        {
+          "timestamp": "20230908041736",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.a06af3a2.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "4DKI3OPSJKZQITAQXSL6OW6GWQ3SMELF"
+        },
+        {
+          "timestamp": "20230923143511",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.a06af3a2.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZADHP6VFXXP74AWQZ7JGT4MDLJ53N2N7"
+        },
+        {
+          "timestamp": "20231009151004",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.a06af3a2.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "R2O4RSSM27X5O2P36A7TBFXGVNGQ2SMA"
+        },
+        {
+          "timestamp": "20240216195342",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "DGRPEBY72BRXMVUNBXKOTHYYTB5J2WIH"
+        },
+        {
+          "timestamp": "20240302180849",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QYTABYUEPWBHFAKSKDGTGC3MGEBWQ37Z"
+        },
+        {
+          "timestamp": "20240303162206",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "EBXFNJUD56DYJI5QFKJUX4DMJ2AS5KLB"
+        },
+        {
+          "timestamp": "20240304081933",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "BUZFHXTD3HHVNSK7XLTM52VQR3MOKGVI"
+        },
+        {
+          "timestamp": "20240306090504",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "4TPHECGMH6MYTYIR4M23QF3CDBRCXUWE"
+        },
+        {
+          "timestamp": "20240307144345",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SIUISFPR46DMLZRYELJDOZA7CHSKEXCP"
+        },
+        {
+          "timestamp": "20240308022122",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "PHKTRBTLD7GKCQYHYMMR2GICTG6OLWBC"
+        },
+        {
+          "timestamp": "20240308153227",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UXODQSBKW2BYOICZ6WCYPIUGOBQ7JQLY"
+        },
+        {
+          "timestamp": "20240310044343",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "BLHA5EBRHWTBDEDJOIWRYXVGCZQC7S6I"
+        },
+        {
+          "timestamp": "20240310230335",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QJYKA2FS3MFFC7WXMJUO6AE5NVDZF6NI"
+        },
+        {
+          "timestamp": "20240311160351",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "PHKTRBTLD7GKCQYHYMMR2GICTG6OLWBC"
+        },
+        {
+          "timestamp": "20240312083130",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "XD6BTUSHQTIVAWCDAOPE5ENIWST6LNPF"
+        },
+        {
+          "timestamp": "20240313002647",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.abc1098e.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ALBV6D22ONZ4GRYXYH4Q45IM57SXBDTP"
+        },
+        {
+          "timestamp": "20231013151217",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.b490b78b.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FW7XJFM7IFKEK7KYSGTEBY7BPNGVMIQL"
+        },
+        {
+          "timestamp": "20231022161913",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.b490b78b.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FTZL5BVRAYYP6LSRBVRZFTOGITUMX5KB"
+        },
+        {
+          "timestamp": "20231031133609",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.b490b78b.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FW7XJFM7IFKEK7KYSGTEBY7BPNGVMIQL"
+        },
+        {
+          "timestamp": "20231115141306",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.f3728798.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NJ7SX3EUX3MILCAOPP5IGH5OTHQJ6QC3"
+        },
+        {
+          "timestamp": "20231128011439",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.f3728798.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "RZGNDHRD7XEMNEX5NH327DPAH6N5IMU2"
+        },
+        {
+          "timestamp": "20231129090109",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/719.f3728798.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NJ7SX3EUX3MILCAOPP5IGH5OTHQJ6QC3"
+        },
+        {
+          "timestamp": "20230820111906",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SWOWAOR6ULD2TNDVWSW3VBFCUPS7C3KC"
+        },
+        {
+          "timestamp": "20230831012849",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CZU4HSU66HGH25TKHUEJTTJSEX3OSJCW"
+        },
+        {
+          "timestamp": "20230914134428",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "635ODS3JC4K2OLSOQB5AVZOEDEABFV6S"
+        },
+        {
+          "timestamp": "20230924173927",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "GFHBI6JICZBEFO43CSFT4QK4PCP2P6Z2"
+        },
+        {
+          "timestamp": "20231001123321",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "7RCQM46LJHHDK7VEPRHBAECRY7GCY7GH"
+        },
+        {
+          "timestamp": "20231009151003",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.3dc63df3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "KER3B4UVJKNXF7UBX2LTE5YVUEJ6LZIH"
+        },
+        {
+          "timestamp": "20231013151216",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.401b5a77.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "M2RATVB2RVK76HSGIM7F3YPYBGNCYGGS"
+        },
+        {
+          "timestamp": "20231031133608",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.401b5a77.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ATBVOFUE6O24OMJTMN3GYBGJHEMRZSQM"
+        },
+        {
+          "timestamp": "20231103190522",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.401b5a77.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "4Q2MNEN5KFIXKOGIBBQTLNTQ44X73GDW"
+        },
+        {
+          "timestamp": "20230324101530",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.5ec15ae6.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "MYIZVQTQAYY66ZURZK37YH6XR6ARJR4J"
+        },
+        {
+          "timestamp": "20230413003252",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.5ec15ae6.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "TYJXOYAJVYXL64724FG2K5OQWZYRC7BY"
+        },
+        {
+          "timestamp": "20230527014023",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.602f2c00.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "P6C2SE6N5X2IAFZLLC3IY5N6UJGVERPB"
+        },
+        {
+          "timestamp": "20230529230415",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.602f2c00.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "YJM3M7BDLBYENV5DHWR5PRZUE4RKFCDC"
+        },
+        {
+          "timestamp": "20230602002512",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.602f2c00.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "P6C2SE6N5X2IAFZLLC3IY5N6UJGVERPB"
+        },
+        {
+          "timestamp": "20230629045208",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.6363de32.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HEW3ZY2IITHRIVNOSV2M7D6EHWDTHRK6"
+        },
+        {
+          "timestamp": "20230708020156",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.6363de32.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "3AXL5YUNT6RLTDOLAHYOWN54NLI2L7OG"
+        },
+        {
+          "timestamp": "20241126194539",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.74d5dec9.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "2GFEE6T2E6AOIHSYIDLZMGK4J73YHK5P"
+        },
+        {
+          "timestamp": "20230719234057",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.79c9a71b.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "E7LXWICHHWLW4DA2MXRIPKDKR2OZJ5BM"
+        },
+        {
+          "timestamp": "20230803134437",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.7c53e6ae.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QHEW3OADKAYBITAE54KROI6QHQOH7BQH"
+        },
+        {
+          "timestamp": "20230422162729",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.8314cba7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ODARKJ6TLEIFA66BE5S67JNCUPK34RAP"
+        },
+        {
+          "timestamp": "20230428020414",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.8314cba7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "IWWKPAAKF3S5KC5HOALKUWPVKAD7NCLI"
+        },
+        {
+          "timestamp": "20240302173553",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NSNJ2FBNJVODM5DNS2VJG46XXIMGL5GN"
+        },
+        {
+          "timestamp": "20240304081924",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "O6N6JXIT6COEF53DVJDQ4J4JZJ6ML4OR"
+        },
+        {
+          "timestamp": "20240306202415",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WLRLFNI2VBM6Y62HTLDCOFXJMKHVX5WB"
+        },
+        {
+          "timestamp": "20240307144342",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "DYKIO7SAOMZ3ZCAO4MD63JQWDXLVKUIE"
+        },
+        {
+          "timestamp": "20240308022119",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6UDGNB4BZZ25LFJ3ALIUJIHEIG7QMXRK"
+        },
+        {
+          "timestamp": "20240308153007",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "IM6XDKO3O3YG3EWRM5SQ75CUJGF33DH2"
+        },
+        {
+          "timestamp": "20240310044336",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "MIEOHVA73MQUYTQYB3IMJ5MRRMI2RXD6"
+        },
+        {
+          "timestamp": "20240310230329",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "GORXU2HXZ52LM46PGU4OGE7ATXQHB7JX"
+        },
+        {
+          "timestamp": "20240311160348",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "67IQLSXYB2JFVWLMF4CEHVPNUCWUIHMK"
+        },
+        {
+          "timestamp": "20240313002642",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.89539495.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "EYK4M2TNZ7SRONLJ3F3GFR3MAJEMGLPK"
+        },
+        {
+          "timestamp": "20230520190528",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.93dfa6f7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AUCVNJCUAVPTP6KCP3UC5CE3X47HWSYZ"
+        },
+        {
+          "timestamp": "20230303192715",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a04f3fbe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "PGCZKE6G4ABI7ODXEX3C6ORH757OJLFY"
+        },
+        {
+          "timestamp": "20230304141637",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a04f3fbe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "RNMNGUBPJN33ATOTLYHN5JKX7MG6VD4Q"
+        },
+        {
+          "timestamp": "20230311121817",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a04f3fbe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "R5RDFJ5UGLOMHCJGLINY4IF2DXBLXJ26"
+        },
+        {
+          "timestamp": "20230315211539",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a04f3fbe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "XXO37YTSTACGPINKZWHRMAF5RJWSTPZ4"
+        },
+        {
+          "timestamp": "20230319173719",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a04f3fbe.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "PRF3DGY3WFBD43WKL346XYWRD2WFHEPE"
+        },
+        {
+          "timestamp": "20230725231127",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a5f1b0d7.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QGTYUGXSU77FWUIODW7QZRH76TN2GNIL"
+        },
+        {
+          "timestamp": "20230504224548",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.a6865267.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NRGZACT467BJWTWMPKVFORZXC265RZFD"
+        },
+        {
+          "timestamp": "20240216194943",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.b0477f25.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "LYEXYXDR2ZPZU54BXWWKUPENCMFQKDNJ"
+        },
+        {
+          "timestamp": "20240219002035",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.b0477f25.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "Q3VYJIIXDNQPJTZJZHXXTLRKRRKB6TIC"
+        },
+        {
+          "timestamp": "20231115141304",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.b1cbeaa0.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "A3TUMV42Q4W5RVNZMLX6TXVZNSSX4GPV"
+        },
+        {
+          "timestamp": "20231128011436",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.b1cbeaa0.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "7Q5DRFG2ZODVVJSG7LOUVB27VKUEVBMI"
+        },
+        {
+          "timestamp": "20240131081841",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.b1cbeaa0.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SDE76KDN5M5T4YULG3364X22H5WEJPZG"
+        },
+        {
+          "timestamp": "20230618200304",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.ba36fa4c.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "D6N423B5DSO3TPYRD7IBWSPGIQ2BO3G6"
+        },
+        {
+          "timestamp": "20230228201651",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/app.ee4e43c3.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "2KBNRXDOAPXWKITVFCILTHI67MQHOR3V"
+        },
+        {
+          "timestamp": "20230313072926",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/faqs.87b0df5c.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "RD6V6AT3W26BAM7W3RHMDIGH5A26OIRN"
+        },
+        {
+          "timestamp": "20230902105040",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/faqs.b6205401.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6KD5VDHYPRWW3EFD5XIY5AWKBYYW2UHG"
+        },
+        {
+          "timestamp": "20230228201654",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.1e3906ed.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "S5C5S6RTN3GUDO5TG2MI7AUAC4PM6TOO"
+        },
+        {
+          "timestamp": "20231129090109",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.35301d03.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SXWL5MP6MSVLHRPGP7I26WM6FUPLM6K6"
+        },
+        {
+          "timestamp": "20240131081845",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.35301d03.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "2ZP4CHLUBONQN7VXVKITRDJ7GSEELGFO"
+        },
+        {
+          "timestamp": "20240302180849",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VEZIILPJMIZUUPJNHZ3P5OJBQRTLKOPZ"
+        },
+        {
+          "timestamp": "20240304081933",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "P6N3YZ44TRPMJX6WPAZDCK5SRJBEE65O"
+        },
+        {
+          "timestamp": "20240307144345",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UQI6HZ2LJX6FLNTL5J23JAKZSCQUDNNN"
+        },
+        {
+          "timestamp": "20240308022126",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "MASPGC7TVHKWYOTUJLU453CB2UEAGPKH"
+        },
+        {
+          "timestamp": "20240308153036",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AXJ3PSJQV23QQCQ5GJGXZ6K75WKGUFQA"
+        },
+        {
+          "timestamp": "20240310044348",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "LKFDA6WU6QCU4G37GYN6Q67NLXCDHLKC"
+        },
+        {
+          "timestamp": "20240310230335",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "2CENAIHIWRKG4Y74UOT44XFM5NDDDKFE"
+        },
+        {
+          "timestamp": "20240312083130",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WXGLPK3GRJZICJ7XHATE52TCZAWK5DNF"
+        },
+        {
+          "timestamp": "20240313002647",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.3b23a434.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SD2YIS75JEPKT33VXRV5434P7P2IQCQ7"
+        },
+        {
+          "timestamp": "20230317134019",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.4e5a748d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "EU4CAO75X6YKJO5EPJKUPG337SMYIAHQ"
+        },
+        {
+          "timestamp": "20230319173720",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.4e5a748d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZQO2VSEVBO5E7WVIZSJ6K2QP7L4X76ZG"
+        },
+        {
+          "timestamp": "20230422162730",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.5630ce05.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "XUZ2SEHGDMK6RV6HRB2MKTRFV2EBI6BH"
+        },
+        {
+          "timestamp": "20230504224549",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.5630ce05.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "TXRJW2QPZQEUL6OS3YDF6JPNEUEMB6DG"
+        },
+        {
+          "timestamp": "20230324101531",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.5692f401.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CQP6CZOTK4LS5GJV5OTQZQLCNYMGXYAM"
+        },
+        {
+          "timestamp": "20230330231513",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.5692f401.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "O4YJP3T5IUNO6AUV7DL5CW3WBXHCQL66"
+        },
+        {
+          "timestamp": "20230406165412",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.5692f401.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "KJQV4YVSS7X56SRV55FTVPMECBMR54OH"
+        },
+        {
+          "timestamp": "20230618200306",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.64994f07.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6FMJDDSYMFZGTSDXCO7NHUNBZMWSKEHE"
+        },
+        {
+          "timestamp": "20240216195342",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.9ee72628.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VTBRHO4DMC5AEPVY772GSYXDCCEN675V"
+        },
+        {
+          "timestamp": "20240219002219",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.9ee72628.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UTWRUSGDVFO2DUJTVVGABKO4T744PEMI"
+        },
+        {
+          "timestamp": "20230629045209",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.aca81ec2.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "BTIXYGOA7FQREWPZPSMZ46JJ3MS33QES"
+        },
+        {
+          "timestamp": "20230708020157",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.aca81ec2.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZU2ZIG4VNI6WMCIV5UTUYKQ3VWXFXTYD"
+        },
+        {
+          "timestamp": "20230304141638",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.ae0553be.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "3YURFXUN4NOWPEAZRBBWA7LDTCWRXU6F"
+        },
+        {
+          "timestamp": "20230311121818",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.ae0553be.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NMQZGY7AE6ARBTGEVHVWSCH5FEY5RXH4"
+        },
+        {
+          "timestamp": "20230527014024",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.b37fcafd.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "IMHJBMO3IIDVVIUL6FJGRBC3WTZAZHL4"
+        },
+        {
+          "timestamp": "20230719234100",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FVAYT33QHMIV7XZWFBRX6A4XQBXNXCDV"
+        },
+        {
+          "timestamp": "20230725231129",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "USVHJW2Y3OFK2KA5JEZALFU6KNPFEQYM"
+        },
+        {
+          "timestamp": "20230801011313",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FVAYT33QHMIV7XZWFBRX6A4XQBXNXCDV"
+        },
+        {
+          "timestamp": "20230810155130",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "USVHJW2Y3OFK2KA5JEZALFU6KNPFEQYM"
+        },
+        {
+          "timestamp": "20230811055848",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "TJRSFNRKBVGXUWXANOG5EPAY2GPFPLGP"
+        },
+        {
+          "timestamp": "20230921122639",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "TACJQ34WOLLYEQCCUCPUTVPMEO3JXHJ2"
+        },
+        {
+          "timestamp": "20230923143512",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "TJRSFNRKBVGXUWXANOG5EPAY2GPFPLGP"
+        },
+        {
+          "timestamp": "20231001123323",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VSIQWUJBEMA5UNN2JX2XW7ITL66MXE75"
+        },
+        {
+          "timestamp": "20231009151004",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ELAQVQ4VQPFZHMGBTZPD5S3MVYRHR3FG"
+        },
+        {
+          "timestamp": "20231027180215",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VSIQWUJBEMA5UNN2JX2XW7ITL66MXE75"
+        },
+        {
+          "timestamp": "20231031133609",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eb9fd096.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WGR4SYBZVEN2LIGZTJCUX57G44K6VQNQ"
+        },
+        {
+          "timestamp": "20231115141306",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eebdacaa.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "P3HMMIFHZPNN3BPACJFTB5OMVUWCQ4DW"
+        },
+        {
+          "timestamp": "20231118024309",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eebdacaa.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ULU3KBZCQCVS2VM5LODGHXHA73NAGR5F"
+        },
+        {
+          "timestamp": "20231120203104",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/home.eebdacaa.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "BZKAO2MJJSMSYHPK44ZERSDHTZ64QZZW"
+        },
+        {
+          "timestamp": "20230527014121",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.066be2ea.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CU3MM6BKVGDMM44VFOYM6G6FIZYIRGMU"
+        },
+        {
+          "timestamp": "20230404030826",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.259d0487.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "T6FOLXPFQWELKKMEROEY65BNO5C6DTLP"
+        },
+        {
+          "timestamp": "20230413003310",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.259d0487.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "X24M52YUAZQFZ2SBY76ZO4HG3IFVSGMG"
+        },
+        {
+          "timestamp": "20240216200504",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.27606339.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "67RCNICCNMLTK3H6CKBVAF662IFU5FVK"
+        },
+        {
+          "timestamp": "20230629045421",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.2870b54d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CKA66KRSGSU7SKXRYRJHPR7SQ7H62XMW"
+        },
+        {
+          "timestamp": "20230710050042",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.2870b54d.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "L3CIT5AW7WQNZ3DI65VIX6ZV46UJAGT2"
+        },
+        {
+          "timestamp": "20230803134446",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.2e905936.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "E65FQXCA3YEOKBD6MWGH4JPIVKNTOSSX"
+        },
+        {
+          "timestamp": "20230820111909",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.3592ea36.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "EG5Y752PLBKBOE57XUIIJLSG56HE4R5Q"
+        },
+        {
+          "timestamp": "20241126194541",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.48b1ae28.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "GULHXXO4M6YTX6BUXND4XTGLLGGQJ2SD"
+        },
+        {
+          "timestamp": "20230618200418",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.4c814788.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QCZZTQ3ZOSHQ7OG4H7ECUAM5HANN23GK"
+        },
+        {
+          "timestamp": "20230315211540",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.5de32c51.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "75WVFRPWL6DL47WML4QH2M7YGBPVSBBZ"
+        },
+        {
+          "timestamp": "20240302173558",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.90edaa57.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "52IBRCADC5KMAFXOGBSZQHASPR67NJXK"
+        },
+        {
+          "timestamp": "20240308022354",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.90edaa57.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "I34Z74A4OD5GYZCIIUZCJDEJ5SKMQKQY"
+        },
+        {
+          "timestamp": "20231115144405",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.9ac2b7db.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "FREYV3FH54V4SC6E2BEQ4GYTLGB3DGPE"
+        },
+        {
+          "timestamp": "20231118024350",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.9ac2b7db.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "CR2JNBOPFLAY2EWVLHI6ARDCZBRS2USB"
+        },
+        {
+          "timestamp": "20231128011536",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.9ac2b7db.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AVA5BNKRYQT7BWTRAUKEMIMTLJ2UAMEO"
+        },
+        {
+          "timestamp": "20230719234601",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.9eb4621a.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "RSCR2YWRAOVAWITFTFUOQMDZZO6V5RMC"
+        },
+        {
+          "timestamp": "20231018222612",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.a965cd56.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6TSATV3LTAYW5M4ZXYS5ZEHFZ463D5BK"
+        },
+        {
+          "timestamp": "20230304141638",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.aeb56563.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "R22BABBXR3BWLOVMXMDIWPCSASNFO5BA"
+        },
+        {
+          "timestamp": "20230306090715",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.aeb56563.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AH53VRZBE4NILKUZGDOIQGKMQ6BTCW4T"
+        },
+        {
+          "timestamp": "20230311122441",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.aeb56563.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "D46UCXFYQL6LA7227N5VFMZSS4MD5WC6"
+        },
+        {
+          "timestamp": "20230319175945",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.b2fd6d84.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "KUM36URCCDLKTHWDMTPCBJ7KRPEXB35T"
+        },
+        {
+          "timestamp": "20230908042318",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.bffd83e8.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "GDHW2UEMTKFRZKIV5H5H4R2DFC7VPNGP"
+        },
+        {
+          "timestamp": "20230914134440",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.bffd83e8.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "JCKUJJWFCAPHRLR7JCJS6FVGZIR6F26O"
+        },
+        {
+          "timestamp": "20230921122709",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.bffd83e8.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "375FDYB7BB7VHD3U6C7XDCAOFP2N6LXH"
+        },
+        {
+          "timestamp": "20230924174108",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/leagues.bffd83e8.chunk.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HX24HNMKVJDOQRXQTVGGSMZPUHFEXTBZ"
+        },
+        {
+          "timestamp": "20230523120830",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WAS5URNG6JUHYSHBT6VIINTQGN2RRPE5"
+        },
+        {
+          "timestamp": "20230525015753",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZLNEYARNGZGUCNJAERDBO7XSBBHZCPFT"
+        },
+        {
+          "timestamp": "20230529230415",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "WAS5URNG6JUHYSHBT6VIINTQGN2RRPE5"
+        },
+        {
+          "timestamp": "20230601023518",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZLNEYARNGZGUCNJAERDBO7XSBBHZCPFT"
+        },
+        {
+          "timestamp": "20230602002512",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "5XHHOBASD7L5L4BDOTX3P7HOVQWNF2YB"
+        },
+        {
+          "timestamp": "20230608032755",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.06642047.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZLNEYARNGZGUCNJAERDBO7XSBBHZCPFT"
+        },
+        {
+          "timestamp": "20230518091030",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.0c156857.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "5IABZGIVO2EOQ7PVM3GQGFZL3ST67U53"
+        },
+        {
+          "timestamp": "20241119125526",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.1baf20a1.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "D2IZJMLAGAIHGQHRVXMA2WCFE3TPDJPT"
+        },
+        {
+          "timestamp": "20241119130455",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.1baf20a1.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AK4USLOW7BJWZ6MUWSHCIIRXJHYNX43K"
+        },
+        {
+          "timestamp": "20241126194538",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.1baf20a1.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "D2IZJMLAGAIHGQHRVXMA2WCFE3TPDJPT"
+        },
+        {
+          "timestamp": "20241201204708",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.1baf20a1.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "AK4USLOW7BJWZ6MUWSHCIIRXJHYNX43K"
+        },
+        {
+          "timestamp": "20230518004431",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.26192d84.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "46LE754Z6LQ6E7SODMHKURELIP7RDELM"
+        },
+        {
+          "timestamp": "20230725231127",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.2771ae89.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VHUZWH2K44GXMYDVVVOGEEJRXSP4FTKK"
+        },
+        {
+          "timestamp": "20230728094335",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.2771ae89.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "QWTIF7ELPCVPKELZFERPPRTOUDZABBC2"
+        },
+        {
+          "timestamp": "20230801011307",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.2771ae89.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "VHUZWH2K44GXMYDVVVOGEEJRXSP4FTKK"
+        },
+        {
+          "timestamp": "20230303192710",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.2e28c485.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "N4UI2WSQXBFEZ5WXHZC75HY6FOWTY4YG"
+        },
+        {
+          "timestamp": "20230304021406",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.35b5bbe9.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SO5SNY5ME6IHICEKPWYZI4SOPRZ7CMHE"
+        },
+        {
+          "timestamp": "20230304141637",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.35b5bbe9.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SMG7NHTLWUL4NGFNIE73WTH7YFY62R2B"
+        },
+        {
+          "timestamp": "20230305112408",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.35b5bbe9.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "ZZXHGF6RGLJA3K3TJRAIU6AGR6DNZ4VI"
+        },
+        {
+          "timestamp": "20230315200321",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.35b5bbe9.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "SO5SNY5ME6IHICEKPWYZI4SOPRZ7CMHE"
+        },
+        {
+          "timestamp": "20230627160008",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.3988df6c.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6I42NGJPUIIM2CPAYTQXMDAE5E5JND7D"
+        },
+        {
+          "timestamp": "20230629045207",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.3988df6c.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "6FW73QG3KY2QAA2JVL55SF2JX2WYNM4Y"
+        },
+        {
+          "timestamp": "20230708020154",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.3988df6c.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "O7MGJJZYYWSVZAMRR3WZPKGRNIHN5ZTU"
+        },
+        {
+          "timestamp": "20230323141703",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HWIF2T7QGU6KTLJVVELQSL27NYPXSFGC"
+        },
+        {
+          "timestamp": "20230324101529",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UAIQEWPEKDQZCXH7AWTLERFJSHYRESEW"
+        },
+        {
+          "timestamp": "20230329203654",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HWIF2T7QGU6KTLJVVELQSL27NYPXSFGC"
+        },
+        {
+          "timestamp": "20230330231512",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "UAIQEWPEKDQZCXH7AWTLERFJSHYRESEW"
+        },
+        {
+          "timestamp": "20230405205102",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HWIF2T7QGU6KTLJVVELQSL27NYPXSFGC"
+        },
+        {
+          "timestamp": "20230406165410",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "NVPIOWN4BFGR3KAKGB6HMJ6NVWT4OTNE"
+        },
+        {
+          "timestamp": "20230410222011",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HWIF2T7QGU6KTLJVVELQSL27NYPXSFGC"
+        },
+        {
+          "timestamp": "20230413003252",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "B2YGFOGXKLHHS42BKQHCSYSSQ3QAIRHP"
+        },
+        {
+          "timestamp": "20230414041838",
+          "original": "https://fantasy.formula1.com/static-assets/build/static/js/main.433de6ea.js",
+          "statuscode": "200",
+          "mimetype": "application/javascript",
+          "digest": "HWIF2T7QGU6KTLJVVELQSL27NYPXSFGC"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+[
+  {
+    "season": 2023,
+    "entity_type": "constructor",
+    "rows": 220,
+    "races": 22,
+    "entities": 10,
+    "component_rows": 0,
+    "price_rows": 220,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2023,
+    "entity_type": "driver",
+    "rows": 440,
+    "races": 22,
+    "entities": 22,
+    "component_rows": 0,
+    "price_rows": 440,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2024,
+    "entity_type": "constructor",
+    "rows": 240,
+    "races": 24,
+    "entities": 10,
+    "component_rows": 0,
+    "price_rows": 240,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2024,
+    "entity_type": "driver",
+    "rows": 480,
+    "races": 24,
+    "entities": 24,
+    "component_rows": 0,
+    "price_rows": 480,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2025,
+    "entity_type": "constructor",
+    "rows": 240,
+    "races": 24,
+    "entities": 10,
+    "component_rows": 0,
+    "price_rows": 240,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2025,
+    "entity_type": "driver",
+    "rows": 480,
+    "races": 24,
+    "entities": 21,
+    "component_rows": 0,
+    "price_rows": 480,
+    "official_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2026,
+    "entity_type": "constructor",
+    "rows": 130,
+    "races": 12,
+    "entities": 11,
+    "component_rows": 130,
+    "price_rows": 130,
+    "official_rows": 130,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2026,
+    "entity_type": "driver",
+    "rows": 261,
+    "races": 12,
+    "entities": 23,
+    "component_rows": 261,
+    "price_rows": 261,
+    "official_rows": 261,
+    "reconstructed_rows": 0
+  }
+]

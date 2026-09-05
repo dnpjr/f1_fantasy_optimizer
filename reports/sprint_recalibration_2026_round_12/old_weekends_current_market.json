@@ -1,0 +1,176 @@
+{
+  "calibration_season": 2026,
+  "calibration_status": "candidate",
+  "completed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "constructor": {
+    "form_weight": 0.75,
+    "future_event_effect": 0.0,
+    "intercept": 1.1165822469484437,
+    "price_weight": 0.25,
+    "slope": 15.876608818400724
+  },
+  "driver": {
+    "form_mean": 9.743985307621672,
+    "form_sd": 11.258787528189579,
+    "group_intercept": 5.167337315125289,
+    "group_slope": 2.328882120967809,
+    "personal_history": [
+      {
+        "canonical_entity_id": "albon",
+        "name": "Alexander Albon",
+        "observation_count": 4,
+        "personal_mean_bonus": 7.75
+      },
+      {
+        "canonical_entity_id": "alonso",
+        "name": "Fernando Alonso",
+        "observation_count": 4,
+        "personal_mean_bonus": 2.5
+      },
+      {
+        "canonical_entity_id": "antonelli",
+        "name": "Kimi Antonelli",
+        "observation_count": 4,
+        "personal_mean_bonus": 10.0
+      },
+      {
+        "canonical_entity_id": "arvid_lindblad",
+        "name": "Arvid Lindblad",
+        "observation_count": 4,
+        "personal_mean_bonus": -2.0
+      },
+      {
+        "canonical_entity_id": "bearman",
+        "name": "Oliver Bearman",
+        "observation_count": 4,
+        "personal_mean_bonus": 4.0
+      },
+      {
+        "canonical_entity_id": "bortoleto",
+        "name": "Gabriel Bortoleto",
+        "observation_count": 4,
+        "personal_mean_bonus": 0.25
+      },
+      {
+        "canonical_entity_id": "bottas",
+        "name": "Valtteri Bottas",
+        "observation_count": 4,
+        "personal_mean_bonus": 0.25
+      },
+      {
+        "canonical_entity_id": "colapinto",
+        "name": "Franco Colapinto",
+        "observation_count": 4,
+        "personal_mean_bonus": 5.5
+      },
+      {
+        "canonical_entity_id": "gasly",
+        "name": "Pierre Gasly",
+        "observation_count": 3,
+        "personal_mean_bonus": 4.333333333333333
+      },
+      {
+        "canonical_entity_id": "hadjar",
+        "name": "Isack Hadjar",
+        "observation_count": 4,
+        "personal_mean_bonus": -0.25
+      },
+      {
+        "canonical_entity_id": "hamilton",
+        "name": "Lewis Hamilton",
+        "observation_count": 4,
+        "personal_mean_bonus": 7.0
+      },
+      {
+        "canonical_entity_id": "hulkenberg",
+        "name": "Nico Hulkenberg",
+        "observation_count": 4,
+        "personal_mean_bonus": -2.75
+      },
+      {
+        "canonical_entity_id": "lawson",
+        "name": "Liam Lawson",
+        "observation_count": 4,
+        "personal_mean_bonus": 8.75
+      },
+      {
+        "canonical_entity_id": "leclerc",
+        "name": "Charles Leclerc",
+        "observation_count": 4,
+        "personal_mean_bonus": 10.75
+      },
+      {
+        "canonical_entity_id": "max_verstappen",
+        "name": "Max Verstappen",
+        "observation_count": 4,
+        "personal_mean_bonus": 6.5
+      },
+      {
+        "canonical_entity_id": "norris",
+        "name": "Lando Norris",
+        "observation_count": 4,
+        "personal_mean_bonus": 10.25
+      },
+      {
+        "canonical_entity_id": "ocon",
+        "name": "Esteban Ocon",
+        "observation_count": 4,
+        "personal_mean_bonus": 6.75
+      },
+      {
+        "canonical_entity_id": "perez",
+        "name": "Sergio Perez",
+        "observation_count": 4,
+        "personal_mean_bonus": 3.75
+      },
+      {
+        "canonical_entity_id": "piastri",
+        "name": "Oscar Piastri",
+        "observation_count": 4,
+        "personal_mean_bonus": 7.5
+      },
+      {
+        "canonical_entity_id": "russell",
+        "name": "George Russell",
+        "observation_count": 4,
+        "personal_mean_bonus": 11.25
+      },
+      {
+        "canonical_entity_id": "sainz",
+        "name": "Carlos Sainz",
+        "observation_count": 2,
+        "personal_mean_bonus": 8.0
+      },
+      {
+        "canonical_entity_id": "stroll",
+        "name": "Lance Stroll",
+        "observation_count": 4,
+        "personal_mean_bonus": 5.25
+      }
+    ],
+    "tau_squared": 4.710348565855741,
+    "within_variance": 26.378787878787875
+  },
+  "generated_at": "2026-09-05T06:43:10.793274+00:00",
+  "model_version": "sprint_ev_2026_v2",
+  "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "source_research_model": "2026-sprint-final-candidate-v1",
+  "sprint_rounds": [
+    2,
+    4,
+    5,
+    9
+  ]
+}

@@ -1,0 +1,7 @@
+season,entity_type,observations,standardised_strength_uplift_slope,pearson,spearman,raw_values_used_in_2026_fit,historical_shape_support
+2023,constructor,60,0.0987490807,0.0987490807,0.07907505663,False,supports_positive_strength_relationship
+2023,driver,120,0.03759480992,0.03759480992,0.01672922685,False,supports_positive_strength_relationship
+2024,constructor,60,0.0148008965,0.0148008965,-0.05863616488,False,supports_positive_strength_relationship
+2024,driver,120,-0.03974285116,-0.03974285116,-0.1571384549,False,supports_positive_strength_relationship
+2025,constructor,60,0.09265747706,0.09265747706,0.2626936683,False,supports_positive_strength_relationship
+2025,driver,120,0.0790621574,0.0790621574,0.08624780435,False,supports_positive_strength_relationship

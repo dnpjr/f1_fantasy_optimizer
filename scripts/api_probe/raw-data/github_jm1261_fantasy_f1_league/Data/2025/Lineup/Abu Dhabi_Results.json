@@ -1,0 +1,141 @@
+{
+    "Name": [
+        "Points",
+        "Value"
+    ],
+    "Race": [
+        "Abu Dhabi"
+    ],
+    "Gasly": [
+        3,
+        6.5
+    ],
+    "Doohan": [
+        -25,
+        4.5
+    ],
+    "Colapinto": [
+        0,
+        4.5
+    ],
+    "Stroll": [
+        20,
+        6.7
+    ],
+    "Alonso": [
+        17,
+        4.7
+    ],
+    "Leclerc": [
+        35,
+        23.0
+    ],
+    "Hamilton": [
+        28,
+        21.9
+    ],
+    "Ocon": [
+        21,
+        7.9
+    ],
+    "Bearman": [
+        6,
+        9.3
+    ],
+    "Hulkenberg": [
+        24,
+        5.0
+    ],
+    "Bortoleto": [
+        6,
+        5.5
+    ],
+    "Norris": [
+        29,
+        30.3
+    ],
+    "Piastri": [
+        28,
+        25.1
+    ],
+    "Russell": [
+        20,
+        23.7
+    ],
+    "Antonelli": [
+        5,
+        18.1
+    ],
+    "Tsunoda RB": [
+        -25,
+        5.9
+    ],
+    "Lawson": [
+        1,
+        5.9
+    ],
+    "Hadjar": [
+        -2,
+        6.9
+    ],
+    "Verstappen": [
+        46,
+        30.1
+    ],
+    "Tsunoda": [
+        1,
+        11.4
+    ],
+    "Lawson RBR": [
+        -25,
+        9.8
+    ],
+    "Albon": [
+        10,
+        12.6
+    ],
+    "Sainz": [
+        3,
+        7.7
+    ],
+    "Alpine": [
+        4,
+        10.1
+    ],
+    "Aston Martin": [
+        47,
+        10.3
+    ],
+    "Ferrari": [
+        83,
+        31.8
+    ],
+    "Haas": [
+        34,
+        15.6
+    ],
+    "Kick Sauber": [
+        40,
+        8.7
+    ],
+    "McLaren": [
+        77,
+        36.1
+    ],
+    "Mercedes": [
+        35,
+        28.4
+    ],
+    "Racing Bulls": [
+        6,
+        16.2
+    ],
+    "Red Bull": [
+        52,
+        31.1
+    ],
+    "Williams": [
+        24,
+        19.5
+    ]
+}

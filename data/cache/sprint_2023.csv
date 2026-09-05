@@ -1,0 +1,101 @@
+season,round,circuitName,driverId,driver,constructorId,position,grid,status,fastestLapRank,is_dnf
+2023,4,Baku City Circuit,perez,Sergio Pérez,red_bull,1,2,Finished,0,0
+2023,4,Baku City Circuit,leclerc,Charles Leclerc,ferrari,2,1,Finished,0,0
+2023,4,Baku City Circuit,max_verstappen,Max Verstappen,red_bull,3,3,Finished,0,0
+2023,4,Baku City Circuit,russell,George Russell,mercedes,4,4,Finished,0,0
+2023,4,Baku City Circuit,sainz,Carlos Sainz,ferrari,5,5,Finished,0,0
+2023,4,Baku City Circuit,alonso,Fernando Alonso,aston_martin,6,8,Finished,0,0
+2023,4,Baku City Circuit,hamilton,Lewis Hamilton,mercedes,7,6,Finished,0,0
+2023,4,Baku City Circuit,stroll,Lance Stroll,aston_martin,8,9,Finished,0,0
+2023,4,Baku City Circuit,albon,Alexander Albon,williams,9,7,Finished,0,0
+2023,4,Baku City Circuit,piastri,Oscar Piastri,mclaren,10,11,Finished,0,0
+2023,4,Baku City Circuit,kevin_magnussen,Kevin Magnussen,haas,11,13,Finished,0,0
+2023,4,Baku City Circuit,zhou,Guanyu Zhou,alfa,12,14,Finished,0,0
+2023,4,Baku City Circuit,gasly,Pierre Gasly,alpine,13,17,Finished,0,0
+2023,4,Baku City Circuit,de_vries,Nyck de Vries,alphatauri,14,18,Finished,0,0
+2023,4,Baku City Circuit,hulkenberg,Nico Hülkenberg,haas,15,12,Finished,0,0
+2023,4,Baku City Circuit,bottas,Valtteri Bottas,alfa,16,15,Finished,0,0
+2023,4,Baku City Circuit,norris,Lando Norris,mclaren,17,10,Finished,0,0
+2023,4,Baku City Circuit,ocon,Esteban Ocon,alpine,18,0,Finished,0,0
+2023,4,Baku City Circuit,tsunoda,Yuki Tsunoda,alphatauri,19,16,Collision damage,0,1
+2023,4,Baku City Circuit,sargeant,Logan Sargeant,williams,20,0,Accident,0,1
+2023,9,Red Bull Ring,max_verstappen,Max Verstappen,red_bull,1,1,Finished,12,0
+2023,9,Red Bull Ring,perez,Sergio Pérez,red_bull,2,2,Finished,15,0
+2023,9,Red Bull Ring,sainz,Carlos Sainz,ferrari,3,5,Finished,14,0
+2023,9,Red Bull Ring,stroll,Lance Stroll,aston_martin,4,7,Finished,17,0
+2023,9,Red Bull Ring,alonso,Fernando Alonso,aston_martin,5,6,Finished,13,0
+2023,9,Red Bull Ring,hulkenberg,Nico Hülkenberg,haas,6,4,Finished,1,0
+2023,9,Red Bull Ring,ocon,Esteban Ocon,alpine,7,8,Finished,16,0
+2023,9,Red Bull Ring,russell,George Russell,mercedes,8,15,Finished,3,0
+2023,9,Red Bull Ring,norris,Lando Norris,mclaren,9,3,Finished,18,0
+2023,9,Red Bull Ring,hamilton,Lewis Hamilton,mercedes,10,18,Finished,6,0
+2023,9,Red Bull Ring,piastri,Oscar Piastri,mclaren,11,17,Finished,2,0
+2023,9,Red Bull Ring,leclerc,Charles Leclerc,ferrari,12,9,Finished,5,0
+2023,9,Red Bull Ring,albon,Alexander Albon,williams,13,11,Finished,9,0
+2023,9,Red Bull Ring,kevin_magnussen,Kevin Magnussen,haas,14,10,Finished,4,0
+2023,9,Red Bull Ring,gasly,Pierre Gasly,alpine,15,12,Finished,19,0
+2023,9,Red Bull Ring,tsunoda,Yuki Tsunoda,alphatauri,16,13,Finished,8,0
+2023,9,Red Bull Ring,de_vries,Nyck de Vries,alphatauri,17,14,Finished,10,0
+2023,9,Red Bull Ring,sargeant,Logan Sargeant,williams,18,20,Finished,11,0
+2023,9,Red Bull Ring,zhou,Guanyu Zhou,alfa,19,16,Finished,7,0
+2023,9,Red Bull Ring,bottas,Valtteri Bottas,alfa,20,19,Finished,20,0
+2023,12,Circuit de Spa-Francorchamps,max_verstappen,Max Verstappen,red_bull,1,1,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,piastri,Oscar Piastri,mclaren,2,2,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,gasly,Pierre Gasly,alpine,3,6,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,sainz,Carlos Sainz,ferrari,4,3,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,leclerc,Charles Leclerc,ferrari,5,4,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,norris,Lando Norris,mclaren,6,5,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,hamilton,Lewis Hamilton,mercedes,7,7,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,russell,George Russell,mercedes,8,10,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,ocon,Esteban Ocon,alpine,9,9,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,ricciardo,Daniel Ricciardo,alphatauri,10,11,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,stroll,Lance Stroll,aston_martin,11,14,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,albon,Alexander Albon,williams,12,12,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,bottas,Valtteri Bottas,alfa,13,17,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,kevin_magnussen,Kevin Magnussen,haas,14,18,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,zhou,Guanyu Zhou,alfa,15,19,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,sargeant,Logan Sargeant,williams,16,13,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,hulkenberg,Nico Hülkenberg,haas,17,20,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,tsunoda,Yuki Tsunoda,alphatauri,18,16,Finished,0,0
+2023,12,Circuit de Spa-Francorchamps,perez,Sergio Pérez,red_bull,19,8,Collision damage,0,1
+2023,12,Circuit de Spa-Francorchamps,alonso,Fernando Alonso,aston_martin,20,15,Accident,0,1
+2023,17,Losail International Circuit,piastri,Oscar Piastri,mclaren,1,1,Finished,0,0
+2023,17,Losail International Circuit,max_verstappen,Max Verstappen,red_bull,2,3,Finished,0,0
+2023,17,Losail International Circuit,norris,Lando Norris,mclaren,3,2,Finished,0,0
+2023,17,Losail International Circuit,russell,George Russell,mercedes,4,4,Finished,0,0
+2023,17,Losail International Circuit,hamilton,Lewis Hamilton,mercedes,5,12,Finished,0,0
+2023,17,Losail International Circuit,sainz,Carlos Sainz,ferrari,6,5,Finished,0,0
+2023,17,Losail International Circuit,albon,Alexander Albon,williams,7,17,Finished,0,0
+2023,17,Losail International Circuit,alonso,Fernando Alonso,aston_martin,8,9,Finished,0,0
+2023,17,Losail International Circuit,gasly,Pierre Gasly,alpine,9,11,Finished,0,0
+2023,17,Losail International Circuit,bottas,Valtteri Bottas,alfa,10,13,Finished,0,0
+2023,17,Losail International Circuit,tsunoda,Yuki Tsunoda,alphatauri,11,18,Finished,0,0
+2023,17,Losail International Circuit,leclerc,Charles Leclerc,ferrari,12,6,Finished,0,0
+2023,17,Losail International Circuit,stroll,Lance Stroll,aston_martin,13,16,Finished,0,0
+2023,17,Losail International Circuit,kevin_magnussen,Kevin Magnussen,haas,14,19,Finished,0,0
+2023,17,Losail International Circuit,zhou,Guanyu Zhou,alfa,15,15,Finished,0,0
+2023,17,Losail International Circuit,hulkenberg,Nico Hülkenberg,haas,16,7,Retired,0,1
+2023,17,Losail International Circuit,ocon,Esteban Ocon,alpine,17,10,Retired,0,1
+2023,17,Losail International Circuit,perez,Sergio Pérez,red_bull,18,8,Retired,0,1
+2023,17,Losail International Circuit,sargeant,Logan Sargeant,williams,19,20,Retired,0,1
+2023,17,Losail International Circuit,lawson,Liam Lawson,alphatauri,20,14,Retired,0,1
+2023,18,Circuit of the Americas,max_verstappen,Max Verstappen,red_bull,1,1,Finished,0,0
+2023,18,Circuit of the Americas,hamilton,Lewis Hamilton,mercedes,2,3,Finished,0,0
+2023,18,Circuit of the Americas,leclerc,Charles Leclerc,ferrari,3,2,Finished,0,0
+2023,18,Circuit of the Americas,norris,Lando Norris,mclaren,4,4,Finished,0,0
+2023,18,Circuit of the Americas,perez,Sergio Pérez,red_bull,5,7,Finished,0,0
+2023,18,Circuit of the Americas,sainz,Carlos Sainz,ferrari,6,6,Finished,0,0
+2023,18,Circuit of the Americas,gasly,Pierre Gasly,alpine,7,9,Finished,0,0
+2023,18,Circuit of the Americas,russell,George Russell,mercedes,8,11,Finished,0,0
+2023,18,Circuit of the Americas,albon,Alexander Albon,williams,9,8,Finished,0,0
+2023,18,Circuit of the Americas,piastri,Oscar Piastri,mclaren,10,5,Finished,0,0
+2023,18,Circuit of the Americas,ocon,Esteban Ocon,alpine,11,13,Finished,0,0
+2023,18,Circuit of the Americas,ricciardo,Daniel Ricciardo,alphatauri,12,10,Finished,0,0
+2023,18,Circuit of the Americas,alonso,Fernando Alonso,aston_martin,13,12,Finished,0,0
+2023,18,Circuit of the Americas,tsunoda,Yuki Tsunoda,alphatauri,14,19,Finished,0,0
+2023,18,Circuit of the Americas,hulkenberg,Nico Hülkenberg,haas,15,16,Finished,0,0
+2023,18,Circuit of the Americas,bottas,Valtteri Bottas,alfa,16,18,Finished,0,0
+2023,18,Circuit of the Americas,zhou,Guanyu Zhou,alfa,17,15,Finished,0,0
+2023,18,Circuit of the Americas,kevin_magnussen,Kevin Magnussen,haas,18,17,Finished,0,0
+2023,18,Circuit of the Americas,sargeant,Logan Sargeant,williams,19,20,Finished,0,0
+2023,18,Circuit of the Americas,stroll,Lance Stroll,aston_martin,20,14,Brakes,0,1

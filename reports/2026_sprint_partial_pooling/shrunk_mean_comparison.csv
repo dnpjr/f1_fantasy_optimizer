@@ -1,0 +1,133 @@
+entity_type,entity_id,entity,method,weight,group_bonus,personal_mean_bonus,shrunk_mean_bonus
+constructor,mercedes,Mercedes,fixed_weight_0.25,0.25,17.14092835,21.25,18.16819627
+constructor,mercedes,Mercedes,fixed_weight_0.50,0.5,17.14092835,21.25,19.19546418
+constructor,mercedes,Mercedes,fixed_weight_0.75,0.75,17.14092835,21.25,20.22273209
+constructor,mercedes,Mercedes,empirical_bayes,0.3065029952,17.14092835,21.25,18.40037112
+constructor,ferrari,Ferrari,fixed_weight_0.25,0.25,14.95229935,17.75,15.65172451
+constructor,ferrari,Ferrari,fixed_weight_0.50,0.5,14.95229935,17.75,16.35114968
+constructor,ferrari,Ferrari,fixed_weight_0.75,0.75,14.95229935,17.75,17.05057484
+constructor,ferrari,Ferrari,empirical_bayes,0.3065029952,14.95229935,17.75,15.80980298
+constructor,mclaren,McLaren,fixed_weight_0.25,0.25,13.49321335,17.75,14.55741001
+constructor,mclaren,McLaren,fixed_weight_0.50,0.5,13.49321335,17.75,15.62160668
+constructor,mclaren,McLaren,fixed_weight_0.75,0.75,13.49321335,17.75,16.68580334
+constructor,mclaren,McLaren,empirical_bayes,0.3065029952,13.49321335,17.75,14.79793121
+constructor,red_bull,Red Bull Racing,fixed_weight_0.25,0.25,14.22275635,6.25,12.22956726
+constructor,red_bull,Red Bull Racing,fixed_weight_0.50,0.5,14.22275635,6.25,10.23637818
+constructor,red_bull,Red Bull Racing,fixed_weight_0.75,0.75,14.22275635,6.25,8.243189088
+constructor,red_bull,Red Bull Racing,empirical_bayes,0.3065029952,14.22275635,6.25,11.77908265
+constructor,rb,Racing Bulls,fixed_weight_0.25,0.25,10.57504135,6.75,9.618781012
+constructor,rb,Racing Bulls,fixed_weight_0.50,0.5,10.57504135,6.75,8.662520675
+constructor,rb,Racing Bulls,fixed_weight_0.75,0.75,10.57504135,6.75,7.706260337
+constructor,rb,Racing Bulls,empirical_bayes,0.3065029952,10.57504135,6.75,9.40265472
+constructor,alpine,Alpine,fixed_weight_0.25,0.25,10.21026985,8.75,9.845202387
+constructor,alpine,Alpine,fixed_weight_0.50,0.5,10.21026985,8.75,9.480134925
+constructor,alpine,Alpine,fixed_weight_0.75,0.75,10.21026985,8.75,9.115067462
+constructor,alpine,Alpine,empirical_bayes,0.3065029952,10.21026985,8.75,9.762692767
+constructor,haas,Haas F1 Team,fixed_weight_0.25,0.25,8.021640848,10.75,8.703730636
+constructor,haas,Haas F1 Team,fixed_weight_0.50,0.5,8.021640848,10.75,9.385820424
+constructor,haas,Haas F1 Team,fixed_weight_0.75,0.75,8.021640848,10.75,10.06791021
+constructor,haas,Haas F1 Team,empirical_bayes,0.3065029952,8.021640848,10.75,8.8578911
+constructor,williams,Williams,fixed_weight_0.25,0.25,6.562554847,13.33333333,8.255249469
+constructor,williams,Williams,fixed_weight_0.50,0.5,6.562554847,13.33333333,9.94794409
+constructor,williams,Williams,fixed_weight_0.75,0.75,6.562554847,13.33333333,11.64063871
+constructor,williams,Williams,empirical_bayes,0.2489534943,6.562554847,13.33333333,8.24816381
+constructor,audi,Audi,fixed_weight_0.25,0.25,6.562554847,-5,3.671916135
+constructor,audi,Audi,fixed_weight_0.50,0.5,6.562554847,-5,0.7812774236
+constructor,audi,Audi,fixed_weight_0.75,0.75,6.562554847,-5,-2.109361288
+constructor,audi,Audi,empirical_bayes,0.3065029952,6.562554847,-5,3.018597155
+constructor,cadillac,Cadillac,fixed_weight_0.25,0.25,3.644382845,4,3.733287134
+constructor,cadillac,Cadillac,fixed_weight_0.50,0.5,3.644382845,4,3.822191423
+constructor,cadillac,Cadillac,fixed_weight_0.75,0.75,3.644382845,4,3.911095711
+constructor,cadillac,Cadillac,empirical_bayes,0.3065029952,3.644382845,4,3.753380568
+constructor,aston_martin,Aston Martin,fixed_weight_0.25,0.25,2.914839845,7.75,4.123629884
+constructor,aston_martin,Aston Martin,fixed_weight_0.50,0.5,2.914839845,7.75,5.332419922
+constructor,aston_martin,Aston Martin,fixed_weight_0.75,0.75,2.914839845,7.75,6.541209961
+constructor,aston_martin,Aston Martin,empirical_bayes,0.3065029952,2.914839845,7.75,4.396830914
+driver,antonelli,Kimi Antonelli,fixed_weight_0.25,0.25,10.48419302,10,10.36314476
+driver,antonelli,Kimi Antonelli,fixed_weight_0.50,0.5,10.48419302,10,10.24209651
+driver,antonelli,Kimi Antonelli,fixed_weight_0.75,0.75,10.48419302,10,10.12104825
+driver,antonelli,Kimi Antonelli,empirical_bayes,0.4166309052,10.48419302,10,10.28246324
+driver,hamilton,Lewis Hamilton,fixed_weight_0.25,0.25,9.11646292,7,8.58734719
+driver,hamilton,Lewis Hamilton,fixed_weight_0.50,0.5,9.11646292,7,8.05823146
+driver,hamilton,Lewis Hamilton,fixed_weight_0.75,0.75,9.11646292,7,7.52911573
+driver,hamilton,Lewis Hamilton,empirical_bayes,0.4166309052,9.11646292,7,8.234679058
+driver,leclerc,Charles Leclerc,fixed_weight_0.25,0.25,8.18340869,10.75,8.825056518
+driver,leclerc,Charles Leclerc,fixed_weight_0.50,0.5,8.18340869,10.75,9.466704345
+driver,leclerc,Charles Leclerc,fixed_weight_0.75,0.75,8.18340869,10.75,10.10835217
+driver,leclerc,Charles Leclerc,empirical_bayes,0.4166309052,8.18340869,10.75,9.252729951
+driver,russell,George Russell,fixed_weight_0.25,0.25,7.956702742,11.25,8.780027057
+driver,russell,George Russell,fixed_weight_0.50,0.5,7.956702742,11.25,9.603351371
+driver,russell,George Russell,fixed_weight_0.75,0.75,7.956702742,11.25,10.42667569
+driver,russell,George Russell,empirical_bayes,0.4166309052,7.956702742,11.25,9.32879216
+driver,max_verstappen,Max Verstappen,fixed_weight_0.25,0.25,7.786204881,6.5,7.464653661
+driver,max_verstappen,Max Verstappen,fixed_weight_0.50,0.5,7.786204881,6.5,7.143102441
+driver,max_verstappen,Max Verstappen,fixed_weight_0.75,0.75,7.786204881,6.5,6.82155122
+driver,max_verstappen,Max Verstappen,empirical_bayes,0.4166309052,7.786204881,6.5,7.250332177
+driver,norris,Lando Norris,fixed_weight_0.25,0.25,6.680779187,10.25,7.57308439
+driver,norris,Lando Norris,fixed_weight_0.50,0.5,6.680779187,10.25,8.465389593
+driver,norris,Lando Norris,fixed_weight_0.75,0.75,6.680779187,10.25,9.357694797
+driver,norris,Lando Norris,empirical_bayes,0.4166309052,6.680779187,10.25,8.167826885
+driver,piastri,Oscar Piastri,fixed_weight_0.25,0.25,5.631561578,7.5,6.098671184
+driver,piastri,Oscar Piastri,fixed_weight_0.50,0.5,5.631561578,7.5,6.565780789
+driver,piastri,Oscar Piastri,fixed_weight_0.75,0.75,5.631561578,7.5,7.032890395
+driver,piastri,Oscar Piastri,empirical_bayes,0.4166309052,5.631561578,7.5,6.410010769
+driver,colapinto,Franco Colapinto,fixed_weight_0.25,0.25,5.277450636,5.5,5.333087977
+driver,colapinto,Franco Colapinto,fixed_weight_0.50,0.5,5.277450636,5.5,5.388725318
+driver,colapinto,Franco Colapinto,fixed_weight_0.75,0.75,5.277450636,5.5,5.444362659
+driver,colapinto,Franco Colapinto,empirical_bayes,0.4166309052,5.277450636,5.5,5.370171579
+driver,hadjar,Isack Hadjar,fixed_weight_0.25,0.25,5.800185837,-0.25,4.287639378
+driver,hadjar,Isack Hadjar,fixed_weight_0.50,0.5,5.800185837,-0.25,2.775092918
+driver,hadjar,Isack Hadjar,fixed_weight_0.75,0.75,5.800185837,-0.25,1.262546459
+driver,hadjar,Isack Hadjar,empirical_bayes,0.4166309052,5.800185837,-0.25,3.279491435
+driver,lawson,Liam Lawson,fixed_weight_0.25,0.25,4.938328516,8.75,5.891246387
+driver,lawson,Liam Lawson,fixed_weight_0.50,0.5,4.938328516,8.75,6.844164258
+driver,lawson,Liam Lawson,fixed_weight_0.75,0.75,4.938328516,8.75,7.797082129
+driver,lawson,Liam Lawson,empirical_bayes,0.4166309052,4.938328516,8.75,6.526388657
+driver,gasly,Pierre Gasly,fixed_weight_0.25,0.25,5.298060267,4.333333333,5.056878534
+driver,gasly,Pierre Gasly,fixed_weight_0.50,0.5,5.298060267,4.333333333,4.8156968
+driver,gasly,Pierre Gasly,fixed_weight_0.75,0.75,5.298060267,4.333333333,4.574515067
+driver,gasly,Pierre Gasly,empirical_bayes,0.3488037885,5.298060267,4.333333333,4.961559858
+driver,ocon,Esteban Ocon,fixed_weight_0.25,0.25,4.938328516,6.75,5.391246387
+driver,ocon,Esteban Ocon,fixed_weight_0.50,0.5,4.938328516,6.75,5.844164258
+driver,ocon,Esteban Ocon,fixed_weight_0.75,0.75,4.938328516,6.75,6.297082129
+driver,ocon,Esteban Ocon,empirical_bayes,0.4166309052,4.938328516,6.75,5.693126846
+driver,sainz,Carlos Sainz,fixed_weight_0.25,0.25,4.272158606,8,5.204118954
+driver,sainz,Carlos Sainz,fixed_weight_0.50,0.5,4.272158606,8,6.136079303
+driver,sainz,Carlos Sainz,fixed_weight_0.75,0.75,4.272158606,8,7.068039651
+driver,sainz,Carlos Sainz,empirical_bayes,0.2631293655,4.272158606,8,5.253063146
+driver,bearman,Oliver Bearman,fixed_weight_0.25,0.25,4.188887367,4,4.141665525
+driver,bearman,Oliver Bearman,fixed_weight_0.50,0.5,4.188887367,4,4.094443683
+driver,bearman,Oliver Bearman,fixed_weight_0.75,0.75,4.188887367,4,4.047221842
+driver,bearman,Oliver Bearman,empirical_bayes,0.4166309052,4.188887367,4,4.110191052
+driver,bortoleto,Gabriel Bortoleto,fixed_weight_0.25,0.25,4.394983683,0.25,3.358737762
+driver,bortoleto,Gabriel Bortoleto,fixed_weight_0.50,0.5,4.394983683,0.25,2.322491841
+driver,bortoleto,Gabriel Bortoleto,fixed_weight_0.75,0.75,4.394983683,0.25,1.286245921
+driver,bortoleto,Gabriel Bortoleto,empirical_bayes,0.4166309052,4.394983683,0.25,2.668055379
+driver,arvid_lindblad,Arvid Lindblad,fixed_weight_0.25,0.25,4.544871913,-2,2.908653934
+driver,arvid_lindblad,Arvid Lindblad,fixed_weight_0.50,0.5,4.544871913,-2,1.272435956
+driver,arvid_lindblad,Arvid Lindblad,fixed_weight_0.75,0.75,4.544871913,-2,-0.3637820218
+driver,arvid_lindblad,Arvid Lindblad,empirical_bayes,0.4166309052,4.544871913,-2,1.818076003
+driver,albon,Alexander Albon,fixed_weight_0.25,0.25,2.727477127,7.75,3.983107845
+driver,albon,Alexander Albon,fixed_weight_0.50,0.5,2.727477127,7.75,5.238738563
+driver,albon,Alexander Albon,fixed_weight_0.75,0.75,2.727477127,7.75,6.494369282
+driver,albon,Alexander Albon,empirical_bayes,0.4166309052,2.727477127,7.75,4.820015378
+driver,perez,Sergio Perez,fixed_weight_0.25,0.25,3.008517558,3.75,3.193888168
+driver,perez,Sergio Perez,fixed_weight_0.50,0.5,3.008517558,3.75,3.379258779
+driver,perez,Sergio Perez,fixed_weight_0.75,0.75,3.008517558,3.75,3.564629389
+driver,perez,Sergio Perez,empirical_bayes,0.4166309052,3.008517558,3.75,3.317442059
+driver,alonso,Fernando Alonso,fixed_weight_0.25,0.25,3.102197701,2.5,2.951648276
+driver,alonso,Fernando Alonso,fixed_weight_0.50,0.5,3.102197701,2.5,2.801098851
+driver,alonso,Fernando Alonso,fixed_weight_0.75,0.75,3.102197701,2.5,2.650549425
+driver,alonso,Fernando Alonso,empirical_bayes,0.4166309052,3.102197701,2.5,2.851303528
+driver,hulkenberg,Nico Hulkenberg,fixed_weight_0.25,0.25,2.802421242,-2.75,1.414315931
+driver,hulkenberg,Nico Hulkenberg,fixed_weight_0.50,0.5,2.802421242,-2.75,0.02621062086
+driver,hulkenberg,Nico Hulkenberg,fixed_weight_0.75,0.75,2.802421242,-2.75,-1.36189469
+driver,hulkenberg,Nico Hulkenberg,empirical_bayes,0.4166309052,2.802421242,-2.75,0.4891109536
+driver,bottas,Valtteri Bottas,fixed_weight_0.25,0.25,2.052980093,0.25,1.60223507
+driver,bottas,Valtteri Bottas,fixed_weight_0.50,0.5,2.052980093,0.25,1.151490046
+driver,bottas,Valtteri Bottas,fixed_weight_0.75,0.75,2.052980093,0.25,0.7007450232
+driver,bottas,Valtteri Bottas,empirical_bayes,0.4166309052,2.052980093,0.25,1.301802865
+driver,stroll,Lance Stroll,fixed_weight_0.25,0.25,1.303538944,5.25,2.290154208
+driver,stroll,Lance Stroll,fixed_weight_0.50,0.5,1.303538944,5.25,3.276769472
+driver,stroll,Lance Stroll,fixed_weight_0.75,0.75,1.303538944,5.25,4.263384736
+driver,stroll,Lance Stroll,empirical_bayes,0.4166309052,1.303538944,5.25,2.947756586

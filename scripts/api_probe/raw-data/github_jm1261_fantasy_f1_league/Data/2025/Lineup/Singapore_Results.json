@@ -1,0 +1,141 @@
+{
+    "Name": [
+        "Points",
+        "Value"
+    ],
+    "Race": [
+        "Singapore"
+    ],
+    "Gasly": [
+        2,
+        4.5
+    ],
+    "Doohan": [
+        -25,
+        4.5
+    ],
+    "Colapinto": [
+        3,
+        4.5
+    ],
+    "Stroll": [
+        10,
+        9.9
+    ],
+    "Alonso": [
+        30,
+        7.3
+    ],
+    "Leclerc": [
+        16,
+        23.0
+    ],
+    "Hamilton": [
+        17,
+        22.9
+    ],
+    "Ocon": [
+        2,
+        8.3
+    ],
+    "Bearman": [
+        6,
+        7.3
+    ],
+    "Hulkenberg": [
+        -8,
+        8.6
+    ],
+    "Bortoleto": [
+        -1,
+        5.9
+    ],
+    "Norris": [
+        25,
+        30.9
+    ],
+    "Piastri": [
+        19,
+        26.9
+    ],
+    "Russell": [
+        35,
+        22.7
+    ],
+    "Antonelli": [
+        17,
+        14.9
+    ],
+    "Tsunoda RB": [
+        -25,
+        8.4
+    ],
+    "Lawson": [
+        3,
+        5.9
+    ],
+    "Hadjar": [
+        3,
+        6.9
+    ],
+    "Verstappen": [
+        27,
+        28.5
+    ],
+    "Tsunoda": [
+        4,
+        9.8
+    ],
+    "Lawson RBR": [
+        -25,
+        16.8
+    ],
+    "Albon": [
+        6,
+        13.0
+    ],
+    "Sainz": [
+        8,
+        5.7
+    ],
+    "Alpine": [
+        6,
+        8.1
+    ],
+    "Aston Martin": [
+        37,
+        12.3
+    ],
+    "Ferrari": [
+        48,
+        30.6
+    ],
+    "Haas": [
+        15,
+        13.2
+    ],
+    "Kick Sauber": [
+        -4,
+        10.7
+    ],
+    "McLaren": [
+        64,
+        35.1
+    ],
+    "Mercedes": [
+        67,
+        26.6
+    ],
+    "Racing Bulls": [
+        16,
+        13.0
+    ],
+    "Red Bull": [
+        51,
+        29.3
+    ],
+    "Williams": [
+        5,
+        17.3
+    ]
+}

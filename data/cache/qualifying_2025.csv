@@ -1,0 +1,101 @@
+season,round,circuitName,driverId,driver,constructorId,position,q1,q2,q3
+2025,1,Albert Park Grand Prix Circuit,norris,Lando Norris,mclaren,1,1:15.912,1:15.415,1:15.096
+2025,1,Albert Park Grand Prix Circuit,piastri,Oscar Piastri,mclaren,2,1:16.062,1:15.468,1:15.180
+2025,1,Albert Park Grand Prix Circuit,max_verstappen,Max Verstappen,red_bull,3,1:16.018,1:15.565,1:15.481
+2025,1,Albert Park Grand Prix Circuit,russell,George Russell,mercedes,4,1:15.971,1:15.798,1:15.546
+2025,1,Albert Park Grand Prix Circuit,tsunoda,Yuki Tsunoda,rb,5,1:16.225,1:16.009,1:15.670
+2025,1,Albert Park Grand Prix Circuit,albon,Alexander Albon,williams,6,1:16.245,1:16.017,1:15.737
+2025,1,Albert Park Grand Prix Circuit,leclerc,Charles Leclerc,ferrari,7,1:16.029,1:15.827,1:15.755
+2025,1,Albert Park Grand Prix Circuit,hamilton,Lewis Hamilton,ferrari,8,1:16.213,1:15.919,1:15.973
+2025,1,Albert Park Grand Prix Circuit,gasly,Pierre Gasly,alpine,9,1:16.328,1:16.112,1:15.980
+2025,1,Albert Park Grand Prix Circuit,sainz,Carlos Sainz,williams,10,1:16.360,1:15.931,1:16.062
+2025,1,Albert Park Grand Prix Circuit,hadjar,Isack Hadjar,rb,11,1:16.354,1:16.175,
+2025,1,Albert Park Grand Prix Circuit,alonso,Fernando Alonso,aston_martin,12,1:16.288,1:16.453,
+2025,1,Albert Park Grand Prix Circuit,stroll,Lance Stroll,aston_martin,13,1:16.369,1:16.483,
+2025,1,Albert Park Grand Prix Circuit,doohan,Jack Doohan,alpine,14,1:16.315,1:16.863,
+2025,1,Albert Park Grand Prix Circuit,bortoleto,Gabriel Bortoleto,sauber,15,1:16.516,1:17.520,
+2025,1,Albert Park Grand Prix Circuit,antonelli,Andrea Kimi Antonelli,mercedes,16,1:16.525,,
+2025,1,Albert Park Grand Prix Circuit,hulkenberg,Nico Hülkenberg,sauber,17,1:16.579,,
+2025,1,Albert Park Grand Prix Circuit,lawson,Liam Lawson,red_bull,18,1:17.094,,
+2025,1,Albert Park Grand Prix Circuit,ocon,Esteban Ocon,haas,19,1:17.147,,
+2025,1,Albert Park Grand Prix Circuit,bearman,Oliver Bearman,haas,20,,,
+2025,2,Shanghai International Circuit,piastri,Oscar Piastri,mclaren,1,1:31.591,1:31.200,1:30.641
+2025,2,Shanghai International Circuit,russell,George Russell,mercedes,2,1:31.295,1:31.307,1:30.723
+2025,2,Shanghai International Circuit,norris,Lando Norris,mclaren,3,1:30.983,1:30.787,1:30.793
+2025,2,Shanghai International Circuit,max_verstappen,Max Verstappen,red_bull,4,1:31.424,1:31.142,1:30.817
+2025,2,Shanghai International Circuit,hamilton,Lewis Hamilton,ferrari,5,1:31.690,1:31.501,1:30.927
+2025,2,Shanghai International Circuit,leclerc,Charles Leclerc,ferrari,6,1:31.579,1:31.450,1:31.021
+2025,2,Shanghai International Circuit,hadjar,Isack Hadjar,rb,7,1:31.162,1:31.253,1:31.079
+2025,2,Shanghai International Circuit,antonelli,Andrea Kimi Antonelli,mercedes,8,1:31.676,1:31.590,1:31.103
+2025,2,Shanghai International Circuit,tsunoda,Yuki Tsunoda,rb,9,1:31.238,1:31.260,1:31.638
+2025,2,Shanghai International Circuit,albon,Alexander Albon,williams,10,1:31.503,1:31.595,1:31.706
+2025,2,Shanghai International Circuit,ocon,Esteban Ocon,haas,11,1:31.876,1:31.625,
+2025,2,Shanghai International Circuit,hulkenberg,Nico Hülkenberg,sauber,12,1:31.921,1:31.632,
+2025,2,Shanghai International Circuit,alonso,Fernando Alonso,aston_martin,13,1:31.719,1:31.688,
+2025,2,Shanghai International Circuit,stroll,Lance Stroll,aston_martin,14,1:31.923,1:31.773,
+2025,2,Shanghai International Circuit,sainz,Carlos Sainz,williams,15,1:31.628,1:31.840,
+2025,2,Shanghai International Circuit,gasly,Pierre Gasly,alpine,16,1:31.992,,
+2025,2,Shanghai International Circuit,bearman,Oliver Bearman,haas,17,1:32.018,,
+2025,2,Shanghai International Circuit,doohan,Jack Doohan,alpine,18,1:32.092,,
+2025,2,Shanghai International Circuit,bortoleto,Gabriel Bortoleto,sauber,19,1:32.141,,
+2025,2,Shanghai International Circuit,lawson,Liam Lawson,red_bull,20,1:32.174,,
+2025,3,Suzuka Circuit,max_verstappen,Max Verstappen,red_bull,1,1:27.943,1:27.502,1:26.983
+2025,3,Suzuka Circuit,norris,Lando Norris,mclaren,2,1:27.845,1:27.146,1:26.995
+2025,3,Suzuka Circuit,piastri,Oscar Piastri,mclaren,3,1:27.687,1:27.507,1:27.027
+2025,3,Suzuka Circuit,leclerc,Charles Leclerc,ferrari,4,1:27.920,1:27.555,1:27.299
+2025,3,Suzuka Circuit,russell,George Russell,mercedes,5,1:27.843,1:27.400,1:27.318
+2025,3,Suzuka Circuit,antonelli,Andrea Kimi Antonelli,mercedes,6,1:27.968,1:27.639,1:27.555
+2025,3,Suzuka Circuit,hadjar,Isack Hadjar,rb,7,1:28.278,1:27.775,1:27.569
+2025,3,Suzuka Circuit,hamilton,Lewis Hamilton,ferrari,8,1:27.942,1:27.610,1:27.610
+2025,3,Suzuka Circuit,albon,Alexander Albon,williams,9,1:28.218,1:27.783,1:27.615
+2025,3,Suzuka Circuit,bearman,Oliver Bearman,haas,10,1:28.228,1:27.711,1:27.867
+2025,3,Suzuka Circuit,gasly,Pierre Gasly,alpine,11,1:28.186,1:27.822,
+2025,3,Suzuka Circuit,sainz,Carlos Sainz,williams,12,1:28.209,1:27.836,
+2025,3,Suzuka Circuit,alonso,Fernando Alonso,aston_martin,13,1:28.337,1:27.897,
+2025,3,Suzuka Circuit,lawson,Liam Lawson,rb,14,1:28.554,1:27.906,
+2025,3,Suzuka Circuit,tsunoda,Yuki Tsunoda,red_bull,15,1:27.967,1:28.000,
+2025,3,Suzuka Circuit,hulkenberg,Nico Hülkenberg,sauber,16,1:28.570,,
+2025,3,Suzuka Circuit,bortoleto,Gabriel Bortoleto,sauber,17,1:28.622,,
+2025,3,Suzuka Circuit,ocon,Esteban Ocon,haas,18,1:28.696,,
+2025,3,Suzuka Circuit,doohan,Jack Doohan,alpine,19,1:28.877,,
+2025,3,Suzuka Circuit,stroll,Lance Stroll,aston_martin,20,1:29.271,,
+2025,4,Bahrain International Circuit,piastri,Oscar Piastri,mclaren,1,1:31.392,1:30.454,1:29.841
+2025,4,Bahrain International Circuit,russell,George Russell,mercedes,2,1:31.494,1:30.664,1:30.009
+2025,4,Bahrain International Circuit,leclerc,Charles Leclerc,ferrari,3,1:31.454,1:30.724,1:30.175
+2025,4,Bahrain International Circuit,antonelli,Andrea Kimi Antonelli,mercedes,4,1:31.415,1:30.716,1:30.213
+2025,4,Bahrain International Circuit,gasly,Pierre Gasly,alpine,5,1:31.462,1:30.643,1:30.216
+2025,4,Bahrain International Circuit,norris,Lando Norris,mclaren,6,1:31.107,1:30.560,1:30.267
+2025,4,Bahrain International Circuit,max_verstappen,Max Verstappen,red_bull,7,1:31.303,1:31.019,1:30.423
+2025,4,Bahrain International Circuit,sainz,Carlos Sainz,williams,8,1:31.591,1:30.844,1:30.680
+2025,4,Bahrain International Circuit,hamilton,Lewis Hamilton,ferrari,9,1:31.219,1:31.009,1:30.772
+2025,4,Bahrain International Circuit,tsunoda,Yuki Tsunoda,red_bull,10,1:31.751,1:31.228,1:31.303
+2025,4,Bahrain International Circuit,doohan,Jack Doohan,alpine,11,1:31.414,1:31.245,
+2025,4,Bahrain International Circuit,hadjar,Isack Hadjar,rb,12,1:31.591,1:31.271,
+2025,4,Bahrain International Circuit,alonso,Fernando Alonso,aston_martin,13,1:31.634,1:31.886,
+2025,4,Bahrain International Circuit,ocon,Esteban Ocon,haas,14,1:31.594,,
+2025,4,Bahrain International Circuit,albon,Alexander Albon,williams,15,1:32.040,,
+2025,4,Bahrain International Circuit,hulkenberg,Nico Hülkenberg,sauber,16,1:32.067,,
+2025,4,Bahrain International Circuit,lawson,Liam Lawson,rb,17,1:32.165,,
+2025,4,Bahrain International Circuit,bortoleto,Gabriel Bortoleto,sauber,18,1:32.186,,
+2025,4,Bahrain International Circuit,stroll,Lance Stroll,aston_martin,19,1:32.283,,
+2025,4,Bahrain International Circuit,bearman,Oliver Bearman,haas,20,1:32.373,,
+2025,5,Jeddah Corniche Circuit,max_verstappen,Max Verstappen,red_bull,1,1:27.778,1:27.529,1:27.294
+2025,5,Jeddah Corniche Circuit,piastri,Oscar Piastri,mclaren,2,1:27.901,1:27.545,1:27.304
+2025,5,Jeddah Corniche Circuit,russell,George Russell,mercedes,3,1:28.282,1:27.599,1:27.407
+2025,5,Jeddah Corniche Circuit,leclerc,Charles Leclerc,ferrari,4,1:28.552,1:27.866,1:27.670
+2025,5,Jeddah Corniche Circuit,antonelli,Andrea Kimi Antonelli,mercedes,5,1:28.128,1:27.798,1:27.866
+2025,5,Jeddah Corniche Circuit,sainz,Carlos Sainz,williams,6,1:28.354,1:28.024,1:28.164
+2025,5,Jeddah Corniche Circuit,hamilton,Lewis Hamilton,ferrari,7,1:28.372,1:28.102,1:28.201
+2025,5,Jeddah Corniche Circuit,tsunoda,Yuki Tsunoda,red_bull,8,1:28.226,1:27.990,1:28.204
+2025,5,Jeddah Corniche Circuit,gasly,Pierre Gasly,alpine,9,1:28.421,1:28.025,1:28.367
+2025,5,Jeddah Corniche Circuit,norris,Lando Norris,mclaren,10,1:27.805,1:27.481,
+2025,5,Jeddah Corniche Circuit,albon,Alexander Albon,williams,11,1:28.279,1:28.109,
+2025,5,Jeddah Corniche Circuit,lawson,Liam Lawson,rb,12,1:28.561,1:28.191,
+2025,5,Jeddah Corniche Circuit,alonso,Fernando Alonso,aston_martin,13,1:28.548,1:28.303,
+2025,5,Jeddah Corniche Circuit,hadjar,Isack Hadjar,rb,14,1:28.571,1:28.418,
+2025,5,Jeddah Corniche Circuit,bearman,Oliver Bearman,haas,15,1:28.536,1:28.648,
+2025,5,Jeddah Corniche Circuit,stroll,Lance Stroll,aston_martin,16,1:28.645,,
+2025,5,Jeddah Corniche Circuit,doohan,Jack Doohan,alpine,17,1:28.739,,
+2025,5,Jeddah Corniche Circuit,hulkenberg,Nico Hülkenberg,sauber,18,1:28.782,,
+2025,5,Jeddah Corniche Circuit,ocon,Esteban Ocon,haas,19,1:29.092,,
+2025,5,Jeddah Corniche Circuit,bortoleto,Gabriel Bortoleto,sauber,20,1:29.462,,

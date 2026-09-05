@@ -1,0 +1,9 @@
+season,entity_type,rows,races,entities,component_rows,price_rows,official_rows,reconstructed_rows
+2023,constructor,220,22,10,0,220,0,0
+2023,driver,440,22,22,0,440,0,0
+2024,constructor,240,24,10,0,240,0,0
+2024,driver,480,24,24,0,480,0,0
+2025,constructor,240,24,10,0,240,0,0
+2025,driver,480,24,21,0,480,0,0
+2026,constructor,130,12,11,130,130,130,0
+2026,driver,261,12,23,261,261,261,0

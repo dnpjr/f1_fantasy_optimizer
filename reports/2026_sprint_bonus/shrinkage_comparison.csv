@@ -1,0 +1,13 @@
+entity_type,k,description,observations,leave_one_sprint_mae,leave_one_sprint_rmse,leave_one_sprint_bias,selected
+constructor,0,unshrunk_asset,43,8.534883721,11.01015505,3.098296813e-16,False
+constructor,1,shrunk_asset,43,7.904604881,10.53549781,0.01706850584,False
+constructor,2,shrunk_asset,43,7.581490615,10.33970014,0.03519710114,False
+constructor,4,shrunk_asset,43,7.292493326,10.19996324,0.0615494185,False
+constructor,8,shrunk_asset,43,7.12924386,10.15164947,0.08980833889,False
+constructor,1000000,pooled_only,43,7.076685524,10.24600135,0.1471482633,True
+driver,0,unshrunk_asset,85,4.760784314,5.991497243,-5.747036833e-17,False
+driver,1,shrunk_asset,85,4.396301513,5.713699997,0.002968913247,False
+driver,2,shrunk_asset,85,4.21868262,5.620476876,0.01293257932,False
+driver,4,shrunk_asset,85,4.084485213,5.575109147,0.02707763088,True
+driver,8,shrunk_asset,85,4.092108897,5.589107811,0.04112628185,False
+driver,1000000,pooled_only,85,4.29287178,5.735173775,0.0666916029,False

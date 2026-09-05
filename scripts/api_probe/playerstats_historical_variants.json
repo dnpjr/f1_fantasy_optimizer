@@ -1,0 +1,299 @@
+{
+  "configuration": {
+    "hostname": "fantasy.formula1.com",
+    "path_template": "/feeds/popup/playerstats_{player_id}.json",
+    "timeout_seconds": 15,
+    "minimum_request_interval_seconds": 1.0,
+    "methods": [
+      "GET"
+    ],
+    "headers": {
+      "Accept": "application/json,text/plain,*/*",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    },
+    "credentials_used": false
+  },
+  "baseline_schema": {
+    "driver": {
+      "top_level_keys": [
+        "FeedTime",
+        "Value"
+      ],
+      "value_keys": [
+        "FixtureWiseStats",
+        "GamedayWiseStats",
+        "MatchWiseStats",
+        "PlayerId",
+        "PlayerSkill",
+        "TourWiseStats"
+      ],
+      "player_id": 18,
+      "player_skill": 1,
+      "gameday_count": 12,
+      "match_count": 12,
+      "fixture_count": 12,
+      "GamedayWiseStats_row_keys": [
+        "GamedayId",
+        "IsActive",
+        "IsPlayed",
+        "OldPlayerValue",
+        "PlayerValue",
+        "StatsWise"
+      ],
+      "MatchWiseStats_row_keys": [
+        "GamedayId",
+        "RaceDayWise",
+        "TourId"
+      ],
+      "FixtureWiseStats_row_keys": [
+        "GamedayId",
+        "RaceDayWise",
+        "TourId"
+      ],
+      "RaceDayWise_row_keys": [
+        "CircuitOfficialName",
+        "CountryId",
+        "CountryName",
+        "DateTime",
+        "IsPlayed",
+        "MatchStatus",
+        "MeetingLocation",
+        "MeetingName",
+        "MeetingNumber",
+        "OldPlayerValue",
+        "PlayerValue",
+        "RaceDayId",
+        "Season",
+        "SessionName",
+        "SessionNumber",
+        "SessionStartDate",
+        "SessionType",
+        "StatsWise"
+      ],
+      "StatsWise_row_keys": [
+        "Event",
+        "Frequency",
+        "Value"
+      ]
+    },
+    "constructor": {
+      "top_level_keys": [
+        "FeedTime",
+        "Value"
+      ],
+      "value_keys": [
+        "FixtureWiseStats",
+        "GamedayWiseStats",
+        "MatchWiseStats",
+        "PlayerId",
+        "PlayerSkill",
+        "TourWiseStats"
+      ],
+      "player_id": 28,
+      "player_skill": 2,
+      "gameday_count": 12,
+      "match_count": 12,
+      "fixture_count": 12,
+      "GamedayWiseStats_row_keys": [
+        "GamedayId",
+        "IsActive",
+        "IsPlayed",
+        "OldPlayerValue",
+        "PlayerValue",
+        "StatsWise"
+      ],
+      "MatchWiseStats_row_keys": [
+        "GamedayId",
+        "RaceDayWise",
+        "TourId"
+      ],
+      "FixtureWiseStats_row_keys": [
+        "GamedayId",
+        "RaceDayWise",
+        "TourId"
+      ],
+      "RaceDayWise_row_keys": [
+        "CircuitOfficialName",
+        "CountryId",
+        "CountryName",
+        "DateTime",
+        "IsPlayed",
+        "MatchStatus",
+        "MeetingLocation",
+        "MeetingName",
+        "MeetingNumber",
+        "OldPlayerValue",
+        "PlayerValue",
+        "RaceDayId",
+        "Season",
+        "SessionName",
+        "SessionNumber",
+        "SessionStartDate",
+        "SessionType",
+        "StatsWise"
+      ],
+      "StatsWise_row_keys": [
+        "Event",
+        "Frequency",
+        "Value"
+      ]
+    }
+  },
+  "results": [
+    {
+      "asset_type": "driver",
+      "player_id": 18,
+      "parameter": "baseline",
+      "requested_season": "",
+      "url": "https://fantasy.formula1.com/feeds/popup/playerstats_18.json",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 65424,
+      "valid_json": true,
+      "observed_seasons": [
+        2026
+      ],
+      "gameday_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "matches_baseline": true,
+      "historical_season_verified": false,
+      "diagnostic": "Baseline current-season response."
+    },
+    {
+      "asset_type": "constructor",
+      "player_id": 28,
+      "parameter": "baseline",
+      "requested_season": "",
+      "url": "https://fantasy.formula1.com/feeds/popup/playerstats_28.json",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 76338,
+      "valid_json": true,
+      "observed_seasons": [
+        2026
+      ],
+      "gameday_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "matches_baseline": true,
+      "historical_season_verified": false,
+      "diagnostic": "Baseline current-season response."
+    },
+    {
+      "asset_type": "driver",
+      "player_id": 18,
+      "parameter": "season",
+      "requested_season": 2025,
+      "url": "https://fantasy.formula1.com/feeds/popup/playerstats_18.json?season=2025",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 65424,
+      "valid_json": true,
+      "observed_seasons": [
+        2026
+      ],
+      "gameday_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "matches_baseline": true,
+      "historical_season_verified": false,
+      "diagnostic": "Requested year is absent from payload. Payload Value matches the 2026 baseline; parameter is ignored."
+    },
+    {
+      "asset_type": "driver",
+      "player_id": 18,
+      "parameter": "season_name",
+      "requested_season": 2025,
+      "url": "https://fantasy.formula1.com/feeds/popup/playerstats_18.json?season_name=2025",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 65424,
+      "valid_json": true,
+      "observed_seasons": [
+        2026
+      ],
+      "gameday_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "matches_baseline": true,
+      "historical_season_verified": false,
+      "diagnostic": "Requested year is absent from payload. Payload Value matches the 2026 baseline; parameter is ignored."
+    },
+    {
+      "asset_type": "driver",
+      "player_id": 18,
+      "parameter": "year",
+      "requested_season": 2025,
+      "url": "https://fantasy.formula1.com/feeds/popup/playerstats_18.json?year=2025",
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_length": 65424,
+      "valid_json": true,
+      "observed_seasons": [
+        2026
+      ],
+      "gameday_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "matches_baseline": true,
+      "historical_season_verified": false,
+      "diagnostic": "Requested year is absent from payload. Payload Value matches the 2026 baseline; parameter is ignored."
+    }
+  ]
+}

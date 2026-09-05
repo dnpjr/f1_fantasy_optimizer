@@ -1,0 +1,101 @@
+season,round,entity_type,canonical_entity_id,name,event_name,approximate_points,recorded_points,difference,absolute_difference
+2024,5,constructor,red_bull,Red Bull,Chinese Grand Prix,94.0,126.0,32.0,32.0
+2024,6,constructor,mclaren,McLaren,Miami Grand Prix,20.0,50.0,30.0,30.0
+2023,3,constructor,alpine,Alpine,Australian Grand Prix,-16.0,11.0,27.0,27.0
+2024,4,constructor,red_bull,Red Bull,Japanese Grand Prix,82.0,108.0,26.0,26.0
+2025,2,constructor,rb,Racing Bulls,Chinese Grand Prix,16.0,42.0,26.0,26.0
+2023,3,driver,sargeant,Logan Sargeant,Australian Grand Prix,-20.0,5.0,25.0,25.0
+2025,4,constructor,ferrari,Ferrari,Bahrain Grand Prix,48.0,73.0,25.0,25.0
+2023,3,driver,de_vries,Nyck de Vries,Australian Grand Prix,-20.0,3.0,23.0,23.0
+2023,3,driver,kevin_magnussen,Kevin Magnussen,Australian Grand Prix,-20.0,2.0,22.0,22.0
+2023,3,driver,ocon,Esteban Ocon,Australian Grand Prix,-20.0,2.0,22.0,22.0
+2023,4,constructor,alphatauri,AlphaTauri,Azerbaijan Grand Prix,-1.0,-23.0,-22.0,22.0
+2023,2,constructor,williams,Williams,Saudi Arabian Grand Prix,4.000000000000001,-16.0,-20.0,20.0
+2023,5,constructor,ferrari,Ferrari,Miami Grand Prix,36.0,56.0,20.0,20.0
+2024,1,constructor,ferrari,Ferrari,Bahrain Grand Prix,53.0,73.0,20.0,20.0
+2025,1,constructor,haas,Haas,Australian Grand Prix,34.0,14.0,-20.0,20.0
+2025,4,constructor,mercedes,Mercedes,Bahrain Grand Prix,40.0,60.0,20.0,20.0
+2025,5,constructor,ferrari,Ferrari,Saudi Arabian Grand Prix,44.0,64.0,20.0,20.0
+2023,3,driver,gasly,Pierre Gasly,Australian Grand Prix,-18.0,1.0,19.0,19.0
+2025,1,constructor,sauber,Kick Sauber,Australian Grand Prix,22.0,3.0,-19.0,19.0
+2023,3,constructor,alfa,Alfa Romeo,Australian Grand Prix,44.0,26.0,-18.0,18.0
+2023,4,constructor,red_bull,Red Bull,Azerbaijan Grand Prix,90.0,108.0,18.0,18.0
+2025,4,driver,hamilton,Lewis Hamilton,Bahrain Grand Prix,20.0,38.0,18.0,18.0
+2023,4,driver,ocon,Esteban Ocon,Azerbaijan Grand Prix,-10.0,7.0,17.0,17.0
+2024,2,constructor,alpine,Alpine,Saudi Arabian Grand Prix,4.000000000000001,-13.0,-17.0,17.0
+2024,2,constructor,red_bull,Red Bull,Saudi Arabian Grand Prix,73.0,90.0,17.0,17.0
+2024,2,constructor,sauber,Kick Sauber,Saudi Arabian Grand Prix,13.0,-4.0,-17.0,17.0
+2025,1,constructor,aston_martin,Aston Martin,Australian Grand Prix,18.0,1.0,-17.0,17.0
+2025,1,constructor,ferrari,Ferrari,Australian Grand Prix,19.0,36.0,17.0,17.0
+2025,4,constructor,red_bull,Red Bull,Bahrain Grand Prix,29.0,46.0,17.0,17.0
+2023,3,constructor,mclaren,McLaren,Australian Grand Prix,52.0,36.0,-16.0,16.0
+2025,3,constructor,ferrari,Ferrari,Japanese Grand Prix,40.0,56.0,16.0,16.0
+2024,3,constructor,haas,Haas,Australian Grand Prix,35.0,20.0,-15.0,15.0
+2023,1,driver,alonso,Fernando Alonso,Bahrain Grand Prix,25.0,39.0,14.0,14.0
+2023,4,constructor,mclaren,McLaren,Azerbaijan Grand Prix,9.0,23.0,14.0,14.0
+2023,4,constructor,williams,Williams,Azerbaijan Grand Prix,-1.0,-15.0,-14.0,14.0
+2023,4,driver,perez,Sergio Pérez,Azerbaijan Grand Prix,47.0,61.0,14.0,14.0
+2024,5,constructor,haas,Haas,Chinese Grand Prix,12.0,26.0,14.0,14.0
+2025,1,driver,norris,Lando Norris,Australian Grand Prix,45.0,59.0,14.0,14.0
+2023,1,constructor,alpine,Alpine,Bahrain Grand Prix,21.0,8.0,-13.0,13.0
+2023,2,constructor,alphatauri,AlphaTauri,Saudi Arabian Grand Prix,28.0,15.0,-13.0,13.0
+2024,3,driver,russell,George Russell,Australian Grand Prix,-16.0,-3.0,13.0,13.0
+2025,4,driver,antonelli,Andrea Kimi Antonelli,Bahrain Grand Prix,1.0,14.0,13.0,13.0
+2023,2,constructor,ferrari,Ferrari,Saudi Arabian Grand Prix,47.0,59.0,12.0,12.0
+2023,3,constructor,alphatauri,AlphaTauri,Australian Grand Prix,1.0,13.0,12.0,12.0
+2024,1,driver,sainz,Carlos Sainz,Bahrain Grand Prix,24.0,36.0,12.0,12.0
+2024,2,driver,bearman,Oliver Bearman,Saudi Arabian Grand Prix,14.0,26.0,12.0,12.0
+2025,1,constructor,mclaren,McLaren,Australian Grand Prix,59.0,71.0,12.0,12.0
+2025,2,constructor,mercedes,Mercedes,Chinese Grand Prix,57.0,69.0,12.0,12.0
+2025,2,driver,antonelli,Andrea Kimi Antonelli,Chinese Grand Prix,17.0,29.0,12.0,12.0
+2025,5,constructor,haas,Haas,Saudi Arabian Grand Prix,24.0,12.0,-12.0,12.0
+2023,4,constructor,alpine,Alpine,Azerbaijan Grand Prix,14.0,25.0,11.0,11.0
+2023,5,driver,max_verstappen,Max Verstappen,Miami Grand Prix,53.0,64.0,11.0,11.0
+2024,3,constructor,alpine,Alpine,Australian Grand Prix,17.0,6.0,-11.0,11.0
+2024,5,driver,kevin_magnussen,Kevin Magnussen,Chinese Grand Prix,6.0,17.0,11.0,11.0
+2024,5,driver,stroll,Lance Stroll,Chinese Grand Prix,-2.0,9.0,11.0,11.0
+2025,3,constructor,mclaren,McLaren,Japanese Grand Prix,60.0,71.0,11.0,11.0
+2025,4,constructor,mclaren,McLaren,Bahrain Grand Prix,81.0,92.0,11.0,11.0
+2025,4,constructor,rb,Racing Bulls,Bahrain Grand Prix,11.0,22.0,11.0,11.0
+2025,5,driver,max_verstappen,Max Verstappen,Saudi Arabian Grand Prix,27.0,38.0,11.0,11.0
+2023,2,driver,max_verstappen,Max Verstappen,Saudi Arabian Grand Prix,51.0,61.0,10.0,10.0
+2023,3,constructor,williams,Williams,Australian Grand Prix,-15.0,-5.0,10.0,10.0
+2024,3,constructor,sauber,Kick Sauber,Australian Grand Prix,17.0,7.0,-10.0,10.0
+2024,3,driver,sainz,Carlos Sainz,Australian Grand Prix,36.0,46.0,10.0,10.0
+2024,4,constructor,williams,Williams,Japanese Grand Prix,0.0,-10.0,-10.0,10.0
+2024,5,constructor,ferrari,Ferrari,Chinese Grand Prix,64.0,74.0,10.0,10.0
+2025,1,constructor,alpine,Alpine,Australian Grand Prix,-4.0,-14.0,-10.0,10.0
+2025,1,driver,bearman,Oliver Bearman,Australian Grand Prix,12.0,2.0,-10.0,10.0
+2025,2,constructor,mclaren,McLaren,Chinese Grand Prix,91.0,101.0,10.0,10.0
+2025,5,constructor,sauber,Kick Sauber,Saudi Arabian Grand Prix,20.0,10.0,-10.0,10.0
+2023,1,constructor,alphatauri,AlphaTauri,Bahrain Grand Prix,26.0,17.0,-9.0,9.0
+2023,2,constructor,alpine,Alpine,Saudi Arabian Grand Prix,19.0,28.0,9.0,9.0
+2023,3,constructor,haas,Haas,Australian Grand Prix,9.0,18.0,9.0,9.0
+2023,3,driver,sainz,Carlos Sainz,Australian Grand Prix,-1.0,8.0,9.0,9.0
+2024,1,constructor,sauber,Kick Sauber,Bahrain Grand Prix,19.0,10.0,-9.0,9.0
+2024,3,constructor,rb,RB,Australian Grand Prix,33.0,24.0,-9.0,9.0
+2024,4,driver,bottas,Valtteri Bottas,Japanese Grand Prix,-1.0,8.0,9.0,9.0
+2024,5,driver,max_verstappen,Max Verstappen,Chinese Grand Prix,49.0,58.0,9.0,9.0
+2024,5,driver,norris,Lando Norris,Chinese Grand Prix,27.0,36.0,9.0,9.0
+2025,3,driver,tsunoda,Yuki Tsunoda,Japanese Grand Prix,4.0,13.0,9.0,9.0
+2025,4,driver,albon,Alexander Albon,Bahrain Grand Prix,6.0,15.0,9.0,9.0
+2025,4,driver,lawson,Liam Lawson,Bahrain Grand Prix,2.0,11.0,9.0,9.0
+2023,1,constructor,ferrari,Ferrari,Bahrain Grand Prix,23.0,31.0,8.0,8.0
+2023,1,driver,zhou,Guanyu Zhou,Bahrain Grand Prix,7.0,15.0,8.0,8.0
+2023,2,driver,zhou,Guanyu Zhou,Saudi Arabian Grand Prix,-2.0,6.0,8.0,8.0
+2023,3,constructor,red_bull,Red Bull,Australian Grand Prix,90.0,98.0,8.0,8.0
+2023,4,driver,sargeant,Logan Sargeant,Azerbaijan Grand Prix,-12.0,-20.0,-8.0,8.0
+2024,2,constructor,mercedes,Mercedes,Saudi Arabian Grand Prix,28.0,36.0,8.0,8.0
+2024,2,constructor,williams,Williams,Saudi Arabian Grand Prix,22.0,14.0,-8.0,8.0
+2024,3,constructor,ferrari,Ferrari,Australian Grand Prix,84.0,92.0,8.0,8.0
+2024,4,driver,hulkenberg,Nico Hülkenberg,Japanese Grand Prix,2.0,10.0,8.0,8.0
+2024,4,driver,leclerc,Charles Leclerc,Japanese Grand Prix,23.0,31.0,8.0,8.0
+2024,4,driver,tsunoda,Yuki Tsunoda,Japanese Grand Prix,2.0,10.0,8.0,8.0
+2024,5,constructor,aston_martin,Aston Martin,Chinese Grand Prix,21.0,29.0,8.0,8.0
+2024,5,constructor,rb,RB,Chinese Grand Prix,-6.0,-14.0,-8.0,8.0
+2024,5,driver,bottas,Valtteri Bottas,Chinese Grand Prix,-22.0,-14.0,8.0,8.0
+2024,5,driver,hulkenberg,Nico Hülkenberg,Chinese Grand Prix,-4.0,4.0,8.0,8.0
+2024,5,driver,sainz,Carlos Sainz,Chinese Grand Prix,22.0,30.0,8.0,8.0
+2024,5,driver,tsunoda,Yuki Tsunoda,Chinese Grand Prix,-14.0,-6.0,8.0,8.0
+2025,2,constructor,aston_martin,Aston Martin,Chinese Grand Prix,12.0,4.0,-8.0,8.0
+2025,2,constructor,haas,Haas,Chinese Grand Prix,55.0,47.0,-8.0,8.0

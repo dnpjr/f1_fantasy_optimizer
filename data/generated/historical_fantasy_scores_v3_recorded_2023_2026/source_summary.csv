@@ -1,0 +1,5 @@
+season,source_name,authority_class,source_licence,rows,races,price_rows,component_rows,reconstructed_rows
+2023,jm1261/Fantasy-F1-League,third_party_recorded,MIT,660,22,660,0,0
+2024,jm1261/Fantasy-F1-League,third_party_recorded,MIT,720,24,720,0,0
+2025,jm1261/Fantasy-F1-League,third_party_recorded,MIT,720,24,720,0,0
+2026,Formula 1 Fantasy playerstats,official,Official public feed; Formula 1 terms apply,391,12,391,391,0

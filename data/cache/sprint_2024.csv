@@ -1,0 +1,101 @@
+season,round,circuitName,driverId,driver,constructorId,position,grid,status,fastestLapRank,is_dnf
+2024,5,Shanghai International Circuit,max_verstappen,Max Verstappen,red_bull,1,4,Finished,1,0
+2024,5,Shanghai International Circuit,hamilton,Lewis Hamilton,mercedes,2,2,Finished,2,0
+2024,5,Shanghai International Circuit,perez,Sergio Pérez,red_bull,3,6,Finished,7,0
+2024,5,Shanghai International Circuit,leclerc,Charles Leclerc,ferrari,4,7,Finished,6,0
+2024,5,Shanghai International Circuit,sainz,Carlos Sainz,ferrari,5,5,Finished,5,0
+2024,5,Shanghai International Circuit,norris,Lando Norris,mclaren,6,1,Finished,4,0
+2024,5,Shanghai International Circuit,piastri,Oscar Piastri,mclaren,7,8,Finished,8,0
+2024,5,Shanghai International Circuit,russell,George Russell,mercedes,8,11,Finished,10,0
+2024,5,Shanghai International Circuit,zhou,Guanyu Zhou,sauber,9,10,Finished,9,0
+2024,5,Shanghai International Circuit,kevin_magnussen,Kevin Magnussen,haas,10,12,Finished,13,0
+2024,5,Shanghai International Circuit,ricciardo,Daniel Ricciardo,rb,11,14,Finished,16,0
+2024,5,Shanghai International Circuit,bottas,Valtteri Bottas,sauber,12,9,Finished,14,0
+2024,5,Shanghai International Circuit,ocon,Esteban Ocon,alpine,13,17,Finished,15,0
+2024,5,Shanghai International Circuit,stroll,Lance Stroll,aston_martin,14,15,Finished,17,0
+2024,5,Shanghai International Circuit,gasly,Pierre Gasly,alpine,15,16,Finished,11,0
+2024,5,Shanghai International Circuit,tsunoda,Yuki Tsunoda,rb,16,19,Finished,12,0
+2024,5,Shanghai International Circuit,albon,Alexander Albon,williams,17,18,Finished,19,0
+2024,5,Shanghai International Circuit,sargeant,Logan Sargeant,williams,18,20,Finished,20,0
+2024,5,Shanghai International Circuit,hulkenberg,Nico Hülkenberg,haas,19,13,Finished,18,0
+2024,5,Shanghai International Circuit,alonso,Fernando Alonso,aston_martin,20,3,Retired,3,1
+2024,6,Miami International Autodrome,max_verstappen,Max Verstappen,red_bull,1,1,Finished,1,0
+2024,6,Miami International Autodrome,leclerc,Charles Leclerc,ferrari,2,2,Finished,2,0
+2024,6,Miami International Autodrome,perez,Sergio Pérez,red_bull,3,3,Finished,3,0
+2024,6,Miami International Autodrome,ricciardo,Daniel Ricciardo,rb,4,4,Finished,5,0
+2024,6,Miami International Autodrome,sainz,Carlos Sainz,ferrari,5,5,Finished,6,0
+2024,6,Miami International Autodrome,piastri,Oscar Piastri,mclaren,6,6,Finished,4,0
+2024,6,Miami International Autodrome,hulkenberg,Nico Hülkenberg,haas,7,10,Finished,9,0
+2024,6,Miami International Autodrome,tsunoda,Yuki Tsunoda,rb,8,15,Finished,8,0
+2024,6,Miami International Autodrome,gasly,Pierre Gasly,alpine,9,16,Finished,12,0
+2024,6,Miami International Autodrome,sargeant,Logan Sargeant,williams,10,18,Finished,14,0
+2024,6,Miami International Autodrome,zhou,Guanyu Zhou,sauber,11,17,Finished,11,0
+2024,6,Miami International Autodrome,russell,George Russell,mercedes,12,11,Finished,13,0
+2024,6,Miami International Autodrome,albon,Alexander Albon,williams,13,20,Finished,16,0
+2024,6,Miami International Autodrome,bottas,Valtteri Bottas,sauber,14,19,Finished,18,0
+2024,6,Miami International Autodrome,ocon,Esteban Ocon,alpine,15,13,Finished,15,0
+2024,6,Miami International Autodrome,hamilton,Lewis Hamilton,mercedes,16,12,Finished,7,0
+2024,6,Miami International Autodrome,alonso,Fernando Alonso,aston_martin,17,8,Finished,17,0
+2024,6,Miami International Autodrome,kevin_magnussen,Kevin Magnussen,haas,18,14,Finished,10,0
+2024,6,Miami International Autodrome,stroll,Lance Stroll,aston_martin,19,7,Retired,0,1
+2024,6,Miami International Autodrome,norris,Lando Norris,mclaren,20,9,Retired,0,1
+2024,11,Red Bull Ring,max_verstappen,Max Verstappen,red_bull,1,1,Finished,3,0
+2024,11,Red Bull Ring,piastri,Oscar Piastri,mclaren,2,3,Finished,2,0
+2024,11,Red Bull Ring,norris,Lando Norris,mclaren,3,2,Finished,1,0
+2024,11,Red Bull Ring,russell,George Russell,mercedes,4,4,Finished,5,0
+2024,11,Red Bull Ring,sainz,Carlos Sainz,ferrari,5,5,Finished,4,0
+2024,11,Red Bull Ring,hamilton,Lewis Hamilton,mercedes,6,6,Finished,6,0
+2024,11,Red Bull Ring,leclerc,Charles Leclerc,ferrari,7,10,Finished,7,0
+2024,11,Red Bull Ring,perez,Sergio Pérez,red_bull,8,7,Finished,8,0
+2024,11,Red Bull Ring,kevin_magnussen,Kevin Magnussen,haas,9,11,Finished,9,0
+2024,11,Red Bull Ring,stroll,Lance Stroll,aston_martin,10,12,Finished,12,0
+2024,11,Red Bull Ring,ocon,Esteban Ocon,alpine,11,8,Finished,11,0
+2024,11,Red Bull Ring,gasly,Pierre Gasly,alpine,12,9,Finished,10,0
+2024,11,Red Bull Ring,tsunoda,Yuki Tsunoda,rb,13,14,Finished,13,0
+2024,11,Red Bull Ring,ricciardo,Daniel Ricciardo,rb,14,16,Finished,15,0
+2024,11,Red Bull Ring,alonso,Fernando Alonso,aston_martin,15,13,Finished,14,0
+2024,11,Red Bull Ring,sargeant,Logan Sargeant,williams,16,15,Finished,16,0
+2024,11,Red Bull Ring,albon,Alexander Albon,williams,17,20,Finished,18,0
+2024,11,Red Bull Ring,bottas,Valtteri Bottas,sauber,18,18,Finished,19,0
+2024,11,Red Bull Ring,hulkenberg,Nico Hülkenberg,haas,19,17,Finished,17,0
+2024,11,Red Bull Ring,zhou,Guanyu Zhou,sauber,20,19,Finished,20,0
+2024,19,Circuit of the Americas,max_verstappen,Max Verstappen,red_bull,1,1,Finished,1,0
+2024,19,Circuit of the Americas,sainz,Carlos Sainz,ferrari,2,5,Finished,2,0
+2024,19,Circuit of the Americas,norris,Lando Norris,mclaren,3,4,Finished,5,0
+2024,19,Circuit of the Americas,leclerc,Charles Leclerc,ferrari,4,3,Finished,4,0
+2024,19,Circuit of the Americas,russell,George Russell,mercedes,5,2,Finished,6,0
+2024,19,Circuit of the Americas,hamilton,Lewis Hamilton,mercedes,6,7,Finished,7,0
+2024,19,Circuit of the Americas,kevin_magnussen,Kevin Magnussen,haas,7,8,Finished,9,0
+2024,19,Circuit of the Americas,hulkenberg,Nico Hülkenberg,haas,8,6,Finished,10,0
+2024,19,Circuit of the Americas,perez,Sergio Pérez,red_bull,9,11,Finished,8,0
+2024,19,Circuit of the Americas,piastri,Oscar Piastri,mclaren,10,16,Finished,3,0
+2024,19,Circuit of the Americas,tsunoda,Yuki Tsunoda,rb,11,9,Finished,12,0
+2024,19,Circuit of the Americas,colapinto,Franco Colapinto,williams,12,10,Finished,16,0
+2024,19,Circuit of the Americas,stroll,Lance Stroll,aston_martin,13,13,Finished,18,0
+2024,19,Circuit of the Americas,gasly,Pierre Gasly,alpine,14,12,Finished,17,0
+2024,19,Circuit of the Americas,ocon,Esteban Ocon,alpine,15,17,Finished,11,0
+2024,19,Circuit of the Americas,lawson,Liam Lawson,rb,16,15,Finished,14,0
+2024,19,Circuit of the Americas,albon,Alexander Albon,williams,17,20,Finished,13,0
+2024,19,Circuit of the Americas,alonso,Fernando Alonso,aston_martin,18,14,Finished,15,0
+2024,19,Circuit of the Americas,zhou,Guanyu Zhou,sauber,19,19,Finished,20,0
+2024,19,Circuit of the Americas,bottas,Valtteri Bottas,sauber,20,18,Finished,19,0
+2024,21,Autódromo José Carlos Pace,norris,Lando Norris,mclaren,1,2,Finished,6,0
+2024,21,Autódromo José Carlos Pace,piastri,Oscar Piastri,mclaren,2,1,Finished,3,0
+2024,21,Autódromo José Carlos Pace,leclerc,Charles Leclerc,ferrari,3,3,Finished,5,0
+2024,21,Autódromo José Carlos Pace,max_verstappen,Max Verstappen,red_bull,4,4,Finished,4,0
+2024,21,Autódromo José Carlos Pace,sainz,Carlos Sainz,ferrari,5,5,Finished,7,0
+2024,21,Autódromo José Carlos Pace,russell,George Russell,mercedes,6,6,Finished,8,0
+2024,21,Autódromo José Carlos Pace,gasly,Pierre Gasly,alpine,7,7,Finished,9,0
+2024,21,Autódromo José Carlos Pace,perez,Sergio Pérez,red_bull,8,13,Finished,1,0
+2024,21,Autódromo José Carlos Pace,lawson,Liam Lawson,rb,9,8,Finished,11,0
+2024,21,Autódromo José Carlos Pace,albon,Alexander Albon,williams,10,9,Finished,2,0
+2024,21,Autódromo José Carlos Pace,hamilton,Lewis Hamilton,mercedes,11,11,Finished,10,0
+2024,21,Autódromo José Carlos Pace,colapinto,Franco Colapinto,williams,12,14,Finished,13,0
+2024,21,Autódromo José Carlos Pace,ocon,Esteban Ocon,alpine,13,16,Finished,16,0
+2024,21,Autódromo José Carlos Pace,bearman,Oliver Bearman,haas,14,10,Finished,17,0
+2024,21,Autódromo José Carlos Pace,tsunoda,Yuki Tsunoda,rb,15,17,Finished,14,0
+2024,21,Autódromo José Carlos Pace,bottas,Valtteri Bottas,sauber,16,15,Finished,12,0
+2024,21,Autódromo José Carlos Pace,zhou,Guanyu Zhou,sauber,17,20,Finished,19,0
+2024,21,Autódromo José Carlos Pace,alonso,Fernando Alonso,aston_martin,18,18,Finished,18,0
+2024,21,Autódromo José Carlos Pace,stroll,Lance Stroll,aston_martin,19,19,Finished,20,0
+2024,21,Autódromo José Carlos Pace,hulkenberg,Nico Hülkenberg,haas,20,12,Retired,15,1

@@ -1,0 +1,5 @@
+period,entity_type,coefficient,bootstrap_method,bootstrap_samples,random_seed,p2_5,p50,p97_5
+2026,driver,alpha,Sprint_event_cluster_resampling,10000,20260806,5.11760316541,8.45009964387,11.3999898263
+2026,driver,beta,Sprint_event_cluster_resampling,10000,20260806,0.663808895478,0.731969162023,0.864109760718
+2026,constructor,alpha,Sprint_event_cluster_resampling,10000,20260806,8.72580067447,15.0864843861,21.2080573224
+2026,constructor,beta,Sprint_event_cluster_resampling,10000,20260806,0.723985131639,0.866043920795,1.01658528734
