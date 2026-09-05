@@ -1,0 +1,34 @@
+entity_type,entity_id,entity,prediction_standard_error,uncertainty_lower,uncertainty_upper,interval_type
+driver,albon,Alexander Albon,1.705522296,1.895914863,8.581562263,approximate_95_percent_expected_bonus
+driver,alonso,Fernando Alonso,1.694148158,-0.5194315397,6.121629241,approximate_95_percent_expected_bonus
+driver,antonelli,Kimi Antonelli,1.841497327,6.632761748,13.85143127,approximate_95_percent_expected_bonus
+driver,arvid_lindblad,Arvid Lindblad,1.667333497,-1.995537697,4.54040961,approximate_95_percent_expected_bonus
+driver,bearman,Oliver Bearman,1.671399558,0.8185005494,7.370386818,approximate_95_percent_expected_bonus
+driver,bortoleto,Gabriel Bortoleto,1.668839404,-0.9484333906,5.593417074,approximate_95_percent_expected_bonus
+driver,bottas,Valtteri Bottas,1.730393901,-2.240082,4.543062093,approximate_95_percent_expected_bonus
+driver,colapinto,Franco Colapinto,1.664310285,2.126677159,8.650773476,approximate_95_percent_expected_bonus
+driver,gasly,Pierre Gasly,1.787400352,1.584382203,8.590991584,approximate_95_percent_expected_bonus
+driver,hadjar,Isack Hadjar,1.666565852,-0.491376152,6.041561989,approximate_95_percent_expected_bonus
+driver,hamilton,Lewis Hamilton,1.763607138,4.60156147,11.51490145,approximate_95_percent_expected_bonus
+driver,hulkenberg,Nico Hulkenberg,1.703105793,-3.311876734,3.364297976,approximate_95_percent_expected_bonus
+driver,lawson,Liam Lawson,1.664812973,3.581130831,10.10719769,approximate_95_percent_expected_bonus
+driver,leclerc,Charles Leclerc,1.722451976,6.090698472,12.84271022,approximate_95_percent_expected_bonus
+driver,max_verstappen,Max Verstappen,1.708099052,3.795228299,10.49097658,approximate_95_percent_expected_bonus
+driver,norris,Lando Norris,1.678624922,5.175284746,11.75549444,approximate_95_percent_expected_bonus
+driver,ocon,Esteban Ocon,1.664812973,2.581130831,9.107197685,approximate_95_percent_expected_bonus
+driver,perez,Sergio Perez,1.696825054,0.05348167292,6.705035885,approximate_95_percent_expected_bonus
+driver,piastri,Oscar Piastri,1.665437037,3.301524197,9.830037382,approximate_95_percent_expected_bonus
+driver,russell,George Russell,1.714022123,6.243868011,12.96283473,approximate_95_percent_expected_bonus
+driver,sainz,Carlos Sainz,1.949552205,1.621150731,9.263395375,approximate_95_percent_expected_bonus
+driver,stroll,Lance Stroll,1.764404003,-0.1814623736,6.735001318,approximate_95_percent_expected_bonus
+constructor,alpine,Alpine,2.367411475,5.278089389,14.55834237,approximate_95_percent_expected_bonus
+constructor,aston_martin,Aston Martin,3.035273587,-2.067264354,9.831008106,approximate_95_percent_expected_bonus
+constructor,audi,Audi,2.53515357,-0.7188571192,9.218944875,approximate_95_percent_expected_bonus
+constructor,cadillac,Cadillac,2.915240655,-1.998365407,9.429377959,approximate_95_percent_expected_bonus
+constructor,ferrari,Ferrari,2.733316011,10.1545401,20.86913886,approximate_95_percent_expected_bonus
+constructor,haas,Haas F1 Team,2.421246609,3.821669326,13.31295603,approximate_95_percent_expected_bonus
+constructor,mclaren,McLaren,2.55799004,9.330910202,19.35823116,approximate_95_percent_expected_bonus
+constructor,mercedes,Mercedes,3.074349711,11.93701725,23.98846812,approximate_95_percent_expected_bonus
+constructor,rb,Racing Bulls,2.372845085,5.159256714,14.46080945,approximate_95_percent_expected_bonus
+constructor,red_bull,Red Bull Racing,2.639676953,7.454438253,17.80197191,approximate_95_percent_expected_bonus
+constructor,williams,Williams,2.632225536,2.550978196,12.8693023,approximate_95_percent_expected_bonus

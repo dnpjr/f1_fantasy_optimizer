@@ -181,7 +181,7 @@ def test_price_change_threshold_table_adds_traceable_recent_scores_and_required_
     assert out.loc[0, "price_change_efficiency"] == 3.0
 
 
-def test_missing_recent_points_are_marked_as_fallback_not_silent_zero():
+def test_zero_recent_points_are_treated_as_fresh_asset_history():
     df = pd.DataFrame([{"id": "a", "name": "A", "price": 10.0, "exp_score": 12.0}])
 
     out = apply_price_change_model(df, _cheap_rules())
@@ -190,8 +190,11 @@ def test_missing_recent_points_are_marked_as_fallback_not_silent_zero():
     assert pd.isna(out.loc[0, "recent_points_1ago"])
     assert out.loc[0, "recent_points_available"] == 0
     assert bool(out.loc[0, "recent_points_fallback_used"]) is True
-    assert out.loc[0, "price_change_tier"] == "Missing"
-    assert out.loc[0, "raw_price_change"] == 0.0
+    assert out.loc[0, "price_history_mode"] == "fresh"
+    assert out.loc[0, "price_history_observations"] == 0
+    assert out.loc[0, "projected_rolling_average"] == pytest.approx(12.0)
+    assert out.loc[0, "price_change_tier"] == "Good"
+    assert out.loc[0, "raw_price_change"] == pytest.approx(0.2)
 
 
 def test_recent_points_diagnostics_reports_fallback_coverage():

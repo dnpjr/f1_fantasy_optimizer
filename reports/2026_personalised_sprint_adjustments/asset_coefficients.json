@@ -1,0 +1,1822 @@
+{
+  "assets": [
+    {
+      "alpha": 38.095258255715514,
+      "beta": -0.22311600338696055,
+      "canonical_entity_id": "mercedes",
+      "current_normal_baseline": 72.45454545454545,
+      "entity_name": "Mercedes",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 21.25,
+      "median_bonus": 22.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 94.38403510122392,
+      "raw_personalised_adjustment": 21.929489646678462,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 17.069275220451974,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 89.52382067499742,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 18.284328827008597,
+          "alpha": 13.35420034497346,
+          "beta": 0.06804443325268067,
+          "candidate_sprint_ev": 90.73887428155405,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 19.49938243356522,
+          "alpha": 21.601219648554146,
+          "beta": -0.029009045627199734,
+          "candidate_sprint_ev": 91.95392788811067,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 20.71443604012184,
+          "alpha": 29.848238952134828,
+          "beta": -0.12606252450708014,
+          "candidate_sprint_ev": 93.16898149466729,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 21.929489646678462,
+          "alpha": 38.095258255715514,
+          "beta": -0.22311600338696055,
+          "candidate_sprint_ev": 94.38403510122392,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": -14.329482948294837,
+      "beta": 0.4823982398239823,
+      "canonical_entity_id": "ferrari",
+      "current_normal_baseline": 63.18181818181818,
+      "entity_name": "Ferrari",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 17.75,
+      "median_bonus": 13.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 79.33113311331131,
+      "raw_personalised_adjustment": 16.14931493149313,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 15.538367307950047,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 78.72018548976823,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 15.691104213835818,
+          "alpha": 0.24801504397087326,
+          "beta": 0.2444229940554164,
+          "candidate_sprint_ev": 78.872922395654,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 15.843841119721592,
+          "alpha": -4.61115095345103,
+          "beta": 0.3237480759782717,
+          "candidate_sprint_ev": 79.02565930153978,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 15.996578025607361,
+          "alpha": -9.470316950872933,
+          "beta": 0.40307315790112697,
+          "candidate_sprint_ev": 79.17839620742554,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 16.14931493149313,
+          "alpha": -14.329482948294837,
+          "beta": 0.4823982398239823,
+          "candidate_sprint_ev": 79.33113311331131,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 14.201026175492045,
+      "beta": 0.10361967370826144,
+      "canonical_entity_id": "mclaren",
+      "current_normal_baseline": 42.45454545454545,
+      "entity_name": "McLaren",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 17.75,
+      "median_bonus": 18.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 61.054697777470054,
+      "raw_personalised_adjustment": 18.6001523229246,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 12.116337856475143,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 54.570883311020594,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 13.737291473087506,
+          "alpha": 7.380642324917593,
+          "beta": 0.14972835252648617,
+          "candidate_sprint_ev": 56.19183692763296,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 15.35824508969987,
+          "alpha": 9.65410360844241,
+          "beta": 0.13435879292041125,
+          "candidate_sprint_ev": 57.812790544245324,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 16.979198706312236,
+          "alpha": 11.927564891967227,
+          "beta": 0.11898923331433636,
+          "candidate_sprint_ev": 59.433744160857685,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 18.6001523229246,
+          "alpha": 14.201026175492045,
+          "beta": 0.10361967370826144,
+          "candidate_sprint_ev": 61.054697777470054,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 27.1854658938921,
+      "beta": -0.6593847525635308,
+      "canonical_entity_id": "red_bull",
+      "current_normal_baseline": 43.36363636363637,
+      "entity_name": "Red Bull Racing",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 6.25,
+      "median_bonus": 7.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 41.95578162363718,
+      "raw_personalised_adjustment": -1.4078547399991912,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 12.266426867504745,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 55.63006323114111,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 8.84785646562876,
+          "alpha": 10.626752254517609,
+          "beta": -0.041022754041461884,
+          "candidate_sprint_ev": 52.211492829265126,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 5.429286063752777,
+          "alpha": 16.14632346764244,
+          "beta": -0.24714342021548485,
+          "candidate_sprint_ev": 48.79292242738914,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 2.010715661876791,
+          "alpha": 21.66589468076727,
+          "beta": -0.4532640863895078,
+          "candidate_sprint_ev": 45.37435202551316,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -1.4078547399991912,
+          "alpha": 27.1854658938921,
+          "beta": -0.6593847525635308,
+          "candidate_sprint_ev": 41.95578162363718,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 1.7219846022241245,
+      "beta": 0.19717707442258323,
+      "canonical_entity_id": "rb",
+      "current_normal_baseline": 28.818181818181817,
+      "entity_name": "Racing Bulls",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 6.75,
+      "median_bonus": 10.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 36.222451201493115,
+      "raw_personalised_adjustment": 7.404269383311296,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 9.865002691031128,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 38.68318450921294,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 9.249819364101171,
+          "alpha": 4.260881931600614,
+          "beta": 0.17311770270506663,
+          "candidate_sprint_ev": 38.068001182282984,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.634636037171212,
+          "alpha": 3.414582821808451,
+          "beta": 0.18113749327757217,
+          "candidate_sprint_ev": 37.45281785535303,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 8.019452710241254,
+          "alpha": 2.568283712016288,
+          "beta": 0.18915728385007768,
+          "candidate_sprint_ev": 36.83763452842307,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 7.404269383311296,
+          "alpha": 1.7219846022241245,
+          "beta": 0.19717707442258323,
+          "candidate_sprint_ev": 36.222451201493115,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": -1.5664335664335733,
+      "beta": 0.3275058275058277,
+      "canonical_entity_id": "alpine",
+      "current_normal_baseline": 26.454545454545453,
+      "entity_name": "Alpine",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 8.75,
+      "median_bonus": 10.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 33.552129688493324,
+      "raw_personalised_adjustment": 7.097584233947867,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 9.474771262354166,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 35.92931671689962,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 8.88047450525259,
+          "alpha": 3.438777389436189,
+          "beta": 0.20569989097587774,
+          "candidate_sprint_ev": 35.335019959798046,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.286177748151017,
+          "alpha": 1.7703737374796018,
+          "beta": 0.24630186981919439,
+          "candidate_sprint_ev": 34.74072320269647,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 7.691880991049443,
+          "alpha": 0.10197008552301434,
+          "beta": 0.28690384866251106,
+          "candidate_sprint_ev": 34.1464264455949,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 7.097584233947867,
+          "alpha": -1.5664335664335733,
+          "beta": 0.3275058275058277,
+          "candidate_sprint_ev": 33.552129688493324,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.733051899677179,
+      "beta": 0.12441023094114714,
+      "canonical_entity_id": "haas",
+      "current_normal_baseline": 15.727272727272727,
+      "entity_name": "Haas F1 Team",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 10.75,
+      "median_bonus": 12.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 25.416958259024312,
+      "raw_personalised_adjustment": 9.689685531751584,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 7.703720932204874,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 23.4309936594776,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 8.20021208209155,
+          "alpha": 5.763648755963877,
+          "beta": 0.1549259918347076,
+          "candidate_sprint_ev": 23.927484809364277,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.69670323197823,
+          "alpha": 6.420116470534978,
+          "beta": 0.1447540715368541,
+          "candidate_sprint_ev": 24.423975959250956,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 9.193194381864906,
+          "alpha": 7.0765841851060785,
+          "beta": 0.13458215123900064,
+          "candidate_sprint_ev": 24.920467109137633,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 9.689685531751584,
+          "alpha": 7.733051899677179,
+          "beta": 0.12441023094114714,
+          "candidate_sprint_ev": 25.416958259024312,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 15.563909774436091,
+      "beta": -0.2230576441102756,
+      "canonical_entity_id": "williams",
+      "current_normal_baseline": 9.2,
+      "entity_name": "Williams",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 13.333333333333334,
+      "median_bonus": 9.0,
+      "observation_count": 3,
+      "raw_candidate_sprint_ev": 22.711779448621556,
+      "raw_personalised_adjustment": 13.511779448621557,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 6.626081833012339,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 15.826081833012339,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 8.347506236914644,
+          "alpha": 7.721363224653605,
+          "beta": 0.06805902307185191,
+          "candidate_sprint_ev": 17.547506236914643,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 10.068930640816948,
+          "alpha": 10.335545407914434,
+          "beta": -0.028979865988857254,
+          "candidate_sprint_ev": 19.268930640816947,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 11.790355044719252,
+          "alpha": 12.949727591175263,
+          "beta": -0.12601875504956642,
+          "candidate_sprint_ev": 20.99035504471925,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 13.511779448621557,
+          "alpha": 15.563909774436091,
+          "beta": -0.2230576441102756,
+          "candidate_sprint_ev": 22.711779448621556,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": -6.027811366384519,
+      "beta": 0.24183796856106377,
+      "canonical_entity_id": "audi",
+      "current_normal_baseline": 12.6,
+      "entity_name": "Audi",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": -5.0,
+      "median_bonus": 2.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 9.619347037484884,
+      "raw_personalised_adjustment": -2.9806529625151157,
+      "reliability_flag": "high_residual_error",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 7.187414734263047,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": 19.787414734263045,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.645397810068506,
+          "alpha": 2.3234329394484527,
+          "beta": 0.18428292623968676,
+          "candidate_sprint_ev": 17.245397810068503,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 2.1033808858739653,
+          "alpha": -0.460315162495871,
+          "beta": 0.20346794034681243,
+          "candidate_sprint_ev": 14.703380885873965,
+          "weight": 0.5
+        },
+        {
+          "adjustment": -0.43863603832057496,
+          "alpha": -3.2440632644401948,
+          "beta": 0.2226529544539381,
+          "candidate_sprint_ev": 12.161363961679424,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -2.9806529625151157,
+          "alpha": -6.027811366384519,
+          "beta": 0.24183796856106377,
+          "candidate_sprint_ev": 9.619347037484884,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.476647752073329,
+      "beta": -0.30903535573985147,
+      "canonical_entity_id": "cadillac",
+      "current_normal_baseline": -6.7272727272727275,
+      "entity_name": "Cadillac",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 4.0,
+      "median_bonus": 3.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 2.828340145232329,
+      "raw_personalised_adjustment": 9.555612872505057,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 3.9965223597737296,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": -2.730750367498998,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 5.386294987956561,
+          "alpha": 5.699547719062915,
+          "beta": 0.04656459516445795,
+          "candidate_sprint_ev": -1.3409777393161662,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 6.776067616139393,
+          "alpha": 6.291914396733053,
+          "beta": -0.07196872180364519,
+          "candidate_sprint_ev": 0.04879488886666561,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 8.165840244322226,
+          "alpha": 6.884281074403191,
+          "beta": -0.19050203877174832,
+          "candidate_sprint_ev": 1.4385675170494983,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 9.555612872505057,
+          "alpha": 7.476647752073329,
+          "beta": -0.30903535573985147,
+          "candidate_sprint_ev": 2.828340145232329,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 8.161409691629958,
+      "beta": 0.1496035242290749,
+      "canonical_entity_id": "aston_martin",
+      "current_normal_baseline": -8.090909090909092,
+      "entity_name": "Aston Martin",
+      "entity_type": "constructor",
+      "group_alpha": 5.107181041392777,
+      "group_beta": 0.1650979121325611,
+      "mean_bonus": 7.75,
+      "median_bonus": 8.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": -1.1399279134961944,
+      "raw_personalised_adjustment": 6.950981177412897,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 3.771388843229328,
+          "alpha": 5.107181041392777,
+          "beta": 0.1650979121325611,
+          "candidate_sprint_ev": -4.319520247679764,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.56628692677522,
+          "alpha": 5.870738203952072,
+          "beta": 0.16122431515668956,
+          "candidate_sprint_ev": -3.5246221641338717,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 5.361185010321112,
+          "alpha": 6.634295366511367,
+          "beta": 0.157350718180818,
+          "candidate_sprint_ev": -2.72972408058798,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 6.1560830938670055,
+          "alpha": 7.397852529070663,
+          "beta": 0.15347712120494644,
+          "candidate_sprint_ev": -1.9348259970420862,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.950981177412897,
+          "alpha": 8.161409691629958,
+          "beta": 0.1496035242290749,
+          "candidate_sprint_ev": -1.1399279134961944,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 14.472924800543202,
+      "beta": -0.11543031743337302,
+      "canonical_entity_id": "antonelli",
+      "current_normal_baseline": 35.36363636363637,
+      "entity_name": "Kimi Antonelli",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 10.0,
+      "median_bonus": 11.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 45.75452539312665,
+      "raw_personalised_adjustment": 10.390889029490284,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 7.5052935353615755,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 42.86892989899794,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 8.226692408893753,
+          "alpha": 6.79006438094722,
+          "beta": 0.04062444294964489,
+          "candidate_sprint_ev": 43.59032877253012,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.94809128242593,
+          "alpha": 9.35101785414588,
+          "beta": -0.011393810511361083,
+          "candidate_sprint_ev": 44.311727646062295,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 9.669490155958105,
+          "alpha": 11.91197132734454,
+          "beta": -0.06341206397236705,
+          "candidate_sprint_ev": 45.033126519594475,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 10.390889029490284,
+          "alpha": 14.472924800543202,
+          "beta": -0.11543031743337302,
+          "candidate_sprint_ev": 45.75452539312665,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 3.7142857142857193,
+      "beta": 0.11428571428571417,
+      "canonical_entity_id": "hamilton",
+      "current_normal_baseline": 28.727272727272727,
+      "entity_name": "Lewis Hamilton",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 7.0,
+      "median_bonus": 5.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 35.724675324675324,
+      "raw_personalised_adjustment": 6.9974025974025995,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 6.890482913727256,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 35.61775564099998,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 6.917212834646091,
+          "alpha": 4.100404609382848,
+          "beta": 0.09805345087941668,
+          "candidate_sprint_ev": 35.64448556191882,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 6.943942755564928,
+          "alpha": 3.971698311017139,
+          "beta": 0.10346420534818251,
+          "candidate_sprint_ev": 35.67121548283765,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 6.970672676483764,
+          "alpha": 3.842992012651429,
+          "beta": 0.10887495981694835,
+          "candidate_sprint_ev": 35.69794540375649,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.9974025974025995,
+          "alpha": 3.7142857142857193,
+          "beta": 0.11428571428571417,
+          "candidate_sprint_ev": 35.724675324675324,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 8.897577092511012,
+      "beta": 0.0638766519823788,
+      "canonical_entity_id": "leclerc",
+      "current_normal_baseline": 24.2,
+      "entity_name": "Charles Leclerc",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 10.75,
+      "median_bonus": 8.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 34.64339207048458,
+      "raw_personalised_adjustment": 10.44339207048458,
+      "reliability_flag": "high_residual_error",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 6.471064160886309,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 30.67106416088631,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 7.4641461382858765,
+          "alpha": 5.396227453939172,
+          "beta": 0.08545118530358284,
+          "candidate_sprint_ev": 31.664146138285876,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.457228115685444,
+          "alpha": 6.563344000129785,
+          "beta": 0.07825967419651483,
+          "candidate_sprint_ev": 32.65722811568544,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 9.450310093085012,
+          "alpha": 7.730460546320399,
+          "beta": 0.07106816308944681,
+          "candidate_sprint_ev": 33.65031009308501,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 10.44339207048458,
+          "alpha": 8.897577092511012,
+          "beta": 0.0638766519823788,
+          "candidate_sprint_ev": 34.64339207048458,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 9.50641658440276,
+      "beta": 0.0774925962487662,
+      "canonical_entity_id": "russell",
+      "current_normal_baseline": 23.1,
+      "entity_name": "George Russell",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 11.25,
+      "median_bonus": 11.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 34.39649555774926,
+      "raw_personalised_adjustment": 11.29649555774926,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 6.369157194834593,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 29.469157194834594,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 7.600991785563259,
+          "alpha": 5.548437326912109,
+          "beta": 0.08885517137017969,
+          "candidate_sprint_ev": 30.70099178556326,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.832826376291926,
+          "alpha": 6.86776374607566,
+          "beta": 0.08506764632970854,
+          "candidate_sprint_ev": 31.932826376291928,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 10.064660967020593,
+          "alpha": 8.18709016523921,
+          "beta": 0.08128012128923737,
+          "candidate_sprint_ev": 33.164660967020595,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 11.29649555774926,
+          "alpha": 9.50641658440276,
+          "beta": 0.0774925962487662,
+          "candidate_sprint_ev": 34.39649555774926,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.5746365337555766,
+      "beta": -0.0682308910321002,
+      "canonical_entity_id": "max_verstappen",
+      "current_normal_baseline": 22.272727272727273,
+      "entity_name": "Max Verstappen",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 6.5,
+      "median_bonus": 4.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 28.32767577894971,
+      "raw_personalised_adjustment": 6.054948506222436,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 6.2925164187130544,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 28.56524369144033,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 6.2331244405904,
+          "alpha": 5.065492314250313,
+          "beta": 0.05242429954996309,
+          "candidate_sprint_ev": 28.505851713317675,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 6.173732462467746,
+          "alpha": 5.901873720752068,
+          "beta": 0.012205902689275329,
+          "candidate_sprint_ev": 28.44645973519502,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 6.114340484345091,
+          "alpha": 6.738255127253822,
+          "beta": -0.028012494171412435,
+          "candidate_sprint_ev": 28.387067757072366,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.054948506222436,
+          "alpha": 7.5746365337555766,
+          "beta": -0.0682308910321002,
+          "candidate_sprint_ev": 28.32767577894971,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 8.52121212121212,
+      "beta": 0.14713088330109603,
+      "canonical_entity_id": "norris",
+      "current_normal_baseline": 16.90909090909091,
+      "entity_name": "Lando Norris",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 10.25,
+      "median_bonus": 11.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 27.91815251157611,
+      "raw_personalised_adjustment": 11.009061602485199,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.795614683419564,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 22.704705592510475,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 7.098976413185972,
+          "alpha": 5.3021362111144485,
+          "beta": 0.10626474313326215,
+          "candidate_sprint_ev": 24.008067322276883,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.402338142952381,
+          "alpha": 6.3751615144803395,
+          "beta": 0.11988678985587345,
+          "candidate_sprint_ev": 25.31142905204329,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 9.705699872718789,
+          "alpha": 7.44818681784623,
+          "beta": 0.13350883657848472,
+          "candidate_sprint_ev": 26.6147907818097,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 11.009061602485199,
+          "alpha": 8.52121212121212,
+          "beta": 0.14713088330109603,
+          "candidate_sprint_ev": 27.91815251157611,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.079150128414661,
+      "beta": 0.04809712818118139,
+      "canonical_entity_id": "piastri",
+      "current_normal_baseline": 11.818181818181818,
+      "entity_name": "Oscar Piastri",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 7.5,
+      "median_bonus": 7.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 19.465752552374077,
+      "raw_personalised_adjustment": 7.64757073419226,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.3239791380562504,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 17.14216095623807,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 5.904877037090253,
+          "alpha": 4.941620712915084,
+          "beta": 0.08150630435328349,
+          "candidate_sprint_ev": 17.723058855272072,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 6.485774936124255,
+          "alpha": 5.65413051808161,
+          "beta": 0.07036991229591613,
+          "candidate_sprint_ev": 18.30395675430607,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 7.066672835158258,
+          "alpha": 6.366640323248136,
+          "beta": 0.05923352023854876,
+          "candidate_sprint_ev": 18.884854653340078,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 7.64757073419226,
+          "alpha": 7.079150128414661,
+          "beta": 0.04809712818118139,
+          "candidate_sprint_ev": 19.465752552374077,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.056986965747196,
+      "beta": 0.205213701121552,
+      "canonical_entity_id": "lawson",
+      "current_normal_baseline": 8.454545454545455,
+      "entity_name": "Liam Lawson",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 8.75,
+      "median_bonus": 8.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 17.24652098432032,
+      "raw_personalised_adjustment": 8.791975529774863,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.012362795584061,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 13.466908250129517,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 5.957265979131762,
+          "alpha": 4.936079922248218,
+          "beta": 0.12078544758837614,
+          "candidate_sprint_ev": 14.411811433677217,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 6.902169162679463,
+          "alpha": 5.643048936747878,
+          "beta": 0.14892819876610142,
+          "candidate_sprint_ev": 15.356714617224917,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 7.847072346227163,
+          "alpha": 6.350017951247537,
+          "beta": 0.1770709499438267,
+          "candidate_sprint_ev": 16.30161780077262,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 8.791975529774863,
+          "alpha": 7.056986965747196,
+          "beta": 0.205213701121552,
+          "candidate_sprint_ev": 17.24652098432032,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 7.501930501930497,
+      "beta": -0.13127413127413096,
+      "canonical_entity_id": "colapinto",
+      "current_normal_baseline": 10.1,
+      "entity_name": "Franco Colapinto",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 5.5,
+      "median_bonus": 7.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 16.276061776061773,
+      "raw_personalised_adjustment": 6.176061776061775,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.164802141496132,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 15.264802141496132,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 5.417617050137542,
+          "alpha": 5.047315806294042,
+          "beta": 0.0366634894894554,
+          "candidate_sprint_ev": 15.517617050137542,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 5.670431958778953,
+          "alpha": 5.865520704839527,
+          "beta": -0.01931571743174005,
+          "candidate_sprint_ev": 15.770431958778953,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 5.923246867420365,
+          "alpha": 6.683725603385013,
+          "beta": -0.0752949243529355,
+          "candidate_sprint_ev": 16.023246867420365,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.176061776061775,
+          "alpha": 7.501930501930497,
+          "beta": -0.13127413127413096,
+          "candidate_sprint_ev": 16.276061776061773,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 4.8614457831325275,
+      "beta": 0.1987951807228918,
+      "canonical_entity_id": "ocon",
+      "current_normal_baseline": 8.454545454545455,
+      "entity_name": "Esteban Ocon",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 6.75,
+      "median_bonus": 7.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 14.99671412924425,
+      "raw_personalised_adjustment": 6.542168674698795,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.012362795584061,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 13.466908250129517,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 5.394814265362744,
+          "alpha": 4.3871946265945505,
+          "beta": 0.1191808174887111,
+          "candidate_sprint_ev": 13.8493597199082,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 5.7772657351414285,
+          "alpha": 4.545278345440543,
+          "beta": 0.14571893856677132,
+          "candidate_sprint_ev": 14.231811189686884,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 6.159717204920112,
+          "alpha": 4.7033620642865355,
+          "beta": 0.17225705964483154,
+          "candidate_sprint_ev": 14.614262659465567,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.542168674698795,
+          "alpha": 4.8614457831325275,
+          "beta": 0.1987951807228918,
+          "candidate_sprint_ev": 14.99671412924425,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 4.484957882069795,
+      "beta": -0.025270758122743618,
+      "canonical_entity_id": "gasly",
+      "current_normal_baseline": 10.2,
+      "entity_name": "Pierre Gasly",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 4.333333333333333,
+      "median_bonus": 5.0,
+      "observation_count": 3,
+      "raw_candidate_sprint_ev": 14.42719614921781,
+      "raw_personalised_adjustment": 4.22719614921781,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.174066411137197,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 15.374066411137196,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.9373488456573495,
+          "alpha": 4.293072651328867,
+          "beta": 0.06316433277730224,
+          "candidate_sprint_ev": 15.13734884565735,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.700631280177503,
+          "alpha": 4.357034394909176,
+          "beta": 0.03368596914395362,
+          "candidate_sprint_ev": 14.900631280177503,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 4.463913714697656,
+          "alpha": 4.420996138489485,
+          "beta": 0.004207605510605002,
+          "candidate_sprint_ev": 14.663913714697657,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 4.22719614921781,
+          "alpha": 4.484957882069795,
+          "beta": -0.025270758122743618,
+          "candidate_sprint_ev": 14.42719614921781,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 0.5805645765675744,
+      "beta": -0.10067449412940294,
+      "canonical_entity_id": "hadjar",
+      "current_normal_baseline": 12.636363636363637,
+      "entity_name": "Isack Hadjar",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": -0.25,
+      "median_bonus": 3.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 11.94476869620512,
+      "raw_personalised_adjustment": -0.6915949401585173,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 5.399777707846783,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 18.03614134421042,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 3.8769345458454576,
+          "alpha": 3.3169743249533123,
+          "beta": 0.044313398775637405,
+          "candidate_sprint_ev": 16.513298182209095,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 2.354091383844133,
+          "alpha": 2.4048377421580662,
+          "beta": -0.0040158988593760395,
+          "candidate_sprint_ev": 14.990455020207769,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 0.831248221842808,
+          "alpha": 1.4927011593628206,
+          "beta": -0.052345196494389484,
+          "candidate_sprint_ev": 13.467611858206444,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -0.6915949401585173,
+          "alpha": 0.5805645765675744,
+          "beta": -0.10067449412940294,
+          "candidate_sprint_ev": 11.94476869620512,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 3.3134510042605,
+      "beta": 0.05842970176506399,
+      "canonical_entity_id": "bearman",
+      "current_normal_baseline": 4.818181818181818,
+      "entity_name": "Oliver Bearman",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 4.0,
+      "median_bonus": 4.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 8.413157749128537,
+      "raw_personalised_adjustment": 3.5949759309467177,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.6754802631816945,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 9.493662081363514,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.40535418012295,
+          "alpha": 4.000195931876544,
+          "beta": 0.08408944774925414,
+          "candidate_sprint_ev": 9.223535998304769,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.135228097064206,
+          "alpha": 3.7712809560045293,
+          "beta": 0.07553619908785743,
+          "candidate_sprint_ev": 8.953409915246024,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 3.865102014005462,
+          "alpha": 3.542365980132515,
+          "beta": 0.06698295042646071,
+          "candidate_sprint_ev": 8.68328383218728,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 3.5949759309467177,
+          "alpha": 3.3134510042605,
+          "beta": 0.05842970176506399,
+          "candidate_sprint_ev": 8.413157749128537,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 6.80701754385965,
+      "beta": -1.1403508771929824,
+      "canonical_entity_id": "bottas",
+      "current_normal_baseline": -5.545454545454546,
+      "entity_name": "Valtteri Bottas",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 0.25,
+      "median_bonus": 1.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 7.585326953748006,
+      "raw_personalised_adjustment": 13.130781499202552,
+      "reliability_flag": "extreme_slope",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 3.715365045834949,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": -1.8300894996195969,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 6.06921915917685,
+          "alpha": 4.873587566776331,
+          "beta": -0.21560569699025747,
+          "candidate_sprint_ev": 0.523764613722304,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 8.423073272518751,
+          "alpha": 5.518064225804104,
+          "beta": -0.5238540903911658,
+          "candidate_sprint_ev": 2.8776187270642053,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 10.776927385860652,
+          "alpha": 6.162540884831877,
+          "beta": -0.8321024837920741,
+          "candidate_sprint_ev": 5.231472840406107,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 13.130781499202552,
+          "alpha": 6.80701754385965,
+          "beta": -1.1403508771929824,
+          "candidate_sprint_ev": 7.585326953748006,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 1.2282509851470143,
+      "beta": -0.30100030312215814,
+      "canonical_entity_id": "bortoleto",
+      "current_normal_baseline": 5.818181818181818,
+      "entity_name": "Gabriel Bortoleto",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 0.25,
+      "median_bonus": 2.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 5.295158312436276,
+      "raw_personalised_adjustment": -0.5230235057455423,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.768122959592345,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 10.586304777774163,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 3.445336343257873,
+          "alpha": 3.478895927098172,
+          "beta": -0.005768053472551396,
+          "candidate_sprint_ev": 9.263518161439691,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 2.1225497269234017,
+          "alpha": 2.7286809464477866,
+          "beta": -0.10417880335575364,
+          "candidate_sprint_ev": 7.94073154510522,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 0.7997631105889296,
+          "alpha": 1.9784659657974002,
+          "beta": -0.2025895532389559,
+          "candidate_sprint_ev": 6.617944928770748,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -0.5230235057455423,
+          "alpha": 1.2282509851470143,
+          "beta": -0.30100030312215814,
+          "candidate_sprint_ev": 5.295158312436276,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 6.5120428189116835,
+      "beta": -0.12696996729110907,
+      "canonical_entity_id": "albon",
+      "current_normal_baseline": -2.272727272727273,
+      "entity_name": "Alexander Albon",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 7.75,
+      "median_bonus": 6.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 4.527883653664205,
+      "raw_personalised_adjustment": 6.800610926391477,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.01855932499708,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 1.7458320522698068,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.714072225345679,
+          "alpha": 4.79984388553934,
+          "beta": 0.03773953048521087,
+          "candidate_sprint_ev": 2.441344952618406,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 5.409585125694278,
+          "alpha": 5.370576863330121,
+          "beta": -0.017163635440229107,
+          "candidate_sprint_ev": 3.136857852967005,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 6.105098026042877,
+          "alpha": 5.941309841120902,
+          "beta": -0.07206680136566908,
+          "candidate_sprint_ev": 3.832370753315604,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 6.800610926391477,
+          "alpha": 6.5120428189116835,
+          "beta": -0.12696996729110907,
+          "candidate_sprint_ev": 4.527883653664205,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": -1.7030326900354475,
+      "beta": -0.09137455691217014,
+      "canonical_entity_id": "arvid_lindblad",
+      "current_normal_baseline": 6.545454545454546,
+      "entity_name": "Arvid Lindblad",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": -2.0,
+      "median_bonus": -1.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 4.244333846539439,
+      "raw_personalised_adjustment": -2.3011206989151067,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.835499466072819,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 11.380954011527365,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 3.051344424825837,
+          "alpha": 2.7460750083025567,
+          "beta": 0.046638383079945604,
+          "candidate_sprint_ev": 9.596798970280382,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 1.267189383578856,
+          "alpha": 1.2630391088565553,
+          "beta": 0.0006340697492403582,
+          "candidate_sprint_ev": 7.812643929033402,
+          "weight": 0.5
+        },
+        {
+          "adjustment": -0.5169656576681253,
+          "alpha": -0.219996790589446,
+          "beta": -0.045370243581464895,
+          "candidate_sprint_ev": 6.028488887786421,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -2.3011206989151067,
+          "alpha": -1.7030326900354475,
+          "beta": -0.09137455691217014,
+          "candidate_sprint_ev": 4.244333846539439,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 4.119601328903656,
+      "beta": 0.43189368770764136,
+      "canonical_entity_id": "alonso",
+      "current_normal_baseline": -0.45454545454545453,
+      "entity_name": "Fernando Alonso",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 2.5,
+      "median_bonus": 4.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 3.4687405617638185,
+      "raw_personalised_adjustment": 3.923286016309273,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.187000591198263,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 3.7324551366528085,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.121071947476015,
+          "alpha": 4.201733513037333,
+          "beta": 0.17745544423489848,
+          "candidate_sprint_ev": 3.66652649293056,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.055143303753768,
+          "alpha": 4.1743561183261075,
+          "beta": 0.2622681920591461,
+          "candidate_sprint_ev": 3.6005978492083135,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 3.989214660031521,
+          "alpha": 4.146978723614882,
+          "beta": 0.3470809398833937,
+          "candidate_sprint_ev": 3.5346692054860664,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 3.923286016309273,
+          "alpha": 4.119601328903656,
+          "beta": 0.43189368770764136,
+          "candidate_sprint_ev": 3.4687405617638185,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 3.965946843853821,
+      "beta": -0.04318936877076413,
+      "canonical_entity_id": "perez",
+      "current_normal_baseline": -0.9090909090909091,
+      "entity_name": "Sergio Perez",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 3.75,
+      "median_bonus": 4.5,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": 3.0961189972817884,
+      "raw_personalised_adjustment": 4.005209906372698,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.144890274647967,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 3.2357993655570576,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.10997018257915,
+          "alpha": 4.163319891774874,
+          "beta": 0.05868468011529711,
+          "candidate_sprint_ev": 3.2008792734882405,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.075050090510332,
+          "alpha": 4.097528875801189,
+          "beta": 0.024726663819943363,
+          "candidate_sprint_ev": 3.1659591814194226,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 4.040129998441515,
+          "alpha": 4.031737859827505,
+          "beta": -0.009231352475410386,
+          "candidate_sprint_ev": 3.1310390893506055,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 4.005209906372698,
+          "alpha": 3.965946843853821,
+          "beta": -0.04318936877076413,
+          "candidate_sprint_ev": 3.0961189972817884,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": 5.249999999999999,
+      "beta": 0.02244897959183674,
+      "canonical_entity_id": "stroll",
+      "current_normal_baseline": -9.181818181818182,
+      "entity_name": "Lance Stroll",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 5.25,
+      "median_bonus": 4.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": -4.137940630797774,
+      "raw_personalised_adjustment": 5.043877551020407,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 3.3784825134325827,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": -5.803335668385599,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 3.794831272829539,
+          "alpha": 4.484333180811419,
+          "beta": 0.07509426720594732,
+          "candidate_sprint_ev": -5.386986908988643,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.211180032226495,
+          "alpha": 4.739555453874279,
+          "beta": 0.0575458380012438,
+          "candidate_sprint_ev": -4.970638149591687,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 4.627528791623451,
+          "alpha": 4.994777726937139,
+          "beta": 0.03999740879654027,
+          "candidate_sprint_ev": -4.554289390194731,
+          "weight": 0.75
+        },
+        {
+          "adjustment": 5.043877551020407,
+          "alpha": 5.249999999999999,
+          "beta": 0.02244897959183674,
+          "candidate_sprint_ev": -4.137940630797774,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": -2.0492135971588024,
+      "beta": 0.16489091831557579,
+      "canonical_entity_id": "hulkenberg",
+      "current_normal_baseline": -1.9090909090909092,
+      "entity_name": "Nico Hulkenberg",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": -2.75,
+      "median_bonus": -2.0,
+      "observation_count": 4,
+      "raw_candidate_sprint_ev": -4.273096259397629,
+      "raw_personalised_adjustment": -2.3640053503067198,
+      "reliability_flag": "usable_but_uncertain",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.052247578237316,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 2.143156669146407,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 2.4481843461013066,
+          "alpha": 2.659529781521718,
+          "beta": 0.11070475188688209,
+          "candidate_sprint_ev": 0.5390934370103975,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 0.844121113965298,
+          "alpha": 1.089948655294878,
+          "beta": 0.12876680736311333,
+          "candidate_sprint_ev": -1.0649697951256112,
+          "weight": 0.5
+        },
+        {
+          "adjustment": -0.7599421181707109,
+          "alpha": -0.47963247093196215,
+          "beta": 0.14682886283934454,
+          "candidate_sprint_ev": -2.6690330272616203,
+          "weight": 0.75
+        },
+        {
+          "adjustment": -2.3640053503067198,
+          "alpha": -2.0492135971588024,
+          "beta": 0.16489091831557579,
+          "candidate_sprint_ev": -4.273096259397629,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    },
+    {
+      "alpha": null,
+      "beta": null,
+      "canonical_entity_id": "sainz",
+      "current_normal_baseline": 5.222222222222222,
+      "entity_name": "Carlos Sainz",
+      "entity_type": "driver",
+      "group_alpha": 4.2291109077485585,
+      "group_beta": 0.09264269641065086,
+      "mean_bonus": 8.0,
+      "median_bonus": 8.0,
+      "observation_count": 2,
+      "raw_candidate_sprint_ev": null,
+      "raw_personalised_adjustment": null,
+      "reliability_flag": "insufficient_observations",
+      "research_only": true,
+      "shrinkage_candidates": [
+        {
+          "adjustment": 4.712911655670847,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 9.935133877893069,
+          "weight": 0.0
+        },
+        {
+          "adjustment": 4.712911655670847,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 9.935133877893069,
+          "weight": 0.25
+        },
+        {
+          "adjustment": 4.712911655670847,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 9.935133877893069,
+          "weight": 0.5
+        },
+        {
+          "adjustment": 4.712911655670847,
+          "alpha": 4.2291109077485585,
+          "beta": 0.09264269641065086,
+          "candidate_sprint_ev": 9.935133877893069,
+          "weight": 0.75
+        },
+        {
+          "adjustment": null,
+          "alpha": null,
+          "beta": null,
+          "candidate_sprint_ev": null,
+          "weight": 1.0
+        }
+      ],
+      "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+    }
+  ],
+  "model_name": "personalised_2026_sprint_adjustment",
+  "research_only": true,
+  "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026"
+}

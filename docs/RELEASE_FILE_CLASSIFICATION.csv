@@ -1,0 +1,397 @@
+path,classification,commit,reason,files_covered
+.github/workflows/tests.yml,source code,3,"Portfolio presentation, release checks or repository hygiene",1
+data/README.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+data/cache/qualifying_2023.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2023.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2024.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2024.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2025.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2025.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2026.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/qualifying_2026.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2023.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2023.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2024.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2024.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2025.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2025.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2026.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/results_2026.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2023.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2023.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2024.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2024.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2025.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2025.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2026.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/schedule_2026.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2023.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2023.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2024.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2024.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2025.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2025.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2026.csv,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/sprint_2026.csv.meta.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/cache/verified_fantasy_market.json,required production/runtime asset,1,Reviewed offline seed and metadata; intentional exception to disposable cache exclusion,1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/approximation_vs_recorded_largest_discrepancies.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/approximation_vs_recorded_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/historical_fantasy_scores_2022_2026.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/historical_fantasy_scores_2022_2026.parquet,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/provenance_manifest.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/source_coverage.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v2_recorded_2022_2026/source_coverage.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/approximation_vs_recorded_largest_discrepancies.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/approximation_vs_recorded_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/historical_fantasy_scores_2023_2026.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/historical_fantasy_scores_2023_2026.parquet,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/provenance_manifest.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/source_coverage.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/source_coverage.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/source_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/historical_fantasy_scores_v3_recorded_2023_2026/source_summary.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/sprint_ev_calibration/archive/sprint_ev_2026_v1.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/sprint_ev_calibration/sources/market_2026_round_13.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/sprint_ev_calibration/sources/official_2026_round_12.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+data/generated/sprint_ev_calibration/sprint_ev_2026_v1.json,required production/runtime asset,1,Active v2 or diagnostic shadow artifact required by runtime,1
+data/generated/sprint_ev_shadow/sprint_ev_shadow_2026_v1.json,required production/runtime asset,1,Active v2 or diagnostic shadow artifact required by runtime,1
+data/research/sprint_round_11/README.md,test fixture,1,Frozen round-11 research/regression inputs and their provenance,1
+data/research/sprint_round_11/canonical.csv,test fixture,1,Frozen round-11 research/regression inputs and their provenance,1
+data/research/sprint_round_11/example_team.json,test fixture,1,Frozen round-11 research/regression inputs and their provenance,1
+data/research/sprint_round_11/market.json,test fixture,1,Frozen round-11 research/regression inputs and their provenance,1
+docs/HISTORICAL_FANTASY_SCORES_2023_2026.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/HISTORICAL_FANTASY_SCORES_IMPLEMENTATION_NOTE.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/README.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/RELEASE_AUDIT_2026_09_05.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/REPOSITORY_RELEASE.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/SPRINT_EV_SHADOW.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/SPRINT_MODEL_MAINTENANCE.md,documentation/screenshot,2,Staged maintenance orchestration and dedicated regression coverage,1
+docs/images/README.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/images/market-thresholds.png,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+docs/images/optimiser.png,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+f1fantasy/asset_identity.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/exports.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/historical_scores.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/live_session_shadow.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/live_sessions.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/price_efficiency.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/race_selection.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/sprint_shadow.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/ui_helpers.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+f1fantasy/weekend_state.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+reports/2026_personalised_sprint_adjustments/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/asset_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/asset_coefficients.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/asset_predictions.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/baseline_sensitivity.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/group_coefficients.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/method_manifest.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/reliability_diagnostics.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/shrinkage_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_personalised_sprint_adjustments/sprint_observations.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/asset_predictions.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/asset_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/bootstrap_intervals.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/component_audit.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/correlations.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/influence_diagnostics.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/leave_one_asset_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/leave_one_sprint_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/model_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/model_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/price_form_bins.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_bonus/shrinkage_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/comparison_to_previous_models.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/constructor_strength_details.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/driver_shrinkage_details.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/final_candidate.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/final_candidate.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_final_candidate/sanity_checks.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/asset_effects.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/asset_predictions.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/case_studies.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/event_effects.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/historical_shape_check.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/leave_one_sprint_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/model_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/model_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/observation_dataset.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/research_model.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/shrunk_mean_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/strength_definitions.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/strength_monotonicity.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_partial_pooling/uncertainty.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/asset_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/constructor_rankings.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/cross_scored_teams.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/decay_sensitivity.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/driver_rankings.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/history_mode_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/optimiser_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/2026_sprint_shadow_comparison/sanity_cases.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/README.md,documentation/screenshot,3,"Portfolio presentation, release checks or repository hygiene",1
+reports/sprint_linear_regression/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/bootstrap_intervals.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/individual_2026_raw_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/individual_2026_shrunk_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/leave_one_sprint_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/model_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/normalised_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/observation_dataset.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/overall_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/prediction_examples.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/residual_by_strength.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_linear_regression/season_coefficients.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/asset_examples.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/bootstrap_intervals.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/event_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/leave_one_season_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/leave_one_sprint_out.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/pooled_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/season_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_multiplier/tier_summary.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/PROMOTION_REVIEW.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/UPDATE_REPORT.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/comparison_to_active.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/comparison_to_previous_models.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/constructor_strength_details.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/driver_shrinkage_details.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/final_candidate.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/final_candidate.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/included_events.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/normalised_history.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/old_weekends_current_market.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/parameter_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/personal_history_comparison.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/runtime_calibration_candidate.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/sanity_checks.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+reports/sprint_recalibration_2026_round_12/sprint_observations.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+requirements-dev.txt,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/analyse_2026_sprint_bonus.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/analyse_2026_sprint_partial_pooling.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/analyse_sprint_linear_regression.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/analyse_sprint_multiplier.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/.gitignore,source code,3,"Portfolio presentation, release checks or repository hygiene",1
+scripts/api_probe/HISTORICAL_SOURCE_MATRIX.csv,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/REPORT.md,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/download_licensed_datasets.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/fixtures/playerstats_constructor_2026_sanitised.json,test fixture,1,Sanitised source/schema fixture,1
+scripts/api_probe/fixtures/playerstats_driver_2026_sanitised.json,test fixture,1,Sanitised source/schema fixture,1
+scripts/api_probe/inspect_candidate_datasets.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/inspect_candidate_files.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/inspect_frontend_assets.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/playerstats_historical_variants.csv,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/playerstats_historical_variants.json,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/probe_historical_scores.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/probe_playerstats_history.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/probe_verified_sources.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/public_archive_search_results.json,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2021/Lineup/Driver_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2021/Lineup/Individual_Driver_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2021/Lineup/Individual_Team_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2021/Lineup/Team_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2022/Lineup/Driver_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2022/Lineup/Individual_Driver_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2022/Lineup/Individual_Team_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2022/Lineup/Team_Points.config,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Abu Dhabi_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Australia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Austria_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Azerbaijan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Bahrain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Belgium_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Brazil_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Canada_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Great Britain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Hungary_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Italy_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Japan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Las Vegas_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Mexico_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Miami_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Monaco_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Netherlands_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Qatar_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Saudi Arabia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Singapore_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Spain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/United States_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Abu Dhabi_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Australia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Austria_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Azerbaijan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Bahrain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Belgium_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Brazil_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Canada_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/China_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Emilia Romagna_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Great Britain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Hungary_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Italy_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Japan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Las Vegas_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Mexico_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Miami_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Monaco_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Netherlands_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Qatar_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Saudi Arabia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Singapore_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Spain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/United States_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Abu Dhabi_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Australia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Austria_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Azerbaijan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Bahrain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Belgium_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Brazil_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Canada_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/China_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Emilia Romagna_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Great Britain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Hungary_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Italy_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Japan_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Las Vegas_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Mexico_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Miami_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Monaco_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Netherlands_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Qatar_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Saudi Arabia_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Singapore_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Spain_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/United States_Results.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/LICENSE,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/PROVENANCE.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/README.md,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/PROVENANCE.json,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/abudhabi_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/abudhabi_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/austria_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/austria_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/azerbaijan_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/azerbaijan_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/bahrain_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/bahrain_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/belgium_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/belgium_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/brazil_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/brazil_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/britain_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/britain_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/constructor_value.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/dataset.zip,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/driver_value.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/france_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/france_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/hungary_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/hungary_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/imola_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/imola_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/italy_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/italy_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/mexico_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/mexico_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/monaco_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/monaco_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/netherands_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/netherlands_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/portugal_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/portugal_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/qatar_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/qatar_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/russia_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/russia_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/saudiarabia_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/saudiarabia_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/spain_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/spain_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/stryria_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/styria_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/turkey_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/turkey_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/usa_constructor_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/raw-data/kaggle_formula_1_fantasy_2021/usa_driver_performance.csv,canonical/reproducibility data,1,"Canonical/source data, calibration lineage or retained scientific evidence (including source licences)",1
+scripts/api_probe/recovered_dataset_validation.json,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/results.csv,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/results.json,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/search_public_archives.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/validate_recovered_datasets.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/api_probe/verified_source_results.csv,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/api_probe/verified_source_results.json,canonical/reproducibility data,1,Retained sanitised source-discovery evidence supporting historical-data provenance,1
+scripts/build_2026_sprint_final_candidate.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/build_historical_fantasy_scores.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/calibrate_asset_sprint_adjustments.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/compare_sprint_shadow_to_production.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/recalibrate_sprint_ev.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+scripts/update_sprint_model.py,source code,2,Staged maintenance orchestration and dedicated regression coverage,1
+tests/test_2026_sprint_bonus_analysis.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_2026_sprint_final_candidate.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_2026_sprint_partial_pooling.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_active_weekend_safety.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_asset_identity.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_compare_sprint_shadow_to_production.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_current_market_prices.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_current_season_history_regression.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_domain_refresh_atomicity.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_event_rollover_live_sessions.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_exports.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_formula1_session_source.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_fresh_asset_price_change.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_historical_scores.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_inactive_current_team.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_data_caching.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_blend.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_ingestion.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_production_integration.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_results.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_scoring.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_live_session_shadow_ev.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_market_same_feed_refresh.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_mobile_responsive_ui.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_personalised_sprint_adjustments.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_price_change_ui.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_price_efficiency.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_race_selection.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_ev_components.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_ev_shadow.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_linear_regression.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_multiplier_analysis.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_production.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_recalibration_update.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_sprint_shadow.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_streamlit_market_refresh_path.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_streamlit_ui.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_ui_helpers.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_update_sprint_model.py,source code,2,Staged maintenance orchestration and dedicated regression coverage,1
+tests/test_upload_budget_state.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+tests/test_weekend_state.py,source code,1,"Application, fitting/research, regression tests and required dependencies",1
+.gitattributes,source code,3,Preserve retained artifact bytes across platforms and recognise CRLF CSV endings,1
+docs/RELEASE_FILE_CLASSIFICATION.csv,documentation/screenshot,3,Complete pre-staging release inventory and deliberate inclusion decisions,1
+**/__pycache__/,intentionally local/ignored,excluded,Preserved locally; not staged or published,100
+.pytest_cache/,intentionally local/ignored,excluded,Preserved locally; not staged or published,6
+.venv/,intentionally local/ignored,excluded,Preserved locally; not staged or published,11334
+data/.DS_Store,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/qualifying_2021.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/qualifying_2022.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/results_2021.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/results_2022.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/schedule_2021.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/schedule_2022.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/sprint_2021.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/cache/sprint_2022.csv,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+data/current_team.local.json,intentionally local/ignored,excluded,Preserved locally; not staged or published,1
+reports/sprint_recalibration_candidate/,transient/generated/scratch,excluded,Preserved locally; not staged or published,10
+scripts/api_probe/candidate_dataset_inventories.json,transient/generated/scratch,excluded,Preserved locally; not staged or published,1
+scripts/api_probe/candidate_file_findings.json,transient/generated/scratch,excluded,Preserved locally; not staged or published,1
+scripts/api_probe/frontend_asset_findings.json,transient/generated/scratch,excluded,Preserved locally; not staged or published,1
+scripts/api_probe/frontend_assets/,transient/generated/scratch,excluded,Preserved locally; not staged or published,41

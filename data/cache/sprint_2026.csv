@@ -1,0 +1,101 @@
+season,round,circuitName,driverId,driver,constructorId,position,grid,status,fastestLapRank,is_dnf
+2026,2,Shanghai International Circuit,russell,George Russell,mercedes,1,1,Finished,4,0
+2026,2,Shanghai International Circuit,leclerc,Charles Leclerc,ferrari,2,6,Finished,1,0
+2026,2,Shanghai International Circuit,hamilton,Lewis Hamilton,ferrari,3,4,Finished,3,0
+2026,2,Shanghai International Circuit,norris,Lando Norris,mclaren,4,3,Finished,6,0
+2026,2,Shanghai International Circuit,antonelli,Andrea Kimi Antonelli,mercedes,5,2,Finished,2,0
+2026,2,Shanghai International Circuit,piastri,Oscar Piastri,mclaren,6,5,Finished,5,0
+2026,2,Shanghai International Circuit,lawson,Liam Lawson,rb,7,13,Finished,13,0
+2026,2,Shanghai International Circuit,bearman,Oliver Bearman,haas,8,9,Finished,11,0
+2026,2,Shanghai International Circuit,max_verstappen,Max Verstappen,red_bull,9,8,Finished,7,0
+2026,2,Shanghai International Circuit,ocon,Esteban Ocon,haas,10,12,Finished,10,0
+2026,2,Shanghai International Circuit,gasly,Pierre Gasly,alpine,11,7,Finished,17,0
+2026,2,Shanghai International Circuit,sainz,Carlos Sainz,williams,12,17,Finished,14,0
+2026,2,Shanghai International Circuit,bortoleto,Gabriel Bortoleto,audi,13,14,Finished,12,0
+2026,2,Shanghai International Circuit,colapinto,Franco Colapinto,alpine,14,16,Finished,9,0
+2026,2,Shanghai International Circuit,hadjar,Isack Hadjar,red_bull,15,10,Finished,8,0
+2026,2,Shanghai International Circuit,albon,Alexander Albon,williams,16,22,Finished,16,0
+2026,2,Shanghai International Circuit,alonso,Fernando Alonso,aston_martin,17,18,Finished,19,0
+2026,2,Shanghai International Circuit,stroll,Lance Stroll,aston_martin,18,19,Finished,20,0
+2026,2,Shanghai International Circuit,perez,Sergio Pérez,cadillac,19,21,Finished,21,0
+2026,2,Shanghai International Circuit,hulkenberg,Nico Hülkenberg,audi,20,11,Retired,15,1
+2026,2,Shanghai International Circuit,bottas,Valtteri Bottas,cadillac,21,20,Retired,22,1
+2026,2,Shanghai International Circuit,arvid_lindblad,Arvid Lindblad,rb,22,15,Retired,18,1
+2026,4,Miami International Autodrome,norris,Lando Norris,mclaren,1,1,Finished,1,0
+2026,4,Miami International Autodrome,piastri,Oscar Piastri,mclaren,2,3,Finished,4,0
+2026,4,Miami International Autodrome,leclerc,Charles Leclerc,ferrari,3,4,Finished,3,0
+2026,4,Miami International Autodrome,russell,George Russell,mercedes,4,6,Finished,6,0
+2026,4,Miami International Autodrome,max_verstappen,Max Verstappen,red_bull,5,5,Finished,5,0
+2026,4,Miami International Autodrome,antonelli,Andrea Kimi Antonelli,mercedes,6,2,Finished,2,0
+2026,4,Miami International Autodrome,hamilton,Lewis Hamilton,ferrari,7,7,Finished,7,0
+2026,4,Miami International Autodrome,gasly,Pierre Gasly,alpine,8,10,Finished,8,0
+2026,4,Miami International Autodrome,hadjar,Isack Hadjar,red_bull,9,9,Finished,10,0
+2026,4,Miami International Autodrome,colapinto,Franco Colapinto,alpine,10,8,Finished,9,0
+2026,4,Miami International Autodrome,ocon,Esteban Ocon,haas,11,16,Finished,14,0
+2026,4,Miami International Autodrome,bearman,Oliver Bearman,haas,12,13,Finished,15,0
+2026,4,Miami International Autodrome,sainz,Carlos Sainz,williams,13,14,Finished,12,0
+2026,4,Miami International Autodrome,lawson,Liam Lawson,rb,14,15,Finished,13,0
+2026,4,Miami International Autodrome,alonso,Fernando Alonso,aston_martin,15,20,Finished,16,0
+2026,4,Miami International Autodrome,perez,Sergio Pérez,cadillac,16,17,Finished,18,0
+2026,4,Miami International Autodrome,stroll,Lance Stroll,aston_martin,17,21,Finished,17,0
+2026,4,Miami International Autodrome,albon,Alexander Albon,williams,18,18,Finished,11,0
+2026,4,Miami International Autodrome,bottas,Valtteri Bottas,cadillac,19,19,Finished,19,0
+2026,4,Miami International Autodrome,hulkenberg,Nico Hülkenberg,audi,20,12,Did not start,0,1
+2026,4,Miami International Autodrome,arvid_lindblad,Arvid Lindblad,rb,21,22,Did not start,0,1
+2026,4,Miami International Autodrome,bortoleto,Gabriel Bortoleto,audi,22,11,Disqualified,0,1
+2026,5,Circuit Gilles Villeneuve,russell,George Russell,mercedes,1,1,Finished,4,0
+2026,5,Circuit Gilles Villeneuve,norris,Lando Norris,mclaren,2,3,Finished,2,0
+2026,5,Circuit Gilles Villeneuve,antonelli,Andrea Kimi Antonelli,mercedes,3,2,Finished,1,0
+2026,5,Circuit Gilles Villeneuve,piastri,Oscar Piastri,mclaren,4,4,Finished,6,0
+2026,5,Circuit Gilles Villeneuve,leclerc,Charles Leclerc,ferrari,5,6,Finished,5,0
+2026,5,Circuit Gilles Villeneuve,hamilton,Lewis Hamilton,ferrari,6,5,Finished,3,0
+2026,5,Circuit Gilles Villeneuve,max_verstappen,Max Verstappen,red_bull,7,7,Finished,8,0
+2026,5,Circuit Gilles Villeneuve,arvid_lindblad,Arvid Lindblad,rb,8,9,Finished,10,0
+2026,5,Circuit Gilles Villeneuve,colapinto,Franco Colapinto,alpine,9,13,Finished,9,0
+2026,5,Circuit Gilles Villeneuve,sainz,Carlos Sainz,williams,10,10,Finished,12,0
+2026,5,Circuit Gilles Villeneuve,lawson,Liam Lawson,rb,11,18,Finished,16,0
+2026,5,Circuit Gilles Villeneuve,bortoleto,Gabriel Bortoleto,audi,12,12,Finished,13,0
+2026,5,Circuit Gilles Villeneuve,ocon,Esteban Ocon,haas,13,14,Finished,19,0
+2026,5,Circuit Gilles Villeneuve,perez,Sergio Pérez,cadillac,14,16,Finished,18,0
+2026,5,Circuit Gilles Villeneuve,hulkenberg,Nico Hülkenberg,audi,15,11,Finished,17,0
+2026,5,Circuit Gilles Villeneuve,stroll,Lance Stroll,aston_martin,16,17,Lapped,20,1
+2026,5,Circuit Gilles Villeneuve,bottas,Valtteri Bottas,cadillac,17,21,Lapped,21,1
+2026,5,Circuit Gilles Villeneuve,bearman,Oliver Bearman,haas,18,19,Lapped,15,1
+2026,5,Circuit Gilles Villeneuve,albon,Alexander Albon,williams,19,22,Lapped,11,1
+2026,5,Circuit Gilles Villeneuve,gasly,Pierre Gasly,alpine,20,20,Lapped,14,1
+2026,5,Circuit Gilles Villeneuve,hadjar,Isack Hadjar,red_bull,21,8,Lapped,7,1
+2026,5,Circuit Gilles Villeneuve,alonso,Fernando Alonso,aston_martin,22,15,Retired,22,1
+2026,9,Silverstone Circuit,antonelli,Andrea Kimi Antonelli,mercedes,1,2,Finished,1,0
+2026,9,Silverstone Circuit,hamilton,Lewis Hamilton,ferrari,2,1,Finished,2,0
+2026,9,Silverstone Circuit,norris,Lando Norris,mclaren,3,6,Finished,5,0
+2026,9,Silverstone Circuit,russell,George Russell,mercedes,4,5,Finished,3,0
+2026,9,Silverstone Circuit,leclerc,Charles Leclerc,ferrari,5,4,Finished,4,0
+2026,9,Silverstone Circuit,max_verstappen,Max Verstappen,red_bull,6,3,Finished,7,0
+2026,9,Silverstone Circuit,piastri,Oscar Piastri,mclaren,7,7,Finished,6,0
+2026,9,Silverstone Circuit,lawson,Liam Lawson,rb,8,9,Finished,9,0
+2026,9,Silverstone Circuit,hadjar,Isack Hadjar,red_bull,9,8,Finished,8,0
+2026,9,Silverstone Circuit,arvid_lindblad,Arvid Lindblad,rb,10,10,Finished,13,0
+2026,9,Silverstone Circuit,gasly,Pierre Gasly,alpine,11,11,Finished,15,0
+2026,9,Silverstone Circuit,colapinto,Franco Colapinto,alpine,12,14,Finished,12,0
+2026,9,Silverstone Circuit,bortoleto,Gabriel Bortoleto,audi,13,12,Finished,11,0
+2026,9,Silverstone Circuit,bearman,Oliver Bearman,haas,14,16,Finished,14,0
+2026,9,Silverstone Circuit,hulkenberg,Nico Hülkenberg,audi,15,13,Finished,10,0
+2026,9,Silverstone Circuit,ocon,Esteban Ocon,haas,16,17,Finished,18,0
+2026,9,Silverstone Circuit,sainz,Carlos Sainz,williams,17,15,Finished,17,0
+2026,9,Silverstone Circuit,albon,Alexander Albon,williams,18,22,Finished,16,0
+2026,9,Silverstone Circuit,bottas,Valtteri Bottas,cadillac,19,19,Finished,21,0
+2026,9,Silverstone Circuit,alonso,Fernando Alonso,aston_martin,20,20,Finished,22,0
+2026,9,Silverstone Circuit,stroll,Lance Stroll,aston_martin,21,21,Lapped,20,1
+2026,9,Silverstone Circuit,perez,Sergio Pérez,cadillac,22,18,Lapped,19,1
+2026,12,Circuit Park Zandvoort,russell,George Russell,mercedes,1,1,Finished,2,0
+2026,12,Circuit Park Zandvoort,leclerc,Charles Leclerc,ferrari,2,3,Finished,4,0
+2026,12,Circuit Park Zandvoort,norris,Lando Norris,mclaren,3,2,Finished,1,0
+2026,12,Circuit Park Zandvoort,antonelli,Andrea Kimi Antonelli,mercedes,4,5,Finished,3,0
+2026,12,Circuit Park Zandvoort,piastri,Oscar Piastri,mclaren,5,4,Finished,5,0
+2026,12,Circuit Park Zandvoort,max_verstappen,Max Verstappen,red_bull,6,6,Finished,6,0
+2026,12,Circuit Park Zandvoort,hamilton,Lewis Hamilton,ferrari,7,7,Finished,7,0
+2026,12,Circuit Park Zandvoort,gasly,Pierre Gasly,alpine,8,8,Finished,10,0
+2026,12,Circuit Park Zandvoort,bortoleto,Gabriel Bortoleto,audi,9,9,Finished,12,0
+2026,12,Circuit Park Zandvoort,arvid_lindblad,Arvid Lindblad,rb,10,10,Finished,9,0
+2026,12,Circuit Park Zandvoort,lawson,Liam Lawson,red_bull,11,11,Finished,11,0
+2026,12,Circuit Park Zandvoort,colapinto,Franco Colapinto,alpine,12,13,Finished,8,0

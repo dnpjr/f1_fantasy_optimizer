@@ -1,0 +1,7 @@
+entity_type,model,parameter,replicates,estimate,lower_2_5,upper_97_5
+constructor,constrained_form_price,alpha,500,0.8005925568,0,8.050745103
+constructor,constrained_form_price,gamma,500,0,0,0.1560164322
+constructor,constrained_form_price,delta,500,15.49639151,0,20.92205731
+driver,constrained_form_price,alpha,500,0.8348184827,0,4.712847884
+driver,constrained_form_price,gamma,500,0,0,0.1132549739
+driver,constrained_form_price,delta,500,8.149130587,0,10.76312862

@@ -7,18 +7,24 @@ name = "f1-fantasy-optimizer"
 version = "0.1.0"
 description = "F1 Fantasy expected-points model + MILP optimizer"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "Daniel Pajer" }]
 dependencies = [
-  "pandas>=2.0",
-  "numpy>=1.24",
-  "requests>=2.31",
-  "pulp>=2.7"
+  "pandas>=2.2,<4",
+  "numpy>=1.26,<3",
+  "requests>=2.31,<3",
+  "pulp>=2.7,<4",
+  "Pillow>=10.1,<13",
+  "pyarrow>=14,<25"
 ]
 
+[project.optional-dependencies]
+app = ["streamlit>=1.49,<2"]
+dev = ["streamlit>=1.49,<2", "pytest>=8,<10"]
+
 [project.urls]
-Homepage = "https://github.com/dnpjr"
+Homepage = "https://github.com/dnpjr/f1_fantasy_optimizer"
 
 [project.scripts]
 f1fantasy-recommend = "f1fantasy.recommend:main"

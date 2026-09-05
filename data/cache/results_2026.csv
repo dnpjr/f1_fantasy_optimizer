@@ -1,0 +1,101 @@
+season,round,raceName,date,circuitName,driverId,driver,constructorId,constructor,grid,position,status,fastestLapRank,is_dnf
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,russell,George Russell,mercedes,Mercedes,1,1,Finished,6,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,antonelli,Andrea Kimi Antonelli,mercedes,Mercedes,2,2,Finished,3,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,4,3,Finished,5,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,hamilton,Lewis Hamilton,ferrari,Ferrari,7,4,Finished,4,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,norris,Lando Norris,mclaren,McLaren,6,5,Finished,2,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,20,6,Finished,1,0
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,bearman,Oliver Bearman,haas,Haas F1 Team,12,7,Lapped,11,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,arvid_lindblad,Arvid Lindblad,rb,RB F1 Team,9,8,Lapped,12,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,bortoleto,Gabriel Bortoleto,audi,Audi,10,9,Lapped,8,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,14,10,Lapped,15,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,ocon,Esteban Ocon,haas,Haas F1 Team,13,11,Lapped,14,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,albon,Alexander Albon,williams,Williams,15,12,Lapped,13,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,lawson,Liam Lawson,rb,RB F1 Team,8,13,Lapped,10,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,colapinto,Franco Colapinto,alpine,Alpine F1 Team,16,14,Lapped,7,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,sainz,Carlos Sainz,williams,Williams,21,15,Lapped,9,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,perez,Sergio Pérez,cadillac,Cadillac F1 Team,18,16,Lapped,19,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,22,17,Lapped,17,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,17,18,Retired,18,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,bottas,Valtteri Bottas,cadillac,Cadillac F1 Team,19,19,Retired,20,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,hadjar,Isack Hadjar,red_bull,Red Bull,3,20,Retired,16,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,piastri,Oscar Piastri,mclaren,McLaren,5,21,Did not start,0,1
+2026,1,Australian Grand Prix,2026-03-08,Albert Park Grand Prix Circuit,hulkenberg,Nico Hülkenberg,audi,Audi,11,22,Did not start,0,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,antonelli,Andrea Kimi Antonelli,mercedes,Mercedes,1,1,Finished,1,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,russell,George Russell,mercedes,Mercedes,2,2,Finished,2,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,hamilton,Lewis Hamilton,ferrari,Ferrari,3,3,Finished,5,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,4,4,Finished,4,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,bearman,Oliver Bearman,haas,Haas F1 Team,10,5,Finished,8,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,7,6,Finished,9,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,lawson,Liam Lawson,rb,RB F1 Team,14,7,Finished,12,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,hadjar,Isack Hadjar,red_bull,Red Bull,9,8,Finished,13,0
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,sainz,Carlos Sainz,williams,Williams,17,9,Lapped,14,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,colapinto,Franco Colapinto,alpine,Alpine F1 Team,12,10,Lapped,10,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,hulkenberg,Nico Hülkenberg,audi,Audi,11,11,Lapped,7,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,arvid_lindblad,Arvid Lindblad,rb,RB F1 Team,15,12,Lapped,6,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,bottas,Valtteri Bottas,cadillac,Cadillac F1 Team,19,13,Lapped,15,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,ocon,Esteban Ocon,haas,Haas F1 Team,13,14,Lapped,3,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,perez,Sergio Pérez,cadillac,Cadillac F1 Team,21,15,Lapped,16,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,8,16,Retired,11,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,18,17,Retired,17,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,20,18,Retired,18,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,piastri,Oscar Piastri,mclaren,McLaren,5,19,Did not start,0,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,norris,Lando Norris,mclaren,McLaren,6,20,Did not start,0,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,bortoleto,Gabriel Bortoleto,audi,Audi,16,21,Did not start,0,1
+2026,2,Chinese Grand Prix,2026-03-15,Shanghai International Circuit,albon,Alexander Albon,williams,Williams,22,22,Did not start,0,1
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,antonelli,Andrea Kimi Antonelli,mercedes,Mercedes,1,1,Finished,1,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,piastri,Oscar Piastri,mclaren,McLaren,3,2,Finished,5,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,leclerc,Charles Leclerc,ferrari,Ferrari,4,3,Finished,3,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,russell,George Russell,mercedes,Mercedes,2,4,Finished,2,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,norris,Lando Norris,mclaren,McLaren,5,5,Finished,6,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,hamilton,Lewis Hamilton,ferrari,Ferrari,6,6,Finished,4,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,gasly,Pierre Gasly,alpine,Alpine F1 Team,7,7,Finished,9,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,max_verstappen,Max Verstappen,red_bull,Red Bull,11,8,Finished,8,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,lawson,Liam Lawson,rb,RB F1 Team,14,9,Finished,13,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,ocon,Esteban Ocon,haas,Haas F1 Team,12,10,Finished,14,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,hulkenberg,Nico Hülkenberg,audi,Audi,13,11,Finished,10,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,hadjar,Isack Hadjar,red_bull,Red Bull,8,12,Finished,11,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,bortoleto,Gabriel Bortoleto,audi,Audi,9,13,Finished,12,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,arvid_lindblad,Arvid Lindblad,rb,RB F1 Team,10,14,Finished,15,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,sainz,Carlos Sainz,williams,Williams,16,15,Finished,17,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,colapinto,Franco Colapinto,alpine,Alpine F1 Team,15,16,Finished,16,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,perez,Sergio Pérez,cadillac,Cadillac F1 Team,19,17,Finished,19,0
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,alonso,Fernando Alonso,aston_martin,Aston Martin,21,18,Lapped,20,1
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,bottas,Valtteri Bottas,cadillac,Cadillac F1 Team,20,19,Lapped,21,1
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,albon,Alexander Albon,williams,Williams,17,20,Lapped,7,1
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,stroll,Lance Stroll,aston_martin,Aston Martin,22,21,Retired,22,1
+2026,3,Japanese Grand Prix,2026-03-29,Suzuka Circuit,bearman,Oliver Bearman,haas,Haas F1 Team,18,22,Retired,18,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,antonelli,Andrea Kimi Antonelli,mercedes,Mercedes,1,1,Finished,3,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,norris,Lando Norris,mclaren,McLaren,4,2,Finished,1,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,piastri,Oscar Piastri,mclaren,McLaren,7,3,Finished,2,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,russell,George Russell,mercedes,Mercedes,5,4,Finished,4,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,max_verstappen,Max Verstappen,red_bull,Red Bull,2,5,Finished,9,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,hamilton,Lewis Hamilton,ferrari,Ferrari,6,6,Finished,6,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,colapinto,Franco Colapinto,alpine,Alpine F1 Team,8,7,Finished,8,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,leclerc,Charles Leclerc,ferrari,Ferrari,3,8,Finished,5,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,sainz,Carlos Sainz,williams,Williams,13,9,Finished,7,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,albon,Alexander Albon,williams,Williams,15,10,Finished,13,0
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,bearman,Oliver Bearman,haas,Haas F1 Team,12,11,Lapped,12,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,bortoleto,Gabriel Bortoleto,audi,Audi,21,12,Lapped,10,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,ocon,Esteban Ocon,haas,Haas F1 Team,14,13,Lapped,11,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,arvid_lindblad,Arvid Lindblad,rb,RB F1 Team,16,14,Lapped,14,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,alonso,Fernando Alonso,aston_martin,Aston Martin,17,15,Lapped,16,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,perez,Sergio Pérez,cadillac,Cadillac F1 Team,20,16,Lapped,21,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,stroll,Lance Stroll,aston_martin,Aston Martin,18,17,Lapped,17,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,bottas,Valtteri Bottas,cadillac,Cadillac F1 Team,19,18,Lapped,22,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,hulkenberg,Nico Hülkenberg,audi,Audi,10,19,Retired,15,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,lawson,Liam Lawson,rb,RB F1 Team,11,20,Retired,18,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,gasly,Pierre Gasly,alpine,Alpine F1 Team,9,21,Retired,20,1
+2026,4,Miami Grand Prix,2026-05-03,Miami International Autodrome,hadjar,Isack Hadjar,red_bull,Red Bull,22,22,Retired,19,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,antonelli,Andrea Kimi Antonelli,mercedes,Mercedes,2,1,Finished,1,0
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,hamilton,Lewis Hamilton,ferrari,Ferrari,5,2,Finished,3,0
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,max_verstappen,Max Verstappen,red_bull,Red Bull,6,3,Finished,2,0
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,leclerc,Charles Leclerc,ferrari,Ferrari,8,4,Finished,5,0
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,hadjar,Isack Hadjar,red_bull,Red Bull,7,5,Lapped,4,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,colapinto,Franco Colapinto,alpine,Alpine F1 Team,10,6,Lapped,8,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,lawson,Liam Lawson,rb,RB F1 Team,12,7,Lapped,10,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,gasly,Pierre Gasly,alpine,Alpine F1 Team,14,8,Lapped,6,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,sainz,Carlos Sainz,williams,Williams,15,9,Lapped,12,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,bearman,Oliver Bearman,haas,Haas F1 Team,16,10,Lapped,13,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,piastri,Oscar Piastri,mclaren,McLaren,4,11,Lapped,7,1
+2026,5,Canadian Grand Prix,2026-05-24,Circuit Gilles Villeneuve,hulkenberg,Nico Hülkenberg,audi,Audi,11,12,Lapped,15,1

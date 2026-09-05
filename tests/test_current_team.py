@@ -210,7 +210,7 @@ def test_fantasy_card_html_escapes_dynamic_text_and_is_not_indented_code():
 
     html = fantasy_card_grid_html(frame, asset_label="Driver")
 
-    assert html.startswith('<div class="f1-card-grid">')
+    assert html.startswith('<div class="f1-card-grid f1-driver-grid">')
     assert "<script>" not in html
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html
     assert "Ferrari &amp; Friends" in html
@@ -231,22 +231,24 @@ def test_main_tabs_remove_assumptions_and_trends():
     source = Path("streamlit_app.py").read_text(encoding="utf-8")
     assert '"Assumptions"' not in source
     assert '"Trends"' not in source
-    assert '"Optimise"' in source
-    assert '"Price changes"' in source
+    assert "PRIMARY_NAVIGATION_AREAS" in source
+    assert 'default="Optimise"' in source
+    assert '"Projection & thresholds"' in source
+    assert '"Efficiency"' in source
     assert '"Current team"' in source
     assert '"Transfers"' in source
-    assert '"Locks and exclusions"' in source
-    assert '"Model settings"' in source
+    assert '"Locks"' in source
+    assert '"Model"' in source
     assert '"Diagnostics"' in source
     assert "Load detailed playerstats on startup" not in source
 
 
 def test_subtitle_and_tab_explanations_use_user_facing_copy():
     source = Path("streamlit_app.py").read_text(encoding="utf-8")
-    assert "Optimise your F1 Fantasy team using live prices, race history, price-change probabilities and transfer recommendations." in source
+    assert "Live projections, market movement and transfer planning." in source
     assert "A lightweight Streamlit wrapper around the existing Python model." not in source
-    assert "OPTIMISER COCKPIT" in source
-    assert "BUDGET BUILDER" in source
+    assert ">OPTIMISE<" in source
+    assert ">MARKET<" in source
     assert "SQUAD BUILDER" in source
     assert "TRANSFER DESK" in source
     assert "SELECTION RULES" in source
@@ -261,7 +263,8 @@ def test_high_level_metric_label_uses_expected_points():
     assert '.metric("Projected points / race"' not in source
     assert "DRS / boost multiplier" not in source
     assert "Use No Negative expected scores" not in source
-    assert "Chips applied" in source
+    assert '"Chip"' in source
+    assert '"Number of teams"' not in source
     assert "Advanced objective details" not in source
     assert "Allow extra transfers" not in source
     assert "Number of transfer options" in source
@@ -320,20 +323,23 @@ def test_projected_team_value_includes_budget_and_expected_gain():
 def test_load_model_data_defaults_to_include_playerstats_true():
     signature = inspect.signature(app_core.load_model_data)
     assert signature.parameters["include_playerstats"].default is True
-    assert "playerstats_load_duration_seconds" in inspect.getsource(app_core.load_model_data)
 
 
-def test_cached_loader_has_plain_data_signature_without_ui_callback():
-    source = Path("streamlit_app.py").read_text(encoding="utf-8")
-    assert "def _call_load_model_data_compat(" in source
-    assert "inspect.signature(load_model_data)" in source
-    fn_block = source.split("def load_cached_model_data(", 1)[1].split("def _option_labels", 1)[0]
-    signature_block = fn_block.split("):", 1)[0]
-    assert "_progress_callback" not in signature_block
-    assert "progress_callback=" not in fn_block
-    assert "st." not in fn_block
-    assert "last_good_model_payload" in source
-    assert "model_data = _call_load_model_data_compat(" in source
+def test_live_and_derived_loaders_have_separate_control_signatures():
+    live_params = inspect.signature(app_core.load_live_data_snapshot).parameters
+    derived_params = inspect.signature(app_core.derive_model_data).parameters
+
+    assert "force_refresh" in live_params
+    assert "historical_seasons_back" in live_params
+    assert "current_season_weight" not in live_params
+    assert "past_season_weight" not in live_params
+    assert "recency_decay" not in live_params
+    assert "horizon_races" not in live_params
+    assert "snapshot" in derived_params
+    assert "current_season_weight" in derived_params
+    assert "past_season_weight" in derived_params
+    assert "recency_decay" in derived_params
+    assert "horizon_races" in derived_params
 
 
 def test_transfer_recommendations_emit_progress_stages_and_counts():
@@ -783,7 +789,7 @@ def test_price_change_model_projection_table_columns():
     assert "P(Price rise)" not in table.columns
 
 
-def test_fantasy_card_labels_use_expected_points_and_three_tiles_only():
+def test_fantasy_card_is_compact_and_keeps_the_four_requested_values():
     html = fantasy_card_grid_html(
         pd.DataFrame(
             [
@@ -800,13 +806,14 @@ def test_fantasy_card_labels_use_expected_points_and_three_tiles_only():
         asset_label="Driver",
     )
 
-    assert "Exp Pts" in html
-    assert "Exp Gain" in html
-    assert "Projected Price" not in html
-    assert "Exp Points" not in html
-    assert "EV/race" not in html
-    assert "Driver · Projected price" not in html
-    assert html.count('class="f1-stat"') == 3
+    assert "DRI" in html
+    assert "$24.4" in html
+    assert "56.7 Pts" in html
+    assert "+0.30" in html
+    assert 'class="f1-card-name"' not in html
+    assert 'class="f1-card-team"' not in html
+    assert 'class="f1-initials"' not in html
+    assert 'class="f1-stat"' not in html
 
 
 def test_fantasy_card_uses_2x_token_not_drs_sticker():
@@ -1002,7 +1009,7 @@ def test_card_helper_can_show_boosted_display_points_without_changing_price_gain
 
     html = fantasy_card_grid_html(drivers, boosted_driver="A")
 
-    assert ">20.00<" in html
+    assert "20.0 Pts" in html
     assert "+0.50" in html
 
 
@@ -1229,9 +1236,10 @@ def test_cards_use_shared_size_without_constructor_specific_wide_style():
     source = Path("streamlit_app.py").read_text(encoding="utf-8")
 
     assert ".f1-constructor-card" not in source
-    assert "display: flex;" in source
-    assert "width: 252px;" in source
-    assert "grid-template-columns: 252px auto 252px;" in source
+    assert "grid-template-columns: repeat(5, minmax(64px, 1fr))" in source
+    assert "grid-template-columns: repeat(2, minmax(64px, 1fr))" in source
+    assert "width: 252px;" not in source
+    assert "grid-template-columns: 252px auto 252px;" not in source
 
 
 def test_transfer_explanation_not_rendered_as_duplicate_caption():

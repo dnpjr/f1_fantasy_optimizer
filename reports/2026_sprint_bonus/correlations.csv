@@ -1,0 +1,11 @@
+entity_type,x,y,observations,pearson,spearman
+constructor,normal_weekend_mean,mean_extra_sprint_points,11,0.5818637583,0.5102518933
+constructor,current_price,mean_extra_sprint_points,11,0.6898957374,0.6924847123
+constructor,price_percentile_within_entity_type,mean_extra_sprint_points,11,0.7151708008,0.6924847123
+constructor,normal_weekend_mean,current_price,11,0.9210136174,0.8818181818
+constructor,normal_weekend_standard_deviation,mean_extra_sprint_points,11,0.4171524257,0.3507981766
+driver,normal_weekend_mean,mean_extra_sprint_points,22,0.5119215475,0.5540807902
+driver,current_price,mean_extra_sprint_points,22,0.6601211398,0.6259544236
+driver,price_percentile_within_entity_type,mean_extra_sprint_points,22,0.6199744699,0.6259544236
+driver,normal_weekend_mean,current_price,22,0.9124361505,0.9446020735
+driver,normal_weekend_standard_deviation,mean_extra_sprint_points,22,0.3935717934,0.3535724513

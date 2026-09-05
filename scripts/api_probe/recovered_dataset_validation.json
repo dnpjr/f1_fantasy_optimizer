@@ -1,0 +1,282 @@
+{
+  "cross_source_2021": [
+    {
+      "asset_type": "driver",
+      "github_entity_count": 20,
+      "kaggle_entity_count": 20,
+      "shared_entity_count": 20,
+      "observations_compared": 440,
+      "mismatch_count": 23,
+      "mismatch_sample": [
+        {
+          "entity": "alonso",
+          "round_index": 12,
+          "github": 3.5,
+          "kaggle": 5.0
+        },
+        {
+          "entity": "bottas",
+          "round_index": 12,
+          "github": 7.5,
+          "kaggle": 9.0
+        },
+        {
+          "entity": "gasly",
+          "round_index": 12,
+          "github": 16.0,
+          "kaggle": 22.0
+        },
+        {
+          "entity": "giovinazzi",
+          "round_index": 12,
+          "github": 6.0,
+          "kaggle": 9.0
+        },
+        {
+          "entity": "hamilton",
+          "round_index": 12,
+          "github": 22.5,
+          "kaggle": 32.0
+        },
+        {
+          "entity": "latifi",
+          "round_index": 6,
+          "github": 11.0,
+          "kaggle": 5.0
+        },
+        {
+          "entity": "latifi",
+          "round_index": 9,
+          "github": 2.0,
+          "kaggle": 8.0
+        },
+        {
+          "entity": "latifi",
+          "round_index": 10,
+          "github": 8.0,
+          "kaggle": 10.0
+        },
+        {
+          "entity": "latifi",
+          "round_index": 12,
+          "github": 4.5,
+          "kaggle": 7.0
+        },
+        {
+          "entity": "leclerc",
+          "round_index": 12,
+          "github": 9.0,
+          "kaggle": 14.0
+        },
+        {
+          "entity": "mazepin",
+          "round_index": 12,
+          "github": 2.5,
+          "kaggle": 4.0
+        },
+        {
+          "entity": "norris",
+          "round_index": 12,
+          "github": 5.5,
+          "kaggle": 7.0
+        },
+        {
+          "entity": "ocon",
+          "round_index": 12,
+          "github": 13.0,
+          "kaggle": 19.0
+        },
+        {
+          "entity": "perez",
+          "round_index": 12,
+          "github": 2.5,
+          "kaggle": -2.0
+        },
+        {
+          "entity": "raikkonen",
+          "round_index": 9,
+          "github": 4.0,
+          "kaggle": 2.0
+        },
+        {
+          "entity": "raikkonen",
+          "round_index": 12,
+          "github": 3.5,
+          "kaggle": 6.0
+        },
+        {
+          "entity": "ricciardo",
+          "round_index": 12,
+          "github": 20.0,
+          "kaggle": 28.0
+        },
+        {
+          "entity": "russell",
+          "round_index": 12,
+          "github": 25.0,
+          "kaggle": 36.0
+        },
+        {
+          "entity": "sainz",
+          "round_index": 12,
+          "github": 13.0,
+          "kaggle": 16.0
+        },
+        {
+          "entity": "schumacher",
+          "round_index": 12,
+          "github": 6.0,
+          "kaggle": 9.0
+        }
+      ],
+      "github_only_entities": [],
+      "kaggle_only_entities": []
+    },
+    {
+      "asset_type": "constructor",
+      "github_entity_count": 10,
+      "kaggle_entity_count": 10,
+      "shared_entity_count": 10,
+      "observations_compared": 220,
+      "mismatch_count": 14,
+      "mismatch_sample": [
+        {
+          "entity": "alfaromeo",
+          "round_index": 10,
+          "github": 14.0,
+          "kaggle": 12.0
+        },
+        {
+          "entity": "alfaromeo",
+          "round_index": 12,
+          "github": 6.0,
+          "kaggle": 10.0
+        },
+        {
+          "entity": "alphatauri",
+          "round_index": 12,
+          "github": 15.0,
+          "kaggle": 21.0
+        },
+        {
+          "entity": "alpine",
+          "round_index": 12,
+          "github": 13.0,
+          "kaggle": 19.0
+        },
+        {
+          "entity": "astonmartin",
+          "round_index": 12,
+          "github": 16.5,
+          "kaggle": 22.0
+        },
+        {
+          "entity": "ferrari",
+          "round_index": 12,
+          "github": 9.5,
+          "kaggle": 15.0
+        },
+        {
+          "entity": "haas",
+          "round_index": 12,
+          "github": 5.0,
+          "kaggle": 8.0
+        },
+        {
+          "entity": "mclaren",
+          "round_index": 3,
+          "github": 46.0,
+          "kaggle": 36.0
+        },
+        {
+          "entity": "mclaren",
+          "round_index": 12,
+          "github": 22.0,
+          "kaggle": 30.0
+        },
+        {
+          "entity": "mercedes",
+          "round_index": 3,
+          "github": 70.0,
+          "kaggle": 65.0
+        },
+        {
+          "entity": "mercedes",
+          "round_index": 12,
+          "github": 31.5,
+          "kaggle": 41.0
+        },
+        {
+          "entity": "redbull",
+          "round_index": 12,
+          "github": 28.5,
+          "kaggle": 37.0
+        },
+        {
+          "entity": "williams",
+          "round_index": 10,
+          "github": 17.0,
+          "kaggle": 19.0
+        },
+        {
+          "entity": "williams",
+          "round_index": 12,
+          "github": 26.0,
+          "kaggle": 38.0
+        }
+      ],
+      "github_only_entities": [],
+      "kaggle_only_entities": []
+    }
+  ],
+  "github_internal_consistency": [
+    {
+      "season": 2021,
+      "asset_type": "driver",
+      "entity_count": 20,
+      "round_count_values": [
+        22
+      ],
+      "observations_checked": 440,
+      "mismatch_count": 0,
+      "mismatch_sample": []
+    },
+    {
+      "season": 2021,
+      "asset_type": "constructor",
+      "entity_count": 10,
+      "round_count_values": [
+        22
+      ],
+      "observations_checked": 220,
+      "mismatch_count": 0,
+      "mismatch_sample": []
+    },
+    {
+      "season": 2022,
+      "asset_type": "driver",
+      "entity_count": 20,
+      "round_count_values": [
+        22
+      ],
+      "observations_checked": 440,
+      "mismatch_count": 0,
+      "mismatch_sample": []
+    },
+    {
+      "season": 2022,
+      "asset_type": "constructor",
+      "entity_count": 10,
+      "round_count_values": [
+        22
+      ],
+      "observations_checked": 220,
+      "mismatch_count": 0,
+      "mismatch_sample": []
+    }
+  ],
+  "limitations": [
+    "The checks establish agreement between third-party records, not official API provenance.",
+    "The GitHub records contain total points only and do not identify scoring components."
+  ]
+}

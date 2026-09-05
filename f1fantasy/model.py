@@ -1,11 +1,20 @@
 from __future__ import annotations
 
 import math
-from typing import List, Tuple
+from typing import Iterable, List, Mapping, Tuple
 
 import numpy as np
 import pandas as pd
 import re
+
+from f1fantasy.race_selection import (
+    RaceKey,
+    available_races,
+    canonical_race_key,
+    recency_weights,
+    resolve_selected_races,
+)
+from f1fantasy.weekend_state import EventKey, UpcomingEvent, WeekendFormat
 
 # === Scoring tables (2026 rules excerpt provided by user) ===
 QUALI_POINTS = {1:10,2:9,3:8,4:7,5:6,6:5,7:4,8:3,9:2,10:1}
@@ -156,6 +165,16 @@ def _adjust_current_share(base_share: float, current_weight: float = 1.0, past_w
     return float(current_part / denom)
 
 
+def _relative_current_share(current_weight: float, past_weight: float) -> float:
+    """Normalize the two configured blend weights; zero/zero means equal shares."""
+    current = max(0.0, float(current_weight))
+    historical = max(0.0, float(past_weight))
+    denominator = current + historical
+    if denominator == 0.0:
+        return 0.5
+    return current / denominator
+
+
 def _ensure_columns(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
     for c in cols:
         if c not in df.columns:
@@ -166,6 +185,7 @@ def _ensure_columns(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
 __all__ = [
     "compute_weekend_points",
     "expected_scores_horizon",
+    "expected_scores_horizon_by_component",
     "apply_no_negative_expectation",
     "_horizon_weights",
 ]
@@ -179,9 +199,60 @@ def compute_weekend_points(
     older_decay: float = 0.75,
     race_dnf_penalty: int = 20,
     sprint_dnf_penalty: int = 10,
+    completed_event_keys: set[EventKey] | tuple[EventKey, ...] | None = None,
+    complete_qualifying_keys: set[EventKey] | tuple[EventKey, ...] | None = None,
+    complete_sprint_keys: set[EventKey] | tuple[EventKey, ...] | None = None,
 ) -> pd.DataFrame:
     """Per-driver per-round fantasy proxy points (qualifying + sprint + race) with season weights."""
     r = results.copy()
+    q = qualifying.copy()
+    s = sprint.copy()
+
+    def _keys(frame: pd.DataFrame) -> pd.Series:
+        return pd.Series(
+            [EventKey(int(season), int(round_no)) for season, round_no in zip(frame["season"], frame["round"])],
+            index=frame.index,
+            dtype=object,
+        )
+
+    if completed_event_keys is not None:
+        completed = set(completed_event_keys)
+        for name, frame in (("results", r), ("qualifying", q), ("sprint", s)):
+            if frame.empty or not {"season", "round"}.issubset(frame.columns):
+                continue
+            seasons = pd.to_numeric(frame["season"], errors="coerce")
+            keep = seasons != int(current_season)
+            keep |= _keys(frame).isin(completed)
+            if name == "results":
+                r = frame[keep].copy()
+            elif name == "qualifying":
+                q = frame[keep].copy()
+            else:
+                s = frame[keep].copy()
+
+    # Never convert a live/provisional classification into DNF scoring, even
+    # when this helper is called without the higher-level weekend gate.
+    if not r.empty and {"season", "round", "status"}.issubset(r.columns):
+        non_final = r["status"].fillna("").astype(str).str.contains(
+            r"\b(?:running|live|provisional|pending|in progress|not started|under investigation)\b",
+            case=False,
+            regex=True,
+        )
+        provisional_keys = set(_keys(r[non_final]).tolist())
+        if provisional_keys:
+            r = r[~_keys(r).isin(provisional_keys)].copy()
+
+    if r.empty:
+        return pd.DataFrame(
+            columns=[
+                "season", "round", "circuitName", "driverId", "driver",
+                "constructorId", "constructor", "race_points", "is_dnf",
+                "is_dsq", "has_fastest_lap", "grid", "position", "status",
+                "quali_points", "q2_reached", "q3_reached", "sprint_points",
+                "qualifying_points", "sprint_is_dnf", "sprint_is_dsq",
+                "sprint_applicable", "sprint_observed", "weekend_points", "season_w",
+            ]
+        )
 
     # Split DSQ from DNF: DSQ handled separately
     status = r["status"].fillna("").astype(str)
@@ -198,7 +269,6 @@ def compute_weekend_points(
 
     r["race_points"] = r.apply(lambda x: driver_race_points(int(x["position"]), int(x["grid"]), int(x["is_dnf"]), int(x.get("is_dsq",0)), int(x.get("has_fastest_lap",0)), dnf_penalty=race_dnf_penalty), axis=1)
 
-    q = qualifying.copy()
     if len(q):
         q["quali_points"] = q.apply(lambda x: driver_quali_points(int(x["position"]), str(x.get("q1",""))), axis=1)
         q["q2_reached"] = q["q2"].apply(lambda s: 1 if _has_time(str(s)) else 0)
@@ -206,7 +276,6 @@ def compute_weekend_points(
     else:
         q = pd.DataFrame(columns=["season","round","driverId","quali_points","q2_reached","q3_reached"])
 
-    s = sprint.copy()
     if len(s):
         # Sprint DSQ/DNF split if status exists
         if "status" in s.columns:
@@ -225,6 +294,12 @@ def compute_weekend_points(
         s["sprint_points"] = s.apply(lambda x: driver_sprint_points(int(x["position"]), int(x["grid"]), int(x.get("sprint_is_dnf",0)), int(x.get("sprint_is_dsq",0)), int(x.get("has_fastest_lap",0)), dnf_penalty=sprint_dnf_penalty), axis=1)
     else:
         s = pd.DataFrame(columns=["season","round","driverId","sprint_points"])
+
+    sprint_event_keys = (
+        set(_keys(s).tolist())
+        if not s.empty and {"season", "round"}.issubset(s.columns)
+        else set()
+    )
 
     # Bug fix - Data handling without sprint data  
     # out = r[["season","round","circuitName","driverId","driver","constructorId","constructor","race_points","is_dnf","is_dsq","has_fastest_lap","grid","position","status"]].copy()
@@ -259,25 +334,51 @@ def compute_weekend_points(
         out["sprint_is_dnf"] = 0
         out["sprint_is_dsq"] = 0
 
+    out["sprint_observed"] = out["sprint_points"].notna()
+    out["sprint_applicable"] = _keys(out).isin(sprint_event_keys)
+
     
     # Missing qualifying row usually means no time / did not participate / not classified.
     # Under the fantasy rules this should be -5 rather than 0.
     missing_quali = out["quali_points"].isna()
+    if complete_qualifying_keys is not None:
+        complete_quali = set(complete_qualifying_keys)
+        out_keys = _keys(out)
+        missing_quali &= (
+            pd.to_numeric(out["season"], errors="coerce") != int(current_season)
+        ) | out_keys.isin(complete_quali)
     
     out.loc[missing_quali, "quali_points"] = -5
     out.loc[missing_quali, "q2_reached"] = 0
     out.loc[missing_quali, "q3_reached"] = 0
+
+    # Rows excluded by the completion gate should not normally reach this
+    # point. If a caller supplies independent incomplete qualifying data,
+    # retain missingness instead of silently creating a -5 observation.
+    unresolved_quali = out["quali_points"].isna()
+    if unresolved_quali.any():
+        out = out[~unresolved_quali].copy()
     
     out["quali_points"] = out["quali_points"].astype(float)
     out["q2_reached"] = out["q2_reached"].fillna(0).astype(int)
     out["q3_reached"] = out["q3_reached"].fillna(0).astype(int)
     
+    if complete_sprint_keys is not None:
+        complete_sprint = set(complete_sprint_keys)
+        unresolved_sprint = (
+            out["sprint_points"].isna()
+            & (pd.to_numeric(out["season"], errors="coerce") == int(current_season))
+            & ~_keys(out).isin(complete_sprint)
+        )
+        if unresolved_sprint.any():
+            out = out[~unresolved_sprint].copy()
     out["sprint_points"] = out["sprint_points"].fillna(0)
     out["sprint_is_dnf"] = out["sprint_is_dnf"].fillna(0).astype(int)
     out["sprint_is_dsq"] = out["sprint_is_dsq"].fillna(0).astype(int)
     
 
-    out["weekend_points"] = out["quali_points"] + out["sprint_points"] + out["race_points"]
+    out["qualifying_points"] = out["quali_points"]
+    out["weekend_points"] = out["qualifying_points"] + out["sprint_points"] + out["race_points"]
     out["season_w"] = out["season"].astype(int).apply(lambda yr: _season_weight(yr, current_season, last_season_weight, older_decay))
     return out
 
@@ -291,6 +392,13 @@ def _constructor_round_points(wp: pd.DataFrame) -> pd.DataFrame:
     Note: Overtakes/FL/DOTD are omitted due to missing data.
     """
     d = wp.copy()
+    if "qualifying_points" not in d.columns:
+        d["qualifying_points"] = d["quali_points"]
+    if "sprint_applicable" not in d.columns:
+        sprint_values = pd.to_numeric(d.get("sprint_points"), errors="coerce")
+        d["sprint_applicable"] = sprint_values.notna() & sprint_values.ne(0)
+    if "sprint_observed" not in d.columns:
+        d["sprint_observed"] = d["sprint_applicable"]
 
     # First compute constructor-level pieces per round
     # Sum driver points by phase
@@ -304,6 +412,8 @@ def _constructor_round_points(wp: pd.DataFrame) -> pd.DataFrame:
         dnf_drivers=("is_dnf","sum"),
         sprint_dnf_drivers=("sprint_is_dnf","sum"),
         dnf_rate=("is_dnf","mean"),
+        sprint_applicable=("sprint_applicable", "max"),
+        sprint_observed=("sprint_observed", "min"),
     )
 
     agg["quali_bonus"] = agg.apply(lambda x: constructor_quali_progression_bonus(int(x["q2_reached"]), int(x["q3_reached"])), axis=1)
@@ -313,11 +423,42 @@ def _constructor_round_points(wp: pd.DataFrame) -> pd.DataFrame:
     agg["ctor_race_relief"] = (1.0 - CTOR_DNF_PENALTY_FACTOR_RACE) * float(20) * agg["dnf_drivers"].astype(float)
     agg["ctor_sprint_relief"] = (1.0 - CTOR_DNF_PENALTY_FACTOR_SPRINT) * float(10) * agg["sprint_dnf_drivers"].astype(float)
 
+    agg["qualifying_points"] = agg["quali_sum"] + agg["quali_bonus"] + agg["quali_dsq_penalty"]
+    agg["sprint_points"] = agg["sprint_sum"] + agg["ctor_sprint_relief"]
+    agg["race_points"] = agg["race_sum"] + agg["ctor_race_relief"]
     agg["constructor_weekend_points"] = (
-        agg["quali_sum"] + agg["quali_bonus"] + agg["quali_dsq_penalty"]
-        + agg["sprint_sum"] + agg["race_sum"] + agg["ctor_race_relief"] + agg["ctor_sprint_relief"]
+        agg["qualifying_points"] + agg["sprint_points"] + agg["race_points"]
     )
+    agg["weekend_points"] = agg["constructor_weekend_points"]
     return agg
+
+
+def normalise_sprint_baseline_inputs(
+    rows: pd.DataFrame,
+    sprint_keys: set[tuple[int, int]],
+) -> pd.DataFrame:
+    """Remove historical Sprint points before adding a fitted future Sprint bonus.
+
+    Recorded totals without a session split cannot be normalised safely, so omit
+    those Sprint observations. Ordinary observations are retained exactly.
+    """
+    if rows.empty:
+        return rows.copy(deep=True)
+    result = rows.copy(deep=True)
+    is_sprint = pd.Series(
+        [(int(s), int(r)) in sprint_keys for s, r in zip(result["season"], result["round"])],
+        index=result.index,
+    )
+    components = result.reindex(columns=["sprint_points", "sprint_qualifying_points"]).apply(
+        pd.to_numeric, errors="coerce"
+    ).sum(axis=1, min_count=1)
+    for column in ("weekend_points", "constructor_weekend_points", "fantasy_points"):
+        if column in result:
+            result.loc[is_sprint, column] = (
+                pd.to_numeric(result.loc[is_sprint, column], errors="coerce")
+                - components.loc[is_sprint]
+            )
+    return result.loc[~is_sprint | components.notna()].copy()
 
 
 def expected_scores_horizon(
@@ -328,6 +469,10 @@ def expected_scores_horizon(
     past_season_weight: float = 1.0,
     recency_decay: float = 0.95,
     historical_season_decay: float = 0.75,
+    selected_race_keys: Iterable[RaceKey | tuple[int, int]] | None = None,
+    selected_race_weights: Mapping[RaceKey | tuple[int, int], float] | None = None,
+    current_season: int | None = None,
+    constructor_weekend_points: pd.DataFrame | None = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Expected scores for next N races.
@@ -345,22 +490,42 @@ def expected_scores_horizon(
     - + (1-current_share) * historical_circuit_or_overall_hist
     """
     wp = weekend_points.copy()
-    current_season = int(wp["season"].max())
-    current_mask = wp["season"].astype(int) == current_season
-    latest_round = int(wp.loc[current_mask, "round"].max()) if current_mask.any() else 0
-    current_share = _adjust_current_share(
-        _current_season_share(latest_round),
-        current_weight=current_season_weight,
-        past_weight=past_season_weight,
+    current_season = int(current_season or wp["season"].max())
+    current_rows = wp[wp["season"].astype(int) == current_season].copy()
+    catalogue_input = current_rows.rename(
+        columns={"weekend_points": "fantasy_points", "circuitName": "race_name"}
     )
+    catalogue_input["is_played"] = 1
+    proxy_available = available_races(catalogue_input, season=current_season)
+    if selected_race_keys is None:
+        selected = resolve_selected_races(proxy_available, "All")
+    else:
+        selected = resolve_selected_races(
+            proxy_available,
+            "Custom",
+            custom_keys=selected_race_keys,
+        )
+    raw_race_weights = selected_race_weights or recency_weights(selected, recency_decay)
+    race_weights = {
+        canonical_race_key(
+            key.season if isinstance(key, RaceKey) else key[0],
+            key.round if isinstance(key, RaceKey) else key[1],
+        ): float(weight)
+        for key, weight in raw_race_weights.items()
+    }
+    selected_key_set = set(selected.included)
+    row_keys = [RaceKey(int(season), int(round_no)) for season, round_no in zip(wp["season"], wp["round"])]
+    current_mask = pd.Series(
+        [key in selected_key_set for key in row_keys],
+        index=wp.index,
+        dtype=bool,
+    )
+    historical_mask = wp["season"].astype(int) != current_season
+    current_share = _relative_current_share(current_season_weight, past_season_weight)
 
-    wp["w_current_component"] = np.where(
-        current_mask,
-        wp["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=recency_decay)),
-        0.0,
-    )
+    wp["w_current_component"] = [float(race_weights.get(key, 0.0)) for key in row_keys]
     wp["w_hist_component"] = np.where(
-        current_mask,
+        wp["season"].astype(int) == current_season,
         0.0,
         wp["season"].astype(int).apply(lambda yr: _historical_season_weight_hist_only(yr, current_season, decay=historical_season_decay)),
     )
@@ -368,16 +533,19 @@ def expected_scores_horizon(
     # Driver overall summaries
     base_driver = wp[["driverId", "driver"]].drop_duplicates().copy()
 
-    current_driver = wp.loc[current_mask].groupby(["driverId", "driver"], as_index=False).apply(
-        lambda d: pd.Series({
-            "overall_current": _weighted_mean(d["weekend_points"], d["w_current_component"]),
-            "dnf_current": float((d["is_dnf"].sum() + 1.0) / (len(d) + 15.0)) if len(d) else np.nan,
-            "vol_current": float(np.std(d["weekend_points"])) if len(d) else np.nan,
-        })
-    ).reset_index(drop=True)
+    if current_mask.any():
+        current_driver = wp.loc[current_mask].groupby(["driverId", "driver"], as_index=False).apply(
+            lambda d: pd.Series({
+                "overall_current": _weighted_mean(d["weekend_points"], d["w_current_component"]),
+                "dnf_current": float((d["is_dnf"].sum() + 1.0) / (len(d) + 15.0)) if len(d) else np.nan,
+                "vol_current": float(np.std(d["weekend_points"])) if len(d) else np.nan,
+            })
+        ).reset_index(drop=True)
+    else:
+        current_driver = pd.DataFrame(columns=["driverId", "driver", "overall_current", "dnf_current", "vol_current"])
 
-    if (~current_mask).any():
-        hist_driver = wp.loc[~current_mask].groupby(["driverId", "driver"], as_index=False).apply(
+    if historical_mask.any():
+        hist_driver = wp.loc[historical_mask].groupby(["driverId", "driver"], as_index=False).apply(
             lambda d: pd.Series({
                 "overall_hist": _weighted_mean(d["weekend_points"], d["w_hist_component"]),
                 "dnf_hist": float((d["is_dnf"].sum() + 1.0) / (len(d) + 15.0)) if len(d) else np.nan,
@@ -385,7 +553,7 @@ def expected_scores_horizon(
             })
         ).reset_index(drop=True)
 
-        hist_circ_driver = wp.loc[~current_mask].groupby(["circuitName", "driverId", "driver"], as_index=False).apply(
+        hist_circ_driver = wp.loc[historical_mask].groupby(["circuitName", "driverId", "driver"], as_index=False).apply(
             lambda d: pd.Series({
                 "circ_hist": _weighted_mean(d["weekend_points"], d["w_hist_component"]),
                 "n_hist": int(len(d)),
@@ -408,13 +576,22 @@ def expected_scores_horizon(
     overall_driver["volatility"] = _blend_series(overall_driver["vol_current"], overall_driver["vol_hist"], current_share).fillna(0.0)
 
     # Constructor overall summaries
-    ctor_round = _constructor_round_points(wp)
-    ctor_current_mask = ctor_round["season"].astype(int) == current_season
-    ctor_round["w_current_component"] = np.where(
-        ctor_current_mask,
-        ctor_round["round"].astype(int).apply(lambda r: _current_round_weight(r, latest_round, decay=recency_decay)),
-        0.0,
+    ctor_round = (
+        constructor_weekend_points.copy(deep=True)
+        if constructor_weekend_points is not None and not constructor_weekend_points.empty
+        else _constructor_round_points(wp)
     )
+    ctor_row_keys = [
+        RaceKey(int(season), int(round_no))
+        for season, round_no in zip(ctor_round["season"], ctor_round["round"])
+    ]
+    ctor_current_mask = pd.Series(
+        [key in selected_key_set for key in ctor_row_keys],
+        index=ctor_round.index,
+        dtype=bool,
+    )
+    ctor_historical_mask = ctor_round["season"].astype(int) != current_season
+    ctor_round["w_current_component"] = [float(race_weights.get(key, 0.0)) for key in ctor_row_keys]
     ctor_round["w_hist_component"] = np.where(
         ctor_current_mask,
         0.0,
@@ -423,16 +600,19 @@ def expected_scores_horizon(
 
     base_ctor = ctor_round[["constructorId", "constructor"]].drop_duplicates().copy()
 
-    current_ctor = ctor_round.loc[ctor_current_mask].groupby(["constructorId", "constructor"], as_index=False).apply(
-        lambda d: pd.Series({
-            "overall_current": _weighted_mean(d["constructor_weekend_points"], d["w_current_component"]),
-            "dnf_current": float((d["dnf_drivers"].sum() + 1.0) / (2.0 * len(d) + 15.0)) if len(d) else np.nan,
-            "vol_current": float(np.std(d["constructor_weekend_points"])) if len(d) else np.nan,
-        })
-    ).reset_index(drop=True)
+    if ctor_current_mask.any():
+        current_ctor = ctor_round.loc[ctor_current_mask].groupby(["constructorId", "constructor"], as_index=False).apply(
+            lambda d: pd.Series({
+                "overall_current": _weighted_mean(d["constructor_weekend_points"], d["w_current_component"]),
+                "dnf_current": float((d["dnf_drivers"].sum() + 1.0) / (2.0 * len(d) + 15.0)) if len(d) else np.nan,
+                "vol_current": float(np.std(d["constructor_weekend_points"])) if len(d) else np.nan,
+            })
+        ).reset_index(drop=True)
+    else:
+        current_ctor = pd.DataFrame(columns=["constructorId", "constructor", "overall_current", "dnf_current", "vol_current"])
 
-    if (~ctor_current_mask).any():
-        hist_ctor = ctor_round.loc[~ctor_current_mask].groupby(["constructorId", "constructor"], as_index=False).apply(
+    if ctor_historical_mask.any():
+        hist_ctor = ctor_round.loc[ctor_historical_mask].groupby(["constructorId", "constructor"], as_index=False).apply(
             lambda d: pd.Series({
                 "overall_hist": _weighted_mean(d["constructor_weekend_points"], d["w_hist_component"]),
                 "dnf_hist": float((d["dnf_drivers"].sum() + 1.0) / (2.0 * len(d) + 15.0)) if len(d) else np.nan,
@@ -440,7 +620,7 @@ def expected_scores_horizon(
             })
         ).reset_index(drop=True)
 
-        hist_circ_ctor = ctor_round.loc[~ctor_current_mask].groupby(["circuitName", "constructorId", "constructor"], as_index=False).apply(
+        hist_circ_ctor = ctor_round.loc[ctor_historical_mask].groupby(["circuitName", "constructorId", "constructor"], as_index=False).apply(
             lambda d: pd.Series({
                 "circ_hist": _weighted_mean(d["constructor_weekend_points"], d["w_hist_component"]),
                 "n_hist": int(len(d)),
@@ -466,30 +646,447 @@ def expected_scores_horizon(
     def horizon_driver():
         base = overall_driver.copy()
         base["exp_score"] = 0.0
-        for circuit, w in zip(upcoming_circuits, horizon_weights):
+        base["historical_horizon_expected_points"] = 0.0
+        base["historical_next_race_expected_points"] = np.nan
+        for index, (circuit, w) in enumerate(zip(upcoming_circuits, horizon_weights)):
             sub = hist_circ_driver[hist_circ_driver["circuitName"].str.contains(circuit, case=False, na=False)].copy()
             tmp = base.merge(sub[["driverId", "circ_hist"]], on="driverId", how="left")
             hist_value = tmp["circ_hist"].fillna(tmp["overall_hist"])
             current_value = tmp["overall_current"]
+            if index == 0:
+                base["historical_next_race_expected_points"] = hist_value.to_numpy()
+            base["historical_horizon_expected_points"] += float(w) * hist_value.fillna(0.0).to_numpy()
             use = _blend_series(current_value, hist_value, current_share)
             use = use.fillna(current_value).fillna(hist_value).fillna(tmp["overall_mean"])
             base["exp_score"] += float(w) * use
-        return base[["driverId", "driver", "exp_score", "dnf_rate", "volatility", "overall_current", "overall_hist", "overall_mean"]]
+        historical_available = base["overall_hist"].notna()
+        base.loc[~historical_available, "historical_horizon_expected_points"] = np.nan
+        horizon_multiplier = float(sum(float(weight) for weight in horizon_weights))
+        base["current_proxy_next_race_expected_points"] = base["overall_current"]
+        base["current_proxy_horizon_expected_points"] = base["overall_current"] * horizon_multiplier
+        base["next_race_exp_score"] = _blend_series(
+            base["current_proxy_next_race_expected_points"],
+            base["historical_next_race_expected_points"],
+            current_share,
+        )
+        base["horizon_expected_points"] = base["exp_score"]
+        base["current_proxy_volatility"] = base["vol_current"]
+        base["historical_volatility"] = base["vol_hist"]
+        return base[
+            [
+                "driverId",
+                "driver",
+                "exp_score",
+                "next_race_exp_score",
+                "horizon_expected_points",
+                "dnf_rate",
+                "volatility",
+                "overall_current",
+                "overall_hist",
+                "overall_mean",
+                "current_proxy_next_race_expected_points",
+                "current_proxy_horizon_expected_points",
+                "historical_next_race_expected_points",
+                "historical_horizon_expected_points",
+                "current_proxy_volatility",
+                "historical_volatility",
+            ]
+        ]
 
     def horizon_ctor():
         base = overall_ctor.copy()
         base["exp_score"] = 0.0
-        for circuit, w in zip(upcoming_circuits, horizon_weights):
+        base["historical_horizon_expected_points"] = 0.0
+        base["historical_next_race_expected_points"] = np.nan
+        for index, (circuit, w) in enumerate(zip(upcoming_circuits, horizon_weights)):
             sub = hist_circ_ctor[hist_circ_ctor["circuitName"].str.contains(circuit, case=False, na=False)].copy()
             tmp = base.merge(sub[["constructorId", "circ_hist"]], on="constructorId", how="left")
             hist_value = tmp["circ_hist"].fillna(tmp["overall_hist"])
             current_value = tmp["overall_current"]
+            if index == 0:
+                base["historical_next_race_expected_points"] = hist_value.to_numpy()
+            base["historical_horizon_expected_points"] += float(w) * hist_value.fillna(0.0).to_numpy()
             use = _blend_series(current_value, hist_value, current_share)
             use = use.fillna(current_value).fillna(hist_value).fillna(tmp["overall_mean"])
             base["exp_score"] += float(w) * use
-        return base[["constructorId", "constructor", "exp_score", "dnf_rate", "volatility", "overall_current", "overall_hist", "overall_mean"]]
+        historical_available = base["overall_hist"].notna()
+        base.loc[~historical_available, "historical_horizon_expected_points"] = np.nan
+        horizon_multiplier = float(sum(float(weight) for weight in horizon_weights))
+        base["current_proxy_next_race_expected_points"] = base["overall_current"]
+        base["current_proxy_horizon_expected_points"] = base["overall_current"] * horizon_multiplier
+        base["next_race_exp_score"] = _blend_series(
+            base["current_proxy_next_race_expected_points"],
+            base["historical_next_race_expected_points"],
+            current_share,
+        )
+        base["horizon_expected_points"] = base["exp_score"]
+        base["current_proxy_volatility"] = base["vol_current"]
+        base["historical_volatility"] = base["vol_hist"]
+        return base[
+            [
+                "constructorId",
+                "constructor",
+                "exp_score",
+                "next_race_exp_score",
+                "horizon_expected_points",
+                "dnf_rate",
+                "volatility",
+                "overall_current",
+                "overall_hist",
+                "overall_mean",
+                "current_proxy_next_race_expected_points",
+                "current_proxy_horizon_expected_points",
+                "historical_next_race_expected_points",
+                "historical_horizon_expected_points",
+                "current_proxy_volatility",
+                "historical_volatility",
+            ]
+        ]
 
     return horizon_driver(), horizon_ctor()
+
+
+# Sprint fallback depends on both non-Sprint components being resolved first.
+_SHADOW_COMPONENTS = ("qualifying", "race", "sprint")
+
+
+def _blend_component_values(
+    current_value: float,
+    historical_value: float,
+    current_weight: float,
+    historical_weight: float,
+) -> tuple[float, str]:
+    current_ok = pd.notna(current_value)
+    historical_ok = pd.notna(historical_value)
+    if current_ok and historical_ok:
+        current_configured = max(0.0, float(current_weight))
+        historical_configured = max(0.0, float(historical_weight))
+        denominator = current_configured + historical_configured
+        if denominator <= 0:
+            return (float(current_value) + float(historical_value)) / 2.0, "blended_equal_weights"
+        return (
+            float(current_value) * current_configured
+            + float(historical_value) * historical_configured
+        ) / denominator, "blended_current_historical"
+    if current_ok:
+        return float(current_value), "current_only"
+    if historical_ok:
+        return float(historical_value), "historical_only"
+    return float("nan"), "unavailable"
+
+
+def _shadow_component_forecast(
+    observations: pd.DataFrame,
+    upcoming_events: Iterable[UpcomingEvent],
+    *,
+    asset_id_col: str,
+    asset_name_col: str,
+    current_season: int,
+    current_season_weight: float,
+    past_season_weight: float,
+    recency_decay: float,
+    historical_season_decay: float,
+    selected_race_keys: Iterable[RaceKey | tuple[int, int]] | None,
+    selected_race_weights: Mapping[RaceKey | tuple[int, int], float] | None,
+) -> pd.DataFrame:
+    """Forecast qualifying/Sprint/race components without changing legacy EV fields."""
+    data = observations.copy(deep=True)
+    events = tuple(upcoming_events)
+    output_columns = [
+        asset_id_col,
+        asset_name_col,
+        *[f"shadow_next_{component}_ev" for component in _SHADOW_COMPONENTS],
+        "shadow_next_total_ev",
+        *[f"shadow_horizon_{component}_ev" for component in _SHADOW_COMPONENTS],
+        "shadow_horizon_total_ev",
+    ]
+    if data.empty or not events:
+        return pd.DataFrame(columns=output_columns)
+    if "qualifying_points" not in data.columns:
+        data["qualifying_points"] = data.get("quali_points")
+    if "sprint_applicable" not in data.columns:
+        sprint_values = pd.to_numeric(data.get("sprint_points"), errors="coerce")
+        data["sprint_applicable"] = sprint_values.notna() & sprint_values.ne(0)
+    if "sprint_observed" not in data.columns:
+        data["sprint_observed"] = data["sprint_applicable"]
+    data["_event_key"] = [
+        RaceKey(int(season), int(round_no))
+        for season, round_no in zip(data["season"], data["round"])
+    ]
+    data["_asset_id"] = data[asset_id_col].astype(str)
+    current_rows = data[data["season"].astype(int) == int(current_season)].copy()
+    catalogue_input = current_rows.rename(
+        columns={"weekend_points": "fantasy_points", "circuitName": "race_name"}
+    )
+    catalogue_input["is_played"] = 1
+    available = available_races(catalogue_input, season=int(current_season))
+    selected = (
+        resolve_selected_races(available, "All")
+        if selected_race_keys is None
+        else resolve_selected_races(available, "Custom", custom_keys=selected_race_keys)
+    )
+    selected_set = set(selected.included)
+    raw_weights = selected_race_weights or recency_weights(selected, recency_decay)
+    current_weights = {
+        canonical_race_key(
+            key.season if isinstance(key, RaceKey) else key[0],
+            key.round if isinstance(key, RaceKey) else key[1],
+        ): float(weight)
+        for key, weight in raw_weights.items()
+    }
+    sprint_keys = sorted(
+        {
+            key
+            for key, applicable in zip(current_rows["_event_key"], current_rows["sprint_applicable"])
+            if key in selected_set and bool(applicable)
+        }
+    )
+    sprint_weights = recency_weights(sprint_keys, recency_decay)
+    data["_historical_weight"] = data["season"].astype(int).apply(
+        lambda season: _historical_season_weight_hist_only(
+            season, int(current_season), decay=historical_season_decay
+        )
+        if int(season) != int(current_season)
+        else 0.0
+    )
+    component_columns = {
+        "qualifying": "qualifying_points",
+        "sprint": "sprint_points",
+        "race": "race_points",
+    }
+
+    sprint_valid = (
+        data["sprint_applicable"].fillna(False).astype(bool)
+        & data["sprint_observed"].fillna(False).astype(bool)
+        & pd.to_numeric(data["sprint_points"], errors="coerce").notna()
+    )
+    base_points = (
+        pd.to_numeric(data["qualifying_points"], errors="coerce")
+        + pd.to_numeric(data["race_points"], errors="coerce")
+    )
+    ratio_rows = data[sprint_valid & base_points.gt(0)].copy()
+    if ratio_rows.empty:
+        field_sprint_ratio = float("nan")
+    else:
+        ratio_base = (
+            pd.to_numeric(ratio_rows["qualifying_points"], errors="coerce")
+            + pd.to_numeric(ratio_rows["race_points"], errors="coerce")
+        )
+        field_sprint_ratio = float(
+            (pd.to_numeric(ratio_rows["sprint_points"], errors="coerce") / ratio_base)
+            .replace([np.inf, -np.inf], np.nan)
+            .dropna()
+            .median()
+        )
+
+    def weighted_value(rows: pd.DataFrame, component: str, weights: Mapping[RaceKey, float]) -> tuple[float, int]:
+        if rows.empty:
+            return float("nan"), 0
+        values = pd.to_numeric(rows[component_columns[component]], errors="coerce")
+        valid = values.notna()
+        if component == "sprint":
+            valid &= rows["sprint_applicable"].fillna(False).astype(bool)
+            valid &= rows["sprint_observed"].fillna(False).astype(bool)
+        rows = rows[valid].copy()
+        values = values[valid]
+        if rows.empty:
+            return float("nan"), 0
+        row_weights = pd.Series(
+            [float(weights.get(key, 0.0)) for key in rows["_event_key"]],
+            index=rows.index,
+            dtype=float,
+        )
+        positive = row_weights > 0
+        if not positive.any():
+            return float("nan"), 0
+        return float(np.average(values[positive], weights=row_weights[positive])), int(positive.sum())
+
+    rows_out: list[dict[str, object]] = []
+    historical = data[data["season"].astype(int) != int(current_season)].copy()
+    for asset_id, asset_rows in data.groupby("_asset_id", sort=True):
+        name_values = asset_rows[asset_name_col].dropna().astype(str)
+        result: dict[str, object] = {
+            asset_id_col: asset_rows.iloc[0][asset_id_col],
+            asset_name_col: name_values.iloc[0] if not name_values.empty else str(asset_id),
+            "shadow_sprint_field_ratio": field_sprint_ratio,
+        }
+        current_asset = current_rows[
+            (current_rows["_asset_id"] == asset_id)
+            & current_rows["_event_key"].isin(selected_set)
+        ]
+        historical_asset = historical[historical["_asset_id"] == asset_id]
+        current_estimates: dict[str, float] = {}
+        historical_overall: dict[str, float] = {}
+        for component in _SHADOW_COMPONENTS:
+            weights = sprint_weights if component == "sprint" else current_weights
+            current_value, current_count = weighted_value(current_asset, component, weights)
+            historical_value, historical_count = weighted_value(
+                historical_asset,
+                component,
+                {
+                    key: float(weight)
+                    for key, weight in zip(
+                        historical_asset["_event_key"],
+                        historical_asset["_historical_weight"],
+                    )
+                },
+            )
+            current_estimates[component] = current_value
+            historical_overall[component] = historical_value
+            result[f"shadow_{component}_current_estimate"] = current_value
+            result[f"shadow_{component}_historical_overall_estimate"] = historical_value
+            result[f"shadow_{component}_current_valid_count"] = current_count
+            result[f"shadow_{component}_historical_valid_count"] = historical_count
+
+        event_values: list[dict[str, float]] = []
+        event_sources: list[dict[str, str]] = []
+        for event in events:
+            component_values: dict[str, float] = {}
+            component_sources: dict[str, str] = {}
+            circuit_needle = event.circuit.split(" Circuit")[0].strip()
+            circuit_rows = historical_asset[
+                historical_asset["circuitName"].astype(str).str.contains(
+                    circuit_needle, case=False, na=False, regex=False
+                )
+            ]
+            for component in _SHADOW_COMPONENTS:
+                historical_circuit, _count = weighted_value(
+                    circuit_rows,
+                    component,
+                    {
+                        key: float(weight)
+                        for key, weight in zip(
+                            circuit_rows["_event_key"], circuit_rows["_historical_weight"]
+                        )
+                    },
+                )
+                historical_value = (
+                    historical_circuit
+                    if pd.notna(historical_circuit)
+                    else historical_overall[component]
+                )
+                historical_source = (
+                    "historical_circuit"
+                    if pd.notna(historical_circuit)
+                    else "historical_overall"
+                )
+                value, source = _blend_component_values(
+                    current_estimates[component],
+                    historical_value,
+                    current_season_weight,
+                    past_season_weight,
+                )
+                if source == "historical_only":
+                    source = historical_source
+                elif source == "blended_current_historical":
+                    source = f"blended_current_{historical_source}"
+                if component == "sprint" and event.format == WeekendFormat.NORMAL:
+                    value = 0.0
+                    source = "not_applicable_normal_weekend"
+                elif component == "sprint" and pd.isna(value):
+                    base_value = sum(
+                        component_values.get(key, float("nan"))
+                        for key in ("qualifying", "race")
+                    )
+                    if pd.notna(field_sprint_ratio) and pd.notna(base_value):
+                        value = float(base_value) * float(field_sprint_ratio)
+                        source = "field_sprint_to_non_sprint_ratio_fallback"
+                component_values[component] = value
+                component_sources[component] = source
+            event_values.append(component_values)
+            event_sources.append(component_sources)
+
+        first_values = event_values[0]
+        first_sources = event_sources[0]
+        for component in _SHADOW_COMPONENTS:
+            result[f"shadow_next_{component}_ev"] = first_values[component]
+            result[f"shadow_next_{component}_source"] = first_sources[component]
+        next_parts = [first_values[component] for component in _SHADOW_COMPONENTS]
+        result["shadow_next_total_ev"] = (
+            float(sum(next_parts)) if all(pd.notna(value) for value in next_parts) else float("nan")
+        )
+        for component in _SHADOW_COMPONENTS:
+            required_values = [
+                values[component]
+                for event, values in zip(events, event_values)
+                if component != "sprint" or event.format == WeekendFormat.SPRINT
+            ]
+            if not required_values:
+                horizon_value = 0.0
+            elif all(pd.notna(value) for value in required_values):
+                horizon_value = float(
+                    sum(
+                        event.horizon_weight * values[component]
+                        for event, values in zip(events, event_values)
+                        if component != "sprint" or event.format == WeekendFormat.SPRINT
+                    )
+                )
+            else:
+                horizon_value = float("nan")
+            result[f"shadow_horizon_{component}_ev"] = horizon_value
+        horizon_parts = [result[f"shadow_horizon_{component}_ev"] for component in _SHADOW_COMPONENTS]
+        result["shadow_horizon_total_ev"] = (
+            float(sum(horizon_parts))
+            if all(pd.notna(value) for value in horizon_parts)
+            else float("nan")
+        )
+        result["shadow_component_status"] = (
+            "complete" if pd.notna(result["shadow_next_total_ev"]) else "component_unavailable"
+        )
+        rows_out.append(result)
+    return pd.DataFrame(rows_out)
+
+
+def expected_scores_horizon_by_component(
+    weekend_points: pd.DataFrame,
+    upcoming_events: Iterable[UpcomingEvent],
+    *,
+    current_season_weight: float = 1.0,
+    past_season_weight: float = 1.0,
+    recency_decay: float = 0.95,
+    historical_season_decay: float = 0.75,
+    selected_race_keys: Iterable[RaceKey | tuple[int, int]] | None = None,
+    selected_race_weights: Mapping[RaceKey | tuple[int, int], float] | None = None,
+    current_season: int | None = None,
+    constructor_weekend_points: pd.DataFrame | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Return format-aware driver and constructor forecasts in shadow-only columns."""
+    wp = weekend_points.copy(deep=True)
+    if wp.empty:
+        return pd.DataFrame(), pd.DataFrame()
+    season = int(current_season or wp["season"].max())
+    driver_shadow = _shadow_component_forecast(
+        wp,
+        upcoming_events,
+        asset_id_col="driverId",
+        asset_name_col="driver",
+        current_season=season,
+        current_season_weight=current_season_weight,
+        past_season_weight=past_season_weight,
+        recency_decay=recency_decay,
+        historical_season_decay=historical_season_decay,
+        selected_race_keys=selected_race_keys,
+        selected_race_weights=selected_race_weights,
+    )
+    constructor_rounds = (
+        constructor_weekend_points.copy(deep=True)
+        if constructor_weekend_points is not None and not constructor_weekend_points.empty
+        else _constructor_round_points(wp)
+    )
+    constructor_shadow = _shadow_component_forecast(
+        constructor_rounds,
+        upcoming_events,
+        asset_id_col="constructorId",
+        asset_name_col="constructor",
+        current_season=season,
+        current_season_weight=current_season_weight,
+        past_season_weight=past_season_weight,
+        recency_decay=recency_decay,
+        historical_season_decay=historical_season_decay,
+        selected_race_keys=selected_race_keys,
+        selected_race_weights=selected_race_weights,
+    )
+    return driver_shadow, constructor_shadow
 
 def apply_no_negative_expectation(
     weekend_points: pd.DataFrame,

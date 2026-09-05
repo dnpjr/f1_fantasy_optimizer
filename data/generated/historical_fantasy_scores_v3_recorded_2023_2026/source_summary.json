@@ -1,0 +1,46 @@
+[
+  {
+    "season": 2023,
+    "source_name": "jm1261/Fantasy-F1-League",
+    "authority_class": "third_party_recorded",
+    "source_licence": "MIT",
+    "rows": 660,
+    "races": 22,
+    "price_rows": 660,
+    "component_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2024,
+    "source_name": "jm1261/Fantasy-F1-League",
+    "authority_class": "third_party_recorded",
+    "source_licence": "MIT",
+    "rows": 720,
+    "races": 24,
+    "price_rows": 720,
+    "component_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2025,
+    "source_name": "jm1261/Fantasy-F1-League",
+    "authority_class": "third_party_recorded",
+    "source_licence": "MIT",
+    "rows": 720,
+    "races": 24,
+    "price_rows": 720,
+    "component_rows": 0,
+    "reconstructed_rows": 0
+  },
+  {
+    "season": 2026,
+    "source_name": "Formula 1 Fantasy playerstats",
+    "authority_class": "official",
+    "source_licence": "Official public feed; Formula 1 terms apply",
+    "rows": 391,
+    "races": 12,
+    "price_rows": 391,
+    "component_rows": 391,
+    "reconstructed_rows": 0
+  }
+]

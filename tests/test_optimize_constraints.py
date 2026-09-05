@@ -107,3 +107,39 @@ def test_limitless_ignores_budget_constraint():
     assert limitless[0].total_cost == pytest.approx(70.0)
     assert limitless[0].limitless is True
     assert team_expected_points_with_chips(limitless[0].drivers, limitless[0].constructors, "limitless", limitless[0].boosted_driver) == pytest.approx(limitless[0].expected_score)
+
+
+def test_top_k_can_continue_after_existing_team_combinations_without_duplicates():
+    initial = optimize_top_k(_drivers(), _constructors(), budget=100.0, k=2)
+    excluded = [
+        (
+            solution.drivers["id"].astype(str).tolist(),
+            solution.constructors["id"].astype(str).tolist(),
+        )
+        for solution in initial
+    ]
+
+    continued = optimize_top_k(
+        _drivers(),
+        _constructors(),
+        budget=100.0,
+        k=2,
+        excluded_team_combinations=excluded,
+    )
+
+    initial_keys = {
+        (
+            tuple(sorted(solution.drivers["id"].astype(str))),
+            tuple(sorted(solution.constructors["id"].astype(str))),
+        )
+        for solution in initial
+    }
+    continued_keys = {
+        (
+            tuple(sorted(solution.drivers["id"].astype(str))),
+            tuple(sorted(solution.constructors["id"].astype(str))),
+        )
+        for solution in continued
+    }
+    assert continued_keys
+    assert initial_keys.isdisjoint(continued_keys)

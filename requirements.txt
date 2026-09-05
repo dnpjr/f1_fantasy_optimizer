@@ -1,5 +1,8 @@
-pandas>=2.0
-numpy>=1.24
-requests>=2.31
-pulp>=2.7
-streamlit>=1.35
+# Streamlit Community Cloud installs this file. Keep runtime ranges in sync with pyproject.toml.
+pandas>=2.2,<4
+numpy>=1.26,<3
+requests>=2.31,<3
+pulp>=2.7,<4
+streamlit>=1.49,<2
+Pillow>=10.1,<13
+pyarrow>=14,<25

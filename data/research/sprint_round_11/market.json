@@ -1,0 +1,242 @@
+{
+  "cache_version": 1,
+  "feed_round": 12,
+  "verified_at_utc": null,
+  "source_url": "reports/2026_sprint_final_candidate/final_candidate.csv",
+  "fixture_provenance": "Derived regression fixture: identities from canonical rounds 1-11 and accepted feed-12 prices retained in the archived final-candidate report. Not a raw market response.",
+  "players": [
+    {
+      "playerId": "111",
+      "name": "Nico Hulkenberg",
+      "tla": "HUL",
+      "team": "Audi",
+      "price": 3.0
+    },
+    {
+      "playerId": "11059",
+      "name": "Franco Colapinto",
+      "tla": "COL",
+      "team": "Alpine",
+      "price": 11.2
+    },
+    {
+      "playerId": "18",
+      "name": "Pierre Gasly",
+      "tla": "GAS",
+      "team": "Alpine",
+      "price": 13.0
+    },
+    {
+      "playerId": "11032",
+      "name": "Isack Hadjar",
+      "tla": "HAD",
+      "team": "Red Bull Racing",
+      "price": 14.5
+    },
+    {
+      "playerId": "110",
+      "name": "Lewis Hamilton",
+      "tla": "HAM",
+      "team": "Ferrari",
+      "price": 25.0
+    },
+    {
+      "playerId": "114",
+      "name": "Liam Lawson",
+      "tla": "LAW",
+      "team": "Racing Bulls",
+      "price": 10.3
+    },
+    {
+      "playerId": "13",
+      "name": "Valtteri Bottas",
+      "tla": "BOT",
+      "team": "Cadillac",
+      "price": 3.0
+    },
+    {
+      "playerId": "131",
+      "name": "Max Verstappen",
+      "tla": "VER",
+      "team": "Red Bull Racing",
+      "price": 27.6
+    },
+    {
+      "playerId": "117",
+      "name": "Lando Norris",
+      "tla": "NOR",
+      "team": "McLaren",
+      "price": 26.1
+    },
+    {
+      "playerId": "118",
+      "name": "Esteban Ocon",
+      "tla": "OCO",
+      "team": "Haas F1 Team",
+      "price": 10.7
+    },
+    {
+      "playerId": "121",
+      "name": "Sergio Perez",
+      "tla": "PER",
+      "team": "Cadillac",
+      "price": 3.8
+    },
+    {
+      "playerId": "1982",
+      "name": "Oscar Piastri",
+      "tla": "PIA",
+      "team": "McLaren",
+      "price": 24.4
+    },
+    {
+      "playerId": "124",
+      "name": "George Russell",
+      "tla": "RUS",
+      "team": "Mercedes",
+      "price": 27.9
+    },
+    {
+      "playerId": "115",
+      "name": "Charles Leclerc",
+      "tla": "LEC",
+      "team": "Ferrari",
+      "price": 23.9
+    },
+    {
+      "playerId": "11051",
+      "name": "Gabriel Bortoleto",
+      "tla": "BOR",
+      "team": "Audi",
+      "price": 7.8
+    },
+    {
+      "playerId": "125",
+      "name": "Carlos Sainz",
+      "tla": "SAI",
+      "team": "Williams",
+      "price": 10.0
+    },
+    {
+      "playerId": "11149",
+      "name": "Arvid Lindblad",
+      "tla": "LIN",
+      "team": "Racing Bulls",
+      "price": 8.0
+    },
+    {
+      "playerId": "11031",
+      "name": "Oliver Bearman",
+      "tla": "BEA",
+      "team": "Haas F1 Team",
+      "price": 7.6
+    },
+    {
+      "playerId": "11",
+      "name": "Alexander Albon",
+      "tla": "ALB",
+      "team": "Williams",
+      "price": 5.8
+    },
+    {
+      "playerId": "12",
+      "name": "Fernando Alonso",
+      "tla": "ALO",
+      "team": "Aston Martin",
+      "price": 6.2
+    },
+    {
+      "playerId": "11161",
+      "name": "Kimi Antonelli",
+      "tla": "ANT",
+      "team": "Mercedes",
+      "price": 25.7
+    },
+    {
+      "playerId": "129",
+      "name": "Lance Stroll",
+      "tla": "STR",
+      "team": "Aston Martin",
+      "price": 3.0
+    }
+  ],
+  "teams": [
+    {
+      "teamId": "23",
+      "name": "Alpine",
+      "tla": "ALP",
+      "team": NaN,
+      "price": 18.8
+    },
+    {
+      "teamId": "24",
+      "name": "Aston Martin",
+      "tla": "AST",
+      "team": NaN,
+      "price": 5.7
+    },
+    {
+      "teamId": "2640",
+      "name": "Audi",
+      "tla": "AUD",
+      "team": NaN,
+      "price": 6.8
+    },
+    {
+      "teamId": "2641",
+      "name": "Cadillac",
+      "tla": "CAD",
+      "team": NaN,
+      "price": 3.0
+    },
+    {
+      "teamId": "25",
+      "name": "Ferrari",
+      "tla": "FER",
+      "team": NaN,
+      "price": 26.6
+    },
+    {
+      "teamId": "26",
+      "name": "Haas F1 Team",
+      "tla": "HAA",
+      "team": NaN,
+      "price": 12.0
+    },
+    {
+      "teamId": "27",
+      "name": "McLaren",
+      "tla": "MCL",
+      "team": NaN,
+      "price": 31.0
+    },
+    {
+      "teamId": "2636",
+      "name": "Racing Bulls",
+      "tla": "RBS",
+      "team": NaN,
+      "price": 12.9
+    },
+    {
+      "teamId": "29",
+      "name": "Red Bull Racing",
+      "tla": "RBR",
+      "team": NaN,
+      "price": 30.9
+    },
+    {
+      "teamId": "210",
+      "name": "Williams",
+      "tla": "WIL",
+      "team": NaN,
+      "price": 13.0
+    },
+    {
+      "teamId": "28",
+      "name": "Mercedes",
+      "tla": "MER",
+      "team": NaN,
+      "price": 32.6
+    }
+  ]
+}

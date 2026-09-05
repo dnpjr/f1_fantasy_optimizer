@@ -1,0 +1,34 @@
+entity,canonical_entity_id,entity_type,sprint_observations,raw_alpha,raw_beta,raw_r_squared,condition_number,x_range,mathematically_identifiable,slope_variation_identifiable,reliably_identifiable,identifiability_warning,replacement_or_sparse_asset
+Alexander Albon,albon,driver,4,-2.10594315245,0.0258397932817,2.32790930463e-05,9.69825993442,6.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Fernando Alonso,alonso,driver,4,4.86225895317,0.977961432507,0.0733832822955,13.0977343326,13,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Andrea Kimi Antonelli,antonelli,driver,4,39.4334500876,0.252481027437,0.00348110920475,333.360904357,9,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Arvid Lindblad,arvid_lindblad,driver,4,-21.8320610687,2.25190839695,0.2600050791,39.9032147519,7,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Oliver Bearman,bearman,driver,4,8.10846812559,1.2226450999,0.837919441801,12.970755109,21,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Gabriel Bortoleto,bortoleto,driver,4,42.8971332209,-4.42664418212,0.974418530656,35.3451658784,6.4,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Valtteri Bottas,bottas,driver,4,11.7089310504,0.52136356625,0.352441770785,34.027983061,9,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Franco Colapinto,colapinto,driver,4,1.53424657534,3.30593607306,0.299786788188,38.5079553432,2.25,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Pierre Gasly,gasly,driver,4,0.25,1,0.00751565762004,149.310684516,3,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Isack Hadjar,hadjar,driver,4,8.06083397854,0.608339785422,0.0722649853093,6.72498733428,18.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Lewis Hamilton,hamilton,driver,4,29.6852605075,0.243075731164,0.00685913530322,177.134064131,8.8,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Nico Hülkenberg,hulkenberg,driver,4,-16.5992773854,-1.14961405814,0.32448783899,17.1648702794,16.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Liam Lawson,lawson,driver,4,53.5699208443,-5.07915567282,0.15950040245,39.7361284925,3.8,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Charles Leclerc,leclerc,driver,4,73.0960757781,-1.2949932341,0.473199131361,104.498304836,16,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Max Verstappen,max_verstappen,driver,4,17.6026863085,0.136284858988,0.00440765488799,129.025318213,26.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Lando Norris,norris,driver,4,53.5287453979,-1.60860945908,0.0713820447465,95.8571497783,10.1,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Esteban Ocon,ocon,driver,4,,,,inf,0,False,False,False,"low x variation, sparse observations, or ill-conditioned design",False
+Sergio Pérez,perez,driver,4,5.74358974359,0.897435897436,0.00653594771242,11.8981922828,2.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Oscar Piastri,piastri,driver,4,7.98006303097,1.02097987272,0.580843353252,17.9566796273,31.4,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+George Russell,russell,driver,4,-35.4170616114,2.01579778831,0.101768225544,435.365554338,6.75,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Carlos Sainz,sainz,driver,4,4.33747927032,2.13377556661,0.683516488558,14.071956547,8.2,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Lance Stroll,stroll,driver,4,158.189393939,7.42424242424,0.801368434228,303.69402097,3.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Alpine,alpine,constructor,4,-31.0426829268,3.0081300813,0.0880138224776,415.614004406,3.8,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Aston Martin,aston_martin,constructor,4,63.3204359984,2.15602351196,0.370922442084,117.311682054,17.8,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Audi,audi,constructor,3,66.1935483871,-3.22580645161,0.365925058548,118.01563179,7.75,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,True
+Cadillac,cadillac,constructor,4,11,-0.5,0.0668868703551,20.7295374346,9,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Ferrari,ferrari,constructor,4,185.799474848,-1.50221116639,0.145616188863,765.909637844,14.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Haas,haas,constructor,4,2.77394119234,1.73725384408,0.772172030696,46.8987213044,23.8,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+McLaren,mclaren,constructor,4,-64.0507998355,3.01039688289,0.60853079246,142.898526372,26.5,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Mercedes,mercedes,constructor,4,53.9656808477,0.474853708683,0.0679939557827,1028.98776981,19.6,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Racing Bulls,rb,constructor,4,-114.378468706,4.94531091756,0.651678672526,254.028764132,8.5,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Red Bull,red_bull,constructor,4,34.9528177379,0.0805067968853,0.0028887733,333.743663211,8.9,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,False
+Williams,williams,constructor,3,29.2727272727,-0.363636363636,0.00409836065574,105.863723768,5.5,True,True,False,only four-or-fewer observations; descriptive slope remains unstable,True

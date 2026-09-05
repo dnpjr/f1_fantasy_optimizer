@@ -1,0 +1,345 @@
+{
+  "assets": [
+    {
+      "entity": "Mercedes",
+      "entity_id": "mercedes",
+      "entity_type": "constructor",
+      "normal_ev": 72.16666666666667,
+      "sprint_bonus": 15.401591200341738,
+      "sprint_ev": 87.56825786700841
+    },
+    {
+      "entity": "Ferrari",
+      "entity_id": "ferrari",
+      "entity_type": "constructor",
+      "normal_ev": 63.166666666666664,
+      "sprint_bonus": 13.436725758222982,
+      "sprint_ev": 76.60339242488965
+    },
+    {
+      "entity": "McLaren",
+      "entity_id": "mclaren",
+      "entity_type": "constructor",
+      "normal_ev": 44.5,
+      "sprint_bonus": 13.109248184536526,
+      "sprint_ev": 57.609248184536526
+    },
+    {
+      "entity": "Red Bull Racing",
+      "entity_id": "red_bull",
+      "entity_type": "constructor",
+      "normal_ev": 40.416666666666664,
+      "sprint_bonus": 11.799337889790689,
+      "sprint_ev": 52.21600455645735
+    },
+    {
+      "entity": "Racing Bulls",
+      "entity_id": "rb",
+      "entity_type": "constructor",
+      "normal_ev": 28.333333333333332,
+      "sprint_bonus": 9.834472447671937,
+      "sprint_ev": 38.16780578100527
+    },
+    {
+      "entity": "Alpine",
+      "entity_id": "alpine",
+      "entity_type": "constructor",
+      "normal_ev": 25.583333333333332,
+      "sprint_bonus": 9.179517300299016,
+      "sprint_ev": 34.76285063363235
+    },
+    {
+      "entity": "Audi",
+      "entity_id": "audi",
+      "entity_type": "constructor",
+      "normal_ev": 14.636363636363637,
+      "sprint_bonus": 6.887174284493805,
+      "sprint_ev": 21.523537920857443
+    },
+    {
+      "entity": "Haas F1 Team",
+      "entity_id": "haas",
+      "entity_type": "constructor",
+      "normal_ev": 12.25,
+      "sprint_bonus": 6.232219137120888,
+      "sprint_ev": 18.482219137120886
+    },
+    {
+      "entity": "Williams",
+      "entity_id": "williams",
+      "entity_type": "constructor",
+      "normal_ev": 9.363636363636363,
+      "sprint_bonus": 5.57726398974797,
+      "sprint_ev": 14.940900353384333
+    },
+    {
+      "entity": "Cadillac",
+      "entity_id": "cadillac",
+      "entity_type": "constructor",
+      "normal_ev": -6.7272727272727275,
+      "sprint_bonus": 3.284920973942757,
+      "sprint_ev": -3.4423517533299703
+    },
+    {
+      "entity": "Aston Martin",
+      "entity_id": "aston_martin",
+      "entity_type": "constructor",
+      "normal_ev": -6.75,
+      "sprint_bonus": 2.629965826569839,
+      "sprint_ev": -4.120034173430161
+    },
+    {
+      "entity": "Kimi Antonelli",
+      "entity_id": "antonelli",
+      "entity_type": "driver",
+      "normal_ev": 34.916666666666664,
+      "sprint_bonus": 9.682663799973541,
+      "sprint_ev": 44.599330466640204
+    },
+    {
+      "entity": "Lewis Hamilton",
+      "entity_id": "hamilton",
+      "entity_type": "driver",
+      "normal_ev": 28.083333333333332,
+      "sprint_bonus": 7.230255542799187,
+      "sprint_ev": 35.31358887613252
+    },
+    {
+      "entity": "Charles Leclerc",
+      "entity_id": "leclerc",
+      "entity_type": "driver",
+      "normal_ev": 24.727272727272727,
+      "sprint_bonus": 9.192331125952212,
+      "sprint_ev": 33.91960385322494
+    },
+    {
+      "entity": "George Russell",
+      "entity_id": "russell",
+      "entity_type": "driver",
+      "normal_ev": 23.181818181818183,
+      "sprint_bonus": 9.14317236423928,
+      "sprint_ev": 32.324990546057464
+    },
+    {
+      "entity": "Lando Norris",
+      "entity_id": "norris",
+      "entity_type": "driver",
+      "normal_ev": 19.416666666666668,
+      "sprint_bonus": 8.56054320077813,
+      "sprint_ev": 27.9772098674448
+    },
+    {
+      "entity": "Max Verstappen",
+      "entity_id": "max_verstappen",
+      "entity_type": "driver",
+      "normal_ev": 19.083333333333332,
+      "sprint_bonus": 6.23203553307927,
+      "sprint_ev": 25.3153688664126
+    },
+    {
+      "entity": "Oscar Piastri",
+      "entity_id": "piastri",
+      "entity_type": "driver",
+      "normal_ev": 12.333333333333334,
+      "sprint_bonus": 5.978968440352924,
+      "sprint_ev": 18.312301773686258
+    },
+    {
+      "entity": "Isack Hadjar",
+      "entity_id": "hadjar",
+      "entity_type": "driver",
+      "normal_ev": 12.636363636363637,
+      "sprint_bonus": 2.74838436625984,
+      "sprint_ev": 15.384748002623477
+    },
+    {
+      "entity": "Liam Lawson",
+      "entity_id": "lawson",
+      "entity_type": "driver",
+      "normal_ev": 8.454545454545455,
+      "sprint_bonus": 6.478323446262176,
+      "sprint_ev": 14.93286890080763
+    },
+    {
+      "entity": "Franco Colapinto",
+      "entity_id": "colapinto",
+      "entity_type": "driver",
+      "normal_ev": 9.545454545454545,
+      "sprint_bonus": 4.763047574333977,
+      "sprint_ev": 14.308502119788521
+    },
+    {
+      "entity": "Pierre Gasly",
+      "entity_id": "gasly",
+      "entity_type": "driver",
+      "normal_ev": 9.909090909090908,
+      "sprint_bonus": 4.193315510299096,
+      "sprint_ev": 14.102406419390004
+    },
+    {
+      "entity": "Esteban Ocon",
+      "entity_id": "ocon",
+      "entity_type": "driver",
+      "normal_ev": 6.75,
+      "sprint_bonus": 5.007083923960967,
+      "sprint_ev": 11.757083923960966
+    },
+    {
+      "entity": "Carlos Sainz",
+      "entity_id": "sainz",
+      "entity_type": "driver",
+      "normal_ev": 5.1,
+      "sprint_bonus": 4.80185852517906,
+      "sprint_ev": 9.90185852517906
+    },
+    {
+      "entity": "Yuki Tsunoda",
+      "entity_id": "tsunoda",
+      "entity_type": "driver",
+      "normal_ev": 6.0,
+      "sprint_bonus": 3.0936032910179567,
+      "sprint_ev": 9.093603291017956
+    },
+    {
+      "entity": "Gabriel Bortoleto",
+      "entity_id": "bortoleto",
+      "entity_type": "driver",
+      "normal_ev": 5.818181818181818,
+      "sprint_bonus": 2.2252954007518753,
+      "sprint_ev": 8.043477218933694
+    },
+    {
+      "entity": "Arvid Lindblad",
+      "entity_id": "arvid_lindblad",
+      "entity_type": "driver",
+      "normal_ev": 6.545454545454546,
+      "sprint_bonus": 1.2575273549790436,
+      "sprint_ev": 7.80298190043359
+    },
+    {
+      "entity": "Oliver Bearman",
+      "entity_id": "bearman",
+      "entity_type": "driver",
+      "normal_ev": 3.0,
+      "sprint_bonus": 3.69560479359434,
+      "sprint_ev": 6.69560479359434
+    },
+    {
+      "entity": "Fernando Alonso",
+      "entity_id": "alonso",
+      "entity_type": "driver",
+      "normal_ev": 0.9166666666666666,
+      "sprint_bonus": 3.280014485922048,
+      "sprint_ev": 4.196681152588715
+    },
+    {
+      "entity": "Sergio Perez",
+      "entity_id": "perez",
+      "entity_type": "driver",
+      "normal_ev": -0.08333333333333333,
+      "sprint_bonus": 2.76334847291865,
+      "sprint_ev": 2.6800151395853167
+    },
+    {
+      "entity": "Alexander Albon",
+      "entity_id": "albon",
+      "entity_type": "driver",
+      "normal_ev": -2.0,
+      "sprint_bonus": 4.451039626689958,
+      "sprint_ev": 2.4510396266899583
+    },
+    {
+      "entity": "Nico Hulkenberg",
+      "entity_id": "hulkenberg",
+      "entity_type": "driver",
+      "normal_ev": -0.5,
+      "sprint_bonus": -0.9298091347000637,
+      "sprint_ev": -1.4298091347000637
+    },
+    {
+      "entity": "Valtteri Bottas",
+      "entity_id": "bottas",
+      "entity_type": "driver",
+      "normal_ev": -6.666666666666667,
+      "sprint_bonus": 0.8574523312592204,
+      "sprint_ev": -5.809214335407447
+    },
+    {
+      "entity": "Lance Stroll",
+      "entity_id": "stroll",
+      "entity_type": "driver",
+      "normal_ev": -9.416666666666666,
+      "sprint_bonus": 2.7753856936124834,
+      "sprint_ev": -6.641280973054183
+    }
+  ],
+  "completed_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "constructor_model": {
+    "future_event_effect": 0.0,
+    "lambda": 14.409013242204193,
+    "lambda_constrained_nonnegative": true,
+    "method": "strength_only",
+    "mu": 0.9925779581375448,
+    "personal_constructor_effect": null,
+    "strength_definition": "0.75 * form_percentile + 0.25 * price_percentile"
+  },
+  "driver_model": {
+    "future_event_effect": 0.0,
+    "group_coefficients": {
+      "lambda": 2.266533074786191,
+      "lambda_constrained_nonnegative": true,
+      "mu": 4.706549290132376
+    },
+    "method": "empirical_bayes_shrunk_personal_mean",
+    "shrinkage_method": "residual empirical Bayes; algebraically w*personal_mean + (1-w)*group_bonus",
+    "shrinkage_parameters": {
+      "average_personal_mean_noise_variance": 6.156968599033816,
+      "between_personal_residual_mean_variance": 11.430306890634347,
+      "missing_observation_rule": "w=0; use group bonus",
+      "negative_observation_rule": "retain as valid",
+      "personal_mean_noise_formula": "within_residual_variance / observed_sprint_count",
+      "tau_asset_squared": 5.27333829160053,
+      "weight_formula": "tau_asset_squared / (tau_asset_squared + personal_mean_noise_variance)",
+      "within_residual_variance": 24.174999999999997
+    },
+    "strength_definition": "z_form = within-driver-class population z-score of normal_ev",
+    "strength_parameters": {
+      "normal_ev_mean": 9.46745718050066,
+      "normal_ev_population_sd": 10.915416414446662
+    }
+  },
+  "generated_at": "2026-08-23T00:00:00Z",
+  "generated_at_policy": "deterministic latest completed calibration event date",
+  "normal_ev_method": {
+    "application_recency_generalisation": "weighted mean with weights 1,p,p^2,... over included races newest first",
+    "decay": 1.0,
+    "formula": "mean normal-equivalent score across included valid completed 2026 rounds",
+    "missing_treatment": "omit missing observations; never impute zero",
+    "normal_weekend": "recorded Fantasy total",
+    "sprint_weekend": "recorded Fantasy total - sprint_points - sprint_qualifying_points"
+  },
+  "production_approved": false,
+  "research_only": true,
+  "script_version": "2026-sprint-final-candidate-v1",
+  "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "sprint_rounds": [
+    2,
+    4,
+    5,
+    9,
+    12
+  ]
+}

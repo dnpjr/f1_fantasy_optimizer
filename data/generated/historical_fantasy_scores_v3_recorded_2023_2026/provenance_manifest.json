@@ -1,0 +1,361 @@
+{
+  "data_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "built_at_utc": "2026-09-05T06:54:12.964224+00:00",
+  "supported_seasons": [
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "intentionally_excluded_seasons": [
+    2021,
+    2022
+  ],
+  "archived_research_seasons": [
+    2022
+  ],
+  "official_mode": "existing_official_cache_plus_snapshot",
+  "official_snapshot": {
+    "path": "data/generated/sprint_ev_calibration/sources/official_2026_round_12.json",
+    "sha256": "6bbae7b5bc2dbe36184668a4f984cbd465475effce9f3a2de86eb4acfbc1672b"
+  },
+  "official_warnings": [],
+  "validation": {
+    "rows": 2491,
+    "seasons": [
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "duplicates": 0,
+    "official_rows": 391,
+    "reconstructed_rows": 0,
+    "production_coverage": {
+      "earliest_season": 2023,
+      "reconstructed_rows": 0,
+      "completed_season_rows": 2100,
+      "official_2026_rows": 391
+    }
+  },
+  "outputs": {
+    "csv": {
+      "path": "data/generated/historical_fantasy_scores_v3_recorded_2023_2026/historical_fantasy_scores_2023_2026.csv",
+      "sha256": "9a80fa4d8241f7fb8985a04c0baab6c1f1739f582eee63be97bb7c93304d488a"
+    },
+    "parquet": {
+      "path": "data/generated/historical_fantasy_scores_v3_recorded_2023_2026/historical_fantasy_scores_2023_2026.parquet",
+      "written": true,
+      "error": null
+    }
+  },
+  "sources": [
+    {
+      "seasons": [
+        2023,
+        2024,
+        2025
+      ],
+      "name": "jm1261/Fantasy-F1-League",
+      "authority_class": "third_party_recorded",
+      "licence": "MIT",
+      "reference": "https://github.com/jm1261/Fantasy-F1-League",
+      "files": [
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Abu Dhabi_Results.json",
+          "sha256": "fb773b291389ed6d5a484f9ecdbadc842b89f4073dfe26ce3c428a3cfe87d762"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Australia_Results.json",
+          "sha256": "77a8515c790d6bfb8530911181d0dc10ab8a2282707c7070d14bb08f4a5d76ca"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Austria_Results.json",
+          "sha256": "74c7b9af963e77b6ac1df92f0a8879e926c9f6adc49db83714138e7a314cd60f"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Azerbaijan_Results.json",
+          "sha256": "511a6f8ea2c265427c8bf5726f27c49850f03d723bfc57808e43f17ed7866882"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Bahrain_Results.json",
+          "sha256": "6a9f9fa8caae0aec5b8d997cbe68699ec2f9373bae467f67e7eff46c8a9d2594"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Belgium_Results.json",
+          "sha256": "c6c820c21e2fb9b1715c0983633e0418d1b605911b18aa6eb7665b9d051e2987"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Brazil_Results.json",
+          "sha256": "ada112595a6f6c3f81b7d73a157a04b9f41bf5251f3490704c3adf31f2effc0c"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Canada_Results.json",
+          "sha256": "625cd9624718e1015994474e559484dd9ad6342c9afbbf6d09674f549e009151"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Great Britain_Results.json",
+          "sha256": "3637ef0a69560bb55f2e95a681aebb21540ed6eb717e8a379ac6805a0bbe4092"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Hungary_Results.json",
+          "sha256": "875a1553b03d75d476387725f7a53989b640648aa69c4dd112f8fdcb6d9a0e98"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Italy_Results.json",
+          "sha256": "890b876a623cd30b16fa7bb2f7008f8090a8ba56fce17dab50b82e72a198e2e8"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Japan_Results.json",
+          "sha256": "211198d068ced7b92119b859680e5f603c9e7fc3b107facb0a717d9b816bf2e2"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Las Vegas_Results.json",
+          "sha256": "031e3d0270a18b189490b3c1c3aca934120779c7eeda87f2b7c9f23313949d72"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Mexico_Results.json",
+          "sha256": "8ca9db31f8dd755014d8e2b33275c46e621e435d8b5d326f245df484961e3419"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Miami_Results.json",
+          "sha256": "d50f290c409edbcda8248b72c3ff3ccb8471743fccd1f679ad2dfec5ded9a664"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Monaco_Results.json",
+          "sha256": "a878ce310523e0da562ec33c9a89336557d2cd3f9d91d13304500f9bd3416bbb"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Netherlands_Results.json",
+          "sha256": "a462353ed0ea1545b539028a139e29f5b383d7d5137d36bfeb4de02b59dcc9b8"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Qatar_Results.json",
+          "sha256": "ac28eff3870ddb87affb3d3b14a5d34ca6201bafa1e5e02e192a0e3c4e517375"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Saudi Arabia_Results.json",
+          "sha256": "4a900337e4748ec207aa25baece3e9a964189890f188a8ab8cd8713c8f244939"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Singapore_Results.json",
+          "sha256": "daa90401ebcb473ce520c438bc60f8af5cfee6fbf850a38e1787dfc9672f16b0"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/Spain_Results.json",
+          "sha256": "f8b7f7cec2d70d9c8b8c403dda132ef48ff101e38c48e61a175789393cc2c828"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2023/Lineup/United States_Results.json",
+          "sha256": "6390ec0226c0855876964f657f10ee3742a8a759ad6b0c9516a4ad375979dd45"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Abu Dhabi_Results.json",
+          "sha256": "69220764e6572b1ca6da92d32ec7269a7e7be50062250b55424d42a5b4ef50a9"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Australia_Results.json",
+          "sha256": "fca2be20a7a0b39c5e1d76f47202204250f5f24000485085ec2466df575aabf4"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Austria_Results.json",
+          "sha256": "5f0c3df93f3063fd3089b0099330451e82a2eb1f770da838b54cfa166782086e"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Azerbaijan_Results.json",
+          "sha256": "1a21e498a0328f381ab004dfda438d31c52a75d6889445b68ab67f69389c213e"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Bahrain_Results.json",
+          "sha256": "f82bb628047ae87ece8eba937b5feda1fee3cc7bd7aa72691a865f057d8578eb"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Belgium_Results.json",
+          "sha256": "cdfbaaa7f699640b80edaba7d8e1eed09eab9288f5b0cdeface4517882adb1cc"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Brazil_Results.json",
+          "sha256": "c1fbc2cad4c287e028843d14376b1cb5a00ee96ced68293619cad2015e0934a8"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Canada_Results.json",
+          "sha256": "784a3204f6abd9c3794aff8a4967ed109987371bedc1c81d070707400fbbf5b9"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/China_Results.json",
+          "sha256": "7239b84b32ed72cae08a039e83e84ccb45063a63128c29eeb385422efdbb2e08"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Emilia Romagna_Results.json",
+          "sha256": "dc83eca8db69200b506a8e488caf72e6c7bd293d102e7a858db54589a1a082be"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Great Britain_Results.json",
+          "sha256": "1840b135349805da1acbfbebbc0f5c118513954b7bebefa5bddc36fa8bca0255"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Hungary_Results.json",
+          "sha256": "92a7cc70ce9428bbd9c60a8b680921d2c0402dce384ed9b41fb9efeac78b8910"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Italy_Results.json",
+          "sha256": "295a43e35800c36ff3a8f42ef1d2790913d7aeb414f6cef3e9f7cdf3e1968119"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Japan_Results.json",
+          "sha256": "8e37fae09ae2381fa84cac35e9b302664d9425d172df94c827f9cb59d5935047"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Las Vegas_Results.json",
+          "sha256": "8053769cc469a8e0d53ffa06746e93b27cae79541f80574a16acef6ba21ebc6e"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Mexico_Results.json",
+          "sha256": "462200c50efc02f4a18779bb4d2329d5fd68e4f04c89567ff3690d668f569d50"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Miami_Results.json",
+          "sha256": "378a775ba50ec8a7f9d24cb72dedca2eb032d8491f5479bf7734492b486506ce"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Monaco_Results.json",
+          "sha256": "21e2ea3244323c7d0cf1f82b7d0782b506862df6a8ed384ed055361a86f12b36"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Netherlands_Results.json",
+          "sha256": "bc990982a5b58be6766b365696f85f2de4cc7d97ae0c0b47fc97f2fb367e564e"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Qatar_Results.json",
+          "sha256": "897ca63f0dbd3938614b59ed0b03d5124285ec2d631659198dbe265b74e8821e"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Saudi Arabia_Results.json",
+          "sha256": "03c8c2651bf3a7105a86bb4c6a25e5a9913d1236d4847cb9fde0b8d6e0fc5b84"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Singapore_Results.json",
+          "sha256": "c38d04e6b48b584ee0ae99a2f382e26193d52a521640fa90ad2be5fdd3a668ad"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/Spain_Results.json",
+          "sha256": "b796892624c2525790e703021482e7fa5e00743239357444f0ef39f78250c4b7"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2024/Lineup/United States_Results.json",
+          "sha256": "11050bf7b6b7ef6523886dc6f67fd25bdc9e0bbf0ce4f454140554472c4ea95c"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Abu Dhabi_Results.json",
+          "sha256": "0b46de0535325c156706568b91f8b760071200851b429485a41f86f3bf004235"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Australia_Results.json",
+          "sha256": "f831c0f58f5cb52e78eb38db6566185f50b346724b6e6cc813cec603c6acc372"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Austria_Results.json",
+          "sha256": "9e70895d8f0ead78fda872162e81bc6e316169cbe9e40cde00de4c4f66a3dfc5"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Azerbaijan_Results.json",
+          "sha256": "82eda6d394eacaac4c0b35963d54b17ad3e4a8feef5f4532338042ffa0230868"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Bahrain_Results.json",
+          "sha256": "7776cb1527c7c4af3aa3ccc5f12770be334cf8b6e99099a87df1188fb963a948"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Belgium_Results.json",
+          "sha256": "05f8482df7a312383bf7fb1b29c30e6a13174bebebde99fbda56bb83f245470b"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Brazil_Results.json",
+          "sha256": "d2b8033d695dd1f5ed93582424f727b9f8d15b5d44f064ea99c91982e1ff52f6"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Canada_Results.json",
+          "sha256": "61acbb464ae985578d3963ce898be503e04a0b81e22076709d0c757c80f43087"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/China_Results.json",
+          "sha256": "955fc5ae4bd744c69515e92994b67c7ee59412390170975ba5e6eeb336a13d0d"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Emilia Romagna_Results.json",
+          "sha256": "73c55c13e503f63b00fd3a07e759cc54373f486624e3f918af1eb911398b3902"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Great Britain_Results.json",
+          "sha256": "44e3642d0e2866cd322789db10df805ba1bebbe1ea498d057d46361d22026e67"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Hungary_Results.json",
+          "sha256": "e29c4050fd1a5f0e5173dfa10e053efb7d2b4559913175517fc896c5e06dd7c6"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Italy_Results.json",
+          "sha256": "bee0f0b6fd7d842d8526a39ea05790d769c761c62dc49355722d9fa16041495f"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Japan_Results.json",
+          "sha256": "78fdaffa21292fa5800937a36ca0f6b6bf3764f9175c36f66a8f51324f055892"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Las Vegas_Results.json",
+          "sha256": "524224b37ef8780877a097b36f4fc2977a9fbbaaac0d20d38f1d576d6ea3fa3a"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Mexico_Results.json",
+          "sha256": "004bcaf8c77a43dc92e66165aaa11e0c676c1f7755b3db860689aa363cd6c3ae"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Miami_Results.json",
+          "sha256": "e241afe0bf0a76f8300be4553f59b8a93d5acfa3d817c24c53649ec9b743f827"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Monaco_Results.json",
+          "sha256": "85091a5b0892ee73e3ad44a604d63a97fec62701a249c15bc210d9b5b08920fd"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Netherlands_Results.json",
+          "sha256": "3a6c3046d4b94bad1354a0b33beb5961b31ff5a01868f57cb815594ef2cb0910"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Qatar_Results.json",
+          "sha256": "4a817f03ce330372996442ea8bad79fb05cb1b38e147adf10d4b754254fba4dc"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Saudi Arabia_Results.json",
+          "sha256": "7d6f7f15e082d88147d83d5ff283595cb36d03142babb8b4561584da7628dd1d"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Singapore_Results.json",
+          "sha256": "80338bdb7fc94d3c2150cd25b2a0a9f0a0d4c6da69ebc5855f1b96a5a2f56754"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/Spain_Results.json",
+          "sha256": "bcacf2037a0ccbb16215d6afc62d906f2a10fd6a8561483ed36e59c52405e4f9"
+        },
+        {
+          "path": "scripts/api_probe/raw-data/github_jm1261_fantasy_f1_league/Data/2025/Lineup/United States_Results.json",
+          "sha256": "c9f2de79973365a24f561627facfa8b0911ed0127016478f65f1861fb2efcb4b"
+        }
+      ]
+    },
+    {
+      "seasons": [
+        2026
+      ],
+      "name": "Formula 1 Fantasy public playerstats feed",
+      "authority_class": "official",
+      "reference": "https://fantasy.formula1.com/feeds/popup/playerstats_{player_id}.json",
+      "retained_raw_payloads": false
+    }
+  ],
+  "limitations": [
+    "The retained MIT source records exact totals and prices for 2023\u20132025 but no reliable Q/S/R component split; component fields remain null.",
+    "Recorded 2022 totals remain archived for research but are intentionally outside the production build because exact historical prices and detailed components are unavailable.",
+    "The approximation comparison is limited to rows present in the repository's pre-existing ordinary-results caches."
+  ]
+}

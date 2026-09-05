@@ -1,0 +1,47 @@
+{
+  "model_version": "sprint_ev_2026_v1",
+  "generated_at": "2026-07-26T00:00:00Z",
+  "source_data_version": "historical_fantasy_scores_v3_recorded_2023_2026",
+  "source_research_model": "2026-sprint-final-candidate-v1",
+  "calibration_season": 2026,
+  "calibration_status": "approved_production",
+  "driver": {
+    "form_mean": 9.743985307621672,
+    "form_sd": 11.258787528189579,
+    "group_intercept": 5.167337315125289,
+    "group_slope": 2.328882120967809,
+    "within_variance": 26.378787878787875,
+    "tau_squared": 4.710348565855741,
+    "personal_history": [
+      {"canonical_entity_id": "antonelli", "name": "Kimi Antonelli", "personal_mean_bonus": 10.0, "observation_count": 4},
+      {"canonical_entity_id": "hamilton", "name": "Lewis Hamilton", "personal_mean_bonus": 7.0, "observation_count": 4},
+      {"canonical_entity_id": "leclerc", "name": "Charles Leclerc", "personal_mean_bonus": 10.75, "observation_count": 4},
+      {"canonical_entity_id": "russell", "name": "George Russell", "personal_mean_bonus": 11.25, "observation_count": 4},
+      {"canonical_entity_id": "max_verstappen", "name": "Max Verstappen", "personal_mean_bonus": 6.5, "observation_count": 4},
+      {"canonical_entity_id": "norris", "name": "Lando Norris", "personal_mean_bonus": 10.25, "observation_count": 4},
+      {"canonical_entity_id": "piastri", "name": "Oscar Piastri", "personal_mean_bonus": 7.5, "observation_count": 4},
+      {"canonical_entity_id": "hadjar", "name": "Isack Hadjar", "personal_mean_bonus": -0.25, "observation_count": 4},
+      {"canonical_entity_id": "colapinto", "name": "Franco Colapinto", "personal_mean_bonus": 5.5, "observation_count": 4},
+      {"canonical_entity_id": "gasly", "name": "Pierre Gasly", "personal_mean_bonus": 4.333333333333333, "observation_count": 3},
+      {"canonical_entity_id": "lawson", "name": "Liam Lawson", "personal_mean_bonus": 8.75, "observation_count": 4},
+      {"canonical_entity_id": "ocon", "name": "Esteban Ocon", "personal_mean_bonus": 6.75, "observation_count": 4},
+      {"canonical_entity_id": "sainz", "name": "Carlos Sainz", "personal_mean_bonus": 8.0, "observation_count": 2},
+      {"canonical_entity_id": "bearman", "name": "Oliver Bearman", "personal_mean_bonus": 4.0, "observation_count": 4},
+      {"canonical_entity_id": "bortoleto", "name": "Gabriel Bortoleto", "personal_mean_bonus": 0.25, "observation_count": 4},
+      {"canonical_entity_id": "arvid_lindblad", "name": "Arvid Lindblad", "personal_mean_bonus": -2.0, "observation_count": 4},
+      {"canonical_entity_id": "albon", "name": "Alexander Albon", "personal_mean_bonus": 7.75, "observation_count": 4},
+      {"canonical_entity_id": "perez", "name": "Sergio Perez", "personal_mean_bonus": 3.75, "observation_count": 4},
+      {"canonical_entity_id": "alonso", "name": "Fernando Alonso", "personal_mean_bonus": 2.5, "observation_count": 4},
+      {"canonical_entity_id": "hulkenberg", "name": "Nico Hulkenberg", "personal_mean_bonus": -2.75, "observation_count": 4},
+      {"canonical_entity_id": "bottas", "name": "Valtteri Bottas", "personal_mean_bonus": 0.25, "observation_count": 4},
+      {"canonical_entity_id": "stroll", "name": "Lance Stroll", "personal_mean_bonus": 5.25, "observation_count": 4}
+    ]
+  },
+  "constructor": {
+    "intercept": 0.9410478056975027,
+    "slope": 16.210891019808198,
+    "form_weight": 0.75,
+    "price_weight": 0.25,
+    "future_event_effect": 0.0
+  }
+}

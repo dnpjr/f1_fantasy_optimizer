@@ -1,0 +1,352 @@
+[
+  {
+    "field": "calibration_status",
+    "before": "approved_production",
+    "after": "candidate"
+  },
+  {
+    "field": "completed_rounds[0]",
+    "before": null,
+    "after": 1
+  },
+  {
+    "field": "completed_rounds[10]",
+    "before": null,
+    "after": 11
+  },
+  {
+    "field": "completed_rounds[11]",
+    "before": null,
+    "after": 12
+  },
+  {
+    "field": "completed_rounds[1]",
+    "before": null,
+    "after": 2
+  },
+  {
+    "field": "completed_rounds[2]",
+    "before": null,
+    "after": 3
+  },
+  {
+    "field": "completed_rounds[3]",
+    "before": null,
+    "after": 4
+  },
+  {
+    "field": "completed_rounds[4]",
+    "before": null,
+    "after": 5
+  },
+  {
+    "field": "completed_rounds[5]",
+    "before": null,
+    "after": 6
+  },
+  {
+    "field": "completed_rounds[6]",
+    "before": null,
+    "after": 7
+  },
+  {
+    "field": "completed_rounds[7]",
+    "before": null,
+    "after": 8
+  },
+  {
+    "field": "completed_rounds[8]",
+    "before": null,
+    "after": 9
+  },
+  {
+    "field": "completed_rounds[9]",
+    "before": null,
+    "after": 10
+  },
+  {
+    "field": "constructor.intercept",
+    "before": 0.9410478056975027,
+    "after": 0.9925779581375448
+  },
+  {
+    "field": "constructor.slope",
+    "before": 16.210891019808198,
+    "after": 14.409013242204193
+  },
+  {
+    "field": "driver.form_mean",
+    "before": 9.743985307621672,
+    "after": 9.46745718050066
+  },
+  {
+    "field": "driver.form_sd",
+    "before": 11.258787528189579,
+    "after": 10.915416414446662
+  },
+  {
+    "field": "driver.group_intercept",
+    "before": 5.167337315125289,
+    "after": 4.706549290132376
+  },
+  {
+    "field": "driver.group_slope",
+    "before": 2.328882120967809,
+    "after": 2.266533074786191
+  },
+  {
+    "field": "driver.personal_history[albon].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[albon].personal_mean_bonus",
+    "before": 7.75,
+    "after": 6.4
+  },
+  {
+    "field": "driver.personal_history[alonso].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[alonso].personal_mean_bonus",
+    "before": 2.5,
+    "after": 3.6
+  },
+  {
+    "field": "driver.personal_history[antonelli].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[antonelli].personal_mean_bonus",
+    "before": 10.0,
+    "after": 9.4
+  },
+  {
+    "field": "driver.personal_history[bearman].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[bottas].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[bottas].personal_mean_bonus",
+    "before": 0.25,
+    "after": 0.4
+  },
+  {
+    "field": "driver.personal_history[colapinto].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[colapinto].personal_mean_bonus",
+    "before": 5.5,
+    "after": 4.8
+  },
+  {
+    "field": "driver.personal_history[gasly].observation_count",
+    "before": 3,
+    "after": 4
+  },
+  {
+    "field": "driver.personal_history[gasly].personal_mean_bonus",
+    "before": 4.333333333333333,
+    "after": 3.5
+  },
+  {
+    "field": "driver.personal_history[hamilton].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[hamilton].personal_mean_bonus",
+    "before": 7.0,
+    "after": 6.0
+  },
+  {
+    "field": "driver.personal_history[hulkenberg].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[hulkenberg].personal_mean_bonus",
+    "before": -2.75,
+    "after": -4.2
+  },
+  {
+    "field": "driver.personal_history[leclerc].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[leclerc].personal_mean_bonus",
+    "before": 10.75,
+    "after": 10.4
+  },
+  {
+    "field": "driver.personal_history[max_verstappen].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[max_verstappen].personal_mean_bonus",
+    "before": 6.5,
+    "after": 5.8
+  },
+  {
+    "field": "driver.personal_history[norris].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[norris].personal_mean_bonus",
+    "before": 10.25,
+    "after": 10.2
+  },
+  {
+    "field": "driver.personal_history[ocon].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[ocon].personal_mean_bonus",
+    "before": 6.75,
+    "after": 5.8
+  },
+  {
+    "field": "driver.personal_history[perez].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[perez].personal_mean_bonus",
+    "before": 3.75,
+    "after": 2.8
+  },
+  {
+    "field": "driver.personal_history[piastri].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[piastri].personal_mean_bonus",
+    "before": 7.5,
+    "after": 6.6
+  },
+  {
+    "field": "driver.personal_history[russell].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[russell].personal_mean_bonus",
+    "before": 11.25,
+    "after": 10.6
+  },
+  {
+    "field": "driver.personal_history[sainz].observation_count",
+    "before": 2,
+    "after": 3
+  },
+  {
+    "field": "driver.personal_history[sainz].personal_mean_bonus",
+    "before": 8.0,
+    "after": 6.333333333333333
+  },
+  {
+    "field": "driver.personal_history[stroll].observation_count",
+    "before": 4,
+    "after": 5
+  },
+  {
+    "field": "driver.personal_history[stroll].personal_mean_bonus",
+    "before": 5.25,
+    "after": 4.6
+  },
+  {
+    "field": "driver.personal_history[tsunoda].canonical_entity_id",
+    "before": null,
+    "after": "tsunoda"
+  },
+  {
+    "field": "driver.personal_history[tsunoda].name",
+    "before": null,
+    "after": "Yuki Tsunoda"
+  },
+  {
+    "field": "driver.personal_history[tsunoda].observation_count",
+    "before": null,
+    "after": 1
+  },
+  {
+    "field": "driver.personal_history[tsunoda].personal_mean_bonus",
+    "before": null,
+    "after": -1.0
+  },
+  {
+    "field": "driver.tau_squared",
+    "before": 4.710348565855741,
+    "after": 5.27333829160053
+  },
+  {
+    "field": "driver.within_variance",
+    "before": 26.378787878787875,
+    "after": 24.174999999999997
+  },
+  {
+    "field": "generated_at",
+    "before": "2026-07-26T00:00:00Z",
+    "after": "2026-09-05T06:47:25.334846+00:00"
+  },
+  {
+    "field": "input_sha256.canonical",
+    "before": null,
+    "after": "9a80fa4d8241f7fb8985a04c0baab6c1f1739f582eee63be97bb7c93304d488a"
+  },
+  {
+    "field": "input_sha256.market",
+    "before": null,
+    "after": "4e7fba1f1497dd2dcf806e4923303b18f2e968a49edec488d1f41bed889687df"
+  },
+  {
+    "field": "input_sha256.schedule",
+    "before": null,
+    "after": "33199e58c989692d21f1be66d3c2d37b10a4827361027491fd12b17fbbcf6d01"
+  },
+  {
+    "field": "model_version",
+    "before": "sprint_ev_2026_v1",
+    "after": "sprint_ev_2026_v2"
+  },
+  {
+    "field": "sprint_rounds[0]",
+    "before": null,
+    "after": 2
+  },
+  {
+    "field": "sprint_rounds[1]",
+    "before": null,
+    "after": 4
+  },
+  {
+    "field": "sprint_rounds[2]",
+    "before": null,
+    "after": 5
+  },
+  {
+    "field": "sprint_rounds[3]",
+    "before": null,
+    "after": 9
+  },
+  {
+    "field": "sprint_rounds[4]",
+    "before": null,
+    "after": 12
+  }
+]

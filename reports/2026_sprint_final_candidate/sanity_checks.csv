@@ -1,0 +1,20 @@
+entity,entity_type,normal_ev,observed_mean_sprint_bonus,group_bonus,empirical_bayes_weight,final_sprint_bonus,sprint_weekend_ev,sanity_conclusion
+Aston Martin,constructor,-8.09090909091,7.75,2.78319451249,,2.78319451249,-5.30771457842,smaller positive constructor bonus than the leaders
+Audi,constructor,12.6,-5,6.46748792609,,6.46748792609,19.0674879261,smaller positive constructor bonus than the leaders
+Cadillac,constructor,-6.72727272727,4,3.52005319521,,3.52005319521,-3.20721953206,smaller positive constructor bonus than the leaders
+Ferrari,constructor,63.1818181818,17.75,14.9413627774,,14.9413627774,78.1231809592,large leading-constructor strength bonus
+Haas F1 Team,constructor,15.7272727273,10.75,7.94120529152,,7.94120529152,23.6684780188,smaller positive constructor bonus than the leaders
+McLaren,constructor,42.4545454545,17.75,13.4676454119,,13.4676454119,55.9221908665,large leading-constructor strength bonus
+Mercedes,constructor,72.4545454545,21.25,17.1519388255,,17.1519388255,89.6064842801,large leading-constructor strength bonus
+Red Bull Racing,constructor,43.3636363636,6.25,14.2045040946,,14.2045040946,57.5681404583,positive strength-only constructor bonus
+Williams,constructor,9.2,13.3333333333,6.46748792609,,6.46748792609,15.6674879261,smaller positive constructor bonus than the leaders
+Charles Leclerc,driver,24.2,10.75,8.15756642046,0.416658964446,9.2377271111,33.4377271111,value follows the selected simplified formula
+George Russell,driver,23.1,11.25,7.93003123279,0.416658964446,9.31332598133,32.4133259813,material positive bonus for a stronger driver
+Kimi Antonelli,driver,35.3636363636,10,10.4667665068,0.416658964446,10.2722840574,45.6359204211,material positive bonus for a stronger driver
+Lance Stroll,driver,-9.18181818182,5.25,1.25253163457,0.416658964446,2.91811266412,-6.2637055177,weak normal form and positive personal Sprint history are both represented
+Lando Norris,driver,16.9090909091,10.25,6.64944063116,0.416658964446,8.14964596921,25.0587368783,material positive bonus for a stronger driver
+Lewis Hamilton,driver,28.7272727273,7,9.09403355645,0.416658964446,8.2215357033,36.9488084306,value follows the selected simplified formula
+Liam Lawson,driver,8.45454545455,8.75,4.90061646154,0.416658964446,6.50449662043,14.959042075,reasonable positive driver bonus retained
+Nico Hulkenberg,driver,-1.90909090909,-2.75,2.75689651167,0.416658964446,0.462398713808,-1.44669219528,negative personal mean retained and moderated toward the group
+Oliver Bearman,driver,4.81818181818,4,4.14843402299,0.416658964446,4.08658765668,8.90476947486,reasonable positive driver bonus retained
+Valtteri Bottas,driver,-5.54545454545,0.25,2.00471407312,0.416658964446,1.27359672452,-4.27185782094,moderated EB bonus; old unstable +13 adjustment is absent

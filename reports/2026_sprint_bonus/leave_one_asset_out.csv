@@ -1,0 +1,320 @@
+entity_type,model,held_out_entity_id,held_out_entity,actual_bonus,predicted_bonus,alpha,gamma,delta,eta,ridge_penalty,error
+constructor,constant,mercedes,Mercedes,21.25,8.808333333,8.808333333,,,,,-12.44166667
+constructor,constant,ferrari,Ferrari,17.75,9.158333333,9.158333333,,,,,-8.591666667
+constructor,constant,red_bull,Red Bull Racing,6.25,10.30833333,10.30833333,,,,,4.058333333
+constructor,constant,mclaren,McLaren,17.75,9.158333333,9.158333333,,,,,-8.591666667
+constructor,constant,rb,Racing Bulls,6.75,10.25833333,10.25833333,,,,,3.508333333
+constructor,constant,alpine,Alpine,8.75,10.05833333,10.05833333,,,,,1.308333333
+constructor,constant,audi,Audi,-5,11.43333333,11.43333333,,,,,16.43333333
+constructor,constant,haas,Haas F1 Team,10.75,9.858333333,9.858333333,,,,,-0.8916666667
+constructor,constant,williams,Williams,13.33333333,9.6,9.6,,,,,-3.733333333
+constructor,constant,aston_martin,Aston Martin,7.75,10.15833333,10.15833333,,,,,2.408333333
+constructor,constant,cadillac,Cadillac,4,10.53333333,10.53333333,,,,,6.533333333
+constructor,proportional,mercedes,Mercedes,21.25,17.1025674,,0.2418544886,,,,-4.147432595
+constructor,proportional,ferrari,Ferrari,17.75,15.39596381,,0.2512161927,,,,-2.354036189
+constructor,proportional,red_bull,Red Bull Racing,6.25,14.27429153,,0.2854858305,,,,8.024291526
+constructor,proportional,mclaren,McLaren,17.75,11.3810791,,0.2414168293,,,,-6.368920903
+constructor,proportional,rb,Racing Bulls,6.75,8.072699385,,0.262832073,,,,1.322699385
+constructor,proportional,alpine,Alpine,8.75,6.040591833,,0.2562675323,,,,-2.709408167
+constructor,proportional,audi,Audi,-5,4.934393643,,0.2716179987,,,,9.934393643
+constructor,proportional,haas,Haas F1 Team,10.75,2.766774395,,0.2548344838,,,,-7.983225605
+constructor,proportional,williams,Williams,13.33333333,2.250714489,,0.2541129262,,,,-11.08261884
+constructor,proportional,aston_martin,Aston Martin,7.75,-2.98399071,,0.267794038,,,,-10.73399071
+constructor,proportional,cadillac,Cadillac,4,-4.580546797,,0.2694439293,,,,-8.580546797
+constructor,hybrid,mercedes,Mercedes,21.25,14.33760311,6.270632911,0.1140783664,,,,-6.912396894
+constructor,hybrid,ferrari,Ferrari,17.75,14.38907491,5.974645298,0.1372983853,,,,-3.360925087
+constructor,hybrid,red_bull,Red Bull Racing,6.25,14.83907295,6.018684342,0.1764077721,,,,8.589072947
+constructor,hybrid,mclaren,McLaren,17.75,12.26420671,5.768348166,0.1377909388,,,,-5.485793292
+constructor,hybrid,rb,Racing Bulls,6.75,10.94551752,6.222727974,0.1537652409,,,,4.195517517
+constructor,hybrid,alpine,Alpine,8.75,9.545512684,5.977751313,0.1513595733,,,,0.7955126837
+constructor,hybrid,audi,Audi,-5,10.16602267,7.699292972,0.1357832859,,,,15.16602267
+constructor,hybrid,haas,Haas F1 Team,10.75,7.099789635,5.375936098,0.1587759837,,,,-3.650210365
+constructor,hybrid,williams,Williams,13.33333333,6.330420874,4.850937314,0.1670384665,,,,-7.002912459
+constructor,hybrid,aston_martin,Aston Martin,7.75,2.915912053,4.857068435,0.174206342,,,,-4.834087947
+constructor,hybrid,cadillac,Cadillac,4,2.989745325,5.660505397,0.1571035337,,,,-1.010254675
+constructor,price_only,mercedes,Mercedes,21.25,16.39444444,1.222222222,,15.17222222,,,-4.855555556
+constructor,price_only,ferrari,Ferrari,17.75,12.46701389,0.4354482323,,16.54340278,,,-5.282986111
+constructor,price_only,red_bull,Red Bull Racing,6.25,16.51190476,-0.4069264069,,20.67857143,,,10.26190476
+constructor,price_only,mclaren,McLaren,17.75,15.90277778,0.5744949495,,16.86111111,,,-1.847222222
+constructor,price_only,rb,Racing Bulls,6.75,8.515993266,0.5962656872,,17.42340067,,,1.765993266
+constructor,price_only,alpine,Alpine,8.75,11.8493266,0.4520967248,,17.90993266,,,3.099326599
+constructor,price_only,audi,Audi,-5,7.256410256,3.459207459,,13.92307692,,,12.25641026
+constructor,price_only,haas,Haas F1 Team,10.75,6.154513889,-0.5797032828,,18.51909722,,,-4.595486111
+constructor,price_only,williams,Williams,13.33333333,9.6,-2.24693342e-15,,17.6,,,-3.733333333
+constructor,price_only,aston_martin,Aston Martin,7.75,2.236111111,-1.36489899,,19.80555556,,,-5.513888889
+constructor,price_only,cadillac,Cadillac,4,0.9777777778,-0.7595959596,,19.11111111,,,-3.022222222
+constructor,form_price,mercedes,Mercedes,21.25,15.4577209,-1.238553623,-0.1295578124,25.85786268,,,-5.792279104
+constructor,form_price,ferrari,Ferrari,17.75,6.792095532,-4.760349659,-0.260927688,37.87242927,,,-10.95790447
+constructor,form_price,red_bull,Red Bull Racing,6.25,16.52931776,-2.634820403,-0.1096416641,30.12315945,,,10.27931776
+constructor,form_price,mclaren,McLaren,17.75,17.40264338,-1.767089475,-0.1059025309,26.57850882,,,-0.3473566153
+constructor,form_price,rb,Racing Bulls,6.75,7.123601268,-1.746769221,-0.105400898,26.63690433,,,0.3736012684
+constructor,form_price,alpine,Alpine,8.75,13.63915291,-2.48219944,-0.1476929048,30.80421945,,,4.889152905
+constructor,form_price,audi,Audi,-5,7.842492438,4.265039215,0.03233405167,10.96352138,,,12.84249244
+constructor,form_price,haas,Haas F1 Team,10.75,6.172007265,-2.773146286,-0.1081798959,27.82911487,,,-4.577992735
+constructor,form_price,williams,Williams,13.33333333,11.17684656,-1.492660663,-0.08055900219,24.53555467,,,-2.156486769
+constructor,form_price,aston_martin,Aston Martin,7.75,2.966176612,-2.884331732,-0.08593017567,26.91150369,,,-4.783823388
+constructor,form_price,cadillac,Cadillac,4,1.646218891,-2.564947336,-0.1008665632,27.46078117,,,-2.353781109
+constructor,constrained_proportional,mercedes,Mercedes,21.25,17.1025674,,0.2418544886,,,,-4.147432595
+constructor,constrained_proportional,ferrari,Ferrari,17.75,15.39596381,,0.2512161927,,,,-2.354036189
+constructor,constrained_proportional,red_bull,Red Bull Racing,6.25,14.27429153,,0.2854858305,,,,8.024291526
+constructor,constrained_proportional,mclaren,McLaren,17.75,11.3810791,,0.2414168293,,,,-6.368920903
+constructor,constrained_proportional,rb,Racing Bulls,6.75,8.072699385,,0.262832073,,,,1.322699385
+constructor,constrained_proportional,alpine,Alpine,8.75,6.040591833,,0.2562675323,,,,-2.709408167
+constructor,constrained_proportional,audi,Audi,-5,4.934393643,,0.2716179987,,,,9.934393643
+constructor,constrained_proportional,haas,Haas F1 Team,10.75,2.766774395,,0.2548344838,,,,-7.983225605
+constructor,constrained_proportional,williams,Williams,13.33333333,2.250714489,,0.2541129262,,,,-11.08261884
+constructor,constrained_proportional,aston_martin,Aston Martin,7.75,0,,0.267794038,,,,-7.75
+constructor,constrained_proportional,cadillac,Cadillac,4,0,,0.2694439293,,,,-4
+constructor,constrained_hybrid,mercedes,Mercedes,21.25,14.33760311,6.270632911,0.1140783664,,,,-6.912396894
+constructor,constrained_hybrid,ferrari,Ferrari,17.75,14.38907491,5.974645298,0.1372983853,,,,-3.360925087
+constructor,constrained_hybrid,red_bull,Red Bull Racing,6.25,14.83907295,6.018684342,0.1764077721,,,,8.589072947
+constructor,constrained_hybrid,mclaren,McLaren,17.75,12.26420671,5.768348166,0.1377909388,,,,-5.485793292
+constructor,constrained_hybrid,rb,Racing Bulls,6.75,10.94551752,6.222727974,0.1537652409,,,,4.195517517
+constructor,constrained_hybrid,alpine,Alpine,8.75,9.545512684,5.977751313,0.1513595733,,,,0.7955126837
+constructor,constrained_hybrid,audi,Audi,-5,10.16602267,7.699292972,0.1357832859,,,,15.16602267
+constructor,constrained_hybrid,haas,Haas F1 Team,10.75,7.099789635,5.375936098,0.1587759837,,,,-3.650210365
+constructor,constrained_hybrid,williams,Williams,13.33333333,6.330420874,4.850937314,0.1670384665,,,,-7.002912459
+constructor,constrained_hybrid,aston_martin,Aston Martin,7.75,2.915912053,4.857068435,0.174206342,,,,-4.834087947
+constructor,constrained_hybrid,cadillac,Cadillac,4,2.989745325,5.660505397,0.1571035337,,,,-1.010254675
+constructor,constrained_form_price,mercedes,Mercedes,21.25,16.39444444,1.222222222,0,15.17222222,,,-4.855555556
+constructor,constrained_form_price,ferrari,Ferrari,17.75,12.46701389,0.4354482323,0,16.54340278,,,-5.282986111
+constructor,constrained_form_price,red_bull,Red Bull Racing,6.25,16.42764706,0,0,20.07823529,,,10.17764706
+constructor,constrained_form_price,mclaren,McLaren,17.75,15.90277778,0.5744949495,0,16.86111111,,,-1.847222222
+constructor,constrained_form_price,rb,Racing Bulls,6.75,8.515993266,0.5962656872,0,17.42340067,,,1.765993266
+constructor,constrained_form_price,alpine,Alpine,8.75,11.8493266,0.4520967248,0,17.90993266,,,3.099326599
+constructor,constrained_form_price,audi,Audi,-5,7.842492438,4.265039215,0.03233405167,10.96352138,,,12.84249244
+constructor,constrained_form_price,haas,Haas F1 Team,10.75,6.440816327,0,0,17.7122449,,,-4.309183673
+constructor,constrained_form_price,williams,Williams,13.33333333,9.6,0,0,17.6,,,-3.733333333
+constructor,constrained_form_price,aston_martin,Aston Martin,7.75,3.252988048,0,0,17.89143426,,,-4.497011952
+constructor,constrained_form_price,cadillac,Cadillac,4,1.63960396,0,0,18.03564356,,,-2.36039604
+constructor,ridge_form_price,mercedes,Mercedes,21.25,13.33763753,4.972297332,0.02643659347,6.495895371,,10,-7.912362474
+constructor,ridge_form_price,ferrari,Ferrari,17.75,11.77163669,4.744408324,0.03204735608,6.961876985,,10,-5.978363306
+constructor,ridge_form_price,red_bull,Red Bull Racing,6.25,14.03760901,4.852444631,0.04916762901,8.221623583,,10,7.787609013
+constructor,ridge_form_price,mclaren,McLaren,17.75,12.69100019,4.818696386,0.03830243185,6.673279501,,10,-5.058999813
+constructor,ridge_form_price,rb,Racing Bulls,6.75,9.774512175,5.339321984,0.04381902165,6.796504528,,10,3.024512175
+constructor,ridge_form_price,alpine,Alpine,8.75,10.63693491,5.110283033,0.0408721181,7.170802043,,10,1.886934909
+constructor,ridge_form_price,audi,Audi,-5,9.54138081,7.388654935,0.04469914917,4.915868216,,10,14.54138081
+constructor,ridge_form_price,haas,Haas F1 Team,10.75,7.620011448,4.464017346,0.04407194695,7.363121366,,10,-3.129988552
+constructor,ridge_form_price,williams,Williams,13.33333333,8.621881472,4.552590558,0.04997077994,6.648936391,,10,-4.711451862
+constructor,ridge_form_price,aston_martin,Aston Martin,7.75,4.96946865,4.084106791,0.04904164029,7.875042179,,10,-2.78053135
+constructor,ridge_form_price,cadillac,Cadillac,4,4.613671209,4.6127375,0.04179385273,7.825721259,,10,0.6136712087
+driver,constant,antonelli,Kimi Antonelli,10,5.015873016,5.015873016,,,,,-4.984126984
+driver,constant,hamilton,Lewis Hamilton,7,5.158730159,5.158730159,,,,,-1.841269841
+driver,constant,max_verstappen,Max Verstappen,6.5,5.182539683,5.182539683,,,,,-1.317460317
+driver,constant,russell,George Russell,11.25,4.956349206,4.956349206,,,,,-6.293650794
+driver,constant,leclerc,Charles Leclerc,10.75,4.98015873,4.98015873,,,,,-5.76984127
+driver,constant,norris,Lando Norris,10.25,5.003968254,5.003968254,,,,,-5.246031746
+driver,constant,hadjar,Isack Hadjar,-0.25,5.503968254,5.503968254,,,,,5.753968254
+driver,constant,piastri,Oscar Piastri,7.5,5.134920635,5.134920635,,,,,-2.365079365
+driver,constant,gasly,Pierre Gasly,4.333333333,5.285714286,5.285714286,,,,,0.9523809524
+driver,constant,lawson,Liam Lawson,8.75,5.075396825,5.075396825,,,,,-3.674603175
+driver,constant,arvid_lindblad,Arvid Lindblad,-2,5.587301587,5.587301587,,,,,7.587301587
+driver,constant,ocon,Esteban Ocon,6.75,5.170634921,5.170634921,,,,,-1.579365079
+driver,constant,bortoleto,Gabriel Bortoleto,0.25,5.48015873,5.48015873,,,,,5.23015873
+driver,constant,colapinto,Franco Colapinto,5.5,5.23015873,5.23015873,,,,,-0.2698412698
+driver,constant,sainz,Carlos Sainz,8,5.111111111,5.111111111,,,,,-2.888888889
+driver,constant,albon,Alexander Albon,7.75,5.123015873,5.123015873,,,,,-2.626984127
+driver,constant,alonso,Fernando Alonso,2.5,5.373015873,5.373015873,,,,,2.873015873
+driver,constant,bearman,Oliver Bearman,4,5.301587302,5.301587302,,,,,1.301587302
+driver,constant,hulkenberg,Nico Hulkenberg,-2.75,5.623015873,5.623015873,,,,,8.373015873
+driver,constant,perez,Sergio Perez,3.75,5.313492063,5.313492063,,,,,1.563492063
+driver,constant,bottas,Valtteri Bottas,0.25,5.48015873,5.48015873,,,,,5.23015873
+driver,constant,stroll,Lance Stroll,5.25,5.242063492,5.242063492,,,,,-0.007936507937
+driver,proportional,antonelli,Kimi Antonelli,10,10.60457657,,0.3172309231,,,,0.6045765734
+driver,proportional,hamilton,Lewis Hamilton,7,9.370885035,,0.3263492301,,,,2.370885035
+driver,proportional,max_verstappen,Max Verstappen,6.5,8.3914745,,0.3227490192,,,,1.8914745
+driver,proportional,russell,George Russell,11.25,6.907654977,,0.293942765,,,,-4.342345023
+driver,proportional,leclerc,Charles Leclerc,10.75,6.198668235,,0.2951746778,,,,-4.551331765
+driver,proportional,norris,Lando Norris,10.25,5.895808039,,0.2969111962,,,,-4.354191961
+driver,proportional,hadjar,Isack Hadjar,-0.25,4.97365539,,0.3284489408,,,,5.22365539
+driver,proportional,piastri,Oscar Piastri,7.5,4.134968287,,0.3046818738,,,,-3.365031713
+driver,proportional,gasly,Pierre Gasly,4.333333333,3.744419557,,0.3120349631,,,,-0.5889137761
+driver,proportional,lawson,Liam Lawson,8.75,2.600055307,,0.3033397858,,,,-6.149944693
+driver,proportional,arvid_lindblad,Arvid Lindblad,-2,2.705025687,,0.320935251,,,,4.705025687
+driver,proportional,ocon,Esteban Ocon,6.75,2.41125796,,0.3068873767,,,,-4.33874204
+driver,proportional,bortoleto,Gabriel Bortoleto,0.25,2.303973998,,0.3162317252,,,,2.053973998
+driver,proportional,colapinto,Franco Colapinto,5.5,2.060084785,,0.3090127178,,,,-3.439915215
+driver,proportional,sainz,Carlos Sainz,8,0.7090437585,,0.3102066443,,,,-7.290956242
+driver,proportional,albon,Alexander Albon,7.75,0.6213305662,,0.3106652831,,,,-7.128669434
+driver,proportional,alonso,Fernando Alonso,2.5,0.4468891872,,0.312822431,,,,-2.053110813
+driver,proportional,bearman,Oliver Bearman,4,0.2680901195,,0.3127718061,,,,-3.731909881
+driver,proportional,hulkenberg,Nico Hulkenberg,-2.75,-0.1789150125,,0.313101272,,,,2.571084987
+driver,proportional,perez,Sergio Perez,3.75,-1.360943972,,0.3175535935,,,,-5.110943972
+driver,proportional,bottas,Valtteri Bottas,0.25,-3.873687504,,0.322807292,,,,-4.123687504
+driver,proportional,stroll,Lance Stroll,5.25,-4.925153002,,0.3413472378,,,,-10.175153
+driver,hybrid,antonelli,Kimi Antonelli,10,9.113466275,3.666757847,0.1629357222,,,,-0.8865337253
+driver,hybrid,hamilton,Lewis Hamilton,7,8.794337828,3.628817501,0.1798937427,,,,1.794337828
+driver,hybrid,max_verstappen,Max Verstappen,6.5,8.279671914,3.642769366,0.1783424057,,,,1.779671914
+driver,hybrid,russell,George Russell,11.25,7.199288854,3.625104947,0.1520929322,,,,-4.050711146
+driver,hybrid,leclerc,Charles Leclerc,10.75,6.86926111,3.598254821,0.1557622042,,,,-3.88073889
+driver,hybrid,norris,Lando Norris,10.25,6.733904972,3.591273328,0.1582620252,,,,-3.516095028
+driver,hybrid,hadjar,Isack Hadjar,-0.25,6.590098935,3.845281266,0.1812615442,,,,6.840098935
+driver,hybrid,piastri,Oscar Piastri,7.5,5.862108053,3.591188827,0.1673308903,,,,-1.637891947
+driver,hybrid,gasly,Pierre Gasly,4.333333333,5.745977683,3.700018928,0.1704965629,,,,1.41264435
+driver,hybrid,lawson,Liam Lawson,8.75,4.923367515,3.462958892,0.170381006,,,,-3.826632485
+driver,hybrid,arvid_lindblad,Arvid Lindblad,-2,5.41313405,4.004253229,0.1671553516,,,,7.41313405
+driver,hybrid,ocon,Esteban Ocon,6.75,4.891283068,3.553405845,0.1702752828,,,,-1.858716932
+driver,hybrid,bortoleto,Gabriel Bortoleto,0.25,5.107904773,3.896712911,0.1662420203,,,,4.857904773
+driver,hybrid,colapinto,Franco Colapinto,5.5,4.739158141,3.605634992,0.1700284725,,,,-0.7608418587
+driver,hybrid,sainz,Carlos Sainz,8,3.776120822,3.368032812,0.1785385042,,,,-4.223879178
+driver,hybrid,albon,Alexander Albon,7.75,3.735403495,3.378536862,0.1784333164,,,,-4.014596505
+driver,hybrid,alonso,Fernando Alonso,2.5,3.984462968,3.74761761,0.1657917506,,,,1.484462968
+driver,hybrid,bearman,Oliver Bearman,4,3.776256772,3.630565062,0.1699736611,,,,-0.2237432284
+driver,hybrid,hulkenberg,Nico Hulkenberg,-2.75,4.065782726,4.150768704,0.1487254614,,,,6.815782726
+driver,hybrid,perez,Sergio Perez,3.75,2.825515637,3.567960643,0.1732371681,,,,-0.9244843632
+driver,hybrid,bottas,Valtteri Bottas,0.25,1.922385433,3.824657349,0.1585226597,,,,1.672385433
+driver,hybrid,stroll,Lance Stroll,5.25,0.07335609431,3.057927551,0.2068514871,,,,-5.176643906
+driver,price_only,antonelli,Kimi Antonelli,10,7.995538808,0.7901651652,,8.343064218,,,-2.004461192
+driver,price_only,hamilton,Lewis Hamilton,7,7.902174119,0.6502733016,,8.863434332,,,0.9021741186
+driver,price_only,max_verstappen,Max Verstappen,6.5,9.440844801,0.4556172541,,9.413095526,,,2.940844801
+driver,price_only,russell,George Russell,11.25,9.02405754,0.888640873,,8.135416667,,,-2.22594246
+driver,price_only,leclerc,Charles Leclerc,10.75,6.752181356,0.7380439585,,8.269438922,,,-3.997818644
+driver,price_only,norris,Lando Norris,10.25,8.371512222,0.8080444864,,8.319814509,,,-1.878487778
+driver,price_only,hadjar,Isack Hadjar,-0.25,7.063097061,0.6848428499,,9.354772843,,,7.313097061
+driver,price_only,piastri,Oscar Piastri,7.5,7.415003541,0.6878167859,,8.705771094,,,-0.08499645945
+driver,price_only,gasly,Pierre Gasly,4.333333333,6.338360665,0.7114872937,,8.842229583,,,2.005027331
+driver,price_only,lawson,Liam Lawson,8.75,4.866688232,0.483807778,,8.765760909,,,-3.883311768
+driver,price_only,arvid_lindblad,Arvid Lindblad,-2,4.598415327,1.200242543,,8.306644584,,,6.598415327
+driver,price_only,ocon,Esteban Ocon,6.75,5.377785565,0.632152613,,8.700327079,,,-1.372214435
+driver,price_only,bortoleto,Gabriel Bortoleto,0.25,4.082932254,1.034438124,,8.383358857,,,3.832932254
+driver,price_only,colapinto,Franco Colapinto,5.5,5.853774859,0.6947686987,,8.730625811,,,0.3537748595
+driver,price_only,sainz,Carlos Sainz,8,4.479045071,0.4568066364,,8.848924557,,,-3.520954929
+driver,price_only,albon,Alexander Albon,7.75,2.143913603,-0.04353911333,,9.62479195,,,-5.606086397
+driver,price_only,alonso,Fernando Alonso,2.5,3.111830091,0.7572068798,,8.633618441,,,0.6118300909
+driver,price_only,bearman,Oliver Bearman,4,3.419634968,0.6252208968,,8.782444224,,,-0.580365032
+driver,price_only,hulkenberg,Nico Hulkenberg,-2.75,2.210244648,1.524424594,,7.544020602,,,4.960244648
+driver,price_only,perez,Sergio Perez,3.75,2.089368214,0.447996073,,9.027546778,,,-1.660631786
+driver,price_only,bottas,Valtteri Bottas,0.25,1.690749235,0.9292411074,,8.376589409,,,1.440749235
+driver,price_only,stroll,Lance Stroll,5.25,0.8249235474,-0.06273136971,,9.764204088,,,-4.425076453
+driver,form_price,antonelli,Kimi Antonelli,10,5.097694993,-1.750895433,-0.2428591096,17.33023776,,,-4.902305007
+driver,form_price,hamilton,Lewis Hamilton,7,6.71113876,-0.8580289531,-0.1402662025,14.17388076,,,-0.2888612395
+driver,form_price,max_verstappen,Max Verstappen,6.5,9.499941688,-1.078211317,-0.137945468,14.83924637,,,2.999941688
+driver,form_price,russell,George Russell,11.25,9.701306151,-0.51324949,-0.1208878428,13.05541995,,,-1.548693849
+driver,form_price,leclerc,Charles Leclerc,10.75,6.105550262,-1.133756273,-0.1696150879,14.85168215,,,-4.644449738
+driver,form_price,norris,Lando Norris,10.25,9.042565508,-0.6098804193,-0.1239611184,13.32535552,,,-1.207434492
+driver,form_price,hadjar,Isack Hadjar,-0.25,7.142814737,-0.9073896732,-0.1436300728,14.99692199,,,7.392814737
+driver,form_price,piastri,Oscar Piastri,7.5,8.307369831,-0.9439197351,-0.1450904878,14.52048498,,,0.8073698307
+driver,form_price,gasly,Pierre Gasly,4.333333333,6.625445971,-0.8873576496,-0.1445617239,14.53185534,,,2.292112637
+driver,form_price,lawson,Liam Lawson,8.75,4.860993648,-1.024263336,-0.1360121561,14.10215093,,,-3.889006352
+driver,form_price,arvid_lindblad,Arvid Lindblad,-2,4.265504161,0.1648008413,-0.09106199695,11.90010767,,,6.265504161
+driver,form_price,ocon,Esteban Ocon,6.75,5.713773255,-0.800936856,-0.1304553712,13.82281376,,,-1.036226745
+driver,form_price,bortoleto,Gabriel Bortoleto,0.25,3.614797488,-0.1975667195,-0.107292332,12.63368008,,,3.364797488
+driver,form_price,colapinto,Franco Colapinto,5.5,6.704732887,-0.9365730114,-0.1491491891,14.61414955,,,1.204732887
+driver,form_price,sainz,Carlos Sainz,8,4.985417719,-0.7078512448,-0.1080286557,13.06842153,,,-3.014582281
+driver,form_price,albon,Alexander Albon,7.75,1.264430352,-2.278515133,-0.1912923945,17.2723332,,,-6.485569648
+driver,form_price,alonso,Fernando Alonso,2.5,2.846927715,-0.7636852491,-0.1343984824,13.94290625,,,0.3469277154
+driver,form_price,bearman,Oliver Bearman,4,3.498087022,-0.8646623797,-0.135134378,14.07553359,,,-0.5019129776
+driver,form_price,hulkenberg,Nico Hulkenberg,-2.75,1.612254534,0.6099622919,-0.07336874315,10.56403971,,,4.362254534
+driver,form_price,perez,Sergio Perez,3.75,2.139766521,-1.036780057,-0.1345879464,14.29857601,,,-1.610233479
+driver,form_price,bottas,Valtteri Bottas,0.25,2.513773167,-0.6670701164,-0.1565539531,14.32415431,,,2.263773167
+driver,form_price,stroll,Lance Stroll,5.25,1.492013349,-0.8621899818,-0.0822933509,12.83510623,,,-3.757986651
+driver,interaction,antonelli,Kimi Antonelli,10,5.751325783,-1.499939289,-0.2768207224,16.11782014,0.0895406707,,-4.248674217
+driver,interaction,hamilton,Lewis Hamilton,7,7.255173509,-0.5283068157,-0.2289984984,12.36265048,0.1806504615,,0.2551735087
+driver,interaction,max_verstappen,Max Verstappen,6.5,10.66398985,-0.8257131726,-0.273379122,12.99071177,0.2497094819,,4.163989847
+driver,interaction,russell,George Russell,11.25,10.4627936,-0.4289815673,-0.2174725059,12.10775725,0.1657285875,,-0.7872064025
+driver,interaction,leclerc,Charles Leclerc,10.75,5.906375965,-0.8682802195,-0.2773515819,13.18178816,0.1972329058,,-4.843624035
+driver,interaction,norris,Lando Norris,10.25,9.2338968,-0.3967849819,-0.2196011419,11.93463559,0.1740346416,,-1.0161032
+driver,interaction,hadjar,Isack Hadjar,-0.25,6.880596016,-0.7535222953,-0.2007654254,14.04211437,0.1065516874,,7.130596016
+driver,interaction,piastri,Oscar Piastri,7.5,7.880261001,-0.6306787557,-0.2342008412,12.75795557,0.1745930452,,0.3802610011
+driver,interaction,gasly,Pierre Gasly,4.333333333,6.144308682,-0.6534577736,-0.2263094516,13.08785032,0.1551586478,,1.810975349
+driver,interaction,lawson,Liam Lawson,8.75,4.031578559,-0.7225765486,-0.2677148835,12.00386635,0.2442815509,,-4.718421441
+driver,interaction,arvid_lindblad,Arvid Lindblad,-2,3.933199805,0.2475606825,-0.1448266168,11.18930049,0.0953812481,,5.933199805
+driver,interaction,ocon,Esteban Ocon,6.75,5.015628631,-0.5026464967,-0.2360180827,11.92596984,0.2024466415,,-1.734371369
+driver,interaction,bortoleto,Gabriel Bortoleto,0.25,3.149534595,-0.08501300386,-0.1868122566,11.6158688,0.1402819349,,2.899534595
+driver,interaction,colapinto,Franco Colapinto,5.5,6.067335152,-0.6339732565,-0.2335353942,12.84335195,0.1698123164,,0.5673351519
+driver,interaction,sainz,Carlos Sainz,8,4.328520413,-0.3709607578,-0.2211430686,10.94552213,0.2210994452,,-3.671479587
+driver,interaction,albon,Alexander Albon,7.75,0.978320962,-2.04239624,-0.3082293239,15.57866461,0.2124545665,,-6.771679038
+driver,interaction,alonso,Fernando Alonso,2.5,2.589874585,-0.5532936132,-0.2310175866,12.48143941,0.1775219436,,0.08987458547
+driver,interaction,bearman,Oliver Bearman,4,3.197858159,-0.6328600442,-0.2335938874,12.51152789,0.1833364287,,-0.8021418409
+driver,interaction,hulkenberg,Nico Hulkenberg,-2.75,1.842094724,0.9619733346,-0.1755098679,8.689926256,0.1956427453,,4.592094724
+driver,interaction,perez,Sergio Perez,3.75,2.401912655,-0.7607769416,-0.2263828052,12.78726254,0.1700150389,,-1.348087345
+driver,interaction,bottas,Valtteri Bottas,0.25,4.686096977,-0.1065302844,-0.3347039497,12.05941649,0.2934531645,,4.436096977
+driver,interaction,stroll,Lance Stroll,5.25,2.319234859,-0.7281673935,-0.1414518481,12.34028182,0.08797032266,,-2.930765141
+driver,constrained_proportional,antonelli,Kimi Antonelli,10,10.60457657,,0.3172309231,,,,0.6045765734
+driver,constrained_proportional,hamilton,Lewis Hamilton,7,9.370885035,,0.3263492301,,,,2.370885035
+driver,constrained_proportional,max_verstappen,Max Verstappen,6.5,8.3914745,,0.3227490192,,,,1.8914745
+driver,constrained_proportional,russell,George Russell,11.25,6.907654977,,0.293942765,,,,-4.342345023
+driver,constrained_proportional,leclerc,Charles Leclerc,10.75,6.198668235,,0.2951746778,,,,-4.551331765
+driver,constrained_proportional,norris,Lando Norris,10.25,5.895808039,,0.2969111962,,,,-4.354191961
+driver,constrained_proportional,hadjar,Isack Hadjar,-0.25,4.97365539,,0.3284489408,,,,5.22365539
+driver,constrained_proportional,piastri,Oscar Piastri,7.5,4.134968287,,0.3046818738,,,,-3.365031713
+driver,constrained_proportional,gasly,Pierre Gasly,4.333333333,3.744419557,,0.3120349631,,,,-0.5889137761
+driver,constrained_proportional,lawson,Liam Lawson,8.75,2.600055307,,0.3033397858,,,,-6.149944693
+driver,constrained_proportional,arvid_lindblad,Arvid Lindblad,-2,2.705025687,,0.320935251,,,,4.705025687
+driver,constrained_proportional,ocon,Esteban Ocon,6.75,2.41125796,,0.3068873767,,,,-4.33874204
+driver,constrained_proportional,bortoleto,Gabriel Bortoleto,0.25,2.303973998,,0.3162317252,,,,2.053973998
+driver,constrained_proportional,colapinto,Franco Colapinto,5.5,2.060084785,,0.3090127178,,,,-3.439915215
+driver,constrained_proportional,sainz,Carlos Sainz,8,0.7090437585,,0.3102066443,,,,-7.290956242
+driver,constrained_proportional,albon,Alexander Albon,7.75,0.6213305662,,0.3106652831,,,,-7.128669434
+driver,constrained_proportional,alonso,Fernando Alonso,2.5,0.4468891872,,0.312822431,,,,-2.053110813
+driver,constrained_proportional,bearman,Oliver Bearman,4,0.2680901195,,0.3127718061,,,,-3.731909881
+driver,constrained_proportional,hulkenberg,Nico Hulkenberg,-2.75,0,,0.313101272,,,,2.75
+driver,constrained_proportional,perez,Sergio Perez,3.75,0,,0.3175535935,,,,-3.75
+driver,constrained_proportional,bottas,Valtteri Bottas,0.25,0,,0.322807292,,,,-0.25
+driver,constrained_proportional,stroll,Lance Stroll,5.25,0,,0.3413472378,,,,-5.25
+driver,constrained_hybrid,antonelli,Kimi Antonelli,10,9.113466275,3.666757847,0.1629357222,,,,-0.8865337253
+driver,constrained_hybrid,hamilton,Lewis Hamilton,7,8.794337828,3.628817501,0.1798937427,,,,1.794337828
+driver,constrained_hybrid,max_verstappen,Max Verstappen,6.5,8.279671914,3.642769366,0.1783424057,,,,1.779671914
+driver,constrained_hybrid,russell,George Russell,11.25,7.199288854,3.625104947,0.1520929322,,,,-4.050711146
+driver,constrained_hybrid,leclerc,Charles Leclerc,10.75,6.86926111,3.598254821,0.1557622042,,,,-3.88073889
+driver,constrained_hybrid,norris,Lando Norris,10.25,6.733904972,3.591273328,0.1582620252,,,,-3.516095028
+driver,constrained_hybrid,hadjar,Isack Hadjar,-0.25,6.590098935,3.845281266,0.1812615442,,,,6.840098935
+driver,constrained_hybrid,piastri,Oscar Piastri,7.5,5.862108053,3.591188827,0.1673308903,,,,-1.637891947
+driver,constrained_hybrid,gasly,Pierre Gasly,4.333333333,5.745977683,3.700018928,0.1704965629,,,,1.41264435
+driver,constrained_hybrid,lawson,Liam Lawson,8.75,4.923367515,3.462958892,0.170381006,,,,-3.826632485
+driver,constrained_hybrid,arvid_lindblad,Arvid Lindblad,-2,5.41313405,4.004253229,0.1671553516,,,,7.41313405
+driver,constrained_hybrid,ocon,Esteban Ocon,6.75,4.891283068,3.553405845,0.1702752828,,,,-1.858716932
+driver,constrained_hybrid,bortoleto,Gabriel Bortoleto,0.25,5.107904773,3.896712911,0.1662420203,,,,4.857904773
+driver,constrained_hybrid,colapinto,Franco Colapinto,5.5,4.739158141,3.605634992,0.1700284725,,,,-0.7608418587
+driver,constrained_hybrid,sainz,Carlos Sainz,8,3.776120822,3.368032812,0.1785385042,,,,-4.223879178
+driver,constrained_hybrid,albon,Alexander Albon,7.75,3.735403495,3.378536862,0.1784333164,,,,-4.014596505
+driver,constrained_hybrid,alonso,Fernando Alonso,2.5,3.984462968,3.74761761,0.1657917506,,,,1.484462968
+driver,constrained_hybrid,bearman,Oliver Bearman,4,3.776256772,3.630565062,0.1699736611,,,,-0.2237432284
+driver,constrained_hybrid,hulkenberg,Nico Hulkenberg,-2.75,4.065782726,4.150768704,0.1487254614,,,,6.815782726
+driver,constrained_hybrid,perez,Sergio Perez,3.75,2.825515637,3.567960643,0.1732371681,,,,-0.9244843632
+driver,constrained_hybrid,bottas,Valtteri Bottas,0.25,1.922385433,3.824657349,0.1585226597,,,,1.672385433
+driver,constrained_hybrid,stroll,Lance Stroll,5.25,0.07335609431,3.057927551,0.2068514871,,,,-5.176643906
+driver,constrained_form_price,antonelli,Kimi Antonelli,10,7.995538808,0.7901651652,0,8.343064218,,,-2.004461192
+driver,constrained_form_price,hamilton,Lewis Hamilton,7,7.902174119,0.6502733016,0,8.863434332,,,0.9021741186
+driver,constrained_form_price,max_verstappen,Max Verstappen,6.5,9.440844801,0.4556172541,0,9.413095526,,,2.940844801
+driver,constrained_form_price,russell,George Russell,11.25,9.02405754,0.888640873,0,8.135416667,,,-2.22594246
+driver,constrained_form_price,leclerc,Charles Leclerc,10.75,6.752181356,0.7380439585,0,8.269438922,,,-3.997818644
+driver,constrained_form_price,norris,Lando Norris,10.25,8.371512222,0.8080444864,0,8.319814509,,,-1.878487778
+driver,constrained_form_price,hadjar,Isack Hadjar,-0.25,7.063097061,0.6848428499,0,9.354772843,,,7.313097061
+driver,constrained_form_price,piastri,Oscar Piastri,7.5,7.415003541,0.6878167859,0,8.705771094,,,-0.08499645945
+driver,constrained_form_price,gasly,Pierre Gasly,4.333333333,6.338360665,0.7114872937,0,8.842229583,,,2.005027331
+driver,constrained_form_price,lawson,Liam Lawson,8.75,4.866688232,0.483807778,0,8.765760909,,,-3.883311768
+driver,constrained_form_price,arvid_lindblad,Arvid Lindblad,-2,4.598415327,1.200242543,0,8.306644584,,,6.598415327
+driver,constrained_form_price,ocon,Esteban Ocon,6.75,5.377785565,0.632152613,0,8.700327079,,,-1.372214435
+driver,constrained_form_price,bortoleto,Gabriel Bortoleto,0.25,4.082932254,1.034438124,0,8.383358857,,,3.832932254
+driver,constrained_form_price,colapinto,Franco Colapinto,5.5,5.853774859,0.6947686987,0,8.730625811,,,0.3537748595
+driver,constrained_form_price,sainz,Carlos Sainz,8,4.479045071,0.4568066364,0,8.848924557,,,-3.520954929
+driver,constrained_form_price,albon,Alexander Albon,7.75,2.173124558,0,0,9.561748054,,,-5.576875442
+driver,constrained_form_price,alonso,Fernando Alonso,2.5,3.111830091,0.7572068798,0,8.633618441,,,0.6118300909
+driver,constrained_form_price,bearman,Oliver Bearman,4,3.419634968,0.6252208968,0,8.782444224,,,-0.580365032
+driver,constrained_form_price,hulkenberg,Nico Hulkenberg,-2.75,2.210244648,1.524424594,0,7.544020602,,,4.960244648
+driver,constrained_form_price,perez,Sergio Perez,3.75,2.089368214,0.447996073,0,9.027546778,,,-1.660631786
+driver,constrained_form_price,bottas,Valtteri Bottas,0.25,1.690749235,0.9292411074,0,8.376589409,,,1.440749235
+driver,constrained_form_price,stroll,Lance Stroll,5.25,0.8793437143,0,0,9.672780857,,,-4.370656286
+driver,ridge_form_price,antonelli,Kimi Antonelli,10,6.522077127,-0.04384704728,-0.1067604215,11.73499979,,1,-3.477922873
+driver,ridge_form_price,hamilton,Lewis Hamilton,7,7.340020088,0.3763574303,-0.04847700011,10.21245511,,1,0.3400200884
+driver,ridge_form_price,max_verstappen,Max Verstappen,6.5,9.227024931,0.1261379841,-0.0532557327,10.98484723,,1,2.727024931
+driver,ridge_form_price,russell,George Russell,11.25,9.043528325,0.6072588142,-0.0436931612,9.463058799,,1,-2.206471675
+driver,ridge_form_price,leclerc,Charles Leclerc,10.75,6.366794578,0.193875237,-0.07274844975,10.58837558,,1,-4.383205422
+driver,ridge_form_price,norris,Lando Norris,10.25,8.41912457,0.5470531718,-0.04296813373,9.597825345,,1,-1.83087543
+driver,ridge_form_price,hadjar,Isack Hadjar,-0.25,7.005561515,0.3773336339,-0.05179718602,10.87179173,,1,7.255561515
+driver,ridge_form_price,piastri,Oscar Piastri,7.5,7.60111426,0.3631033156,-0.05107261626,10.26382734,,1,0.10111426
+driver,ridge_form_price,gasly,Pierre Gasly,4.333333333,6.385535921,0.3762333863,-0.05359659755,10.45386839,,1,2.052202588
+driver,ridge_form_price,lawson,Liam Lawson,8.75,4.876203945,0.1971273935,-0.04878944946,10.19454367,,1,-3.873796055
+driver,ridge_form_price,arvid_lindblad,Arvid Lindblad,-2,4.570181814,1.178056332,-0.02125965671,8.729878709,,1,6.570181814
+driver,ridge_form_price,ocon,Esteban Ocon,6.75,5.481901499,0.3878056791,-0.04482105341,9.984812272,,1,-1.268098501
+driver,ridge_form_price,bortoleto,Gabriel Bortoleto,0.25,4.021885649,0.9137769294,-0.03065592135,9.16151226,,1,3.771885649
+driver,ridge_form_price,colapinto,Franco Colapinto,5.5,6.122171701,0.3685420937,-0.05320512132,10.33717455,,1,0.6221717015
+driver,ridge_form_price,sainz,Carlos Sainz,8,4.647616748,0.382328246,-0.02904765024,9.529702888,,1,-3.352383252
+driver,ridge_form_price,albon,Alexander Albon,7.75,1.960601043,-0.6545071584,-0.07898803842,12.20157083,,1,-5.789398957
+driver,ridge_form_price,alonso,Fernando Alonso,2.5,3.140512337,0.4556741332,-0.04937507518,10.10303809,,1,0.6405123367
+driver,ridge_form_price,bearman,Oliver Bearman,4,3.552824425,0.3387116571,-0.04952487208,10.23491121,,1,-0.4471755745
+driver,ridge_form_price,hulkenberg,Nico Hulkenberg,-2.75,2.277427466,1.572893809,-0.01204029997,7.674188335,,1,5.027427466
+driver,ridge_form_price,perez,Sergio Perez,3.75,2.287002166,0.1598382724,-0.05056476984,10.50751755,,1,-1.462997834
+driver,ridge_form_price,bottas,Valtteri Bottas,0.25,2.282250557,0.4932684607,-0.06943250228,10.51371276,,1,2.032250557
+driver,ridge_form_price,stroll,Lance Stroll,5.25,1.13843293,0.06668631652,-0.01270404765,9.772898902,,1,-4.11156707

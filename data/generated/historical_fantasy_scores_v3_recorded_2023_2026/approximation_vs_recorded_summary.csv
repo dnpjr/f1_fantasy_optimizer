@@ -1,0 +1,7 @@
+season,entity_type,number_of_rows,number_changed,mean_absolute_difference,median_absolute_difference,maximum_absolute_difference,correlation
+2023,constructor,50,49,7.84,6.0,27.0,0.944950866923066
+2023,driver,100,91,4.4,3.0,25.0,0.9378211454181419
+2024,constructor,51,47,7.294117647058823,4.0,32.0,0.9643984179398074
+2024,driver,100,87,3.64,3.0,13.0,0.9699721005451967
+2025,constructor,50,50,8.96,7.0,26.0,0.9432862933760217
+2025,driver,100,84,3.26,2.0,18.0,0.9671592946102987

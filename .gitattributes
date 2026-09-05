@@ -1,0 +1,7 @@
+# Preserve calibration/source fingerprints across platforms; do not normalise retained bytes.
+data/generated/** -text
+data/research/** -text
+reports/** -text
+scripts/api_probe/raw-data/** -text
+# CRLF is a valid CSV record ending, not trailing data whitespace.
+*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

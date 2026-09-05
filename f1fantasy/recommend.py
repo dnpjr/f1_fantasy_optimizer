@@ -13,8 +13,8 @@ import difflib
 
 
 TEAM_BUDGET_CAP = 108.7
-CURRENT_TEAM = "current_team.json"
-current_season_delta = 4
+CURRENT_TEAM = "current_team.local.json"
+current_season_delta = 3
 
 
 def _canon(s: str) -> str:
@@ -44,7 +44,13 @@ PKG_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PKG_ROOT))
 
 from f1fantasy.ergast import fetch_all_supporting, fetch_schedule
-from f1fantasy.fantasy_api import fetch_players, fetch_teams
+from f1fantasy.fantasy_api import fetch_validated_current_gameday_market, resolve_market_data
+from f1fantasy.historical_scores import (
+    DEFAULT_CANONICAL_DATASET_PATH,
+    apply_recorded_scores_to_model,
+    canonical_market_snapshot,
+    load_canonical_scores,
+)
 from f1fantasy.model import (
     compute_weekend_points,
     expected_scores_horizon,
@@ -53,6 +59,7 @@ from f1fantasy.model import (
 )
 from f1fantasy.optimize import optimize_top_k
 from f1fantasy.transfers import best_two_transfer_move
+from f1fantasy.weekend_state import select_active_event
 
 
 def _upcoming_circuits(schedule: pd.DataFrame, today: str, n: int = 5) -> list[str]:
@@ -99,12 +106,39 @@ def main():
         qualifying = qualifying[(qualifying["season"] >= start_year) & (qualifying["season"] <= end_year)].copy()
     if not sprint.empty:
         sprint = sprint[(sprint["season"] >= start_year) & (sprint["season"] <= end_year)].copy()
-    # Live fantasy roster/prices
-    players = fetch_players()
-    teams = fetch_teams()
+    schedule = fetch_schedule(current_season)
+
+    # Live fantasy roster/prices, with the same verified fallback precedence as the app.
+    recorded_scores = load_canonical_scores(DEFAULT_CANONICAL_DATASET_PATH)
+    historical_reference = canonical_market_snapshot(recorded_scores, current_season)
+    active_event = select_active_event(
+        schedule,
+        results=results,
+        qualifying=qualifying,
+        sprint=sprint,
+        effective_time=now,
+        expected_participant_count=None,
+    )
+    seed_asset_ids = [
+        *historical_reference["players"]["playerId"].astype(int).tolist(),
+        *historical_reference["teams"]["teamId"].astype(int).tolist(),
+    ]
+    market_resolution = resolve_market_data(
+        current_gameday_loader=lambda: fetch_validated_current_gameday_market(
+            seed_asset_ids,
+            expected_event_name=active_event.race_name if active_event is not None else None,
+            expected_season=current_season,
+        ),
+    )
+    players = market_resolution["players"]
+    teams = market_resolution["teams"]
+    if market_resolution["live_data_status"] != "fresh":
+        print(
+            "Warning: live data could not be refreshed; using "
+            f"{market_resolution['live_data_status']} market data."
+        )
 
     # Horizon: use up to next 5 remaining races
-    schedule = fetch_schedule(current_season)
     upcoming = _upcoming_circuits(schedule, today=today, n=5)
     
     if len(upcoming) == 0:
@@ -126,9 +160,21 @@ def main():
         race_dnf_penalty=20,
         sprint_dnf_penalty=10,
     )
+    recorded_scores = recorded_scores[
+        recorded_scores["season"].between(start_year, end_year)
+    ].copy()
+    weekend_points, constructor_weekend_points, _recorded_diagnostics = apply_recorded_scores_to_model(
+        weekend_points,
+        recorded_scores,
+    )
 
     # Expected horizon scores (drivers + constructors) using circuit-aware history
-    drv_exp, con_exp = expected_scores_horizon(weekend_points, upcoming, h_w)
+    drv_exp, con_exp = expected_scores_horizon(
+        weekend_points,
+        upcoming,
+        h_w,
+        constructor_weekend_points=constructor_weekend_points,
+    )
 
     # No Negative expected for drivers (approx): floor each weekend score at 0 and re-take horizon expectation
     nn_driver = apply_no_negative_expectation(weekend_points, upcoming, h_w)
@@ -426,7 +472,7 @@ def main():
                 print(json.dumps(suggested_json, indent=2))
                 print()
     else:
-        print("\nTo get transfer suggestions, create data/current_team.json like:\n"
+        print("\nTo get transfer suggestions, create data/current_team.local.json like:\n"
               "{\n  \"drivers\": [131, 117, 1982, 18, 11031],\n  \"constructors\": [27, 28],\n  \"free_transfers\": 2,\n  \"bank\": 0.0\n}\n")
 
 if __name__ == "__main__":

@@ -82,6 +82,13 @@ def fetch_player_stats(player_id: int) -> dict:
     return payload
 
 
+def clear_playerstats_cache() -> None:
+    """Invalidate all in-process playerstats payloads."""
+    cache = getattr(fetch_player_stats, "_cache", None)
+    if isinstance(cache, dict):
+        cache.clear()
+
+
 def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.DataFrame:
     """Parse playerstats JSON into one row per completed race/gameday."""
     value = payload.get("Value", {}) if isinstance(payload, dict) else {}
@@ -113,8 +120,19 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
         for session in sessions:
             session_type = str(session.get("SessionType") or session.get("SessionName") or "").strip().lower()
             session_total = _stats_total(session.get("StatsWise"))
+            stat_events = [
+                str(item.get("Event") or "").strip().lower()
+                for item in session.get("StatsWise", []) or []
+                if isinstance(item, dict)
+            ]
             if session_type and session_total is not None and pd.notna(session_total):
-                if "sprint" in session_type:
+                if any("sprint qualifying" in event for event in stat_events):
+                    session_totals["sprint_qualifying"] = session_totals.get("sprint_qualifying", 0.0) + float(session_total)
+                elif any("sprint position" in event or "sprint overtake" in event for event in stat_events):
+                    session_totals["sprint"] = session_totals.get("sprint", 0.0) + float(session_total)
+                elif "sprint" in session_type and "qualifying" in session_type:
+                    session_totals["sprint_qualifying"] = session_totals.get("sprint_qualifying", 0.0) + float(session_total)
+                elif "sprint" in session_type:
                     session_totals["sprint"] = session_totals.get("sprint", 0.0) + float(session_total)
                 elif "qualifying" in session_type:
                     session_totals["qualifying"] = session_totals.get("qualifying", 0.0) + float(session_total)
@@ -132,6 +150,7 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
             "season": pd.to_numeric(first_session.get("Season"), errors="coerce"),
             "fantasy_points": float(total) if total is not None and pd.notna(total) else pd.NA,
             "qualifying_points": session_totals.get("qualifying", pd.NA),
+            "sprint_qualifying_points": session_totals.get("sprint_qualifying", pd.NA),
             "race_points": session_totals.get("race", pd.NA),
             "sprint_points": session_totals.get("sprint", pd.NA),
             "overtaking_points": overtake_points,
@@ -154,6 +173,7 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
                 "race_name",
                 "fantasy_points",
                 "qualifying_points",
+                "sprint_qualifying_points",
                 "race_points",
                 "sprint_points",
                 "overtaking_points",
@@ -332,6 +352,7 @@ def parse_team_lock_deadline_from_payload(payload: dict) -> dict[str, Any]:
             "team_lock_meeting_name": None,
             "team_lock_session_type": None,
             "team_lock_timezone_assumption": "SessionStartDate parsed as ISO-8601 when available.",
+            "team_lock_candidates": [],
         }
 
     future = [row for row in sessions if row["session_start_utc"] >= now]
@@ -346,7 +367,21 @@ def parse_team_lock_deadline_from_payload(payload: dict) -> dict[str, Any]:
         "team_lock_deadline_raw_value": chosen.get("session_start_raw"),
         "team_lock_meeting_name": chosen.get("meeting_name"),
         "team_lock_session_type": chosen.get("session_type"),
+        "team_lock_gameday_id": chosen.get("gameday_id"),
         "team_lock_timezone_assumption": "SessionStartDate parsed as ISO-8601 when available.",
+        "team_lock_candidates": [
+            {
+                "team_lock_deadline_utc": row["session_start_utc"].isoformat(),
+                "team_lock_deadline_raw_field": f"{row['container']}.RaceDayWise.SessionStartDate",
+                "team_lock_deadline_raw_value": row.get("session_start_raw"),
+                "team_lock_meeting_name": row.get("meeting_name"),
+                "team_lock_session_type": row.get("session_type"),
+                "team_lock_gameday_id": row.get("gameday_id"),
+                "team_lock_match_status": row.get("match_status"),
+                "team_lock_is_played": row.get("is_played"),
+            }
+            for row in sessions
+        ],
     }
 
 
