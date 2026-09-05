@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .DS_Store
 data/cache/*.csv
+data/cache/verified_fantasy_market.json
 .pytest_cache/
 .mypy_cache/
 .coverage
@@ -11,5 +12,34 @@ data/cache/*.csv
 .env.*
 secrets.toml
 .streamlit/secrets.toml
+scripts/api_probe/.env
+scripts/api_probe/.env.*
+scripts/api_probe/*.token
+scripts/api_probe/*.secret
+scripts/api_probe/raw/
 *.tmp
 *.swp
+
+# Reviewed offline release seeds (keep CSV and sidecar provenance together).
+!data/cache/results_202[3-6].csv
+!data/cache/qualifying_202[3-6].csv
+!data/cache/sprint_202[3-6].csv
+!data/cache/schedule_202[3-6].csv
+!data/cache/verified_fantasy_market.json
+
+# User lineups and runtime/export files are private local state.
+data/current_team*.json
+current_team.json
+*.egg-info/
+build/
+dist/
+htmlcov/
+.ruff_cache/
+
+# Downloaded third-party frontend code and transient discovery inventories.
+# Retain licensed raw-data, sanitised schema fixtures and authored research reports.
+scripts/api_probe/frontend_assets/
+scripts/api_probe/frontend_asset_findings.json
+scripts/api_probe/candidate_dataset_inventories.json
+scripts/api_probe/candidate_file_findings.json
+reports/sprint_recalibration_candidate/
