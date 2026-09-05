@@ -1,51 +1,78 @@
 # F1 Fantasy Optimiser
 
-An end-to-end decision-support app for F1 Fantasy: public data ingestion, validated race history, expected-value and price-change models, and mixed-integer team optimisation in a Streamlit interface.
+A live F1 Fantasy decision-support and optimisation app. It combines current market and weekend data with historical Fantasy scores, statistical expected-points models, fitted Sprint adjustments and price-growth estimates to help build teams and plan transfers.
+
+Public-feed validation, reproducible calibration and mixed-integer optimisation sit behind an interactive Streamlit interface.
 
 **[Use the live app](https://f1optimise.streamlit.app/)** · [Run locally](#run-locally) · [Technical documentation](docs/README.md)
 
-## What the app does
+## Features
 
-- **Build teams:** compare legal five-driver, two-constructor squads under a budget; lock or exclude assets and optimise for points, price growth, or a combined objective.
-- **Plan transfers:** enter or import your current team, bank and free transfers; compare gains after transfer penalties and retain inactive holdings without making them selectable purchases.
-- **Compare assets:** inspect expected points, historical points per million, price-change bands and probabilistic price-gain estimates. Choose completed races and adjust recency/history weighting.
-- **Explore race scenarios:** model normal and Sprint weekends, with 3x, Limitless and No Negative chip handling. Chip multipliers affect team points, not underlying price movement.
-- **Use on desktop or mobile:** persistent team/transfer views, downloadable results and explicit source/freshness diagnostics.
+- **Live weekend intelligence:** current driver/constructor prices, event identification, session availability and explicit source/freshness diagnostics. Refresh as the weekend progresses, with validated market fallback and retention of previously accepted scoring inputs when a refresh fails.
+- **Forecasting:** expected Fantasy points for drivers and constructors, completed-race selection/exclusion, recency decay and current/past-season weighting. Dedicated Sprint calibration and optional practice/Sprint Qualifying emphasis adjust next-event projections.
+- **Team optimisation:** ranked five-driver, two-constructor squads under a budget, locks/exclusions, a points–price-growth trade-off, 2x driver selection, and 3x, Limitless and No Negative chip scenarios.
+- **Transfer planning:** enter or upload a current team, bank and free transfers; compare moves after penalties using points, price growth, combined or risk-adjusted objectives. Inactive holdings remain identifiable without becoming selectable purchases.
+- **Analysis and interface:** Market projections, price-band probabilities and score thresholds; historical points-per-million efficiency and a comparison team builder; responsive desktop/mobile views, team JSON and PNG table/team exports.
 
-![Ranked teams from the running optimiser](docs/images/optimiser.png)
+![Ranked squads showing expected points, projected price gain, budget and the 2x driver](docs/images/optimiser.png)
+
+*Ranked teams from the real app, September 2026. Points and gains are model estimates.*
 
 <details>
-<summary>Price-threshold analysis screenshot</summary>
+<summary>Market view: score thresholds for price-change bands</summary>
 
-![Price thresholds and explicit missing-data warning](docs/images/market-thresholds.png)
+![Price-band score thresholds with an explicit missing-history warning](docs/images/market-thresholds.png)
+
+*The Market view translates price bands into next-event score targets. Missing historical inputs remain visible rather than being silently filled.*
 
 </details>
 
-*Real app captures, September 2026; displayed values are model estimates.*
+## How forecasts update during a weekend
+
+Current market prices and event identity are resolved separately from scoring history. The baseline uses selected completed races, with recency and season weighting; an unfinished weekend does not enter completed-race form. Qualifying, Sprint and race classifications, plus official Fantasy scores where available, support scoring and completion checks as results arrive.
+
+**Practice can affect projections, but only when enabled.** The **Live session emphasis** slider defaults to **0**. Above zero, complete classifications for the forecast event provide a ranking-based adjustment: FP1/FP2/FP3 on normal weekends, or FP1/Sprint Qualifying on Sprint weekends. The model reassigns the baseline EV values by session ranking and blends that projection with baseline EV. It is a classification-based signal, not a lap-time or race-pace simulation. Missing or incomplete sessions are excluded from that blend.
+
+Use **Refresh live data** to update available inputs. Sessions become eligible progressively after validation; source/status panels explain missing, partial or retained data. Market prices can update while previously verified scoring inputs remain in use.
+
+## Sprint and price modelling
+
+**Sprint weekends have a dedicated model.** Historical Sprint observations fit separate driver and constructor adjustments, including shrinkage/strength terms. Grand Prix and Sprint contributions are kept separate to prevent double counting. The active version is **`sprint_ev_2026_v2`**; updates follow **audit → candidate → validation → explicit activation**, with frozen inputs and comparison reports. The app does not refit or activate automatically. See [Sprint model maintenance](docs/SPRINT_MODEL_MAINTENANCE.md).
+
+**Expected points and expected price gain answer different questions.** Points estimate Fantasy scoring; gain estimates a change in an asset's Fantasy price, in millions. A score-distribution model uses projected points, volatility, DNF risk and available recent scores to assign probabilities to **Terrible / Poor / Good / Great** price bands. Expected gain is the probability-weighted price movement under the model's rules and bounds.
+
+The Market **Thresholds** view shows the next-event scores needed to reach those bands given price and available recent history. These are decision aids derived from code-configured, inferred rules—not adjustable accuracy targets or published official price algorithms. **Efficiency** compares historical points per million separately from the forecast.
+
+The main optimiser's **Price-growth value** slider sets how many objective points +1.0M of expected gain is worth; zero emphasises points alone. Limitless uses points only. The transfer tool additionally exposes **Points only**, **Price growth only**, **Combined points + price growth** and **Risk-adjusted combined** modes. Chip multipliers affect team points, not underlying price movement.
 
 ## How it works technically
 
 ```mermaid
 flowchart TD
-    A[Public Fantasy feeds and race results] --> B[Validation, identities and verified cache fallback]
-    B --> C[Canonical recorded history and selected completed races]
-    C --> D[Weighted form, volatility and normal-weekend EV]
-    D --> E[Normal or fitted Sprint projection]
-    E --> F[Probabilistic price-change estimates]
-    E --> G[MILP team and transfer optimisation]
-    F --> G
-    G --> H[Streamlit decision-support interface]
+    A[Public Fantasy market and weekend classifications] --> V[Identity, completeness and freshness validation]
+    B[Recorded historical Fantasy and race data] --> C[Canonical history and provenance]
+    V --> K[Accepted snapshots and validated fallback]
+    K --> H[Selected completed races and weighted form]
+    C --> H
+    H --> E[Normal-weekend EV or calibrated Sprint EV]
+    K --> L[Eligible practice and Sprint Qualifying rankings]
+    L --> W[Optional live-session blend]
+    E --> W
+    K --> P[Current prices and recent score inputs]
+    W --> P
+    P --> Q[Price-band probabilities and expected gain]
+    W --> O[Constrained team optimiser and transfer search]
+    Q --> O
+    O --> U[Streamlit analysis, recommendations and exports]
 ```
 
-**Data engineering.** Market prices are resolved separately from historical event prices. Feed validation, atomic refreshes, last-good snapshots and season/round identities prevent a partial response or race rollover from silently replacing accepted data. Recorded 2023–2026 Fantasy history retains provenance and missing components; inactive/replacement drivers retain their historical identities.
+Canonical 2023–2026 recorded Fantasy history retains source provenance and missing components; inactive/replacement drivers retain their identities. Current market prices are distinct from historical event prices. Atomic refresh handling and verified snapshots guard against partial responses and event rollovers.
 
-**Statistical modelling.** Selected race history combines current and past seasons with configurable recency weighting. Sprint EV uses separately fitted driver and constructor adjustments, including shrinkage/strength terms. Sprint points are removed from the normal baseline before the Sprint contribution is added. Optional live-session emphasis is guarded by event identity and completion checks; its default weight is zero.
+PuLP/CBC solves team selection as a mixed-integer problem. Shared modelling supports transfer evaluation, budgets, multipliers and value analysis. Automated tests cover ingestion failures, data integrity, model arithmetic, optimisation constraints, calibration maintenance and Streamlit interactions. See [data definitions](docs/HISTORICAL_FANTASY_SCORES_2023_2026.md) and [release/reproducibility checks](docs/REPOSITORY_RELEASE.md).
 
-**Reproducible calibration.** The active Sprint model is `sprint_ev_2026_v2`. Its parameters are fitted from completed historical Sprint weekends and maintained through **audit → candidate → validation → explicit activation**. Frozen inputs, versioned artifacts and comparison reports make changes reviewable. See [Sprint model maintenance](docs/SPRINT_MODEL_MAINTENANCE.md); the app never fits or activates a model automatically.
+## Limitations
 
-**Optimisation.** PuLP/CBC solves the constrained team selection problem. Shared modelling feeds points and price-growth objectives, current-team valuation, transfer limits/penalties, locks, exclusions and chip scenarios. Tests cover source failures, model arithmetic, constraints, maintenance safety and Streamlit interactions.
-
-These are modelling estimates, not demonstrated guarantees of predictive accuracy. Price-change rules are inferred and configurable; limited Sprint samples, missing data and changing public endpoints remain practical limitations.
+Public endpoints can change or return incomplete classifications; coverage varies by season, asset and session. Forecasts and price-band probabilities are estimates, without demonstrated predictive-accuracy guarantees. Price rules are inferred, the historical Sprint sample is small, and practice rankings do not capture fuel loads or race pace. Inspect source warnings before acting on recommendations.
 
 ## Run locally
 
