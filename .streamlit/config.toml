@@ -1,0 +1,8 @@
+# Keep native inputs, dataframes and application chrome in the same visual system.
+[theme]
+base = "dark"
+primaryColor = "#ef5350"
+backgroundColor = "#0e1116"
+secondaryBackgroundColor = "#1c232d"
+textColor = "#f2f5f8"
+font = "sans serif"

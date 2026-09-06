@@ -222,7 +222,7 @@ def test_streamlit_card_wrapper_renders_html_unsafely_and_json_tools_are_combine
 
     assert "fantasy_card_grid_html" in source
     assert "unsafe_allow_html=True" in source
-    assert "Advanced: JSON import / export" in source
+    assert 'st.expander("Import or export team JSON", expanded=False)' in source
     assert "Advanced: JSON export" not in source
     assert "Technical details" not in source
 
@@ -233,7 +233,7 @@ def test_main_tabs_remove_assumptions_and_trends():
     assert '"Trends"' not in source
     assert "PRIMARY_NAVIGATION_AREAS" in source
     assert 'default="Optimise"' in source
-    assert '"Projection & thresholds"' in source
+    assert '"Thresholds & projection"' in source
     assert '"Efficiency"' in source
     assert '"Current team"' in source
     assert '"Transfers"' in source
@@ -245,10 +245,10 @@ def test_main_tabs_remove_assumptions_and_trends():
 
 def test_subtitle_and_tab_explanations_use_user_facing_copy():
     source = Path("streamlit_app.py").read_text(encoding="utf-8")
-    assert "Live projections, market movement and transfer planning." in source
+    assert "Build your team. Know your trade-offs." in source
     assert "A lightweight Streamlit wrapper around the existing Python model." not in source
-    assert ">OPTIMISE<" in source
-    assert ">MARKET<" in source
+    assert 'key="optimiser_dashboard"' in source
+    assert 'st.subheader("Market outlook")' in source
     assert "SQUAD BUILDER" in source
     assert "TRANSFER DESK" in source
     assert "SELECTION RULES" in source
@@ -810,8 +810,8 @@ def test_fantasy_card_is_compact_and_keeps_the_four_requested_values():
     assert "$24.4" in html
     assert "56.7 Pts" in html
     assert "+0.30" in html
-    assert 'class="f1-card-name"' not in html
-    assert 'class="f1-card-team"' not in html
+    assert '<span class="f1-asset-name">Driver</span>' in html
+    assert '<span class="f1-asset-team">Ferrari</span>' in html
     assert 'class="f1-initials"' not in html
     assert 'class="f1-stat"' not in html
 
@@ -1232,14 +1232,19 @@ def test_transfer_ui_source_uses_shared_card_html_and_simplified_metrics():
     assert 'format_points(pd.to_numeric(row.get("Transfer penalty"), errors="coerce"))' in source
 
 
-def test_cards_use_shared_size_without_constructor_specific_wide_style():
-    source = Path("streamlit_app.py").read_text(encoding="utf-8")
+def test_driver_and_constructor_cards_share_responsive_rows():
+    import re
 
-    assert ".f1-constructor-card" not in source
-    assert "grid-template-columns: repeat(5, minmax(64px, 1fr))" in source
-    assert "grid-template-columns: repeat(2, minmax(64px, 1fr))" in source
-    assert "width: 252px;" not in source
-    assert "grid-template-columns: 252px auto 252px;" not in source
+    from f1fantasy.ui_styles import DASHBOARD_CSS
+
+    assert ".f1-constructor-card" not in DASHBOARD_CSS
+    assert ".f1-card-grid { display: grid; grid-template-columns: 1fr;" in DASHBOARD_CSS
+    assert ".f1-driver-card {" in DASHBOARD_CSS
+    # Desktop and narrow layouts allow the name column to shrink naturally.
+    card_rules = re.findall(r"\.f1-driver-card\s*\{([^}]+)\}", DASHBOARD_CSS)
+    assert sum("grid-template-columns: minmax(0,1fr)" in rule for rule in card_rules) >= 2
+    assert "width: 252px;" not in DASHBOARD_CSS
+    assert "grid-template-columns: 252px auto 252px;" not in DASHBOARD_CSS
 
 
 def test_transfer_explanation_not_rendered_as_duplicate_caption():

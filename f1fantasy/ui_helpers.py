@@ -24,6 +24,7 @@ PRICE_EFFICIENCY_SORT_COLUMNS = {
     "Current price": "current_price",
     "Coverage": "coverage_fraction",
 }
+PROJECTION_SORT_OPTIONS = ("Price", "Price gain", "Projected points")
 
 GAIN_TOLERANCE = 0.005
 PRIMARY_NAVIGATION_AREAS = ("Optimise", "Market", "Team", "Settings")
@@ -397,6 +398,30 @@ def compact_asset_universe_rows(
     return tuple(rows)
 
 
+def sort_projection_assets(
+    assets: pd.DataFrame | None,
+    sort_by: str = "Price",
+    ascending: bool = False,
+) -> pd.DataFrame:
+    """Sort the displayed projection metric, preserving values, ties and source data."""
+    data = assets.copy(deep=True) if assets is not None else pd.DataFrame()
+    if data.empty:
+        return data
+    metric_key = {
+        "Price": "price_value",
+        "Price gain": "gain_value",
+        "Projected points": "points_value",
+    }.get(sort_by, "price_value")
+    values = pd.Series(
+        [compact_asset_payload(row)[metric_key] for _, row in data.iterrows()],
+        dtype="float64",
+    )
+    positions = values.sort_values(
+        ascending=bool(ascending), kind="stable", na_position="last"
+    ).index
+    return data.iloc[positions].copy(deep=True)
+
+
 def asset_constraint_transition(
     state: Mapping[str, Iterable[Any]] | None,
     *,
@@ -540,15 +565,21 @@ def team_summary_payload(
 
 def team_summary_html(summary: Mapping[str, Mapping[str, Any]]) -> str:
     """Render the shared four-value summary without large metric widgets."""
+    labels = {
+        "value": "Team cost",
+        "left": "Budget left",
+        "gain": "Price gain",
+        "points": "Expected pts",
+    }
     items = "".join(
         (
             '<div class="f1-team-stat">'
-            f'<span>{html.escape(str(item.get("label", "")))}</span>'
+            f'<span>{html.escape(str(labels.get(key, item.get("label", ""))))}</span>'
             f'<strong class="{html.escape(str(item.get("class", "f1-gain-neutral")))}">'
             f'{html.escape(str(item.get("value", "—")))}</strong>'
             "</div>"
         )
-        for item in summary.values()
+        for key, item in summary.items()
     )
     return f'<div class="f1-team-summary">{items}</div>'
 
@@ -687,6 +718,7 @@ def contrast_text_colour(background: Any) -> str:
 
 
 def compact_asset_identity_html(asset: Mapping[str, Any] | pd.Series) -> str:
+    """Keep identity accessible when responsive layouts show only the team badge."""
     row = asset if isinstance(asset, Mapping) else asset.to_dict()
     asset_type = _text(row.get("asset_type")) or "asset"
     abbreviation = asset_abbreviation(row, asset_type)
@@ -701,15 +733,25 @@ def compact_asset_identity_html(asset: Mapping[str, Any] | pd.Series) -> str:
     identity = full_name if not team_name or team_name == full_name else f"{full_name} — {team_name}"
     background = normalize_hex_colour(row.get("team_colour"))
     foreground = contrast_text_colour(background)
+    team_html = (
+        f'<span class="f1-asset-team">{html.escape(team_name)}</span>'
+        if team_name and team_name != full_name
+        else ""
+    )
     return (
+        '<span class="f1-asset-identity" role="img" title="{title}" aria-label="{aria}">'
         '<span class="f1-asset-id" style="background:{background};color:{foreground}" '
-        'title="{title}" aria-label="{aria}">{abbreviation}</span>'
+        'aria-hidden="true">{abbreviation}</span>'
+        '<span class="f1-asset-text"><span class="f1-asset-name">{name}</span>{team}</span>'
+        '</span>'
     ).format(
         background=background,
         foreground=foreground,
         title=html.escape(identity, quote=True),
         aria=html.escape(f"{asset_type.title()}: {identity}", quote=True),
         abbreviation=html.escape(abbreviation),
+        name=html.escape(full_name),
+        team=team_html,
     )
 
 
@@ -758,11 +800,15 @@ def compact_asset_table_html(
     return (
         '<div class="f1-responsive-table f1-desktop-table">'
         '<div class="f1-table-scroll f1-universe-scroll"><table class="f1-compact-table f1-universe-table">'
-        "<thead><tr><th>Asset</th><th>Price</th><th>Gain</th><th>EV</th></tr></thead>"
+        '<thead><tr><th scope="col">Asset</th><th scope="col" title="Current price in millions">Price ($M)</th>'
+        '<th scope="col" title="Expected price gain in millions">Gain ($M)</th>'
+        '<th scope="col" title="Expected points">Points</th></tr></thead>'
         f"<tbody>{body}</tbody></table></div></div>"
         '<div class="f1-responsive-table f1-mobile-table">'
         '<div class="f1-table-scroll f1-universe-scroll"><table class="f1-compact-table f1-mobile-schema f1-projection-mobile">'
-        "<thead><tr><th>Asset</th><th>Price</th><th>Gain</th><th>Pts</th></tr></thead>"
+        '<thead><tr><th scope="col">Asset</th><th scope="col" title="Current price in millions">Price ($M)</th>'
+        '<th scope="col" title="Expected price gain in millions">Gain ($M)</th>'
+        '<th scope="col" title="Expected points">Points</th></tr></thead>'
         f"<tbody>{body}</tbody></table></div></div>"
     )
 

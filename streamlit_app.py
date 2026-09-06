@@ -102,6 +102,7 @@ from f1fantasy.ui_helpers import (
     OPTIMISE_MOBILE_SUBVIEWS,
     PRIMARY_NAVIGATION_AREAS,
     PRICE_EFFICIENCY_SORT_COLUMNS,
+    PROJECTION_SORT_OPTIONS,
     asset_constraint_transition,
     compact_asset_table_html,
     compact_asset_universe_rows,
@@ -123,6 +124,7 @@ from f1fantasy.ui_helpers import (
     reconcile_race_control_state,
     resolve_price_efficiency_asset_type,
     sprint_diagnostic_table_html,
+    sort_projection_assets,
     team_summary_html,
     team_summary_payload,
     team_solution_key,
@@ -133,684 +135,13 @@ st.set_page_config(
     page_title="F1 Fantasy Optimiser",
     page_icon="F1",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
 
-def _inject_dashboard_css() -> None:
-    st.markdown(
-        """
-        <style>
-        :root {
-            --f1-bg: #07090f;
-            --f1-panel: #11141c;
-            --f1-panel-soft: #171b24;
-            --f1-border: rgba(255, 255, 255, 0.10);
-            --f1-text: #f8fafc;
-            --f1-muted: #a8b0bd;
-            --f1-red: #e10600;
-            --f1-red-soft: rgba(225, 6, 0, 0.18);
-            --f1-green: #22c55e;
-        }
-        .stApp {
-            background:
-                radial-gradient(circle at 8% 0%, rgba(225, 6, 0, 0.18), transparent 28rem),
-                linear-gradient(135deg, #07090f 0%, #0d111a 48%, #07090f 100%);
-            color: var(--f1-text);
-        }
-        .block-container {
-            padding-top: 1rem;
-            padding-bottom: 2rem;
-            max-width: 1480px;
-        }
-        h1, h2, h3 {
-            letter-spacing: 0;
-        }
-        h1 {
-            font-weight: 900;
-            border-left: 5px solid var(--f1-red);
-            padding-left: 0.9rem;
-        }
-        h2, h3 {
-            font-weight: 800;
-        }
-        .f1-app-header h1 {
-            margin: 0;
-        }
-        .f1-app-header p {
-            margin: 0.25rem 0 0.45rem 1.25rem;
-            color: var(--f1-muted);
-            font-size: 0.88rem;
-        }
-        div[data-testid="stMetric"] {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
-            border: 1px solid var(--f1-border);
-            border-radius: 8px;
-            padding: 0.85rem 0.95rem;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
-        }
-        div[data-testid="stMetric"] label {
-            color: var(--f1-muted) !important;
-        }
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.35rem;
-            border-bottom: 1px solid var(--f1-border);
-            overflow-x: auto;
-            overflow-y: hidden;
-            flex-wrap: nowrap;
-            scrollbar-width: thin;
-            touch-action: pan-x;
-        }
-        .stTabs [data-baseweb="tab"] {
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px 8px 0 0;
-            padding: 0.55rem 0.9rem;
-            flex: 0 0 auto;
-            min-height: 44px;
-            white-space: nowrap;
-        }
-        .stTabs [aria-selected="true"] {
-            border-color: rgba(225, 6, 0, 0.65);
-            box-shadow: inset 0 -3px 0 var(--f1-red);
-        }
-        div[data-testid="stVerticalBlockBorderWrapper"] {
-            background: rgba(15, 19, 29, 0.72);
-            border-color: var(--f1-border);
-            border-radius: 8px;
-        }
-        .f1-race-card, .f1-panel-card {
-            border: 1px solid var(--f1-border);
-            border-radius: 8px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.026));
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-        }
-        .f1-race-card {
-            padding: 0.65rem 0.85rem;
-            margin: 0.4rem 0 0.65rem;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 1rem;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-        .f1-race-card:before {
-            content: "";
-            position: absolute;
-            inset: 0 auto 0 0;
-            width: 5px;
-            background: var(--f1-red);
-        }
-        .f1-round {
-            color: #fff;
-            background: var(--f1-red);
-            border-radius: 999px;
-            padding: 0.25rem 0.65rem;
-            font-size: 0.78rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .f1-race-name {
-            font-size: clamp(1.05rem, 1.8vw, 1.5rem);
-            line-height: 1.05;
-            font-weight: 900;
-        }
-        .f1-race-date, .f1-race-sub {
-            color: var(--f1-muted);
-            font-weight: 650;
-        }
-        .f1-race-countdown {
-            font-size: 1.05rem;
-            font-weight: 900;
-            letter-spacing: 0.03em;
-            color: #ffffff;
-            margin-top: 0.25rem;
-        }
-        .f1-section-kicker {
-            color: var(--f1-red);
-            font-size: 0.78rem;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin: 1rem 0 0.25rem;
-        }
-        .f1-card-grid {
-            display: grid;
-            --f1-asset-gap: 6px;
-            gap: var(--f1-asset-gap);
-            margin: 0;
-        }
-        .f1-driver-grid {
-            grid-template-columns: repeat(5, minmax(64px, 1fr));
-            overflow-x: auto;
-            scrollbar-width: thin;
-        }
-        .f1-constructor-grid {
-            grid-template-columns: repeat(2, minmax(64px, 1fr));
-            width: calc(40% - 3.6px);
-            min-width: 134px;
-            margin-inline: auto;
-        }
-        .f1-driver-card {
-            position: relative;
-            width: 100%;
-            min-width: 0;
-            height: 78px;
-            border: 1px solid var(--f1-border);
-            border-top: 3px solid var(--team-color, #64748b);
-            border-radius: 9px;
-            background: #131722;
-            overflow: hidden;
-            padding: 6px 7px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 3px;
-        }
-        .f1-card-top {
-            display: flex;
-            justify-content: flex-start;
-            gap: 4px;
-            align-items: center;
-        }
-        .f1-card-identity {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            min-width: 0;
-        }
-        .f1-driver-card .f1-asset-id {
-            min-width: 0;
-            min-height: 0;
-            padding: 0;
-            border-radius: 0;
-            background: transparent !important;
-            color: #ffffff !important;
-            font-size: 0.76rem;
-            letter-spacing: 0.035em;
-        }
-        .f1-asset-id {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 3.15rem;
-            min-height: 2rem;
-            border-radius: 7px;
-            padding: 0.28rem 0.55rem;
-            font-size: 0.88rem;
-            font-weight: 950;
-            letter-spacing: 0.055em;
-            white-space: nowrap;
-        }
-        .f1-card-price, .f1-card-points, .f1-card-gain {
-            color: #ffffff;
-            font-weight: 850;
-            white-space: nowrap;
-        }
-        .f1-card-middle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2px;
-            min-width: 0;
-        }
-        .f1-card-price {
-            font-size: 0.68rem;
-        }
-        .f1-card-points {
-            font-size: 0.70rem;
-        }
-        .f1-card-gain {
-            font-size: 0.68rem;
-        }
-        .f1-boost {
-            background: var(--f1-red);
-            color: #fff;
-            border-radius: 999px;
-            padding: 1px 4px;
-            font-size: 0.58rem;
-            font-weight: 900;
-            white-space: nowrap;
-        }
-        .f1-availability-muted {
-            background: #303744;
-            color: #cbd5e1;
-            border: 1px solid #4b5563;
-            border-radius: 999px;
-            padding: 1px 4px;
-            font-size: 0.54rem;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-        .f1-gain-positive { color: #6ee7a3 !important; }
-        .f1-gain-negative { color: #fb7185 !important; }
-        .f1-gain-neutral { color: #cbd5e1 !important; }
-        .f1-gain-missing { color: #7d8797 !important; }
-        .f1-ranked-team {
-            border: 1px solid var(--f1-border);
-            border-radius: 11px;
-            background: rgba(13, 17, 26, 0.92);
-            padding: 7px 8px 8px;
-            margin-bottom: 7px;
-        }
-        .f1-team-header {
-            display: grid;
-            grid-template-columns: 30px minmax(0, 1fr);
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 5px;
-        }
-        .f1-team-rank {
-            display: grid;
-            place-items: center;
-            width: 29px;
-            height: 29px;
-            border-radius: 7px;
-            background: var(--f1-red-soft);
-            border: 1px solid rgba(225, 6, 0, 0.55);
-            font-size: 0.92rem;
-            font-weight: 900;
-        }
-        .f1-team-summary {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 4px;
-        }
-        .f1-team-stat {
-            min-width: 0;
-            text-align: right;
-            line-height: 1.05;
-        }
-        .f1-team-stat span {
-            display: block;
-            color: var(--f1-muted);
-            font-size: 0.67rem;
-            text-transform: uppercase;
-            letter-spacing: 0.035em;
-        }
-        .f1-team-stat strong {
-            display: block;
-            margin-top: 2px;
-            color: #ffffff;
-            font-size: 0.88rem;
-            white-space: nowrap;
-        }
-        .f1-team-assets {
-            display: grid;
-            gap: 5px;
-        }
-        .f1-ranked-team .f1-driver-grid {
-            grid-template-columns: repeat(5, minmax(64px, 142px));
-            justify-content: center;
-        }
-        .f1-ranked-team .f1-constructor-grid {
-            grid-template-columns: repeat(2, minmax(64px, 142px));
-            width: auto;
-            min-width: 0;
-            justify-content: center;
-        }
-        .f1-ranked-team .f1-driver-card {
-            height: 76px;
-            padding: 5px 6px;
-        }
-        .f1-ranked-team .f1-driver-card .f1-asset-id { font-size: 0.86rem; }
-        .f1-ranked-team .f1-card-price,
-        .f1-ranked-team .f1-card-gain { font-size: 0.76rem; }
-        .f1-ranked-team .f1-card-points { font-size: 0.79rem; }
-        .f1-ranked-team .f1-boost { font-size: 0.65rem; }
-        .st-key-optimiser_quick_setup [data-testid="stVerticalBlockBorderWrapper"] {
-            padding: 0.35rem 0.55rem 0.2rem;
-        }
-        .st-key-optimiser_quick_setup [data-testid="stWidgetLabel"] {
-            margin-bottom: 0.1rem;
-        }
-        .f1-universe-heading {
-            color: var(--f1-muted);
-            font-size: 0.66rem;
-            font-weight: 850;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .f1-universe-number {
-            display: block;
-            padding-top: 0.34rem;
-            font-size: 0.76rem;
-            font-weight: 750;
-            white-space: nowrap;
-        }
-        [class*="st-key-optimiser_universe_scroll"] div[data-testid="stHorizontalBlock"] {
-            min-height: 40px;
-            gap: 2px;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-        [class*="st-key-optimiser_universe_scroll"] div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"] {
-            min-width: 0;
-        }
-        [class*="st-key-optimiser_universe_scroll"] [data-testid="stMarkdownContainer"] p {
-            margin: 0;
-        }
-        [class*="st-key-optimiser_universe_scroll"] [data-testid="stCheckbox"] {
-            display: flex;
-            justify-content: center;
-            margin: 0;
-        }
-        .f1-results-scroll, .f1-universe-scroll {
-            max-height: min(68vh, 650px);
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            padding-right: 3px;
-        }
-        .f1-universe-table {
-            min-width: 0;
-            table-layout: auto;
-        }
-        .f1-universe-table th, .f1-universe-table td {
-            height: 46px;
-            padding: 0.38rem 0.42rem;
-        }
-        .f1-table-note {
-            color: var(--f1-muted);
-            font-size: 0.72rem;
-            padding: 0.4rem 0.55rem;
-        }
-        .f1-transfer-row {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-            justify-content: center;
-            gap: 0.7rem;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            width: min(100%, 620px);
-            margin-inline: auto;
-        }
-        .f1-transfer-card-slot {
-            display: flex;
-            justify-content: center;
-        }
-        .f1-transfer-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 900;
-            color: #ffffff;
-            min-width: 2.25rem;
-        }
-        .f1-table-scroll {
-            width: 100%;
-            overflow-x: auto;
-            border: 1px solid var(--f1-border);
-            border-radius: 10px;
-            margin: 0.55rem 0 0.9rem;
-        }
-        .f1-compact-table {
-            width: 100%;
-            min-width: 660px;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-        }
-        .f1-compact-table th, .f1-compact-table td {
-            padding: 0.68rem 0.75rem;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            text-align: right;
-            vertical-align: middle;
-        }
-        .f1-compact-table th {
-            color: var(--f1-muted);
-            font-size: 0.74rem;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        .f1-compact-table th:first-child, .f1-compact-table td:first-child {
-            text-align: left;
-            position: sticky;
-            left: 0;
-            background: #11141c;
-            z-index: 1;
-        }
-        .f1-compact-table small {
-            color: var(--f1-muted);
-            display: block;
-            white-space: nowrap;
-            margin-top: 0.12rem;
-        }
-        .f1-price-change-table {
-            min-width: 720px;
-        }
-        .f1-price-change-table th, .f1-price-change-table td {
-            white-space: nowrap;
-        }
-        .f1-price-change-table th:first-child,
-        .f1-price-change-table td:first-child {
-            width: 5.4rem;
-            min-width: 5.4rem;
-            max-width: 5.4rem;
-        }
-        .f1-empty-table {
-            color: var(--f1-muted);
-            padding: 0.8rem;
-            border: 1px dashed var(--f1-border);
-            border-radius: 10px;
-        }
-        .f1-mobile-table,
-        .st-key-optimise_mobile_subview,
-        .st-key-optimiser_teams_action,
-        .st-key-optimiser_mobile_model_controls,
-        [class*="st-key-sprint_diagnostics_mobile"] {
-            display: none;
-        }
-        @media (min-width: 769px) {
-            body:has(.f1-universe-desktop-drivers) .st-key-optimiser_constructors_view,
-            body:has(.f1-universe-desktop-constructors) .st-key-optimiser_drivers_view {
-                display: none;
-            }
-        }
-        @media (max-width: 1024px) {
-            .block-container {
-                padding-left: 1.25rem;
-                padding-right: 1.25rem;
-            }
-        }
-        @media (max-width: 768px) {
-            .block-container {
-                padding-bottom: calc(68px + env(safe-area-inset-bottom) + 16px);
-            }
-            .f1-race-card {
-                grid-template-columns: 1fr;
-            }
-            .f1-transfer-row {
-                grid-template-columns: 1fr;
-                width: 100%;
-            }
-            .f1-transfer-arrow {
-                min-height: 1.5rem;
-            }
-            div[data-testid="stMetric"] {
-                min-height: 72px;
-            }
-            button, input, [role="combobox"] {
-                min-height: 44px;
-            }
-            .st-key-optimise_mobile_subview {
-                display: block;
-                position: fixed;
-                z-index: 999;
-                left: 8px;
-                width: calc(100vw - 16px) !important;
-                box-sizing: border-box;
-                bottom: calc(8px + env(safe-area-inset-bottom));
-                padding: 5px;
-                border: 1px solid var(--f1-border);
-                border-radius: 12px;
-                background: rgba(7, 9, 15, 0.96);
-                box-shadow: 0 12px 30px rgba(0,0,0,0.45);
-                backdrop-filter: blur(12px);
-            }
-            .st-key-optimise_mobile_subview [data-testid="stButtonGroup"] {
-                width: 100% !important;
-            }
-            .st-key-optimise_mobile_subview [data-testid="stButtonGroup"] > div {
-                display: grid;
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                width: 100% !important;
-                gap: 4px;
-            }
-            .st-key-optimise_mobile_subview button {
-                min-width: 0;
-                min-height: 48px;
-                padding: 5px 3px;
-                border-radius: 8px;
-                font-size: 0.72rem;
-                white-space: nowrap;
-            }
-            .st-key-optimise_mobile_subview button[aria-checked="true"] {
-                background: rgba(255,255,255,0.10);
-                box-shadow: inset 0 -2px 0 var(--f1-red);
-            }
-            .st-key-optimiser_controls_view,
-            .st-key-optimiser_teams_action,
-            .st-key-optimiser_teams_view,
-            .st-key-optimiser_drivers_view,
-            .st-key-optimiser_constructors_view {
-                display: none;
-            }
-            body:has(.f1-optimise-view-teams) .st-key-optimiser_teams_action,
-            body:has(.f1-optimise-view-teams) .st-key-optimiser_teams_view,
-            body:has(.f1-optimise-view-drivers) .st-key-optimiser_drivers_view,
-            body:has(.f1-optimise-view-constructors) .st-key-optimiser_constructors_view,
-            body:has(.f1-optimise-view-controls) .st-key-optimiser_controls_view {
-                display: block;
-            }
-            .st-key-optimiser_universe_selector {
-                display: none;
-            }
-            .st-key-diagnostics_summary_metrics {
-                display: none;
-            }
-            .st-key-optimiser_mobile_model_controls {
-                display: block;
-            }
-            .f1-desktop-table,
-            [class*="st-key-sprint_diagnostics_desktop"] {
-                display: none;
-            }
-            .f1-mobile-table,
-            [class*="st-key-sprint_diagnostics_mobile"] {
-                display: block;
-            }
-            .f1-mobile-schema {
-                width: 100%;
-                min-width: 0;
-                table-layout: fixed;
-                font-size: 0.88rem;
-                font-variant-numeric: tabular-nums;
-            }
-            .f1-mobile-schema th,
-            .f1-mobile-schema td {
-                padding: 0.58rem 0.42rem;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .f1-mobile-schema th:first-child,
-            .f1-mobile-schema td:first-child {
-                width: 29%;
-            }
-            .f1-efficiency-mobile th:first-child,
-            .f1-efficiency-mobile td:first-child {
-                width: 38%;
-            }
-            .f1-sprint-mobile th:first-child,
-            .f1-sprint-mobile td:first-child {
-                width: 31%;
-            }
-            .st-key-optimiser_quick_setup div[data-testid="stHorizontalBlock"] {
-                flex-wrap: wrap;
-            }
-            .st-key-optimiser_quick_setup div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(1) {
-                flex: 1 1 100% !important;
-                min-width: 100% !important;
-            }
-            .st-key-optimiser_quick_setup div[data-testid="stHorizontalBlock"] > div[data-testid="stColumn"]:nth-child(n+2) {
-                flex: 1 1 calc(33.333% - 6px) !important;
-                min-width: 0 !important;
-            }
-            .f1-ranked-team .f1-driver-grid {
-                grid-template-columns: repeat(6, minmax(0, 1fr));
-                justify-content: stretch;
-                overflow: visible;
-            }
-            .f1-ranked-team .f1-driver-grid .f1-driver-card:nth-child(-n+3) {
-                grid-column: span 2;
-            }
-            .f1-ranked-team .f1-driver-grid .f1-driver-card:nth-child(n+4) {
-                grid-column: span 3;
-            }
-            .f1-ranked-team .f1-constructor-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                width: 100%;
-                min-width: 0;
-            }
-        }
-        @media (max-width: 480px) {
-            .block-container {
-                padding: 0.65rem 0.55rem calc(68px + env(safe-area-inset-bottom) + 16px);
-            }
-            h1 {
-                font-size: 1.25rem;
-                padding-left: 0.65rem;
-            }
-            h2 { font-size: 1.35rem; }
-            h3 { font-size: 1.08rem; }
-            .f1-race-card {
-                padding: 0.55rem 0.7rem;
-                gap: 0.35rem;
-                grid-template-columns: auto 1fr;
-            }
-            .f1-race-card > div:last-child {
-                display: none;
-            }
-            .f1-app-header p {
-                display: none;
-            }
-            .f1-driver-card {
-                height: 76px;
-                padding: 5px;
-            }
-            .f1-ranked-team .f1-card-price,
-            .f1-ranked-team .f1-card-gain { font-size: 0.75rem; }
-            .f1-ranked-team .f1-card-points { font-size: 0.80rem; }
-            .f1-ranked-team .f1-driver-card .f1-asset-id { font-size: 0.86rem; }
-            .f1-price-change-table th, .f1-price-change-table td {
-                padding: 0.48rem 0.45rem;
-                font-size: 0.78rem;
-            }
-            .f1-price-change-table .f1-asset-id {
-                min-width: 2.8rem;
-                padding-inline: 0.4rem;
-                font-size: 0.78rem;
-            }
-            .stTabs [data-baseweb="tab"] {
-                padding-inline: 0.72rem;
-            }
-            .f1-ranked-team {
-                padding-inline: 7px;
-            }
-            .f1-team-header {
-                grid-template-columns: 25px minmax(0, 1fr);
-                gap: 4px;
-            }
-            .f1-team-stat strong { font-size: 0.70rem; }
-            .f1-team-stat span { font-size: 0.55rem; }
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+from f1fantasy.ui_styles import DASHBOARD_CSS
 
-
-_inject_dashboard_css()
+st.markdown(DASHBOARD_CSS, unsafe_allow_html=True)
 LOGGER = logging.getLogger(__name__)
 RAW_LIVE_HISTORY_SEASONS = 3
 
@@ -961,11 +292,11 @@ def _render_compact_asset_universe(
         st.info("No assets available.")
         return
     with st.container(height=620, border=True, key=container_key):
-        header = st.columns([1.34, 0.72, 0.78, 0.68, 0.55, 0.67], gap="small")
-        for column, label in zip(header, ("Asset", "Price", "Gain", "EV", "Lock", "Out")):
+        header = st.columns([1.8, 0.7, 0.75, 0.65, 0.65, 0.65], gap="small")
+        for column, label in zip(header, ("Asset", "Price", "Gain", "Pts", "Lock", "Out")):
             column.markdown(f'<span class="f1-universe-heading">{label}</span>', unsafe_allow_html=True)
         for row in rows:
-            columns = st.columns([1.34, 0.72, 0.78, 0.68, 0.55, 0.67], gap="small")
+            columns = st.columns([1.8, 0.7, 0.75, 0.65, 0.65, 0.65], gap="small")
             columns[0].markdown(row["asset"], unsafe_allow_html=True)
             columns[1].markdown(f'<span class="f1-universe-number">{row["price"]}</span>', unsafe_allow_html=True)
             columns[2].markdown(
@@ -1140,7 +471,7 @@ def _render_race_header(diagnostics: dict) -> None:
     lock_deadline_raw = diagnostics.get("team_lock_deadline_utc")
     lock_source = diagnostics.get("team_lock_deadline_source", "unavailable")
     lock_deadline = parse_team_lock_deadline_timestamp(lock_deadline_raw)
-    deadline_note = "Team lock deadline" if lock_deadline is not None else "Team lock deadline unavailable"
+    deadline_note = "Team lock" if lock_deadline is not None else "Team lock unavailable"
     countdown_markup = (
         f'<div class="f1-race-countdown">{_safe_text(format_countdown(lock_deadline))}</div>'
         if lock_deadline is not None
@@ -1154,7 +485,7 @@ def _render_race_header(diagnostics: dict) -> None:
         <div class="f1-race-card">
             <div class="f1-round">{_safe_text(round_label)}</div>
             <div>
-                <div class="f1-race-sub">Upcoming fantasy deadline focus</div>
+                <div class="f1-race-sub">NEXT GRAND PRIX</div>
                 <div class="f1-race-name">{race_label}</div>
             </div>
             <div>
@@ -1554,36 +885,33 @@ def _price_change_table_styler(df: pd.DataFrame):
 
 
 def _price_change_table_html(df: pd.DataFrame) -> str:
+    if {"Asset", "Price", "Terrible", "Poor", "Good", "Great"}.issubset(df.columns):
+        # Keep the underlying market dataset intact; show only decision-making columns.
+        rows = []
+        for _, row in df.iterrows():
+            price = pd.to_numeric(row.get("Price"), errors="coerce")
+            price_text = "—" if pd.isna(price) else f"{float(price):.1f}"
+            bands = "".join(
+                f'<td class="f1-band-{band.lower()}">{html.escape(str(row[band]))}</td>'
+                for band in ("Terrible", "Poor", "Good", "Great")
+            )
+            rows.append(
+                f'<tr><td class="f1-asset-cell">{row["Asset"]}</td>'
+                f"<td>{price_text}</td>{bands}</tr>"
+            )
+        return (
+            '<div class="f1-table-scroll f1-market-table-wrap"><table class="f1-compact-table '
+            'f1-market-table f1-threshold-table">'
+            '<thead><tr><th scope="col">Asset</th><th scope="col">Price ($M)</th>'
+            '<th scope="col">Terrible</th><th scope="col">Poor</th>'
+            '<th scope="col">Good</th><th scope="col">Great</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>'
+        )
     styler = _price_change_table_styler(df)
     styler = styler.hide(axis="index").set_table_attributes(
         'class="f1-compact-table f1-price-change-table"'
     )
-    desktop = f'<div class="f1-table-scroll">{styler.to_html()}</div>'
-    mobile_columns = {"Asset", "Price", "Good", "Great"}
-    if not mobile_columns.issubset(df.columns):
-        return desktop
-    rows: list[str] = []
-    for _, row in df.copy(deep=True).iterrows():
-        price = pd.to_numeric(row.get("Price"), errors="coerce")
-        price_text = "—" if pd.isna(price) else f"{float(price):.1f}"
-        rows.append(
-            "<tr>"
-            f'<td class="f1-asset-cell">{row.get("Asset", "")}</td>'
-            f"<td>{price_text}</td>"
-            f"<td>{html.escape(str(row.get('Good', '—')))}</td>"
-            f"<td>{html.escape(str(row.get('Great', '—')))}</td>"
-            "</tr>"
-        )
-    mobile = (
-        '<div class="f1-table-scroll"><table class="f1-compact-table '
-        'f1-mobile-schema f1-threshold-mobile">'
-        "<thead><tr><th>Asset</th><th>Price</th><th>Good</th><th>Great</th></tr></thead>"
-        f"<tbody>{''.join(rows)}</tbody></table></div>"
-    )
-    return (
-        f'<div class="f1-responsive-table f1-desktop-table">{desktop}</div>'
-        f'<div class="f1-responsive-table f1-mobile-table">{mobile}</div>'
-    )
+    return f'<div class="f1-table-scroll">{styler.to_html()}</div>'
 
 
 def _price_change_display_table(
@@ -1723,28 +1051,58 @@ def _price_change_probability_detail_table(
     return out.sort_values("Expected price gain", ascending=False, na_position="last") if "Expected price gain" in out.columns else out
 
 
-st.markdown(
-    '<div class="f1-app-header"><h1>F1 Fantasy Optimiser</h1>'
-    '<p>Live projections, market movement and transfer planning.</p></div>',
-    unsafe_allow_html=True,
-)
+with st.container(key="app_header"):
+    title_col, refresh_col = st.columns([6, 1.1], vertical_alignment="center")
+    with title_col:
+        st.markdown(
+            '<div class="f1-app-header"><span class="f1-wordmark">F1 / FANTASY</span>'
+            '<h1>Fantasy Optimiser</h1>'
+            '<p>Build your team. Know your trade-offs.</p></div>',
+            unsafe_allow_html=True,
+        )
+    with refresh_col:
+        refresh_live_data_requested = st.button(
+            "Refresh live data", use_container_width=True,
+            help="Fetch the latest market, scoring and weekend sessions.",
+        )
+        if refresh_live_data_requested:
+            st.cache_data.clear()
 
-with st.sidebar:
-    st.header("Controls")
-    refresh_live_data_requested = st.button("Refresh live data")
-    if refresh_live_data_requested:
-        st.cache_data.clear()
-    current_season_only = st.toggle(
-        "Current season only",
-        value=False,
-        key="current_season_only",
-        help=(
-            "Ignore previous-season Fantasy history and calculate projections using "
-            "only completed races from the current season."
-        ),
+optimise_tab, market_tab, team_tab, settings_tab = st.tabs(
+    list(PRIMARY_NAVIGATION_AREAS),
+    key="primary_navigation",
+    default="Optimise",
+)
+with market_tab:
+    price_changes_tab, price_efficiency_tab = st.tabs(
+        ["Thresholds & projection", "Efficiency"],
+        key="market_navigation",
+    )
+with team_tab:
+    current_team_tab, transfers_tab = st.tabs(
+        ["Current team", "Transfers"],
+        key="team_navigation",
+    )
+with settings_tab:
+    locks_tab, model_settings_tab, diagnostics_tab = st.tabs(
+        ["Locks", "Model", "Diagnostics"],
+        key="settings_navigation",
     )
 
-    st.caption("Use the tabs below to edit settings and run the optimiser.")
+# Mount the race and data status after navigation so they stay below every page.
+race_context = st.container(key="race_context")
+data_notices = st.container(key="data_notices")
+
+with model_settings_tab:
+    st.markdown('<div class="f1-section-kicker">MODEL SETTINGS</div>', unsafe_allow_html=True)
+    st.subheader("Model settings")
+    st.caption("Choose the completed races and assumptions behind your projections.")
+    current_season_only = st.toggle(
+        "Current season only",
+        value=True,
+        key="current_season_only",
+        help="Use only completed races from this season; ignore previous-season Fantasy history.",
+    )
 
 history_mode = (
     HISTORY_MODE_CURRENT_SEASON_ONLY
@@ -1781,6 +1139,7 @@ if "uploaded_team_import_error" not in st.session_state:
 st.session_state.optimizer_objective_mode = OBJECTIVE_COMBINED
 st.session_state["optimise_price_gain_weight_slider"] = normalize_price_growth_value(
     st.session_state.get("optimise_price_gain_weight_slider"),
+    default=15,
 )
 legacy_export_layout = st.session_state.get("png_export_format", "Portrait")
 normalized_export_layout = (
@@ -1819,31 +1178,13 @@ def _sync_session_value(source_key: str, target_key: str) -> None:
     st.session_state[target_key] = st.session_state.get(source_key)
 
 
-optimise_tab, market_tab, team_tab, settings_tab = st.tabs(
-    list(PRIMARY_NAVIGATION_AREAS),
-    key="primary_navigation",
-    default="Optimise",
-)
-with market_tab:
-    price_changes_tab, price_efficiency_tab = st.tabs(
-        ["Projection & thresholds", "Efficiency"],
-        key="market_navigation",
-    )
-with team_tab:
-    current_team_tab, transfers_tab = st.tabs(
-        ["Current team", "Transfers"],
-        key="team_navigation",
-    )
-with settings_tab:
-    locks_tab, model_settings_tab, diagnostics_tab = st.tabs(
-        ["Locks", "Model", "Diagnostics"],
-        key="settings_navigation",
-    )
+def _show_optimiser_teams() -> None:
+    """A run from mobile Controls should reveal its result immediately."""
+    st.session_state["optimise_mobile_subview"] = "Teams"
+
+
 
 with model_settings_tab:
-    st.markdown('<div class="f1-section-kicker">MODEL SETTINGS</div>', unsafe_allow_html=True)
-    st.subheader("Model Settings")
-    st.caption("Choose completed races, recency and the relative current/history blend.")
     model_settings_container = st.empty()
 
 previous_snapshot = st.session_state.get("live_data_snapshot")
@@ -1902,7 +1243,10 @@ if snapshot is None:
         load_ui.empty()
     st.session_state["last_load_error"] = source_error
     technical_reason = str(source_error or "No validated current-season market source is available.")
-    st.error(f"Current live data is unavailable. {technical_reason}")
+    data_notices.error("Live data is unavailable. Try Refresh live data; recorded history is available below where supported.")
+    with data_notices:
+        with st.expander("Data-loading details", expanded=False):
+            st.code(technical_reason, language=None)
     try:
         historical_only = load_canonical_scores(DEFAULT_CANONICAL_DATASET_PATH)
     except Exception as historical_exc:
@@ -2076,7 +1420,7 @@ with model_settings_container.container():
         st.warning("No completed races are selected. Current official form will be unavailable until at least one race is included.")
 
     recency_decay = st.slider(
-        "Current-season recency decay p",
+        "Recent-race weighting (p)",
         min_value=0.0,
         max_value=1.0,
         value=0.85,
@@ -2236,11 +1580,11 @@ if derivation_unavailable:
         if load_ui is not None:
             load_ui.empty()
         st.session_state["last_load_error"] = derivation_error
-        st.error("Could not load live data. Try Refresh live data, or try again later.")
+        data_notices.error("Could not load live data. Try Refresh live data, or try again later.")
         st.stop()
 
 if model_data is None:
-    st.error("Could not load live data. Try Refresh live data, or try again later.")
+    data_notices.error("Could not load live data. Try Refresh live data, or try again later.")
     st.stop()
 
 successful_state_accepted = (
@@ -2283,9 +1627,9 @@ st.session_state["last_load_error"] = (
 )
 
 if refresh_state["status"] == "failed":
-    st.warning(f"Live refresh failed. Previous successful data remains in use. {refresh_state['error']}")
+    data_notices.warning("The refresh could not complete. Previous verified data remains in use. See Settings → Diagnostics for details.")
 if derivation_unavailable:
-    st.warning(
+    data_notices.warning(
         "Projection recalculation failed for the selected model settings. "
         "The previous successful model remains in use and will not be retried until its inputs change."
     )
@@ -2343,7 +1687,7 @@ if load_ui is not None:
     load_ui.empty()
 
 if drivers is None or constructors is None or diagnostics is None:
-    st.error("Could not load live data. Try Refresh live data, or try again later.")
+    data_notices.error("Could not load live data. Try Refresh live data, or try again later.")
     st.stop()
 
 driver_labels = _option_labels(drivers)
@@ -2435,7 +1779,8 @@ if not st.session_state.budget_defaults_initialised:
         )
     st.session_state.budget_defaults_initialised = True
 
-_render_race_header(diagnostics)
+with race_context:
+    _render_race_header(diagnostics)
 market_signature = market_status["content_signature"]
 session_domain_status = (
     "retained"
@@ -2453,27 +1798,23 @@ deadline_domain_status = str(
 playerstats_domain_status = str(
     snapshot.source_diagnostics.get("playerstats_data_status", "unavailable")
 ).replace("_", " ")
-st.caption(
-    " · ".join(
-        [
-            f"Market: {market_status['state']} "
-            f"(feed {market_status['feed_round']}, "
-            f"{market_signature[:10] or 'no signature'})",
-            f"Scoring: {'previous verified' if scoring_fallback_in_use else 'current'}",
-            f"Live sessions: {session_domain_status}",
-            f"Playerstats: {playerstats_domain_status}",
-            f"Deadline: {deadline_domain_status}",
-        ]
-    )
-)
+with diagnostics_tab:
+    with st.expander("Source freshness", expanded=False):
+        st.caption(
+            " · ".join(
+                [
+                    f"Market: {market_status['state']} "
+                    f"(feed {market_status['feed_round']}, "
+                    f"{market_signature[:10] or 'no signature'})",
+                    f"Scoring: {'previous verified' if scoring_fallback_in_use else 'current'}",
+                    f"Live sessions: {session_domain_status}",
+                    f"Playerstats: {playerstats_domain_status}",
+                    f"Deadline: {deadline_domain_status}",
+                ]
+            )
+        )
 if market_status["show_stale_warning"]:
-    cached_feed = market_status["feed_round"]
-    verified_at = market_status["verified_at_utc"]
-    detail = f" (feed {cached_feed}" + (f", verified {verified_at}" if verified_at else "") + ")"
-    st.warning(
-        "Live data could not be refreshed. Showing the latest verified cached data"
-        f"{detail}. Current prices and availability may be stale. Use Refresh live data to try again."
-    )
+    data_notices.warning("Using verified cached data. Prices may be stale; refresh to retry.")
 active_weekend_warnings = []
 if source_resolution.get("status") == "market_refreshed_scoring_retained":
     active_weekend_warnings.append(
@@ -2485,15 +1826,14 @@ elif diagnostics.get("weekend_status") == "awaiting_final_classification":
         "Awaiting final race classification; the live weekend is excluded from completed-race form."
     )
 elif diagnostics.get("completed_form_excludes_live_weekend"):
-    st.info(
-        "The active weekend is pending or live. Optimiser projections use previously completed weekends only."
-    )
+    with race_context:
+        st.caption("Weekend in progress · Form uses completed races only.")
 if diagnostics.get("team_lock_deadline_warning"):
     active_weekend_warnings.append(
         "The official fantasy deadline could not be validated; the active-event schedule fallback is in use."
     )
 if active_weekend_warnings:
-    st.warning(" ".join(active_weekend_warnings))
+    data_notices.warning(" ".join(active_weekend_warnings))
 
 historical_coverage_warnings = []
 if diagnostics.get("missing_requested_seasons"):
@@ -2514,7 +1854,9 @@ if diagnostics.get("playerstats_skipped_after_failure_limit", 0):
         f"{int(diagnostics.get('playerstats_skipped_after_failure_limit', 0))}."
     )
 if historical_coverage_warnings:
-    st.warning(" ".join(historical_coverage_warnings))
+    with data_notices:
+        with st.expander("History coverage is limited — view details", expanded=False):
+            st.warning(" ".join(historical_coverage_warnings))
 
 edited_drivers = drivers.copy()
 edited_constructors = constructors.copy()
@@ -2540,7 +1882,7 @@ price_change_constructors = edited_constructors.copy()
 
 with current_team_tab:
     st.markdown('<div class="f1-section-kicker">SQUAD BUILDER</div>', unsafe_allow_html=True)
-    st.subheader("Current Team Builder")
+    st.subheader("Your current team")
     st.caption("Enter your current drivers, constructors, bank and free transfers to analyse your team.")
     current_team_input_drivers = apply_no_negative_scores(edited_drivers) if chip_mode == CHIP_NO_NEGATIVE else edited_drivers
     current_team_input_constructors = apply_no_negative_scores(edited_constructors) if chip_mode == CHIP_NO_NEGATIVE else edited_constructors
@@ -2571,8 +1913,8 @@ with current_team_tab:
         "constructor",
     )
 
-    st.caption("Build a current_team.json-style squad with a current-team budget that is independent from the optimiser budget.")
-    with st.expander("Advanced: JSON import / export", expanded=False):
+    st.caption("This team's budget is separate from the optimiser budget.")
+    with st.expander("Import or export team JSON", expanded=False):
         st.write(
             "Use this to save or restore your F1 Fantasy squad. Importing a current_team.json file fills the selected drivers, constructors, bank, free transfers, and current-team budget. Its team value is offered separately as an optimiser-budget suggestion."
         )
@@ -2708,16 +2050,18 @@ with current_team_tab:
         budget_col, bank_col, transfers_col = st.columns(3)
         with budget_col:
             current_budget = st.number_input(
-                "Budget",
+                "Budget ($M)",
                 min_value=0.0,
+                format="%.1f",
                 step=0.1,
                 key="current_team_budget",
                 on_change=_mark_budget_manual_from_current_team,
             )
         with bank_col:
             bank = st.number_input(
-                "Bank",
+                "Bank ($M)",
                 min_value=0.0,
+                format="%.1f",
                 step=0.1,
                 key="current_team_bank",
             )
@@ -2853,7 +2197,7 @@ with locks_tab:
 
 with transfers_tab:
     st.markdown('<div class="f1-section-kicker">TRANSFER DESK</div>', unsafe_allow_html=True)
-    st.subheader("Transfer Recommendations")
+    st.subheader("Transfer recommendations")
     st.caption(
         "Compare your current squad with transfer options ranked by points, budget growth or a combined objective."
     )
@@ -2904,10 +2248,11 @@ with transfers_tab:
                 step=1.0,
                 disabled=transfer_objective not in {OBJECTIVE_COMBINED, OBJECTIVE_RISK_ADJUSTED_COMBINED},
                 key="transfer_price_gain_weight_slider",
-                help="Objective points assigned per +1.0M expected gain.",
+                help="How many points an expected $1M price gain is worth. 0 prioritises points; higher values favour budget growth.",
             )
         st.caption("Combined transfer objective = expected points + λ × expected price gain.")
 
+        transfer_action = st.container(key="transfer_action")
         baseline = transfer_baseline(
             selected_current_driver_ids,
             selected_current_constructor_ids,
@@ -2916,7 +2261,7 @@ with transfers_tab:
             float(current_budget),
             chip_mode=chip_mode,
         )
-        st.markdown("### Do nothing baseline")
+        st.markdown("### Your team without transfers")
         base_cols = st.columns(5)
         base_cols[0].metric("Team cost", format_money(baseline["team_cost"]))
         base_cols[1].metric("Remaining budget", format_money(baseline["remaining_budget"]))
@@ -2943,7 +2288,8 @@ with transfers_tab:
             str(transfer_search_mode),
         )
         transfer_signature = build_transfer_result_signature(active_model_data_version, transfer_inputs)
-        run_transfer_clicked = st.button("Run transfer recommendations", type="primary", use_container_width=True)
+        with transfer_action:
+            run_transfer_clicked = st.button("Run transfer recommendations", type="primary", use_container_width=True)
         signature_changed = st.session_state.transfer_run_signature != transfer_signature
 
         if signature_changed and st.session_state.transfer_results is not None and not run_transfer_clicked:
@@ -3160,44 +2506,37 @@ with transfers_tab:
                     _transfer_move_card(rec)
                     _render_transfer_tradeoff_box(rec)
 
-with price_changes_tab:
-    st.markdown('<div class="f1-section-kicker">MARKET</div>', unsafe_allow_html=True)
-    st.caption(
-        "Asset prices are the latest accepted official market values. Green/red gain values are "
-        "projected next-round gains from the model, not already-realised official movements."
-    )
-    st.caption(
-        "Inactive official assets remain visible when priced. Their settlement eligibility is "
-        "unconfirmed, so projected gain stays unavailable rather than being shown as zero."
-    )
-    market_price_view = st.segmented_control(
-        "Market view",
-        options=["Projection", "Thresholds"],
-        default="Projection",
-        key="market_price_view",
-        selection_mode="single",
-    ) or "Projection"
-    market_price_asset_type = st.segmented_control(
-        "Asset type",
-        options=["Drivers", "Constructors"],
-        default="Drivers",
-        key="market_price_asset_type",
-        selection_mode="single",
-    ) or "Drivers"
-    with st.container(border=True):
-        st.caption(format_next_race_header(diagnostics.get("next_race_name"), diagnostics.get("next_race_date")))
-        if market_price_view == "Thresholds":
-            tier_key = pd.DataFrame(
-                [
-                    {"Price tier": "≤ 18.5M", "Terrible": "-0.6M", "Poor": "-0.2M", "Good": "+0.2M", "Great": "+0.6M"},
-                    {"Price tier": "> 18.5M", "Terrible": "-0.3M", "Poor": "-0.1M", "Good": "+0.1M", "Great": "+0.3M"},
-                ]
-            )
-            st.dataframe(_tier_key_styler(tier_key), hide_index=True, width="stretch")
-
+with price_changes_tab, st.container(key="market_outlook"):
+    st.subheader("Market outlook")
+    st.caption("Current prices, projected points and expected price gains. All money is in $M.")
+    view_col, asset_col = st.columns(2, gap="small")
+    with view_col:
+        market_price_view = st.segmented_control(
+            "Market view",
+            options=["Thresholds", "Projection"],
+            default="Thresholds",
+            key="market_price_view",
+            selection_mode="single",
+        ) or "Thresholds"
+    with asset_col:
+        market_price_asset_type = st.segmented_control(
+            "Asset type",
+            options=["Drivers", "Constructors"],
+            default="Drivers",
+            key="market_price_asset_type",
+            selection_mode="single",
+        ) or "Drivers"
+    if market_price_view == "Thresholds":
+        tier_key = pd.DataFrame(
+            [
+                {"Price tier": "≤ 18.5M", "Terrible": "-0.6M", "Poor": "-0.2M", "Good": "+0.2M", "Great": "+0.6M"},
+                {"Price tier": "> 18.5M", "Terrible": "-0.3M", "Poor": "-0.1M", "Good": "+0.1M", "Great": "+0.3M"},
+            ]
+        )
+        st.dataframe(_tier_key_styler(tier_key), hide_index=True, width="stretch")
     if diagnostics.get("recent_points_fallback_used"):
         st.warning(
-            "Recent true fantasy points are missing for some assets. The app uses the official playerstats endpoint when available; missing values stay blank unless you provide manual fallback points below."
+            "Some recent scores are missing and stay blank. Review or override them in Settings → Model → Asset assumptions."
         )
 
     price_view_drivers = build_price_change_asset_universe(
@@ -3307,6 +2646,22 @@ with price_changes_tab:
             constructor_probability_matrix if active_is_constructor else driver_probability_matrix
         )
         active_asset_label = "constructor" if active_is_constructor else "driver"
+        with st.container(key="market_sort_controls"):
+            sort_col, order_col = st.columns([2, 1], gap="small")
+            with sort_col:
+                projection_sort = st.selectbox(
+                    "Sort by", options=PROJECTION_SORT_OPTIONS,
+                    index=1, key="market_projection_sort",
+                )
+            with order_col:
+                projection_order = st.selectbox(
+                    "Order", options=["High to low", "Low to high"],
+                    key="market_projection_order",
+                )
+        active_projection_assets = sort_projection_assets(
+            active_projection_assets, sort_by=projection_sort,
+            ascending=projection_order == "Low to high",
+        )
         st.markdown(
             compact_asset_table_html(active_projection_assets, asset_type=active_asset_label),
             unsafe_allow_html=True,
@@ -3324,6 +2679,16 @@ with price_changes_tab:
         with st.expander("Probability details", expanded=False):
             st.markdown(_price_change_table_html(active_probability_matrix), unsafe_allow_html=True)
 
+    with st.expander("About prices and coverage", expanded=False):
+        st.caption(
+            "Asset prices are the latest accepted official market values. Green/red gain values are "
+            "projected next-round gains from the model, not already-realised official movements."
+        )
+        st.caption(
+            "Inactive official assets remain visible when priced. Their settlement eligibility is "
+            "unconfirmed, so projected gain stays unavailable rather than being shown as zero."
+        )
+
 with price_efficiency_tab:
     st.markdown('<div class="f1-section-kicker">VALUE FINDER</div>', unsafe_allow_html=True)
     st.subheader("Price Efficiency")
@@ -3334,7 +2699,7 @@ with price_efficiency_tab:
     )
 
     with st.container(border=True):
-        st.markdown("### Price Efficiency races")
+        st.markdown("### Historical race window")
         efficiency_race_preset = st.selectbox(
             "Race window",
             options=["Last 1", "Last 3", "Last 5", "All", "Custom"],
@@ -3383,13 +2748,15 @@ with price_efficiency_tab:
         race_name_by_key,
     )
     if efficiency_race_control.selection.included:
-        st.info(price_efficiency_export_race_summary)
+        st.caption(f"{len(efficiency_race_control.selection.included)} completed races selected · {len(efficiency_race_control.excluded_keys)} excluded")
     else:
         st.warning("No races are selected. Choose at least one completed race to calculate Price Efficiency.")
-    st.caption(
-        "Price Efficiency = average official points per valid selected race ÷ current price. "
-        "This local view uses an unweighted arithmetic average and does not change model projections."
-    )
+    with st.expander("Selected races & calculation", expanded=False):
+        st.write(price_efficiency_export_race_summary)
+        st.caption(
+            "Price Efficiency = average official points per valid selected race ÷ current price. "
+            "This local view uses an unweighted arithmetic average and does not change model projections."
+        )
 
     driver_source_failures = _price_efficiency_source_failure_ids(
         driver_price_efficiency,
@@ -3422,15 +2789,6 @@ with price_efficiency_tab:
     )
     active_efficiency_asset_type = resolve_price_efficiency_asset_type(
         active_efficiency_asset_type
-    )
-    efficiency_export_layout_label = st.selectbox(
-        "Image layout",
-        options=["Portrait", "Reddit landscape"],
-        key="price_efficiency_image_layout",
-        help="Portrait: 1080 × 1350. Reddit landscape: 1600 × 900.",
-    )
-    efficiency_export_format = (
-        "landscape" if efficiency_export_layout_label == "Reddit landscape" else "portrait"
     )
     if efficiency_race_control.selection.included:
         if active_efficiency_asset_type == "Constructors":
@@ -3544,6 +2902,16 @@ with price_efficiency_tab:
         if efficiency_team_summary["valid"]:
             st.success("Team composition, budget and efficiency coverage are valid.")
 
+    efficiency_export_layout_label = st.selectbox(
+        "Team image layout",
+        options=["Portrait", "Reddit landscape"],
+        key="price_efficiency_image_layout",
+        help="Portrait: 1080 × 1350. Reddit landscape: 1600 × 900.",
+    )
+    efficiency_export_format = (
+        "landscape" if efficiency_export_layout_label == "Reddit landscape" else "portrait"
+    )
+
     if selected_efficiency_asset_count == 7 and efficiency_race_control.selection.included:
         selected_efficiency_ids = [
             *(str(asset_id) for asset_id in efficiency_driver_ids),
@@ -3589,7 +2957,6 @@ model_selected_summary = (
 )
 
 with optimise_tab:
-    st.markdown('<div class="f1-section-kicker">OPTIMISE</div>', unsafe_allow_html=True)
     mobile_subview = optimise_mobile_subview(
         st.segmented_control(
             "Optimise view",
@@ -3605,145 +2972,158 @@ with optimise_tab:
         unsafe_allow_html=True,
     )
     with st.container(key="optimiser_teams_action"):
+        mobile_setup_summary = st.empty()
         teams_run_clicked = st.button(
-            "Run / rerun optimiser",
+            "Run optimiser",
             type="primary",
             use_container_width=True,
             key="run_optimiser_mobile_teams",
         )
     with st.container(key="optimiser_dashboard"):
         with st.container(key="optimiser_controls_view"):
-            st.markdown("#### Optimiser controls")
+            st.markdown("#### Team setup")
             with st.container(key="optimiser_quick_setup", border=True):
-                setup_slider_col, setup_budget_col, setup_chip_col, setup_run_col = st.columns(
-                    [4.4, 1.35, 1.8, 1.45],
-                    gap="small",
-                    vertical_alignment="bottom",
+                with st.container(key="optimiser_primary_controls"):
+                    setup_slider_col, setup_budget_col, setup_chip_col, setup_run_col = st.columns(
+                        [4.4, 1.35, 1.8, 1.45],
+                        gap="small",
+                        vertical_alignment="bottom",
+                    )
+                    with setup_slider_col:
+                        price_gain_weight = st.slider(
+                            "Price-growth value",
+                            min_value=0,
+                            max_value=100,
+                            step=5,
+                            disabled=chip_mode == CHIP_LIMITLESS,
+                            key="optimise_price_gain_weight_slider",
+                            help="How many points an expected $1M price gain is worth. 0 prioritises points; higher values favour budget growth.",
+                        )
+                    with setup_budget_col:
+                        st.number_input(
+                            "Budget ($M)",
+                            min_value=0.0,
+                            format="%.1f",
+                            step=0.1,
+                            key="optimizer_budget",
+                            on_change=_mark_budget_manual_from_optimizer,
+                        )
+                    budget = float(st.session_state.optimizer_budget)
+                    with setup_chip_col:
+                        st.selectbox(
+                            "Chip",
+                            options=["None", "3x chip", "Limitless", "No Negative chip"],
+                            key="chip_mode_label",
+                        )
+                    chip_mode = chip_mode_from_label(st.session_state.chip_mode_label)
+                    with setup_run_col:
+                        controls_run_clicked = st.button(
+                            "Run optimiser",
+                            type="primary",
+                            use_container_width=True,
+                            key="run_optimiser_controls",
+                            on_click=_show_optimiser_teams,
+                        )
+                controls_objective_mode = (
+                    OBJECTIVE_POINTS_ONLY if chip_mode == CHIP_LIMITLESS else OBJECTIVE_COMBINED
                 )
-                with setup_slider_col:
-                    price_gain_weight = st.slider(
-                        "Price-growth value",
-                        min_value=0,
-                        max_value=100,
-                        step=5,
-                        disabled=chip_mode == CHIP_LIMITLESS,
-                        key="optimise_price_gain_weight_slider",
-                        help="Objective points assigned per +1.0M expected gain.",
-                    )
-                with setup_budget_col:
-                    st.number_input(
-                        "Budget",
-                        min_value=0.0,
-                        step=0.1,
-                        key="optimizer_budget",
-                        on_change=_mark_budget_manual_from_optimizer,
-                    )
-                budget = float(st.session_state.optimizer_budget)
-                with setup_chip_col:
-                    st.selectbox(
-                        "Chip",
-                        options=["None", "3x chip", "Limitless", "No Negative chip"],
-                        key="chip_mode_label",
-                    )
-                chip_mode = chip_mode_from_label(st.session_state.chip_mode_label)
-                with setup_run_col:
-                    controls_run_clicked = st.button(
-                        "Run optimiser",
-                        type="primary",
-                        use_container_width=True,
-                        key="run_optimiser_controls",
-                    )
-                st.slider(
-                    "Live session emphasis",
-                    min_value=0.0,
-                    max_value=1.0,
-                    step=0.05,
-                    key="model_live_session_emphasis",
-                    help="0 = ignore practice/SQ; 1 = use live-session ranking entirely",
-                )
-                st.caption(live_session_status_text)
-            controls_objective_mode = (
-                OBJECTIVE_POINTS_ONLY if chip_mode == CHIP_LIMITLESS else OBJECTIVE_COMBINED
+                with st.container(key="optimiser_model_panels"):
+                    live_panel, model_panel = st.columns(2, gap="small")
+                    with live_panel:
+                        with st.container(key="optimiser_live_adjustment"):
+                            with st.expander(f"Live-session adjustment · {live_session_emphasis:.0%} emphasis", expanded=False):
+                                st.slider(
+                                    "Live session emphasis",
+                                    min_value=0.0,
+                                    max_value=1.0,
+                                    step=0.05,
+                                    key="model_live_session_emphasis",
+                                    help="0 keeps the baseline forecast. 1 uses eligible practice / Sprint Qualifying rankings entirely.",
+                                )
+                                st.caption(f"Eligible sessions: {live_session_status_text}")
+                    with model_panel:
+                        with st.expander("Model", expanded=False):
+                            mirror_values = {
+                                "optimise_mobile_current_season_only": bool(current_season_only),
+                                "optimise_mobile_model_race_preset": race_control.preset,
+                                "optimise_mobile_model_excluded_races": list(race_control.excluded_keys),
+                                "optimise_mobile_model_recency_decay": float(recency_decay),
+                            }
+                            if race_control.preset == "Custom":
+                                mirror_values["optimise_mobile_model_custom_races"] = list(
+                                    race_control.custom_keys
+                                )
+                            for mirror_key, mirror_value in mirror_values.items():
+                                if st.session_state.get(mirror_key) != mirror_value:
+                                    st.session_state[mirror_key] = mirror_value
+                            st.toggle(
+                                "Current season only",
+                                key="optimise_mobile_current_season_only",
+                                on_change=_sync_session_value,
+                                args=("optimise_mobile_current_season_only", "current_season_only"),
+                            )
+                            mobile_race_preset = st.selectbox(
+                                "Race window",
+                                options=["Last 1", "Last 3", "Last 5", "All", "Custom"],
+                                key="optimise_mobile_model_race_preset",
+                                format_func=lambda value: "All completed races" if value == "All" else value,
+                                on_change=_sync_session_value,
+                                args=("optimise_mobile_model_race_preset", "model_race_preset"),
+                            )
+                            if mobile_race_preset == "Custom":
+                                st.multiselect(
+                                    "Custom model races",
+                                    options=[option.key for option in race_catalogue],
+                                    key="optimise_mobile_model_custom_races",
+                                    format_func=lambda key: race_option_label(key, race_name_by_key),
+                                    on_change=_sync_session_value,
+                                    args=("optimise_mobile_model_custom_races", "model_custom_race_keys"),
+                                )
+                            st.multiselect(
+                                "Exclude model races",
+                                options=list(before_exclusions.exclusion_options),
+                                key="optimise_mobile_model_excluded_races",
+                                format_func=lambda key: race_option_label(key, race_name_by_key),
+                                on_change=_sync_session_value,
+                                args=("optimise_mobile_model_excluded_races", "model_excluded_race_keys"),
+                            )
+                            st.slider(
+                                "Recent-race weighting (p)",
+                                min_value=0.0,
+                                max_value=1.0,
+                                step=0.01,
+                                key="optimise_mobile_model_recency_decay",
+                                help="How quickly older races lose influence. Lower values favour recent races; 1 weights selected races equally.",
+                                on_change=_sync_session_value,
+                                args=("optimise_mobile_model_recency_decay", "model_recency_decay"),
+                            )
+                            st.caption(
+                                f"{len(race_catalogue)} eligible · "
+                                f"{len(race_control.selection.included)} selected · "
+                                f"history: {'current season only' if current_season_only else 'all supported'}"
+                            )
+                            with st.expander("Advanced optimiser and model settings", expanded=False):
+                                st.write("Objective:", controls_objective_mode)
+                                st.write("Current / historical blend:", f"{current_percent}% / {historical_percent}%")
+                                st.write("Selected races:", model_selected_summary)
+                                st.caption("Detailed blend and model-range controls remain available in Settings → Model.")
+
+            st.caption(
+                f"{len(race_control.selection.included)} races · "
+                f"{'Current season only' if current_season_only else f'{current_percent}% current / {historical_percent}% historical'} · "
+                f"{len(locked_driver_ids) + len(locked_constructor_ids)} locked · "
+                f"{len(excluded_driver_ids) + len(excluded_constructor_ids)} excluded"
             )
 
-            with st.container(key="optimiser_mobile_model_controls", border=True):
-                st.markdown("##### Model window")
-                mirror_values = {
-                    "optimise_mobile_current_season_only": bool(current_season_only),
-                    "optimise_mobile_model_race_preset": race_control.preset,
-                    "optimise_mobile_model_excluded_races": list(race_control.excluded_keys),
-                    "optimise_mobile_model_recency_decay": float(recency_decay),
-                    "optimise_mobile_live_session_emphasis": float(live_session_emphasis),
-                }
-                if race_control.preset == "Custom":
-                    mirror_values["optimise_mobile_model_custom_races"] = list(
-                        race_control.custom_keys
-                    )
-                for mirror_key, mirror_value in mirror_values.items():
-                    if st.session_state.get(mirror_key) != mirror_value:
-                        st.session_state[mirror_key] = mirror_value
-                st.toggle(
-                    "Current season only",
-                    key="optimise_mobile_current_season_only",
-                    on_change=_sync_session_value,
-                    args=("optimise_mobile_current_season_only", "current_season_only"),
-                )
-                mobile_race_preset = st.selectbox(
-                    "Race window",
-                    options=["Last 1", "Last 3", "Last 5", "All", "Custom"],
-                    key="optimise_mobile_model_race_preset",
-                    format_func=lambda value: "All completed races" if value == "All" else value,
-                    on_change=_sync_session_value,
-                    args=("optimise_mobile_model_race_preset", "model_race_preset"),
-                )
-                if mobile_race_preset == "Custom":
-                    st.multiselect(
-                        "Custom model races",
-                        options=[option.key for option in race_catalogue],
-                        key="optimise_mobile_model_custom_races",
-                        format_func=lambda key: race_option_label(key, race_name_by_key),
-                        on_change=_sync_session_value,
-                        args=("optimise_mobile_model_custom_races", "model_custom_race_keys"),
-                    )
-                st.multiselect(
-                    "Exclude model races",
-                    options=list(before_exclusions.exclusion_options),
-                    key="optimise_mobile_model_excluded_races",
-                    format_func=lambda key: race_option_label(key, race_name_by_key),
-                    on_change=_sync_session_value,
-                    args=("optimise_mobile_model_excluded_races", "model_excluded_race_keys"),
-                )
-                st.slider(
-                    "Current-season recency decay p",
-                    min_value=0.0,
-                    max_value=1.0,
-                    step=0.01,
-                    key="optimise_mobile_model_recency_decay",
-                    on_change=_sync_session_value,
-                    args=("optimise_mobile_model_recency_decay", "model_recency_decay"),
-                )
-                st.slider(
-                    "Live session emphasis",
-                    min_value=0.0,
-                    max_value=1.0,
-                    step=0.05,
-                    key="optimise_mobile_live_session_emphasis",
-                    help="0 = ignore practice/SQ; 1 = use live-session ranking entirely",
-                    on_change=_sync_session_value,
-                    args=("optimise_mobile_live_session_emphasis", "model_live_session_emphasis"),
-                )
-                st.caption(live_session_status_text)
-                st.caption(
-                    f"{len(race_catalogue)} eligible · "
-                    f"{len(race_control.selection.included)} selected · "
-                    f"history: {'current season only' if current_season_only else 'all supported'}"
-                )
-                with st.expander("Advanced optimiser and model settings", expanded=False):
-                    st.write("Objective:", controls_objective_mode)
-                    st.write("Current / historical blend:", f"{current_percent}% / {historical_percent}%")
-                    st.write("Selected races:", model_selected_summary)
-                    st.caption("Detailed blend and model-range controls remain available in Settings → Model.")
-
+        mobile_setup_summary.markdown(
+            '<div class="f1-setup-summary">'
+            f'<div><span>Budget</span><strong>{"Unlimited" if chip_mode == CHIP_LIMITLESS else format_money(budget)}</strong></div>'
+            f'<div><span>Chip</span><strong>{_safe_text(st.session_state.chip_mode_label)}</strong></div>'
+            f'<div><span>Price-growth value</span><strong>{"Points only" if chip_mode == CHIP_LIMITLESS else str(price_gain_weight)}</strong></div>'
+            f'<div><span>Race history</span><strong>{len(race_control.selection.included)} races</strong></div>'
+            '</div><p class="f1-setup-hint">Adjust your budget and model in Controls.</p>',
+            unsafe_allow_html=True,
+        )
         run_clicked = bool(teams_run_clicked or controls_run_clicked)
 
         objective_mode = controls_objective_mode
@@ -3804,21 +3184,22 @@ with optimise_tab:
         else:
             if run_clicked:
                 try:
-                    initial_solutions = run_optimizer(
-                        optimizer_drivers,
-                        optimizer_constructors,
-                        budget=optimiser_budget,
-                        top_k=10,
-                        drs_multiplier=objective_drs_multiplier,
-                        allow_no_negative=chip_mode == CHIP_NO_NEGATIVE,
-                        locked_driver_ids=locked_driver_ids,
-                        excluded_driver_ids=excluded_driver_ids,
-                        locked_constructor_ids=locked_constructor_ids,
-                        excluded_constructor_ids=excluded_constructor_ids,
-                        objective_col="combined_objective_score",
-                        boost_col="exp_score",
-                        triple_multiplier=triple_multiplier,
-                    )
+                    with st.spinner("Finding the best teams…"):
+                        initial_solutions = run_optimizer(
+                            optimizer_drivers,
+                            optimizer_constructors,
+                            budget=optimiser_budget,
+                            top_k=10,
+                            drs_multiplier=objective_drs_multiplier,
+                            allow_no_negative=chip_mode == CHIP_NO_NEGATIVE,
+                            locked_driver_ids=locked_driver_ids,
+                            excluded_driver_ids=excluded_driver_ids,
+                            locked_constructor_ids=locked_constructor_ids,
+                            excluded_constructor_ids=excluded_constructor_ids,
+                            objective_col="combined_objective_score",
+                            boost_col="exp_score",
+                            triple_multiplier=triple_multiplier,
+                        )
                 except Exception as exc:
                     LOGGER.exception("Optimiser run failed")
                     st.session_state["last_optimiser_error"] = str(exc)
@@ -3832,11 +3213,11 @@ with optimise_tab:
                         "chip_mode": chip_mode,
                     }
 
-        results_col, universe_col = st.columns([73, 27], gap="small")
+        results_col, universe_col = st.columns([64, 36], gap="medium")
 
         with universe_col:
             with st.container(key="optimiser_universe_selector"):
-                st.markdown("#### Asset universe")
+                st.markdown("#### Explore assets")
                 universe_type = st.segmented_control(
                     "Universe",
                     options=["Drivers", "Constructors"],
@@ -3877,13 +3258,25 @@ with optimise_tab:
                 display_chip_mode = str(stored_context.get("chip_mode", chip_mode))
                 results_stale = bool(stored_solutions) and stored_signature != current_optimiser_signature
                 if st.session_state.get("last_optimiser_error"):
-                    st.error("The optimiser could not run with the selected inputs.")
+                    st.error("The optimiser could not complete this run. Check your budget and locks, then try again. Error details are in Settings → Diagnostics.")
                 if results_stale:
                     st.warning("Inputs changed. Run optimiser to refresh these teams.")
                 if not stored_solutions:
-                    st.info("Run the optimiser to calculate Teams 1–10.")
+                    if stored_signature == current_optimiser_signature and stored_signature is not None:
+                        st.warning("No team fits these settings. Increase your budget or relax locks and exclusions, then run again.")
+                    else:
+                        st.markdown(
+                            '<div class="f1-empty-state"><span class="f1-section-kicker">YOUR NEXT LINEUP</span>'
+                            '<h3>Find your strongest team</h3>'
+                            '<p>Set your budget and chip, then run the optimiser to compare '
+                            'five-driver, two-constructor lineups.</p>'
+                            '<p class="f1-empty-detail">Teams are ranked using expected points and your price-growth value. '
+                            'Lock favourites or exclude assets in Drivers, Constructors or Settings.</p></div>',
+                            unsafe_allow_html=True,
+                        )
                 else:
                     st.markdown(f"#### Ranked teams · {len(stored_solutions)}")
+                    st.caption("Expected points include driver boosts. Price gain is projected; all money is in $M.")
                     with st.container(height=620, border=False, key="optimiser_results_scroll"):
                         for rank, solution in enumerate(stored_solutions, start=1):
                             _ranked_team_component(
@@ -3908,22 +3301,23 @@ with optimise_tab:
                             for solution in stored_solutions
                         ]
                         try:
-                            candidates = run_optimizer(
-                                optimizer_drivers,
-                                optimizer_constructors,
-                                budget=optimiser_budget,
-                                top_k=10,
-                                drs_multiplier=objective_drs_multiplier,
-                                allow_no_negative=chip_mode == CHIP_NO_NEGATIVE,
-                                locked_driver_ids=locked_driver_ids,
-                                excluded_driver_ids=excluded_driver_ids,
-                                locked_constructor_ids=locked_constructor_ids,
-                                excluded_constructor_ids=excluded_constructor_ids,
-                                objective_col="combined_objective_score",
-                                boost_col="exp_score",
-                                triple_multiplier=triple_multiplier,
-                                excluded_team_combinations=excluded_combinations,
-                            )
+                            with st.spinner("Finding the best teams…"):
+                                candidates = run_optimizer(
+                                    optimizer_drivers,
+                                    optimizer_constructors,
+                                    budget=optimiser_budget,
+                                    top_k=10,
+                                    drs_multiplier=objective_drs_multiplier,
+                                    allow_no_negative=chip_mode == CHIP_NO_NEGATIVE,
+                                    locked_driver_ids=locked_driver_ids,
+                                    excluded_driver_ids=excluded_driver_ids,
+                                    locked_constructor_ids=locked_constructor_ids,
+                                    excluded_constructor_ids=excluded_constructor_ids,
+                                    objective_col="combined_objective_score",
+                                    boost_col="exp_score",
+                                    triple_multiplier=triple_multiplier,
+                                    excluded_team_combinations=excluded_combinations,
+                                )
                         except Exception as exc:
                             LOGGER.exception("Next optimiser batch failed")
                             st.session_state["last_optimiser_error"] = str(exc)
@@ -3936,7 +3330,7 @@ with optimise_tab:
                         st.caption("No further unique teams are available for these inputs.")
 
                     if not results_stale:
-                        with st.expander("Export a ranked team", expanded=False):
+                        with st.expander("Use or export a team", expanded=False):
                             export_team_col, export_layout_col = st.columns(2, gap="small")
                             with export_team_col:
                                 export_rank = st.selectbox(
@@ -3958,7 +3352,7 @@ with optimise_tab:
                                 if optimise_export_layout_label == "Reddit landscape"
                                 else "portrait"
                             )
-                            export_download_col, export_current_col = st.columns(2, gap="small")
+                            export_current_col, export_download_col = st.columns(2, gap="small")
                             with export_download_col:
                                 _render_png_download(
                                     f"Download Team {export_rank} PNG",
@@ -4230,6 +3624,9 @@ with diagnostics_tab:
                             )
                         with st.container(key=f"sprint_diagnostics_mobile_{label.casefold()}"):
                             st.markdown(sprint_diagnostic_table_html(frame), unsafe_allow_html=True)
+    if st.session_state.get("last_optimiser_error"):
+        with st.expander("Last optimiser error", expanded=False):
+            st.code(st.session_state["last_optimiser_error"], language=None)
     technical_diagnostics = st.expander("Technical diagnostics", expanded=False)
     technical_diagnostics.__enter__()
     st.write("Model load started (UTC):", diagnostics.get("model_load_started_utc", "Unavailable"))

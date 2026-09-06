@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from pathlib import Path
+import re
 
 import pandas as pd
 from streamlit.testing.v1 import AppTest
@@ -237,7 +238,7 @@ def test_live_session_blend_diagnostics_do_not_fetch_or_run_optimizer(monkeypatc
     assert any({"Asset", "Baseline EV", "FP1", "SQ", "Live score", "Live rank", "Live-only EV"}.issubset(columns) for columns in rendered_columns)
     assert any({"Constructor", "Baseline EV", "Driver coverage", "Live score", "Live rank", "Live-only EV"}.issubset(columns) for columns in rendered_columns)
     assert any(slider.label == "Live session emphasis" for slider in app.slider)
-    assert any(caption.value == "No completed sessions" for caption in app.caption)
+    assert any(caption.value == "Eligible sessions: No completed sessions" for caption in app.caption)
 
     before_budget = app.session_state["optimizer_budget"]
     preserved_state = {
@@ -300,7 +301,7 @@ def test_streamlit_renders_new_controls_and_payload_without_live_calls():
     assert [tab_labels.index(area) for area in ("Optimise", "Market", "Team", "Settings")] == sorted(
         tab_labels.index(area) for area in ("Optimise", "Market", "Team", "Settings")
     )
-    assert "Projection & thresholds" in tab_labels
+    assert "Thresholds & projection" in tab_labels
     assert "Efficiency" in tab_labels
     selectboxes = {widget.key: widget for widget in app.selectbox}
     sliders = {widget.label: widget for widget in app.slider}
@@ -313,14 +314,15 @@ def test_streamlit_renders_new_controls_and_payload_without_live_calls():
     assert selectboxes["efficiency_race_preset"].value == "All"
     assert selectboxes["model_race_preset"].value == "All"
     assert selectboxes["price_efficiency_image_layout"].value == "Portrait"
+    assert selectboxes["price_efficiency_image_layout"].label == "Team image layout"
     assert "optimise_image_layout" not in selectboxes
     assert all(widget.label != "Optimisation objective" for widget in app.selectbox)
     assert button_groups["Asset type"].value == "Drivers"
-    assert toggles["Current season only"].value is False
+    assert toggles["Current season only"].value is True
     assert toggles["Show Sprint EV breakdown"].value is False
     assert all("Approved Sprint adjustment" not in element.value for element in app.markdown)
-    assert sliders["Current-season recency decay p"].value == 0.85
-    assert sliders["Price-growth value"].value == 50
+    assert app.slider(key="model_recency_decay").value == 0.85
+    assert sliders["Price-growth value"].value == 15
     assert sliders["Price-growth value"].min == 0.0
     assert sliders["Price-growth value"].max == 100.0
     assert sliders["Price-growth value"].step == 5.0
@@ -330,24 +332,42 @@ def test_streamlit_renders_new_controls_and_payload_without_live_calls():
     assert "Constructors (2)" in multiselects
     assert number_inputs["Team-builder budget"].value == 100.0
     assert "Number of teams" not in number_inputs
-    assert "Budget" in number_inputs
+    assert "Budget ($M)" in number_inputs
+    assert "Bank ($M)" in number_inputs
     assert any(button.label == "Run optimiser" for button in app.button)
     assert "Download drivers table PNG" in download_labels
     assert "Download constructors table PNG" not in download_labels
     assert "Download Price Efficiency team PNG" not in download_labels
-    assert "Download driver projection PNG" in download_labels
+    assert "Download driver projection PNG" not in download_labels
     assert "Download constructor projection PNG" not in download_labels
-    assert "Download driver targets PNG" not in download_labels
+    assert "Download driver targets PNG" in download_labels
+    market_view = next(widget for widget in app.get("button_group") if widget.key == "market_price_view")
+    assert market_view.value == "Thresholds"
+    assert market_view.options == ["Thresholds", "Projection"]
     assert all(expander.label != "Advanced objective settings" for expander in app.expander)
+    model_panel = next(expander for expander in app.expander if expander.label == "Model")
+    assert model_panel.selectbox(key="optimise_mobile_model_race_preset").value == "All"
+    assert model_panel.toggle(key="optimise_mobile_current_season_only").value is True
+    assert model_panel.slider(key="optimise_mobile_model_recency_decay").value == 0.85
+    assert len([slider for slider in app.slider if slider.label == "Live session emphasis"]) == 1
     assert all("Active objective" not in element.value for element in app.markdown)
     assert any(element.value == "Price Efficiency" for element in app.subheader)
+    race_details = next(
+        expander for expander in app.expander if expander.label == "Selected races & calculation"
+    )
+    assert any(element.value == "Using 2 races: Race 1, Race 2" for element in race_details.markdown)
+    assert any("unweighted arithmetic average" in caption.value for caption in race_details.caption)
     price_change_tables = [
         element.value
         for element in app.markdown
-        if "f1-price-change-table" in element.value and "<table" in element.value
+        if "f1-threshold-table" in element.value and "<table" in element.value
     ]
     assert len(price_change_tables) == 1
     assert all(">Asset</th>" in rendered for rendered in price_change_tables)
+    assert all(
+        f'>{label}</th>' in price_change_tables[0]
+        for label in ("Price ($M)", "Terrible", "Poor", "Good", "Great")
+    )
     assert all(">Abbrev</th>" not in rendered for rendered in price_change_tables)
     assert all(">Name</th>" not in rendered for rendered in price_change_tables)
     assert all(">Team</th>" not in rendered for rendered in price_change_tables)
@@ -374,6 +394,10 @@ def test_streamlit_renders_new_controls_and_payload_without_live_calls():
     assert not app.exception
     assert app.session_state["derived_model_signature"] == central_signature
     assert any("No races are selected" in warning.value for warning in app.warning)
+    empty_race_details = next(
+        expander for expander in app.expander if expander.label == "Selected races & calculation"
+    )
+    assert any(element.value == "No races selected" for element in empty_race_details.markdown)
     empty_download_labels = {widget.label for widget in app.get("download_button")}
     assert "Download drivers table PNG" not in empty_download_labels
     assert "Download constructors table PNG" not in empty_download_labels
@@ -585,15 +609,13 @@ def test_streamlit_optimiser_persists_ten_uniform_results_and_appends_next_batch
     assert all("f1-team-summary" in rendered for rendered in rendered_teams)
     assert all(rendered.count('class="f1-driver-card"') == 7 for rendered in rendered_teams)
     assert all("Best Team" not in rendered for rendered in rendered_teams)
-    assert {metric for metric in ("Value", "Left", "Gain", "Pts")} <= set(
-        word
-        for rendered in rendered_teams[:1]
-        for word in ("Value", "Left", "Gain", "Pts")
-        if f">{word}<" in rendered
+    assert all(
+        f">{label}<" in rendered_teams[0]
+        for label in ("Team cost", "Budget left", "Price gain", "Expected pts")
     )
     selectboxes = {widget.key: widget for widget in app.selectbox}
     assert selectboxes["optimise_image_layout"].value == "Portrait"
-    assert any(expander.label == "Export a ranked team" for expander in app.expander)
+    assert any(expander.label == "Use or export a team" for expander in app.expander)
 
     first_team = first_ten[0]
     expected_driver_ids = first_team.drivers["id"].astype(str).tolist()
@@ -645,7 +667,7 @@ def test_streamlit_optimiser_persists_ten_uniform_results_and_appends_next_batch
     market_view = {
         widget.key: widget for widget in app.get("button_group")
     }["market_price_view"]
-    market_view.set_value("Thresholds").run()
+    market_view.set_value("Projection").run()
 
     assert [team_solution_key(solution) for solution in app.session_state["optimiser_solutions"]] == [
         team_solution_key(solution) for solution in first_ten
@@ -690,7 +712,11 @@ def test_mobile_optimise_subviews_preserve_session_and_do_not_refresh_live_data(
     app.session_state["excluded_driver_ids"] = ["d2"]
     app.session_state["locked_constructor_ids"] = ["c1"]
     app.run()
-    {button.label: button for button in app.button}["Run optimiser"].click().run()
+    {
+        widget.key: widget for widget in app.get("button_group")
+    }["optimise_mobile_subview"].set_value("Controls").run()
+    assert app.session_state["optimise_mobile_subview"] == "Controls"
+    app.button(key="run_optimiser_controls").click().run()
 
     assert not app.exception
     navigation = {
@@ -743,3 +769,210 @@ def test_mobile_optimise_subviews_preserve_session_and_do_not_refresh_live_data(
         assert app.session_state["live_data_snapshot"].source_diagnostics[
             "raw_live_load_finished_utc"
         ] == refresh_marker
+
+
+def test_responsive_model_controls_sync_without_discarding_results_or_budget(monkeypatch):
+    """Both presentations edit the same model while retaining the user's work."""
+    snapshot, model = _snapshot(), _model()
+    derivations: list[dict] = []
+    optimiser_calls: list[bool] = []
+    original_optimizer = app_core.run_optimizer
+
+    def forbid_live_fetch(*_args, **_kwargs):
+        raise AssertionError("Responsive controls must reuse the accepted snapshot.")
+
+    def controlled_derivation(_snapshot, **kwargs):
+        assert _snapshot.source_diagnostics["raw_live_load_finished_utc"] == "ui-fixture"
+        derivations.append(kwargs)
+        return model
+
+    def tracked_optimizer(*args, **kwargs):
+        optimiser_calls.append(True)
+        return original_optimizer(*args, **kwargs)
+
+    monkeypatch.setattr(app_core, "load_live_data_snapshot", forbid_live_fetch)
+    monkeypatch.setattr(app_core, "derive_model_data", controlled_derivation)
+    monkeypatch.setattr(app_core, "run_optimizer", tracked_optimizer)
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "streamlit_app.py"), default_timeout=30)
+    app.session_state["live_data_snapshot"] = snapshot
+    app.session_state["derived_model_data"] = model
+    app.session_state["budget_defaults_initialised"] = True
+    app.session_state["optimizer_budget"] = 117.5
+    app.session_state["optimizer_budget_source"] = "manual"
+    app.session_state["current_team_driver_ids"] = ["d1", "d2", "d3", "d4", "d5"]
+    app.session_state["current_team_constructor_ids"] = ["c1", "c2"]
+    app.session_state["locked_driver_ids"] = ["d1"]
+    app.run()
+    app.button(key="run_optimiser_controls").click().run()
+    assert not app.exception
+    assert len(optimiser_calls) == 1
+    assert derivations[0]["history_mode"] == app_core.HISTORY_MODE_CURRENT_SEASON_ONLY
+    original_results = [team_solution_key(solution) for solution in app.session_state["optimiser_solutions"]]
+    assert original_results
+    original_result_signature = app.session_state["optimiser_result_signature"]
+
+    app.selectbox(key="optimise_mobile_model_race_preset").set_value("Last 1").run()
+    assert not app.exception
+    assert app.selectbox(key="model_race_preset").value == "Last 1"
+    assert derivations[-1]["selected_race_preset"] == "Last 1"
+
+    app.slider(key="model_recency_decay").set_value(0.70).run()
+    assert not app.exception
+    assert app.slider(key="optimise_mobile_model_recency_decay").value == 0.70
+    assert derivations[-1]["recency_decay"] == 0.70
+
+    app.toggle(key="optimise_mobile_current_season_only").set_value(False).run()
+    assert not app.exception
+    assert app.toggle(key="current_season_only").value is False
+    assert derivations[-1]["history_mode"] == app_core.HISTORY_MODE_ALL_SUPPORTED
+
+    app.selectbox(key="optimise_mobile_model_race_preset").set_value("Custom").run()
+    selected_races = [app_core.RaceKey(2026, 1), app_core.RaceKey(2026, 2)]
+    app.multiselect(key="optimise_mobile_model_custom_races").set_value(selected_races).run()
+    assert not app.exception
+    assert app.multiselect(key="model_custom_race_keys").value == selected_races
+    app.multiselect(key="optimise_mobile_model_excluded_races").set_value(selected_races[:1]).run()
+    assert not app.exception
+    assert app.multiselect(key="model_excluded_race_keys").value == selected_races[:1]
+    assert derivations[-1]["custom_race_keys"] == selected_races
+    assert derivations[-1]["excluded_race_keys"] == selected_races[:1]
+
+    assert len([slider for slider in app.slider if slider.label == "Live session emphasis"]) == 1
+    app.slider(key="model_live_session_emphasis").set_value(0.5).run()
+    assert not app.exception
+    assert app.slider(key="model_live_session_emphasis").value == 0.5
+    assert derivations[-1]["live_session_emphasis"] == 0.5
+    assert len(optimiser_calls) == 1
+    assert app.session_state["optimizer_budget"] == 117.5
+    assert app.session_state["current_team_driver_ids"] == ["d1", "d2", "d3", "d4", "d5"]
+    assert app.session_state["current_team_constructor_ids"] == ["c1", "c2"]
+    assert app.session_state["locked_driver_ids"] == ["d1"]
+    assert app.session_state["optimiser_result_signature"] == original_result_signature
+    assert [team_solution_key(solution) for solution in app.session_state["optimiser_solutions"]] == original_results
+    assert any("Inputs changed" in warning.value for warning in app.warning)
+
+
+def test_market_projection_sorting_preserves_model_and_ranked_results(monkeypatch):
+    snapshot, model = _snapshot(), _model()
+    points = [17.0, 41.0, 23.0, 11.0, 29.0, 35.0]
+    for column in ("exp_score", "next_race_exp_score", "next_race_expected_points"):
+        model.drivers[column] = points
+    original_drivers = model.drivers.copy(deep=True)
+    derivations, optimisations = [], []
+    original_optimizer = app_core.run_optimizer
+
+    def no_live_fetch(*_args, **_kwargs):
+        raise AssertionError("Sorting a market table must reuse the accepted data.")
+
+    def derive(*_args, **_kwargs):
+        derivations.append(True)
+        return model
+
+    def optimise(*args, **kwargs):
+        optimisations.append(True)
+        return original_optimizer(*args, **kwargs)
+
+    monkeypatch.setattr(app_core, "load_live_data_snapshot", no_live_fetch)
+    monkeypatch.setattr(app_core, "derive_model_data", derive)
+    monkeypatch.setattr(app_core, "run_optimizer", optimise)
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "streamlit_app.py"), default_timeout=30)
+    app.session_state["live_data_snapshot"] = snapshot
+    app.session_state["derived_model_data"] = model
+    app.session_state["budget_defaults_initialised"] = True
+    app.session_state["optimizer_budget"] = 100.0
+    app.session_state["optimizer_budget_source"] = "manual"
+    app.run()
+    app.button(key="run_optimiser_controls").click().run()
+    assert not app.exception
+    result_keys = [team_solution_key(solution) for solution in app.session_state["optimiser_solutions"]]
+    assert result_keys
+    model_signature = app.session_state["derived_model_signature"]
+    result_signature = app.session_state["optimiser_result_signature"]
+    derive_count = len(derivations)
+
+    next(widget for widget in app.get("button_group") if widget.key == "market_price_view").set_value("Projection").run()
+    assert app.selectbox(key="market_projection_sort").options == ["Price", "Price gain", "Projected points"]
+    assert app.selectbox(key="market_projection_sort").value == "Price gain"
+
+    for sort_label, column in (("Price", 1), ("Price gain", 2), ("Projected points", 3)):
+        app.selectbox(key="market_projection_sort").set_value(sort_label).run()
+        for direction in ("High to low", "Low to high"):
+            app.selectbox(key="market_projection_order").set_value(direction).run()
+            assert not app.exception
+            rendered = next(
+                element.value for element in app.markdown
+                if "f1-projection-mobile" in element.value and "<tbody>" in element.value
+            )
+            body = re.search(r"<tbody>(.*?)</tbody>", rendered).group(1)
+            rows = re.findall(r"<tr>(.*?)</tr>", body)
+            values = [float(re.findall(r"<td[^>]*>(.*?)</td>", row)[column]) for row in rows]
+            assert len(values) == 6
+            assert values == sorted(values, reverse=direction == "High to low")
+            assert app.session_state["derived_model_signature"] == model_signature
+            assert app.session_state["optimiser_result_signature"] == result_signature
+            assert [team_solution_key(solution) for solution in app.session_state["optimiser_solutions"]] == result_keys
+
+    next(widget for widget in app.get("button_group") if widget.key == "market_price_asset_type").set_value("Constructors").run()
+    assert not app.exception
+    assert any(widget.label == "Download constructor projection PNG" for widget in app.get("download_button"))
+    assert app.selectbox(key="market_projection_sort").value == "Projected points"
+    assert app.selectbox(key="market_projection_order").value == "Low to high"
+    assert app.session_state["optimiser_result_signature"] == result_signature
+    assert app.session_state["optimizer_budget"] == 100.0
+    assert len(derivations) == derive_count
+    assert len(optimisations) == 1
+    pd.testing.assert_frame_equal(model.drivers, original_drivers)
+
+
+def test_infeasible_team_has_actionable_feedback_and_can_recover(monkeypatch):
+    snapshot, model = _snapshot(), _model()
+
+    def forbid_live_fetch(*_args, **_kwargs):
+        raise AssertionError("Budget changes must not reload the data source.")
+
+    monkeypatch.setattr(app_core, "load_live_data_snapshot", forbid_live_fetch)
+    monkeypatch.setattr(app_core, "derive_model_data", lambda *_args, **_kwargs: model)
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "streamlit_app.py"), default_timeout=30)
+    app.session_state["live_data_snapshot"] = snapshot
+    app.session_state["derived_model_data"] = model
+    app.session_state["budget_defaults_initialised"] = True
+    app.session_state["optimizer_budget"] = 1.0
+    app.session_state["optimizer_budget_source"] = "manual"
+    app.run()
+    assert not app.exception
+    assert not any("No team fits" in warning.value for warning in app.warning)
+
+    app.button(key="run_optimiser_controls").click().run()
+    assert not app.exception
+    assert app.session_state["optimiser_solutions"] == []
+    feedback = [warning.value for warning in app.warning if "No team fits" in warning.value]
+    assert feedback
+    assert "budget" in feedback[0].lower()
+    assert "lock" in feedback[0].lower() or "exclusion" in feedback[0].lower()
+
+    app.number_input(key="optimizer_budget").set_value(100.0).run()
+    app.button(key="run_optimiser_controls").click().run()
+    assert not app.exception
+    assert len(app.session_state["optimiser_solutions"]) == 10
+    assert not any("No team fits" in warning.value for warning in app.warning)
+
+
+def test_source_failure_keeps_history_and_contains_technical_details(monkeypatch):
+    technical_message = "fixture transport failure: upstream response invalid"
+
+    def unavailable_source(*_args, **_kwargs):
+        raise RuntimeError(technical_message)
+
+    monkeypatch.setattr(app_core, "load_live_data_snapshot", unavailable_source)
+    app = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "streamlit_app.py"), default_timeout=20)
+    app.run()
+
+    assert not app.exception
+    assert any("Live data is unavailable" in error.value for error in app.error)
+    assert all(technical_message not in error.value for error in app.error)
+    assert any(expander.label == "Data-loading details" for expander in app.expander)
+    assert any(technical_message in code.value for code in app.code)
+    assert app.selectbox(key="unavailable_live_historical_season").options
+    assert app.selectbox(key="unavailable_live_historical_round").options
+    assert any("Points" in table.value.columns for table in app.dataframe)
+    assert next(button for button in app.button if button.label == "Refresh live data").disabled is False

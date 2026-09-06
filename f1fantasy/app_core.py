@@ -6380,12 +6380,15 @@ def fantasy_asset_card_html(
         '<div class="f1-card-identity">{identity}{badge}{availability_badge}</div>'
         "</div>"
         '<div class="f1-card-middle">'
-        '<span class="f1-card-price">{price}</span>'
-        '<span class="f1-card-gain {gain_class}">{gain}</span>'
+        '<span class="f1-card-price"><span class="f1-card-label">Price</span>'
+        '<span class="f1-card-value">{price}</span></span>'
+        '<span class="f1-card-gain {gain_class}"><span class="f1-card-label">Price gain</span>'
+        '<span class="f1-card-value">{gain}</span></span>'
         "</div>"
-        '<div class="f1-card-points">{expected}</div>'
+        '<div class="f1-card-points"><span class="f1-card-label">Expected</span>'
+        '<span class="f1-card-value">{expected}</span></div>'
         "</div>".format(
-            colour=html.escape(colour, quote=True),
+            colour=html.escape(payload["team_colour"], quote=True),
             title=html.escape(payload["identity"], quote=True),
             aria=html.escape(
                 f'{payload["identity"]}: {payload["price"]}, {payload["gain"]} expected gain, {payload["points"]}',
@@ -6394,9 +6397,9 @@ def fantasy_asset_card_html(
             identity=identity_html,
             badge=badge,
             availability_badge=availability_badge,
-            price=html.escape(payload["price"]),
+            price=html.escape(payload["price"] + ("M" if payload["price_value"] is not None else "")),
             expected=html.escape(payload["points"]),
-            gain=html.escape(payload["gain"]),
+            gain=html.escape(payload["gain"] + ("M" if payload["gain_value"] is not None else "")),
             gain_class=payload["gain_class"],
         )
     )
@@ -6463,9 +6466,12 @@ def ranked_team_component_html(
     )
     constructor_cards = fantasy_card_grid_html(constructors, asset_label="Constructor")
     return (
-        '<article class="f1-ranked-team" aria-label="Ranked optimiser team {rank}">'
+        '<article class="f1-ranked-team" data-rank="{rank}" aria-label="Ranked optimiser team {rank}">'
         '<div class="f1-team-header"><span class="f1-team-rank">{rank}</span>{stats}</div>'
-        '<div class="f1-team-assets">{drivers}{constructors}</div>'
+        '<div class="f1-team-assets">'
+        '<div class="f1-team-section"><div class="f1-team-section-label">Drivers</div>{drivers}</div>'
+        '<div class="f1-team-section"><div class="f1-team-section-label">Constructors</div>{constructors}</div>'
+        '</div>'
         "</article>"
     ).format(
         rank=max(1, int(rank)),

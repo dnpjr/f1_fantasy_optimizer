@@ -40,6 +40,7 @@ from f1fantasy.ui_helpers import (
     resolve_objective_mode,
     resolve_price_efficiency_asset_type,
     responsive_layout_mode,
+    sort_projection_assets,
     sprint_diagnostic_table_html,
     team_summary_payload,
 )
@@ -167,7 +168,10 @@ def test_abbreviation_colour_contrast_and_accessible_identity_fallbacks():
     identity = compact_asset_identity_html(driver)
     assert "Nico Hülkenberg — Audi" in identity
     assert 'aria-label="Driver: Nico Hülkenberg — Audi"' in identity
+    assert 'role="img"' in identity
     assert "HÜL" in identity
+    assert '<span class="f1-asset-name">Nico Hülkenberg</span>' in identity
+    assert '<span class="f1-asset-team">Audi</span>' in identity
 
 
 def _efficiency_rows():
@@ -286,8 +290,10 @@ def test_compact_card_has_identity_price_points_gain_and_multiplier_without_redu
     assert "+0.24" in card
     assert ">3x<" in card
     assert 'title="Kimi Antonelli — Mercedes"' in card
-    assert 'class="f1-card-name"' not in card
-    assert 'class="f1-card-team"' not in card
+    assert '<span class="f1-asset-name">Kimi Antonelli</span>' in card
+    assert '<span class="f1-asset-team">Mercedes</span>' in card
+    assert '<span class="f1-card-value">$25.7M</span>' in card
+    assert '<span class="f1-card-label">Price gain</span>' in card
     assert 'class="f1-initials"' not in card
 
 
@@ -346,13 +352,57 @@ def test_dense_asset_table_has_only_asset_price_gain_and_points_with_shared_gain
 
     rendered = compact_asset_table_html(assets, asset_type="driver")
 
-    assert all(f">{heading}</th>" in rendered for heading in ("Asset", "Price", "Gain", "Pts"))
+    assert all(f">{heading}</th>" in rendered for heading in ("Asset", "Price ($M)", "Gain ($M)", "Points"))
     assert ">Name</th>" not in rendered
     assert ">Team</th>" not in rendered
     assert "ANT" in rendered
     assert "-0.03" in rendered
     assert "f1-gain-negative" in rendered
     pd.testing.assert_frame_equal(assets, original)
+
+
+def test_projection_sort_uses_unrounded_numbers_with_stable_ties_and_missing_last():
+    assets = pd.DataFrame(
+        {
+            "id": ["a", "b", "c", "d", "e"],
+            "price": ["2", "10", "2", None, "unavailable"],
+            "expected_price_gain": [0.05, -0.1, 0.05, None, 0.2],
+            "exp_score": [1.04, 1.03, 1.04, float("inf"), -1.0],
+        },
+        index=[7, 7, 2, 1, 1],
+    )
+    original = assets.copy(deep=True)
+    cases = (
+        ("Price", False, [1, 0, 2, 3, 4]),
+        ("Price", True, [0, 2, 1, 3, 4]),
+        ("Price gain", False, [4, 0, 2, 1, 3]),
+        ("Price gain", True, [1, 0, 2, 4, 3]),
+        ("Projected points", False, [0, 2, 1, 4, 3]),
+        ("Projected points", True, [4, 1, 0, 2, 3]),
+    )
+    for metric, ascending, positions in cases:
+        result = sort_projection_assets(assets, metric, ascending=ascending)
+        pd.testing.assert_frame_equal(result, original.iloc[positions])
+    pd.testing.assert_frame_equal(assets, original)
+
+
+def test_projection_sort_matches_display_fallback_columns_and_returns_independent_copy():
+    assets = pd.DataFrame(
+        {
+            "current_price": [10.0, 20.0],
+            "expected_price_change": [0.2, -0.1],
+            "Expected Points": [1.0, 20.0],
+        }
+    )
+    assert sort_projection_assets(assets, "Price").index.tolist() == [1, 0]
+    assert sort_projection_assets(assets, "Price gain").index.tolist() == [0, 1]
+    assert sort_projection_assets(assets, "Projected points").index.tolist() == [1, 0]
+    result = sort_projection_assets(assets, "outdated saved label")
+    result.iloc[0, 0] = 99.0
+    assert assets["current_price"].tolist() == [10.0, 20.0]
+    assert sort_projection_assets(None).empty
+    empty = assets.iloc[:0]
+    pd.testing.assert_frame_equal(sort_projection_assets(empty), empty)
 
 
 def test_optimiser_asset_universe_rows_have_six_compact_columns_and_exact_values():
@@ -387,7 +437,7 @@ def test_optimiser_asset_universe_rows_have_six_compact_columns_and_exact_values
     assert rows[0]["points_value"] == 60.9
     assert rows[0]["lock"] is True
     assert rows[0]["exclude"] is False
-    assert "Kimi Antonelli" not in rows[0]["asset"].split(">ANT<", 1)[-1]
+    assert '<span class="f1-asset-name">Kimi Antonelli</span>' in rows[0]["asset"]
     pd.testing.assert_frame_equal(assets, before)
 
 
@@ -564,7 +614,9 @@ def test_mobile_projection_and_efficiency_schemas_keep_critical_columns_visible(
     )
 
     assert 'class="f1-compact-table f1-mobile-schema f1-projection-mobile"' in projection
-    assert "<th>Asset</th><th>Price</th><th>Gain</th><th>EV</th>" in projection
+    assert all(f">{heading}</th>" in projection for heading in ("Asset", "Price ($M)", "Gain ($M)", "Points"))
+    assert 'title="Expected points"' in projection
+    assert '>EV</th>' not in projection
     assert 'class="f1-compact-table f1-mobile-schema f1-efficiency-mobile"' in efficiency
     assert "<th>Asset</th><th>Price</th><th>Pts/M</th>" in efficiency
     assert "Avg/race" in efficiency  # retained in the desktop schema
@@ -593,7 +645,7 @@ def test_mobile_sprint_schema_exposes_base_bonus_and_final_without_mutation():
     assert ">+2.50<" in rendered
 
 
-def test_ranked_team_renderer_is_uniform_and_has_five_plus_two_assets_without_headings():
+def test_ranked_team_renderer_is_uniform_and_has_five_plus_two_grouped_assets():
     drivers = pd.DataFrame(
         [
             {
@@ -635,10 +687,17 @@ def test_ranked_team_renderer_is_uniform_and_has_five_plus_two_assets_without_he
         rank=2, summary=summary, drivers=drivers, constructors=constructors
     )
 
-    assert team_one.replace("team 1", "team 2").replace(">1<", ">2<") == team_two
+    assert 'data-rank="1"' in team_one
+    assert 'data-rank="2"' in team_two
+    assert team_one.replace("team 1", "team 2").replace(">1<", ">2<").replace(
+        'data-rank="1"', 'data-rank="2"'
+    ) == team_two
     assert team_one.count('class="f1-driver-card"') == 7
     assert 'class="f1-card-grid f1-driver-grid"' in team_one
     assert 'class="f1-card-grid f1-constructor-grid"' in team_one
-    assert ">Drivers<" not in team_one
-    assert ">Constructors<" not in team_one
+    assert ">Drivers<" in team_one
+    assert ">Constructors<" in team_one
+    assert ">Team cost<" in team_one
+    assert ">Budget left<" in team_one
+    assert ">Expected pts<" in team_one
     assert "f1-gain-negative" in team_one
