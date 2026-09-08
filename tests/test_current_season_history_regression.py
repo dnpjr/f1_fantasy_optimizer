@@ -256,3 +256,119 @@ def test_production_derivation_uses_all_eleven_rounds_in_both_history_modes():
     assert set(all_supported.driver_price_efficiency["selected_race_count"]) == {11}
     assert current_only.diagnostics["next_race_round"] == 12
     assert all_supported.diagnostics["next_race_round"] == 12
+
+
+def _post_round_13_snapshot(*, round_13_completed: bool) -> app_core.LiveDataSnapshot:
+    snapshot = _snapshot(raw_rounds=())
+    schedule = snapshot.schedule.copy(deep=True)
+    race_names = {
+        int(row.round): str(row.raceName)
+        for row in schedule.itertuples(index=False)
+    }
+    driver_id = int(snapshot.players.iloc[0]["playerId"])
+    constructor_id = int(snapshot.teams.iloc[0]["teamId"])
+    rows = []
+    for asset_type, asset_id in (
+        ("driver", driver_id),
+        ("constructor", constructor_id),
+    ):
+        for round_no in range(1, 15):
+            is_played = round_no < 13 or (round_no == 13 and round_13_completed)
+            rows.append(
+                {
+                    "PlayerId": asset_id,
+                    "asset_type": asset_type,
+                    "season": 2026,
+                    "round": round_no,
+                    "race_name": race_names[round_no],
+                    "fantasy_points": float(round_no) if is_played else pd.NA,
+                    "is_played": int(is_played),
+                }
+            )
+    observations = pd.DataFrame(rows)
+    snapshot.driver_race_points = observations[
+        observations["asset_type"].eq("driver")
+    ].copy()
+    snapshot.constructor_race_points = observations[
+        observations["asset_type"].eq("constructor")
+    ].copy()
+    latest_completed = 13 if round_13_completed else 12
+    snapshot.source_diagnostics["completed_current_event_keys"] = [
+        (2026, round_no) for round_no in range(1, latest_completed + 1)
+    ]
+    snapshot.source_diagnostics["forecast_target_event"] = {
+        "season": 2026,
+        "round": latest_completed + 1,
+    }
+    current_history = snapshot.historical_fantasy_scores[
+        snapshot.historical_fantasy_scores["season"].eq(2026)
+    ]
+    latest_recorded = int(current_history["round"].max())
+    seed = current_history[current_history["round"].eq(latest_recorded)].copy()
+    additions = []
+    for round_no in range(latest_recorded + 1, latest_completed + 1):
+        round_rows = seed.copy(deep=True)
+        round_rows["round"] = round_no
+        round_rows["event_name"] = race_names[round_no]
+        round_rows["event_date"] = schedule.loc[
+            schedule["round"].eq(round_no), "date"
+        ].iloc[0]
+        additions.append(round_rows)
+    if additions:
+        snapshot.historical_fantasy_scores = pd.concat(
+            [snapshot.historical_fantasy_scores, *additions],
+            ignore_index=True,
+        )
+    return snapshot
+
+
+def test_round_transition_excludes_latest_before_completion_and_includes_it_afterwards():
+    before = _post_round_13_snapshot(round_13_completed=False)
+    after = _post_round_13_snapshot(round_13_completed=True)
+
+    before_catalogue, _ = app_core.snapshot_race_catalogue(before)
+    after_catalogue, _ = app_core.snapshot_race_catalogue(after)
+
+    assert [option.key.round for option in before_catalogue] == list(range(1, 13))
+    assert [option.key.round for option in after_catalogue] == list(range(1, 14))
+
+
+def test_post_round_13_history_reaches_projection_efficiency_and_optimizer():
+    snapshot = _post_round_13_snapshot(round_13_completed=True)
+    snapshot.results = pd.concat(
+        [pd.read_csv(f"data/cache/results_{year}.csv") for year in range(2023, 2027)],
+        ignore_index=True,
+    )
+    snapshot.qualifying = pd.concat(
+        [pd.read_csv(f"data/cache/qualifying_{year}.csv") for year in range(2023, 2027)],
+        ignore_index=True,
+    )
+    snapshot.sprint = pd.concat(
+        [pd.read_csv(f"data/cache/sprint_{year}.csv") for year in range(2023, 2027)],
+        ignore_index=True,
+    )
+
+    model = app_core.derive_model_data(
+        snapshot,
+        today="2026-09-08",
+        effective_time="2026-09-08T12:00:00Z",
+        history_mode=app_core.HISTORY_MODE_CURRENT_SEASON_ONLY,
+    )
+    teams = app_core.run_optimizer(
+        model.drivers,
+        model.constructors,
+        budget=500.0,
+        top_k=10,
+    )
+
+    expected_keys = [(2026, round_no) for round_no in range(1, 14)]
+    assert sorted(
+        snapshot.historical_fantasy_scores.loc[
+            snapshot.historical_fantasy_scores["season"].eq(2026), "round"
+        ].unique()
+    ) == list(range(1, 14))
+    assert model.diagnostics["selected_race_keys"] == expected_keys
+    assert model.diagnostics["current_season_completed_race_count"] == 13
+    assert model.diagnostics["next_race_round"] == 14
+    assert set(model.driver_price_efficiency["selected_race_count"]) == {13}
+    assert len(teams) == 10

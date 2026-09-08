@@ -237,6 +237,56 @@ def test_current_season_cache_expires_while_historical_cache_remains(tmp_path):
     assert ergast._try_read_cache(cache, year=2025, now_utc=now) is not None
 
 
+@pytest.mark.parametrize(
+    "result_field",
+    ["Results", "QualifyingResults", "SprintResults"],
+)
+def test_jolpica_pagination_keeps_a_round_split_across_response_pages(
+    monkeypatch,
+    result_field,
+):
+    calls: list[int] = []
+
+    def race(round_no: int, result_ids: list[str]) -> dict:
+        return {
+            "season": "2026",
+            "round": str(round_no),
+            result_field: [{"id": result_id} for result_id in result_ids],
+        }
+
+    pages = {
+        0: {
+            "MRData": {
+                "limit": "3",
+                "offset": "0",
+                "total": "5",
+                "RaceTable": {"Races": [race(12, ["a", "b"]), race(13, ["c"])]},
+            }
+        },
+        3: {
+            "MRData": {
+                "limit": "3",
+                "offset": "3",
+                "total": "5",
+                "RaceTable": {"Races": [race(13, ["d", "e"])]},
+            }
+        },
+    }
+
+    def get_page(_url: str, params: dict | None = None) -> dict:
+        offset = int((params or {}).get("offset", 0))
+        calls.append(offset)
+        return pages[offset]
+
+    monkeypatch.setattr(ergast, "_get_json", get_page)
+
+    races = ergast._get_all_races("https://example.test/results", result_field)
+
+    assert calls == [0, 3]
+    assert [int(item["round"]) for item in races] == [12, 13]
+    assert [item["id"] for item in races[1][result_field]] == ["c", "d", "e"]
+
+
 def test_transient_feed_probe_failure_does_not_confirm_an_older_feed(monkeypatch):
     fantasy_api.clear_market_cache()
     monkeypatch.setattr(fantasy_api, "_probe_feed_round", lambda _round: "failed")

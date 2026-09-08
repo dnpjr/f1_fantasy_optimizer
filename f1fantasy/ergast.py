@@ -1,4 +1,5 @@
 from __future__ import annotations
+from copy import deepcopy
 from datetime import UTC, datetime
 import json
 from pathlib import Path
@@ -30,6 +31,41 @@ def _get_json(url: str, params: dict | None = None) -> dict:
     r = requests.get(url, params=params, timeout=ERGAST_TIMEOUT_SECONDS)
     r.raise_for_status()
     return r.json()
+
+
+def _get_all_races(url: str, result_field: str) -> list[dict]:
+    """Fetch every result row when Jolpica caps a response page."""
+    races_by_key: dict[tuple[str, str], dict] = {}
+    ordered_keys: list[tuple[str, str]] = []
+    offset = 0
+
+    while True:
+        data = _get_json(url, params={"limit": 10000, "offset": offset})
+        metadata = data["MRData"]
+        page_races = metadata["RaceTable"]["Races"]
+        for race in page_races:
+            key = (str(race.get("season", "")), str(race.get("round", "")))
+            if key not in races_by_key:
+                races_by_key[key] = deepcopy(race)
+                races_by_key[key][result_field] = list(race.get(result_field, []))
+                ordered_keys.append(key)
+            else:
+                races_by_key[key][result_field].extend(race.get(result_field, []))
+
+        try:
+            page_offset = int(metadata.get("offset", offset))
+            page_limit = int(metadata.get("limit", 0))
+            total = int(metadata.get("total", 0))
+        except (TypeError, ValueError):
+            break
+        next_offset = page_offset + page_limit
+        if page_limit <= 0 or next_offset >= total:
+            break
+        if next_offset <= offset:
+            raise RuntimeError("Jolpica pagination did not advance.")
+        offset = next_offset
+
+    return [races_by_key[key] for key in ordered_keys]
 
 def _cache_metadata_file(cache_file: Path) -> Path:
     return cache_file.with_suffix(cache_file.suffix + ".meta.json")
@@ -133,8 +169,7 @@ def fetch_season_results(year: int, force_refresh: bool = False) -> pd.DataFrame
         if cached is not None:
             return cached
 
-    data = _get_json(f"{ERGAST}/{year}/results.json", params={"limit": 10000})
-    races = data["MRData"]["RaceTable"]["Races"]
+    races = _get_all_races(f"{ERGAST}/{year}/results.json", "Results")
     rows: list[dict] = []
     for race in races:
         circuit = race["Circuit"]["circuitName"]
@@ -178,8 +213,7 @@ def fetch_qualifying(year: int, force_refresh: bool = False) -> pd.DataFrame:
         if cached is not None:
             return cached
 
-    data = _get_json(f"{ERGAST}/{year}/qualifying.json", params={"limit": 10000})
-    races = data["MRData"]["RaceTable"]["Races"]
+    races = _get_all_races(f"{ERGAST}/{year}/qualifying.json", "QualifyingResults")
     rows = []
     for race in races:
         round_no = int(race["round"])
@@ -214,8 +248,7 @@ def fetch_sprint(year: int, force_refresh: bool = False) -> pd.DataFrame:
         if cached is not None:
             return cached
 
-    data = _get_json(f"{ERGAST}/{year}/sprint.json", params={"limit": 10000})
-    races = data["MRData"]["RaceTable"]["Races"]
+    races = _get_all_races(f"{ERGAST}/{year}/sprint.json", "SprintResults")
     rows = []
     for race in races:
         round_no = int(race["round"])
