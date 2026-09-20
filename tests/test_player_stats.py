@@ -28,6 +28,74 @@ def test_parser_extracts_race_by_race_fantasy_points():
     assert df.loc[df["round"] == 2, "price_change"].iloc[0] == pytest.approx(0.3)
 
 
+def test_parser_sums_complete_components_when_zero_total_item_is_omitted():
+    payload = {
+        "Value": {
+            "PlayerId": 11051,
+            "PlayerSkill": "1",
+            "GamedayWiseStats": [
+                {
+                    "GamedayId": 14,
+                    "PlayerValue": 8.6,
+                    "OldPlayerValue": 8.0,
+                    "IsPlayed": 1,
+                    "IsActive": 1,
+                    "StatsWise": [
+                        {"Event": "Qualifying Position", "Value": 0},
+                        {"Event": "Race Position lost", "Value": -1},
+                        {"Event": "race overtake bonus", "Value": 1},
+                    ],
+                }
+            ],
+            "MatchWiseStats": [
+                {
+                    "GamedayId": 14,
+                    "RaceDayWise": [
+                        {
+                            "MeetingNumber": 14,
+                            "MeetingName": "Spanish Grand Prix",
+                            "RaceDayId": 7383,
+                            "Season": "2026",
+                            "SessionType": "Race",
+                            "StatsWise": [
+                                {"Event": "Race Position lost", "Value": -1},
+                                {"Event": "race overtake bonus", "Value": 1},
+                            ],
+                        }
+                    ],
+                }
+            ],
+        }
+    }
+
+    parsed = parse_player_race_points(payload, player_id=11051)
+
+    assert parsed.loc[0, "fantasy_points"] == 0.0
+    assert pd.isna(parsed.loc[0, "race_points"])
+
+
+def test_parser_keeps_empty_or_partial_component_lists_missing():
+    payload = {
+        "Value": {
+            "PlayerId": 1,
+            "PlayerSkill": "1",
+            "GamedayWiseStats": [
+                {
+                    "GamedayId": 1,
+                    "IsPlayed": 1,
+                    "StatsWise": [{"Event": "Race Position", "Value": None}],
+                },
+                {"GamedayId": 2, "IsPlayed": 1, "StatsWise": []},
+            ],
+            "MatchWiseStats": [],
+        }
+    }
+
+    parsed = parse_player_race_points(payload, player_id=1)
+
+    assert parsed["fantasy_points"].isna().all()
+
+
 def test_recent_two_races_are_selected_from_playerstats(monkeypatch):
     monkeypatch.setattr(player_stats, "fetch_player_stats", lambda player_id: _payload())
     roster = pd.DataFrame([{"id": 124, "name": "George Russell"}])

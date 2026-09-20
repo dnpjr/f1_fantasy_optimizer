@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime, timedelta
 from enum import Enum
 import re
@@ -456,6 +456,63 @@ def classify_schedule_dataframe(
     return SessionStatus.COMPLETE, f"Schedule has {len(rows)} events for season {season}."
 
 
+def _final_qualifying_with_omitted_nonparticipants(
+    qualifying: pd.DataFrame | None,
+    results: pd.DataFrame | None,
+    *,
+    event: EventKey,
+    expected_participant_count: int,
+) -> tuple[bool, int]:
+    """Recognise a final qualifying table that omits back-of-grid nonparticipants.
+
+    Formula 1 and Jolpica legitimately omit drivers who set no qualifying
+    classification.  Once the race classification is complete, the final grid
+    accounts for those drivers.  This is deliberately stricter than accepting
+    a short qualifying response: positions must be contiguous and every omitted
+    race entrant must be assigned behind the published qualifying field (or a
+    non-positive pit-lane grid value).
+    """
+    qualifying_rows = _event_rows(qualifying, event)
+    race_rows = _event_rows(results, event)
+    required_qualifying = {"driverId", "position"}
+    required_race = {"driverId", "grid"}
+    if (
+        qualifying_rows.empty
+        or race_rows.empty
+        or not required_qualifying.issubset(qualifying_rows.columns)
+        or not required_race.issubset(race_rows.columns)
+    ):
+        return False, 0
+
+    qualifying_ids = qualifying_rows["driverId"].dropna().astype(str)
+    race_ids = race_rows["driverId"].dropna().astype(str)
+    observed = int(qualifying_ids.nunique())
+    expected = int(expected_participant_count)
+    if (
+        observed <= 0
+        or observed >= expected
+        or race_ids.nunique() != expected
+        or qualifying_ids.nunique() != len(qualifying_rows)
+        or race_ids.nunique() != len(race_rows)
+        or not set(qualifying_ids).issubset(set(race_ids))
+    ):
+        return False, 0
+
+    positions = pd.to_numeric(qualifying_rows["position"], errors="coerce")
+    if positions.isna().any() or sorted(positions.astype(int).tolist()) != list(
+        range(1, observed + 1)
+    ):
+        return False, 0
+
+    omitted = race_rows[~race_rows["driverId"].astype(str).isin(set(qualifying_ids))]
+    if len(omitted) != expected - observed:
+        return False, 0
+    grids = pd.to_numeric(omitted["grid"], errors="coerce")
+    if grids.isna().any() or not ((grids <= 0) | (grids > observed)).all():
+        return False, 0
+    return True, int(len(omitted))
+
+
 def classify_playerstats_payload(
     payload: Any,
     *,
@@ -572,6 +629,36 @@ def build_weekend_state(
             )
 
     by_kind = {item.kind: item for item in sessions}
+    race_state = by_kind[SessionKind.GRAND_PRIX]
+    qualifying_state = by_kind[SessionKind.GRAND_PRIX_QUALIFYING]
+    if (
+        race_state.status == SessionStatus.COMPLETE
+        and qualifying_state.status == SessionStatus.PARTIAL
+        and qualifying_state.diagnostic.startswith("Participant coverage is ")
+    ):
+        resolved, omitted_count = _final_qualifying_with_omitted_nonparticipants(
+            qualifying,
+            results,
+            event=event,
+            expected_participant_count=race_state.expected_participant_count
+            or expected_participant_count
+            or DEFAULT_EXPECTED_PARTICIPANTS,
+        )
+        if resolved:
+            qualifying_state = replace(
+                qualifying_state,
+                status=SessionStatus.COMPLETE,
+                diagnostic=(
+                    "Final qualifying classification is coherent; "
+                    f"{omitted_count} nonparticipant"
+                    f"{'s are' if omitted_count != 1 else ' is'} accounted for at the back of the final race grid."
+                ),
+            )
+            sessions = [
+                qualifying_state if item.kind == SessionKind.GRAND_PRIX_QUALIFYING else item
+                for item in sessions
+            ]
+            by_kind[SessionKind.GRAND_PRIX_QUALIFYING] = qualifying_state
     required = [SessionKind.GRAND_PRIX_QUALIFYING, SessionKind.GRAND_PRIX]
     if fmt == WeekendFormat.SPRINT:
         required.insert(0, SessionKind.SPRINT)

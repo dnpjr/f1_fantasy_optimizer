@@ -31,6 +31,25 @@ def _stats_total(stats: list[dict[str, Any]] | None, event_name: str = "Total") 
     return None
 
 
+def _recorded_stats_total(stats: list[dict[str, Any]] | None) -> float | None:
+    """Return an explicit total, or the exact sum of a complete component list.
+
+    The official feed sometimes omits the ``Total`` item when the recorded
+    components sum to zero.  Empty or partly non-numeric component lists remain
+    missing so an incomplete response can never be converted into a zero.
+    """
+    explicit = _stats_total(stats)
+    if explicit is not None and pd.notna(explicit):
+        return float(explicit)
+    components = [item for item in (stats or []) if isinstance(item, dict)]
+    if not components:
+        return None
+    values = [pd.to_numeric(item.get("Value"), errors="coerce") for item in components]
+    if any(pd.isna(value) for value in values):
+        return None
+    return float(sum(float(value) for value in values))
+
+
 def _component_total(stats: list[dict[str, Any]] | None, contains: str) -> float:
     total = 0.0
     found = False
@@ -107,7 +126,7 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
         if not isinstance(gameday, dict):
             continue
         gameday_id = gameday.get("GamedayId")
-        total = _stats_total(gameday.get("StatsWise"))
+        total = _recorded_stats_total(gameday.get("StatsWise"))
         price = pd.to_numeric(gameday.get("PlayerValue"), errors="coerce")
         old_price = pd.to_numeric(gameday.get("OldPlayerValue"), errors="coerce")
 

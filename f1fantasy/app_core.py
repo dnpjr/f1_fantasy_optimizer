@@ -2369,6 +2369,44 @@ def derive_model_data(
         recorded_scores,
     )
     historical_score_diag["historical_fantasy_mapping_warnings"] = official_score_warnings
+
+    def model_event_coverage(
+        frame: pd.DataFrame,
+        *,
+        id_column: str,
+        points_column: str,
+    ) -> tuple[list[tuple[int, int]], dict[str, int]]:
+        if frame.empty or not {"season", "round", id_column, points_column}.issubset(frame.columns):
+            return [], {}
+        current = frame[
+            pd.to_numeric(frame["season"], errors="coerce").eq(current_season)
+            & pd.to_numeric(frame[points_column], errors="coerce").notna()
+        ].copy()
+        counts = current.groupby(["season", "round"])[id_column].nunique()
+        keys = [(int(season), int(round_no)) for season, round_no in counts.index]
+        return keys, {
+            f"{int(season)}:{int(round_no)}": int(count)
+            for (season, round_no), count in counts.items()
+        }
+
+    driver_model_event_keys, driver_model_event_row_counts = model_event_coverage(
+        weekend_points,
+        id_column="driverId",
+        points_column="weekend_points",
+    )
+    constructor_model_event_keys, constructor_model_event_row_counts = model_event_coverage(
+        constructor_weekend_points,
+        id_column="constructorId",
+        points_column="constructor_weekend_points",
+    )
+    historical_score_diag.update(
+        {
+            "driver_model_event_keys": driver_model_event_keys,
+            "driver_model_event_row_counts": driver_model_event_row_counts,
+            "constructor_model_event_keys": constructor_model_event_keys,
+            "constructor_model_event_row_counts": constructor_model_event_row_counts,
+        }
+    )
     baseline_driver_points = weekend_points
     baseline_constructor_points = constructor_weekend_points
     baseline_official_drivers = driver_race_points

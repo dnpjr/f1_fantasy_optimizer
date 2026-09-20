@@ -383,3 +383,66 @@ def test_classification_does_not_mutate_inputs():
         expected_participant_count=2,
     )
     pd.testing.assert_frame_equal(source, original)
+
+
+def test_final_race_resolves_qualifying_nonparticipants_at_back_of_grid():
+    schedule = _normal_schedule()
+    results = _classification("race", count=22)
+    results["grid"] = range(1, 23)
+    qualifying = _classification("qualifying", count=20)
+
+    state = build_weekend_state(
+        schedule.iloc[0],
+        results=results,
+        qualifying=qualifying,
+        sprint=pd.DataFrame(),
+        effective_time="2026-08-02T18:00:00Z",
+        expected_participant_count=22,
+    )
+
+    qualifying_state = state.session(SessionKind.GRAND_PRIX_QUALIFYING)
+    assert state.is_final is True
+    assert qualifying_state.status == SessionStatus.COMPLETE
+    assert qualifying_state.observed_row_count == 20
+    assert "2 nonparticipants are accounted for" in qualifying_state.diagnostic
+
+
+def test_short_qualifying_is_not_resolved_when_omitted_driver_has_competitive_grid():
+    schedule = _normal_schedule()
+    results = _classification("race", count=22)
+    results["grid"] = range(1, 23)
+    results.loc[results["driverId"].eq("d22"), "grid"] = 10
+    qualifying = _classification("qualifying", count=20)
+
+    state = build_weekend_state(
+        schedule.iloc[0],
+        results=results,
+        qualifying=qualifying,
+        sprint=pd.DataFrame(),
+        effective_time="2026-08-02T18:00:00Z",
+        expected_participant_count=22,
+    )
+
+    assert state.is_final is False
+    assert state.session(SessionKind.GRAND_PRIX_QUALIFYING).status == SessionStatus.PARTIAL
+
+
+def test_next_event_rollover_does_not_leave_resolved_qualifying_unresolved():
+    schedule = _normal_schedule()
+    results = _classification("race", count=22)
+    results["grid"] = range(1, 23)
+    qualifying = _classification("qualifying", count=20)
+
+    validation = validate_weekend_snapshot(
+        schedule,
+        results=results,
+        qualifying=qualifying,
+        sprint=pd.DataFrame(),
+        effective_time="2026-08-05T15:00:00Z",
+        expected_participant_count=22,
+    )
+
+    assert EventKey(2026, 10) in validation.completed_event_keys
+    assert EventKey(2026, 10) not in validation.excluded_partial_event_keys
+    assert EventKey(2026, 10) not in validation.unresolved_event_keys
+    assert validation.active_weekend.event == EventKey(2026, 11)
