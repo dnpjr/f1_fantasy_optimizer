@@ -120,6 +120,7 @@ def _snapshot_official(path: Path, schedules: dict[int, pd.DataFrame]) -> tuple[
     if not parsed:
         raise ValueError("Snapshot has no completed-weekend observations.")
     points = pd.concat(parsed, ignore_index=True)
+    points = points[pd.to_numeric(points["is_played"], errors="coerce").eq(1)].copy()
     official, warnings = normalise_official_playerstats(
         points[points["asset_type"].eq("driver")],
         points[points["asset_type"].eq("constructor")],
