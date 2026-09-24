@@ -67,6 +67,7 @@ from f1fantasy.optimize import TeamSolution, optimize_top_k
 from f1fantasy.player_stats import (
     PLAYERSTATS_ENDPOINT_PATTERN,
     clear_playerstats_cache,
+    completed_official_event_rows,
     fetch_team_lock_deadline_from_playerstats,
     fetch_recent_points_for_roster,
     latest_two_races,
@@ -453,10 +454,7 @@ def completed_asset_price_history(
 
     data = race_observations.copy(deep=True)
     data["fantasy_points"] = pd.to_numeric(data["fantasy_points"], errors="coerce")
-    if "is_played" in data.columns:
-        played = pd.to_numeric(data["is_played"], errors="coerce").fillna(0).eq(1)
-        data = data.loc[played].copy()
-    data = data[data["fantasy_points"].notna()].copy()
+    data = completed_official_event_rows(data)
     if data.empty:
         return pd.DataFrame(columns=columns)
     data["id"] = data["PlayerId"].astype(str)
@@ -468,14 +466,19 @@ def completed_asset_price_history(
 
     rows: list[dict[str, Any]] = []
     for asset_id, group in data.groupby("id", sort=False):
-        points = group["fantasy_points"].tail(2).astype(float).tolist()
+        points = group["fantasy_points"].tail(2).tolist()
+        available = sum(pd.notna(value) for value in points)
         rows.append(
             {
                 "id": str(asset_id),
-                "recent_points_2ago": points[-2] if len(points) >= 2 else pd.NA,
-                "recent_points_1ago": points[-1] if points else pd.NA,
-                "recent_points_available": len(points),
-                "recent_points_source": "asset_specific_completed",
+                "recent_points_2ago": float(points[-2]) if len(points) >= 2 and pd.notna(points[-2]) else pd.NA,
+                "recent_points_1ago": float(points[-1]) if points and pd.notna(points[-1]) else pd.NA,
+                "recent_points_available": available,
+                "recent_points_source": (
+                    "asset_specific_completed"
+                    if available >= 2
+                    else "asset_specific_completed_missing"
+                ),
             }
         )
     return pd.DataFrame(rows, columns=columns)
@@ -503,13 +506,18 @@ def build_price_change_asset_universe(
 
     exact_history = completed_asset_price_history(race_observations)
     if not exact_history.empty:
+        history_columns = {
+            column: f"{column}_asset_history"
+            for column in exact_history.columns
+            if column != "id"
+        }
         universe = universe.merge(
-            exact_history,
+            exact_history.rename(columns=history_columns),
             on="id",
             how="left",
-            suffixes=("", "_asset_history"),
             validate="one_to_one",
         )
+        history_match = universe["recent_points_source_asset_history"].notna()
         for column in (
             "recent_points_2ago",
             "recent_points_1ago",
@@ -519,10 +527,12 @@ def build_price_change_asset_universe(
             history_column = f"{column}_asset_history"
             if history_column not in universe.columns:
                 continue
-            if column in universe.columns:
-                universe[column] = universe[column].combine_first(universe[history_column])
-            else:
-                universe[column] = universe[history_column]
+            if column not in universe.columns:
+                universe[column] = pd.NA
+            replacement = universe[history_column]
+            if column != "recent_points_source":
+                replacement = pd.to_numeric(replacement, errors="coerce")
+            universe[column] = universe[column].where(~history_match, replacement)
             universe.drop(columns=[history_column], inplace=True)
 
     if normalized_type == "driver" and isinstance(player_identity_map, pd.DataFrame):
@@ -5580,10 +5590,10 @@ def price_change_threshold_table(
     ]
     out.loc[~out["price_eligible"], threshold_columns] = pd.NA
 
-    def rounded_boundary(value: float):
+    def floor_boundary(value: float):
         if pd.isna(value):
             return pd.NA
-        return int(round(float(value)))
+        return int(math.floor(float(value)))
 
     def ceil_boundary(value: float):
         if pd.isna(value):
@@ -5596,20 +5606,20 @@ def price_change_threshold_table(
         return str(int(value))
 
     def poor_points(row) -> str:
-        terrible_max = rounded_boundary(row["required_terrible_max"])
-        good_min = rounded_boundary(row["required_good_min"])
+        terrible_max = floor_boundary(row["required_terrible_max"])
+        good_min = ceil_boundary(row["required_good_min"])
         if pd.isna(terrible_max) or pd.isna(good_min):
             return "- to -"
         return f"{int(terrible_max) + 1} to {int(good_min) - 1}"
 
     def good_points(row) -> str:
-        good_min = rounded_boundary(row["required_good_min"])
+        good_min = ceil_boundary(row["required_good_min"])
         great_min = ceil_boundary(row["required_great_min"])
         if pd.isna(good_min) or pd.isna(great_min):
             return "- to -"
         return f"{int(good_min)} to {int(great_min) - 1}"
 
-    out["points_needed_terrible"] = out["required_terrible_max"].apply(lambda value: f"≤ {fmt_boundary(rounded_boundary(value))}")
+    out["points_needed_terrible"] = out["required_terrible_max"].apply(lambda value: f"≤ {fmt_boundary(floor_boundary(value))}")
     out["points_needed_poor"] = out.apply(poor_points, axis=1)
     out["points_needed_good"] = out.apply(good_points, axis=1)
     out["points_needed_great"] = out["required_great_min"].apply(lambda value: f"≥ {fmt_boundary(ceil_boundary(value))}")

@@ -5,7 +5,15 @@ import pandas as pd
 import pytest
 
 from f1fantasy import player_stats
-from f1fantasy.app_core import _add_playerstats_recent_points, apply_recent_point_overrides, apply_price_change_model
+from f1fantasy.app_core import (
+    DEFAULT_PRICE_CHANGE_CHEAP_RULES,
+    DEFAULT_PRICE_CHANGE_EXPENSIVE_CUTOFF,
+    DEFAULT_PRICE_CHANGE_EXPENSIVE_RULES,
+    _add_playerstats_recent_points,
+    apply_recent_point_overrides,
+    apply_price_change_model,
+    price_change_threshold_table,
+)
 from f1fantasy.player_stats import parse_player_race_points, fetch_recent_points_for_roster, latest_two_races
 
 
@@ -14,6 +22,38 @@ FIXTURE = Path(__file__).parent / "fixtures" / "playerstats_124_redacted.json"
 
 def _payload() -> dict:
     return json.loads(FIXTURE.read_text(encoding="utf-8"))
+
+
+def _history_payload(player_id: int, records: list[tuple[int, float | None, int, str]]) -> dict:
+    return {
+        "Value": {
+            "PlayerId": player_id,
+            "PlayerSkill": "1",
+            "GamedayWiseStats": [
+                {
+                    "GamedayId": round_no,
+                    "IsPlayed": is_played,
+                    "IsActive": is_played,
+                    "StatsWise": [] if score is None else [{"Event": "Total", "Value": score}],
+                }
+                for round_no, score, is_played, _status in records
+            ],
+            "MatchWiseStats": [
+                {
+                    "GamedayId": round_no,
+                    "RaceDayWise": [
+                        {
+                            "MeetingNumber": round_no,
+                            "MeetingName": f"Round {round_no}",
+                            "Season": "2026",
+                            "MatchStatus": status,
+                        }
+                    ],
+                }
+                for round_no, _score, _is_played, status in records
+            ],
+        }
+    }
 
 
 def test_parser_extracts_race_by_race_fantasy_points():
@@ -110,6 +150,99 @@ def test_recent_two_races_are_selected_from_playerstats(monkeypatch):
         {"round": 3, "race_name": "Japanese Grand Prix"},
     ]
     assert diagnostics["playerstats_assets_loaded"] == 1
+
+
+def test_active_asset_uses_latest_two_official_scores(monkeypatch):
+    payload = _history_payload(6, [(10, 10.0, 1, "4"), (11, 8.0, 1, "4")])
+    monkeypatch.setattr(player_stats, "fetch_player_stats", lambda _player_id: payload)
+
+    recent, _races, _diagnostics = fetch_recent_points_for_roster(
+        pd.DataFrame([{"id": 6, "name": "Active Driver"}]), asset_type="driver"
+    )
+
+    assert recent.loc[0, "recent_points_2ago"] == 10.0
+    assert recent.loc[0, "recent_points_1ago"] == 8.0
+
+
+def test_recent_history_preserves_official_zeroes_across_inactivity_and_team_change(monkeypatch):
+    payload = _history_payload(
+        7,
+        [(10, 18.0, 1, "4"), (11, None, 0, "4"), (12, None, 0, "4"), (13, None, 0, "1")],
+    )
+    monkeypatch.setattr(player_stats, "fetch_player_stats", lambda _player_id: payload)
+
+    recent, _races, _diagnostics = fetch_recent_points_for_roster(
+        pd.DataFrame([{"id": 7, "name": "Returning Driver", "team": "New Team"}]),
+        asset_type="driver",
+    )
+
+    assert recent.loc[0, "recent_points_2ago"] == 0.0
+    assert recent.loc[0, "recent_points_1ago"] == 0.0
+    assert recent.loc[0, "recent_points_available"] == 2
+
+    parsed = parse_player_race_points(payload, player_id=7).set_index("round")
+    assert pd.isna(parsed.loc[11, "fantasy_points_playerstats_total"])
+    assert parsed.loc[11, "fantasy_points_official_ui"] == 0.0
+    assert parsed.loc[11, "fantasy_points_source"] == "official_ui_inactive_zero"
+
+    for price, expected, display in [
+        (14.5, (26.1, 39.15, 52.2), ("≤ 26", "27 to 39", "40 to 52", "≥ 53")),
+        (9.7, (17.46, 26.19, 34.92), ("≤ 17", "18 to 26", "27 to 34", "≥ 35")),
+    ]:
+        thresholds = price_change_threshold_table(
+            recent.assign(name="Returning Driver", price=price, exp_score=0.0),
+            DEFAULT_PRICE_CHANGE_CHEAP_RULES,
+            expensive_rules=DEFAULT_PRICE_CHANGE_EXPENSIVE_RULES,
+            expensive_price_min=DEFAULT_PRICE_CHANGE_EXPENSIVE_CUTOFF,
+        ).iloc[0]
+        assert thresholds["price_history_mode"] == "established"
+        assert thresholds["required_terrible_max"] == pytest.approx(expected[0])
+        assert thresholds["required_good_min"] == pytest.approx(expected[1])
+        assert thresholds["required_great_min"] == pytest.approx(expected[2])
+        assert tuple(
+            thresholds[column]
+            for column in (
+                "points_needed_terrible",
+                "points_needed_poor",
+                "points_needed_good",
+                "points_needed_great",
+            )
+        ) == display
+
+
+def test_completed_missing_scores_remain_missing_without_backfilling(monkeypatch):
+    payload = _history_payload(
+        8,
+        [(10, 18.0, 1, "4"), (11, None, 0, "4"), (12, None, 0, "4"), (13, None, 1, "1")],
+    )
+    for gameday in payload["Value"]["GamedayWiseStats"]:
+        if gameday["GamedayId"] in {11, 12}:
+            gameday["StatsWise"] = [{"Event": "Race Position", "Value": None}]
+    monkeypatch.setattr(player_stats, "fetch_player_stats", lambda _player_id: payload)
+
+    recent, _races, _diagnostics = fetch_recent_points_for_roster(
+        pd.DataFrame([{"id": 8, "name": "Returning Driver"}]),
+        asset_type="driver",
+    )
+
+    assert pd.isna(recent.loc[0, "recent_points_2ago"])
+    assert pd.isna(recent.loc[0, "recent_points_1ago"])
+    assert recent.loc[0, "recent_points_available"] == 0
+    assert recent.loc[0, "recent_points_source"] == "playerstats_incomplete"
+
+
+def test_new_asset_without_completed_official_rounds_keeps_empty_history(monkeypatch):
+    payload = _history_payload(9, [(13, None, 1, "1")])
+    monkeypatch.setattr(player_stats, "fetch_player_stats", lambda _player_id: payload)
+
+    recent, _races, _diagnostics = fetch_recent_points_for_roster(
+        pd.DataFrame([{"id": 9, "name": "New Driver"}]),
+        asset_type="driver",
+    )
+
+    assert pd.isna(recent.loc[0, "recent_points_2ago"])
+    assert pd.isna(recent.loc[0, "recent_points_1ago"])
+    assert recent.loc[0, "recent_points_available"] == 0
 
 
 def test_missing_endpoint_does_not_become_zero(monkeypatch):

@@ -399,8 +399,21 @@ def normalise_official_playerstats(
             round_no = pd.to_numeric(source.get("round"), errors="coerce")
             total = pd.to_numeric(source.get("fantasy_points"), errors="coerce")
             played = pd.to_numeric(source.get("is_played"), errors="coerce")
+            ui_inactive_zero = (
+                str(source.get("fantasy_points_source") or "")
+                == "official_ui_inactive_zero"
+                and str(source.get("match_status") or "").strip() == "4"
+                and total == 0
+            )
             source_id = pd.to_numeric(source.get("PlayerId"), errors="coerce")
-            if pd.isna(season) or int(season) != 2026 or pd.isna(round_no) or pd.isna(total) or played != 1 or pd.isna(source_id):
+            if (
+                pd.isna(season)
+                or int(season) != 2026
+                or pd.isna(round_no)
+                or pd.isna(total)
+                or (played != 1 and not ui_inactive_zero)
+                or pd.isna(source_id)
+            ):
                 continue
             meta = mapping.get(int(source_id))
             if meta is None:

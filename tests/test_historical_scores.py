@@ -265,6 +265,36 @@ def test_official_normaliser_verifies_2026_and_preserves_missing_components():
     assert official.iloc[0]["fantasy_score_origin"] == "official_recorded"
 
 
+def test_official_normaliser_accepts_verified_ui_zero_for_completed_inactive_round():
+    driver_points = pd.DataFrame(
+        [
+            {
+                "PlayerId": 11032,
+                "season": 2026,
+                "round": 13,
+                "race_name": "Italian Grand Prix",
+                "fantasy_points": 0.0,
+                "fantasy_points_source": "official_ui_inactive_zero",
+                "match_status": "4",
+                "is_played": 0,
+                "price": 14.5,
+            }
+        ]
+    )
+    players = pd.DataFrame(
+        [{"playerId": 11032, "name": "Isack Hadjar", "tla": "HAD", "team": "Red Bull Racing"}]
+    )
+
+    official, warnings = normalise_official_playerstats(
+        driver_points, pd.DataFrame(), players, pd.DataFrame()
+    )
+
+    assert warnings == []
+    assert len(official) == 1
+    assert official.iloc[0]["fantasy_points_total"] == 0.0
+    assert official.iloc[0]["fantasy_score_origin"] == "official_recorded"
+
+
 def test_canonical_market_snapshot_uses_latest_complete_official_2026_round_without_mutation():
     recorded = load_canonical_scores(DEFAULT_CANONICAL_DATASET_PATH)
     original = recorded.copy(deep=True)

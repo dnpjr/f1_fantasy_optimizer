@@ -263,8 +263,8 @@ def test_russell_like_default_thresholds_match_canada_style_scale():
     out = price_change_threshold_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_exp_score")
 
     assert out.loc[0, "points_needed_terrible"] == "≤ -18"
-    assert out.loc[0, "points_needed_poor"] == "-17 to 7"
-    assert out.loc[0, "points_needed_good"] == "8 to 33"
+    assert out.loc[0, "points_needed_poor"] == "-17 to 8"
+    assert out.loc[0, "points_needed_good"] == "9 to 33"
     assert out.loc[0, "points_needed_great"] == "≥ 34"
 
 
@@ -283,8 +283,8 @@ def test_kimi_like_default_thresholds_match_canada_style_scale():
 
     out = price_change_threshold_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_exp_score")
 
-    assert out.loc[0, "points_needed_terrible"] == "≤ -48"
-    assert out.loc[0, "points_needed_poor"] == "-47 to -27"
+    assert out.loc[0, "points_needed_terrible"] == "≤ -49"
+    assert out.loc[0, "points_needed_poor"] == "-48 to -27"
     assert out.loc[0, "points_needed_good"] == "-26 to -5"
     assert out.loc[0, "points_needed_great"] == "≥ -4"
 
@@ -379,7 +379,7 @@ def test_predicted_next_not_required_for_core_threshold_table():
 
     out = price_change_threshold_table(df, DEFAULT_PRICE_CHANGE_CHEAP_RULES, predicted_points_col="next_race_exp_score")
 
-    assert out.loc[0, "points_needed_terrible"] == "≤ -14"
+    assert out.loc[0, "points_needed_terrible"] == "≤ -15"
     assert out.loc[0, "points_needed_great"] == "≥ 30"
     assert pd.isna(out.loc[0, "price_change_predicted_next"])
     assert out.loc[0, "price_change_tier"] == "Missing"

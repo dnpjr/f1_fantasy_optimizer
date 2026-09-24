@@ -289,6 +289,50 @@ def test_same_human_new_asset_and_same_price_seat_predecessor_do_not_share_histo
     assert len(ledger) == len(universe)
 
 
+def test_asset_history_keeps_inactive_zeroes_and_overrides_stale_model_history():
+    observations = pd.DataFrame(
+        [
+            {"PlayerId": 1, "season": 2026, "round": 10, "fantasy_points": 18.0, "is_played": 1, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 11, "fantasy_points": 0.0, "is_played": 0, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 12, "fantasy_points": 0.0, "is_played": 0, "match_status": "4"},
+        ]
+    )
+
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+
+    assert history["recent_points_2ago"] == 0.0
+    assert history["recent_points_1ago"] == 0.0
+    assert history["recent_points_available"] == 2
+
+
+def test_asset_history_retains_completed_missing_slots_instead_of_older_scores():
+    observations = pd.DataFrame(
+        [
+            {"PlayerId": 1, "season": 2026, "round": 10, "fantasy_points": 18.0, "is_played": 1, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 11, "fantasy_points": pd.NA, "is_played": 0, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 12, "fantasy_points": pd.NA, "is_played": 0, "match_status": "4"},
+        ]
+    )
+
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+
+    assert pd.isna(history["recent_points_2ago"])
+    assert pd.isna(history["recent_points_1ago"])
+    assert history["recent_points_available"] == 0
+
+    ledger = fantasy_api.normalise_player_asset_ledger(_raw_market(), feed_round=12)
+    universe = app_core.build_price_change_asset_universe(
+        _selectable_model(),
+        ledger,
+        "driver",
+        race_observations=observations,
+        player_identity_map=build_player_identity_map(ledger, _identity_history()),
+    ).set_index("id")
+    assert pd.isna(universe.loc["1", "recent_points_2ago"])
+    assert pd.isna(universe.loc["1", "recent_points_1ago"])
+    assert universe.loc["1", "recent_points_available"] == 0
+
+
 def test_established_active_rows_are_numerically_identical_through_price_view():
     _ledger, universe, _projected = _price_universe()
     direct = app_core.apply_probabilistic_price_change_model(

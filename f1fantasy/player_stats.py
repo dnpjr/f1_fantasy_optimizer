@@ -126,13 +126,34 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
         if not isinstance(gameday, dict):
             continue
         gameday_id = gameday.get("GamedayId")
-        total = _recorded_stats_total(gameday.get("StatsWise"))
+        gameday_stats = gameday.get("StatsWise")
+        recorded_total = _recorded_stats_total(gameday_stats)
         price = pd.to_numeric(gameday.get("PlayerValue"), errors="coerce")
         old_price = pd.to_numeric(gameday.get("OldPlayerValue"), errors="coerce")
 
         match = match_by_gameday.get(gameday_id, {})
         sessions = match.get("RaceDayWise", []) if isinstance(match, dict) else []
         first_session = sessions[0] if sessions else {}
+        match_status = str(first_session.get("MatchStatus") or "").strip()
+        inactive_completed_empty = (
+            match_status == "4"
+            and _int_or_zero(gameday.get("IsPlayed")) == 0
+            and _int_or_zero(gameday.get("IsActive")) == 0
+            and isinstance(gameday_stats, list)
+            and len(gameday_stats) == 0
+        )
+        # The official F1 Fantasy popup renders a missing Total as zero for
+        # these existing completed inactive-round records (`totalPts: q || 0`).
+        # Partial/non-empty score data remains unresolved rather than becoming 0.
+        ui_round_score = 0.0 if inactive_completed_empty else pd.NA
+        total = recorded_total if recorded_total is not None and pd.notna(recorded_total) else ui_round_score
+        total_source = (
+            "playerstats_total"
+            if recorded_total is not None and pd.notna(recorded_total)
+            else "official_ui_inactive_zero"
+            if pd.notna(ui_round_score)
+            else "missing"
+        )
 
         session_totals: dict[str, float] = {}
         overtake_points = 0.0
@@ -168,6 +189,13 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
             "race_id": first_session.get("RaceDayId"),
             "season": pd.to_numeric(first_session.get("Season"), errors="coerce"),
             "fantasy_points": float(total) if total is not None and pd.notna(total) else pd.NA,
+            "fantasy_points_playerstats_total": (
+                float(recorded_total)
+                if recorded_total is not None and pd.notna(recorded_total)
+                else pd.NA
+            ),
+            "fantasy_points_official_ui": ui_round_score,
+            "fantasy_points_source": total_source,
             "qualifying_points": session_totals.get("qualifying", pd.NA),
             "sprint_qualifying_points": session_totals.get("sprint_qualifying", pd.NA),
             "race_points": session_totals.get("race", pd.NA),
@@ -178,6 +206,7 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
             "price_change": float(price - old_price) if pd.notna(price) and pd.notna(old_price) else pd.NA,
             "is_played": _int_or_zero(gameday.get("IsPlayed")),
             "is_active": _int_or_zero(gameday.get("IsActive")),
+            "match_status": match_status,
         }
         rows.append(row)
 
@@ -191,6 +220,9 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
                 "round",
                 "race_name",
                 "fantasy_points",
+                "fantasy_points_playerstats_total",
+                "fantasy_points_official_ui",
+                "fantasy_points_source",
                 "qualifying_points",
                 "sprint_qualifying_points",
                 "race_points",
@@ -199,9 +231,25 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
                 "price",
                 "price_change",
                 "is_played",
+                "match_status",
             ]
         )
     return out.sort_values(["round", "gameday_id"], na_position="last").reset_index(drop=True)
+
+
+def completed_official_event_rows(race_points: pd.DataFrame) -> pd.DataFrame:
+    """Keep official records for completed events, including zero or missing scores."""
+    if race_points is None or race_points.empty:
+        return race_points.copy() if isinstance(race_points, pd.DataFrame) else pd.DataFrame()
+    data = race_points.copy()
+    played = pd.to_numeric(
+        data.get("is_played", pd.Series(0, index=data.index)), errors="coerce"
+    ).fillna(0).eq(1)
+    if "match_status" not in data.columns:
+        return data.loc[played].copy()
+    status = data["match_status"].fillna("").astype(str).str.strip()
+    completed = status.eq("4") | (status.eq("") & played)
+    return data.loc[completed].copy()
 
 
 def fetch_recent_points_for_roster(
@@ -283,17 +331,19 @@ def fetch_recent_points_for_roster(
             parsed["name"] = name
         race_rows.append(parsed)
 
-        completed = parsed[(parsed["is_played"] == 1) & pd.to_numeric(parsed["fantasy_points"], errors="coerce").notna()]
+        completed = completed_official_event_rows(parsed)
         completed = completed.sort_values(["round", "gameday_id"], na_position="last").tail(2)
-        points = pd.to_numeric(completed["fantasy_points"], errors="coerce").tolist()
+        point_values = pd.to_numeric(completed["fantasy_points"], errors="coerce")
+        points = point_values.tolist()
         races = completed[["round", "race_name"]].to_dict("records")
+        available = int(point_values.notna().sum())
         rows.append(
             {
                 id_col: player_id,
-                "recent_points_2ago": float(points[-2]) if len(points) >= 2 else pd.NA,
-                "recent_points_1ago": float(points[-1]) if len(points) >= 1 else pd.NA,
-                "recent_points_available": int(len(points)),
-                "recent_points_source": "playerstats" if len(points) >= 2 else "playerstats_incomplete",
+                "recent_points_2ago": float(points[-2]) if len(points) >= 2 and pd.notna(points[-2]) else pd.NA,
+                "recent_points_1ago": float(points[-1]) if len(points) >= 1 and pd.notna(points[-1]) else pd.NA,
+                "recent_points_available": available,
+                "recent_points_source": "playerstats" if available >= 2 else "playerstats_incomplete",
                 "recent_points_races": races,
             }
         )
@@ -317,11 +367,7 @@ def fetch_recent_points_for_roster(
 def latest_two_races(race_points: pd.DataFrame) -> list[dict[str, Any]]:
     if race_points.empty or "round" not in race_points.columns:
         return []
-    data = race_points.copy()
-    if "is_played" in data.columns:
-        data = data[data["is_played"] == 1]
-    if "fantasy_points" in data.columns:
-        data = data[pd.to_numeric(data["fantasy_points"], errors="coerce").notna()]
+    data = completed_official_event_rows(race_points)
     rounds = (
         data[["round", "race_name"]]
         .dropna(subset=["round"])
