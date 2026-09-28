@@ -364,8 +364,10 @@ def test_inactive_hadjar_is_holding_visible_and_playerstats_can_be_requested_exp
     recent, races, _diagnostics = player_stats.fetch_recent_points_for_roster(hadjar, "driver")
 
     assert calls == [11032]
-    assert recent.loc[0, "recent_points_1ago"] == pytest.approx(8.0)
+    assert pd.isna(recent.loc[0, "recent_points_1ago"])
+    assert recent.loc[0, "recent_points_available"] == 0
     assert races.loc[0, "PlayerId"] == 11032
+    assert races.loc[0, "fantasy_points"] == pytest.approx(8.0)
     assert hadjar.loc[hadjar.index[0], "price"] == pytest.approx(15.1)
     assert 11032 in set(price_view["playerId"])
     assert 11032 not in set(fantasy_api.selectable_player_assets(ledger)["playerId"])
