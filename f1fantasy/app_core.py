@@ -68,6 +68,7 @@ from f1fantasy.player_stats import (
     PLAYERSTATS_ENDPOINT_PATTERN,
     clear_playerstats_cache,
     completed_official_event_rows,
+    current_official_pricing_epoch_rows,
     fetch_team_lock_deadline_from_playerstats,
     fetch_recent_points_for_roster,
     latest_two_races,
@@ -438,13 +439,16 @@ def build_holding_asset_universe(
 def completed_asset_price_history(
     race_observations: pd.DataFrame | None,
 ) -> pd.DataFrame:
-    """Return the latest two completed scores keyed only by Fantasy asset ID."""
+    """Return pricing priors from each Fantasy asset's current active epoch."""
     columns = [
         "id",
         "recent_points_2ago",
         "recent_points_1ago",
         "recent_points_available",
         "recent_points_source",
+        "pricing_epoch_start_round",
+        "price_history_rounds",
+        "price_history_scores",
     ]
     if race_observations is None or race_observations.empty:
         return pd.DataFrame(columns=columns)
@@ -454,9 +458,6 @@ def completed_asset_price_history(
 
     data = race_observations.copy(deep=True)
     data["fantasy_points"] = pd.to_numeric(data["fantasy_points"], errors="coerce")
-    data = completed_official_event_rows(data)
-    if data.empty:
-        return pd.DataFrame(columns=columns)
     data["id"] = data["PlayerId"].astype(str)
     sort_columns = [
         column for column in ("season", "round", "gameday_id") if column in data.columns
@@ -466,8 +467,36 @@ def completed_asset_price_history(
 
     rows: list[dict[str, Any]] = []
     for asset_id, group in data.groupby("id", sort=False):
-        points = group["fantasy_points"].tail(2).tolist()
+        availability = pd.to_numeric(
+            group.get("is_active", pd.Series(pd.NA, index=group.index)),
+            errors="coerce",
+        )
+        has_official_availability = availability.isin([0, 1]).any()
+        epoch = current_official_pricing_epoch_rows(group)
+        completed = completed_official_event_rows(epoch)
+        if completed.empty and not has_official_availability:
+            continue
+
+        history_rows = completed.tail(2)
+        points = history_rows["fantasy_points"].tolist()
         available = sum(pd.notna(value) for value in points)
+        round_column = next(
+            (column for column in ("round", "gameday_id") if column in group.columns),
+            None,
+        )
+        epoch_start_round = (
+            epoch.iloc[0][round_column]
+            if round_column is not None and not epoch.empty
+            else pd.NA
+        )
+        history_rounds = (
+            tuple(history_rows[round_column].tolist())
+            if round_column is not None
+            else tuple()
+        )
+        history_scores = tuple(
+            float(value) if pd.notna(value) else None for value in points
+        )
         rows.append(
             {
                 "id": str(asset_id),
@@ -475,10 +504,13 @@ def completed_asset_price_history(
                 "recent_points_1ago": float(points[-1]) if points and pd.notna(points[-1]) else pd.NA,
                 "recent_points_available": available,
                 "recent_points_source": (
-                    "asset_specific_completed"
+                    "asset_specific_active_epoch_completed"
                     if available >= 2
-                    else "asset_specific_completed_missing"
+                    else "asset_specific_active_epoch_incomplete"
                 ),
+                "pricing_epoch_start_round": epoch_start_round,
+                "price_history_rounds": history_rounds,
+                "price_history_scores": history_scores,
             }
         )
     return pd.DataFrame(rows, columns=columns)
@@ -518,19 +550,20 @@ def build_price_change_asset_universe(
             validate="one_to_one",
         )
         history_match = universe["recent_points_source_asset_history"].notna()
-        for column in (
+        numeric_history_columns = {
             "recent_points_2ago",
             "recent_points_1ago",
             "recent_points_available",
-            "recent_points_source",
-        ):
+            "pricing_epoch_start_round",
+        }
+        for column in (column for column in exact_history.columns if column != "id"):
             history_column = f"{column}_asset_history"
             if history_column not in universe.columns:
                 continue
             if column not in universe.columns:
                 universe[column] = pd.NA
             replacement = universe[history_column]
-            if column != "recent_points_source":
+            if column in numeric_history_columns:
                 replacement = pd.to_numeric(replacement, errors="coerce")
             universe[column] = universe[column].where(~history_match, replacement)
             universe.drop(columns=[history_column], inplace=True)

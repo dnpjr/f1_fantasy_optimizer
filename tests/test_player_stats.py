@@ -164,11 +164,12 @@ def test_active_asset_uses_latest_two_official_scores(monkeypatch):
     assert recent.loc[0, "recent_points_1ago"] == 8.0
 
 
-def test_recent_history_preserves_official_zeroes_across_inactivity_and_team_change(monkeypatch):
+def test_recent_history_resets_when_official_asset_reactivates(monkeypatch):
     payload = _history_payload(
         7,
         [(10, 18.0, 1, "4"), (11, None, 0, "4"), (12, None, 0, "4"), (13, None, 0, "1")],
     )
+    payload["Value"]["GamedayWiseStats"][-1]["IsActive"] = 1
     monkeypatch.setattr(player_stats, "fetch_player_stats", lambda _player_id: payload)
 
     recent, _races, _diagnostics = fetch_recent_points_for_roster(
@@ -176,18 +177,18 @@ def test_recent_history_preserves_official_zeroes_across_inactivity_and_team_cha
         asset_type="driver",
     )
 
-    assert recent.loc[0, "recent_points_2ago"] == 0.0
-    assert recent.loc[0, "recent_points_1ago"] == 0.0
-    assert recent.loc[0, "recent_points_available"] == 2
+    assert pd.isna(recent.loc[0, "recent_points_2ago"])
+    assert pd.isna(recent.loc[0, "recent_points_1ago"])
+    assert recent.loc[0, "recent_points_available"] == 0
 
     parsed = parse_player_race_points(payload, player_id=7).set_index("round")
     assert pd.isna(parsed.loc[11, "fantasy_points_playerstats_total"])
     assert parsed.loc[11, "fantasy_points_official_ui"] == 0.0
     assert parsed.loc[11, "fantasy_points_source"] == "official_ui_inactive_zero"
 
-    for price, expected, display in [
-        (14.5, (26.1, 39.15, 52.2), ("≤ 26", "27 to 39", "40 to 52", "≥ 53")),
-        (9.7, (17.46, 26.19, 34.92), ("≤ 17", "18 to 26", "27 to 34", "≥ 35")),
+    for price, expected in [
+        (14.5, (8.7, 13.05, 17.4)),
+        (9.7, (5.82, 8.73, 11.64)),
     ]:
         thresholds = price_change_threshold_table(
             recent.assign(name="Returning Driver", price=price, exp_score=0.0),
@@ -195,19 +196,10 @@ def test_recent_history_preserves_official_zeroes_across_inactivity_and_team_cha
             expensive_rules=DEFAULT_PRICE_CHANGE_EXPENSIVE_RULES,
             expensive_price_min=DEFAULT_PRICE_CHANGE_EXPENSIVE_CUTOFF,
         ).iloc[0]
-        assert thresholds["price_history_mode"] == "established"
+        assert thresholds["price_history_mode"] == "fresh"
         assert thresholds["required_terrible_max"] == pytest.approx(expected[0])
         assert thresholds["required_good_min"] == pytest.approx(expected[1])
         assert thresholds["required_great_min"] == pytest.approx(expected[2])
-        assert tuple(
-            thresholds[column]
-            for column in (
-                "points_needed_terrible",
-                "points_needed_poor",
-                "points_needed_good",
-                "points_needed_great",
-            )
-        ) == display
 
 
 def test_completed_missing_scores_remain_missing_without_backfilling(monkeypatch):

@@ -289,20 +289,165 @@ def test_same_human_new_asset_and_same_price_seat_predecessor_do_not_share_histo
     assert len(ledger) == len(universe)
 
 
-def test_asset_history_keeps_inactive_zeroes_and_overrides_stale_model_history():
+def _official_history_rows(states_and_scores: list[tuple[int, float]], asset_id: int = 1) -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "PlayerId": asset_id,
+                "season": 2026,
+                "round": round_no,
+                "gameday_id": round_no,
+                "fantasy_points": score,
+                "is_active": is_active,
+                "is_played": 1 if is_active else 0,
+                "match_status": "4",
+            }
+            for round_no, (is_active, score) in enumerate(states_and_scores, start=1)
+        ]
+    )
+
+
+def _prospective_window(observations: pd.DataFrame, forecast: float) -> tuple[float, ...]:
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+    result = app_core.prospective_price_history(
+        [history["recent_points_2ago"], history["recent_points_1ago"]],
+        forecast,
+    )
+    return result["prospective_observations"]
+
+
+def test_continuously_active_asset_keeps_normal_rolling_window():
+    observations = _official_history_rows([(1, 10.0), (1, 8.0), (1, 12.0)])
+
+    assert _prospective_window(observations, 15.0) == (8.0, 12.0, 15.0)
+
+
+def test_new_asset_uses_variable_length_window_without_padding():
+    observations = _official_history_rows([(1, 12.0)])
+
+    assert _prospective_window(observations, 25.0) == (12.0, 25.0)
+
+
+def test_reactivated_asset_drops_pre_inactive_epoch_scores():
+    observations = _official_history_rows(
+        [(1, 18.0), (1, 15.0), (0, 0.0), (0, 0.0), (1, 26.0)]
+    )
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+
+    assert _prospective_window(observations, 20.0) == (26.0, 20.0)
+    assert history["pricing_epoch_start_round"] == 5
+    assert history["price_history_rounds"] == (5,)
+    assert history["price_history_scores"] == (26.0,)
+
+    frame = pd.DataFrame(
+        [
+            {
+                "id": "1",
+                "name": "Returning Driver",
+                "price": 10.0,
+                "next_race_expected_points": 20.0,
+                "recent_points_2ago": history["recent_points_2ago"],
+                "recent_points_1ago": history["recent_points_1ago"],
+            }
+        ]
+    )
+    projected = app_core.apply_price_change_model(
+        frame, _rules(), predicted_points_col="next_race_expected_points"
+    ).iloc[0]
+    thresholds = app_core.price_change_threshold_table(
+        frame, _rules(), predicted_points_col="next_race_expected_points"
+    ).iloc[0]
+    assert projected["price_history_prior_observations"] == (26.0,)
+    assert projected["projected_rolling_average"] == pytest.approx(23.0)
+    assert thresholds["required_great_min"] == pytest.approx(14.0)
+
+
+def test_reactivated_asset_second_and_third_round_windows_roll_normally():
+    after_two = _official_history_rows(
+        [(1, 18.0), (1, 15.0), (0, 0.0), (0, 0.0), (1, 26.0), (1, 20.0)]
+    )
+    after_three = _official_history_rows(
+        [(1, 18.0), (1, 15.0), (0, 0.0), (0, 0.0), (1, 26.0), (1, 20.0), (1, 15.0)]
+    )
+
+    assert _prospective_window(after_two, 15.0) == (26.0, 20.0, 15.0)
+    assert _prospective_window(after_three, 30.0) == (20.0, 15.0, 30.0)
+
+
+def test_active_zero_is_preserved_in_current_pricing_epoch():
+    observations = _official_history_rows(
+        [(1, 18.0), (0, 0.0), (1, 26.0), (1, 0.0)]
+    )
+
+    assert _prospective_window(observations, 11.0) == (26.0, 0.0, 11.0)
+
+
+def test_dns_or_nonparticipation_does_not_reset_an_active_asset():
+    observations = _official_history_rows([(1, 18.0), (1, 0.0), (1, 26.0)])
+    observations.loc[1, "is_played"] = 0
+
+    assert _prospective_window(observations, 11.0) == (0.0, 26.0, 11.0)
+
+
+def test_same_asset_id_reactivation_starts_a_new_pricing_epoch():
+    observations = _official_history_rows(
+        [(1, 18.0), (0, 0.0), (1, 26.0)], asset_id=77
+    )
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+
+    assert history["id"] == "77"
+    assert pd.isna(history["recent_points_2ago"])
+    assert history["recent_points_1ago"] == 26.0
+    assert history["recent_points_available"] == 1
+
+
+def test_current_active_uncompleted_reactivation_overrides_stale_model_history():
+    observations = _official_history_rows([(1, 18.0), (0, 0.0), (1, 0.0)])
+    observations.loc[2, ["fantasy_points", "is_played", "match_status"]] = [pd.NA, 0, "1"]
+    history = app_core.completed_asset_price_history(observations).iloc[0]
+
+    assert history["recent_points_available"] == 0
+    assert history["pricing_epoch_start_round"] == 3
+
+
+def test_active_epoch_diagnostics_and_priors_flow_through_price_universe():
+    observations = _official_history_rows(
+        [(1, 18.0), (0, 0.0), (1, 26.0), (1, 20.0)]
+    )
+    ledger = fantasy_api.normalise_player_asset_ledger(_raw_market(), feed_round=4)
+    universe = app_core.build_price_change_asset_universe(
+        _selectable_model().query("id == '1'"),
+        ledger,
+        "driver",
+        race_observations=observations,
+    )
+    projected = app_core.apply_price_change_model(
+        universe,
+        _rules(),
+        predicted_points_col="next_race_expected_points",
+    ).iloc[0]
+
+    assert projected["pricing_epoch_start_round"] == 3
+    assert projected["price_history_rounds"] == (3, 4)
+    assert projected["price_history_scores"] == (26.0, 20.0)
+    assert projected["price_history_prior_observations"] == (26.0, 20.0)
+    assert projected["projected_rolling_average"] == pytest.approx((26.0 + 20.0 + 30.0) / 3)
+
+
+def test_asset_history_excludes_officially_inactive_zeroes():
     observations = pd.DataFrame(
         [
-            {"PlayerId": 1, "season": 2026, "round": 10, "fantasy_points": 18.0, "is_played": 1, "match_status": "4"},
-            {"PlayerId": 1, "season": 2026, "round": 11, "fantasy_points": 0.0, "is_played": 0, "match_status": "4"},
-            {"PlayerId": 1, "season": 2026, "round": 12, "fantasy_points": 0.0, "is_played": 0, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 10, "fantasy_points": 18.0, "is_active": 1, "is_played": 1, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 11, "fantasy_points": 0.0, "is_active": 0, "is_played": 0, "match_status": "4"},
+            {"PlayerId": 1, "season": 2026, "round": 12, "fantasy_points": 0.0, "is_active": 0, "is_played": 0, "match_status": "4"},
         ]
     )
 
     history = app_core.completed_asset_price_history(observations).iloc[0]
 
-    assert history["recent_points_2ago"] == 0.0
-    assert history["recent_points_1ago"] == 0.0
-    assert history["recent_points_available"] == 2
+    assert pd.isna(history["recent_points_2ago"])
+    assert pd.isna(history["recent_points_1ago"])
+    assert history["recent_points_available"] == 0
 
 
 def test_asset_history_retains_completed_missing_slots_instead_of_older_scores():

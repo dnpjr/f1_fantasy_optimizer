@@ -231,6 +231,7 @@ def parse_player_race_points(payload: dict, player_id: int | None = None) -> pd.
                 "price",
                 "price_change",
                 "is_played",
+                "is_active",
                 "match_status",
             ]
         )
@@ -250,6 +251,60 @@ def completed_official_event_rows(race_points: pd.DataFrame) -> pd.DataFrame:
     status = data["match_status"].fillna("").astype(str).str.strip()
     completed = status.eq("4") | (status.eq("") & played)
     return data.loc[completed].copy()
+
+
+def current_official_pricing_epoch_rows(race_points: pd.DataFrame) -> pd.DataFrame:
+    """Keep only the current Fantasy-market active epoch for one asset.
+
+    The official per-gameday ``is_active`` flag is the epoch boundary.  Race
+    participation (including DNS/DNP) is deliberately ignored: an active asset
+    can legitimately score zero.  When older data has no availability signal,
+    retain the legacy history rather than inventing a boundary.
+    """
+    if race_points is None or race_points.empty:
+        return (
+            race_points.copy()
+            if isinstance(race_points, pd.DataFrame)
+            else pd.DataFrame()
+        )
+    if "is_active" not in race_points.columns:
+        return race_points.copy()
+
+    data = race_points.copy()
+    sort_columns = [
+        column for column in ("season", "round", "gameday_id") if column in data.columns
+    ]
+    if sort_columns:
+        data = data.sort_values(sort_columns, kind="stable", na_position="last")
+
+    status = pd.to_numeric(data["is_active"], errors="coerce")
+    explicit = status.isin([0, 1])
+    if not explicit.any():
+        return data
+
+    active_positions = [
+        position
+        for position, is_active in enumerate(status.eq(1).fillna(False).tolist())
+        if is_active
+    ]
+    if not active_positions:
+        return data.iloc[0:0].copy()
+
+    last_active = active_positions[-1]
+    if status.iloc[last_active + 1 :].eq(0).any():
+        return data.iloc[0:0].copy()
+
+    prior_inactive = [
+        position
+        for position, is_inactive in enumerate(
+            status.iloc[:last_active].eq(0).fillna(False).tolist()
+        )
+        if is_inactive
+    ]
+    epoch_start = prior_inactive[-1] + 1 if prior_inactive else 0
+    epoch = data.iloc[epoch_start : last_active + 1].copy()
+    epoch_status = pd.to_numeric(epoch["is_active"], errors="coerce")
+    return epoch.loc[~epoch_status.eq(0)].copy()
 
 
 def fetch_recent_points_for_roster(
@@ -331,7 +386,9 @@ def fetch_recent_points_for_roster(
             parsed["name"] = name
         race_rows.append(parsed)
 
-        completed = completed_official_event_rows(parsed)
+        completed = completed_official_event_rows(
+            current_official_pricing_epoch_rows(parsed)
+        )
         completed = completed.sort_values(["round", "gameday_id"], na_position="last").tail(2)
         point_values = pd.to_numeric(completed["fantasy_points"], errors="coerce")
         points = point_values.tolist()
