@@ -25,6 +25,15 @@ _LATEST_FEED_CACHE: dict[str, float | int] = {"round": 0, "ts": 0.0}
 _MARKET_CACHE: dict[int, tuple[float, list[dict]]] = {}
 _FEED_PROBE_ERRORS: dict[int, str] = {}
 
+REQUEST_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/122.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json,text/plain,*/*",
+}
+
 
 def _market_cache_path(path: str | Path | None = None) -> Path:
     return Path(path) if path is not None else VERIFIED_MARKET_CACHE_PATH
@@ -630,6 +639,7 @@ def _probe_feed_round(feed_round: int) -> str:
             _feed_url(feed_round),
             params={"buster": str(int(time.time()))},
             timeout=REQUEST_TIMEOUT_SECONDS,
+            headers=REQUEST_HEADERS,
         )
         if response.status_code == 404:
             _FEED_PROBE_ERRORS.pop(int(feed_round), None)
@@ -663,10 +673,27 @@ def _valid_feed_round(feed_round: int) -> bool:
     """Compatibility boolean for callers that only need confirmed validity."""
     return _probe_feed_round(feed_round) == "valid"
 
+
+def _is_out_of_range_probe_failure(feed_round: int) -> bool:
+    """Return whether a failed probe looks like the feed's out-of-range response.
+
+    The Fantasy site returns an XML 403 rather than a 404 for some feed numbers
+    beyond the current season.  That response is a boundary signal for latest
+    feed discovery, not evidence that the whole feed is unavailable.  Network
+    and malformed-response failures must remain fatal so discovery never silently
+    downgrades to an older market.
+    """
+    detail = _FEED_PROBE_ERRORS.get(int(feed_round), "")
+    return detail.startswith("HTTP 403 from ")
+
 def _latest_feed_round(max_search: int = 40) -> int:
     """
-    Find the latest available fantasy feed number by probing upward until a feed
-    stops existing, then return the highest valid one.
+    Find the latest available fantasy feed number.
+
+    Feed numbers are normally contiguous, so binary search is efficient.  The
+    endpoint does not consistently return 404 for numbers beyond the current
+    feed, though: it can return an XML 403.  Treat only that specific response
+    as a missing feed; all other probe failures remain fatal.
     """
     now = time.time()
     cached_round = int(_LATEST_FEED_CACHE.get("round", 0) or 0)
@@ -685,11 +712,15 @@ def _latest_feed_round(max_search: int = 40) -> int:
             retry = _probe_feed_round(mid)
             if retry == "failed":
                 detail = _FEED_PROBE_ERRORS.get(int(mid))
-                raise RuntimeError(
-                    f"Could not confirm fantasy feed {mid}; latest feed was not changed."
-                    + (f" {detail}." if detail else "")
-                )
-            probe = retry
+                if _is_out_of_range_probe_failure(mid):
+                    probe = "missing"
+                else:
+                    raise RuntimeError(
+                        f"Could not confirm fantasy feed {mid}; latest feed was not changed."
+                        + (f" {detail}." if detail else "")
+                    )
+            else:
+                probe = retry
         if probe == "valid":
             last_ok = mid
             low = mid + 1
@@ -716,7 +747,12 @@ def _get_market(feed_round: int | None = None) -> list[dict]:
 
     url = _feed_url(feed_round)
     params = {"buster": str(int(time.time()))}
-    r = requests.get(url, params=params, timeout=REQUEST_TIMEOUT_SECONDS)
+    r = requests.get(
+        url,
+        params=params,
+        timeout=REQUEST_TIMEOUT_SECONDS,
+        headers=REQUEST_HEADERS,
+    )
     r.raise_for_status()
     j = r.json()
     value = j["Data"]["Value"]

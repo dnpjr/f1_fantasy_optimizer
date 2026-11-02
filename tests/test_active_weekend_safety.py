@@ -297,6 +297,23 @@ def test_transient_feed_probe_failure_does_not_confirm_an_older_feed(monkeypatch
     assert fantasy_api._LATEST_FEED_CACHE["round"] == 0
 
 
+def test_out_of_range_403_during_binary_search_does_not_hide_latest_valid_feed(monkeypatch):
+    fantasy_api.clear_market_cache()
+
+    def probe(feed_round: int) -> str:
+        if int(feed_round) == 20:
+            return "valid"
+        fantasy_api._FEED_PROBE_ERRORS[int(feed_round)] = (
+            f"HTTP 403 from {fantasy_api._feed_url(int(feed_round))} (application/xml)"
+        )
+        return "failed"
+
+    monkeypatch.setattr(fantasy_api, "_probe_feed_round", probe)
+
+    assert fantasy_api._latest_feed_round(max_search=40) == 20
+    assert fantasy_api._LATEST_FEED_CACHE["round"] == 20
+
+
 def test_feed_probe_records_non_json_http_failure_detail(monkeypatch):
     class Response:
         status_code = 403
