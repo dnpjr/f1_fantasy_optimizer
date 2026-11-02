@@ -39,6 +39,9 @@ def scenario(tmp_path):
     data.to_parquet(canonical.with_suffix('.parquet'), index=False)
     last_round = int(data.loc[data.season.eq(maintenance.SEASON), 'round'].max())
     next_round = last_round + 1
+    # Keep this synthetic fixture independent of the calendar date on which CI runs.
+    # Later real sprints must not become pending maintenance work in this round-13 test.
+    metadata = metadata[metadata['round'].le(next_round + 1)].copy()
     previous = metadata[metadata['round'].eq(last_round)].iloc[0]
     event_date = pd.Timestamp(previous.date) + pd.Timedelta(days=1)
     metadata.loc[metadata['round'].eq(next_round), ['raceName', 'date', 'sprint_date', 'sprint_time']] = [
